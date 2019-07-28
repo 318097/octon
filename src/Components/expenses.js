@@ -25,7 +25,7 @@ const Expenses = () => {
       headers: config.headers
     });
     setExpenseList(expenses);
-    calculateTotal();
+    calculateTotal(expenses);
   }
 
   const fetchExpensesTypes = async () => {
@@ -39,8 +39,8 @@ const Expenses = () => {
     const result = await axios.post(`${config.api}/expenses`, { ...expense }, { headers: config.headers });
   };
 
-  const calculateTotal = () => {
-    const total = expenseList.reduce((acc, { expense }) => expense + acc, 0);
+  const calculateTotal = expenses => {
+    const total = expenses.reduce((acc, { expense }) => expense + acc, 0);
     setTotal(total);
   };
 
