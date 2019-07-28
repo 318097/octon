@@ -12,7 +12,7 @@ function App() {
         <header className="App-header">
           Brainbox
       </header>
-        <section style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}>
+        <section>
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Home} />
