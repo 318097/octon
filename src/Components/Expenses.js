@@ -3,7 +3,6 @@ import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon,
 import moment from 'moment';
 import axios from 'axios';
 import './Expenses.scss';
-import config from '../config';
 
 const { MonthPicker } = DatePicker;
 
@@ -21,22 +20,18 @@ const Expenses = () => {
   }, []);
 
   const fetchExpenses = async () => {
-    const { data: { expenses } } = await axios.get(`${config.api}expenses`, {
-      headers: config.headers
-    });
+    const { data: { expenses } } = await axios.get(`/expenses`);
     setExpenseList(expenses);
     calculateTotal(expenses);
   }
 
   const fetchExpensesTypes = async () => {
-    const { data: { expenseTypes } } = await axios.get(`${config.api}expenses/types`, {
-      headers: config.headers
-    });
+    const { data: { expenseTypes } } = await axios.get(`/expenses/types`);
     setExpenseTypes(expenseTypes);
   }
 
   const addExpense = async () => {
-    const result = await axios.post(`${config.api}/expenses`, { ...expense }, { headers: config.headers });
+    const result = await axios.post(`/expenses`, { ...expense });
   };
 
   const calculateTotal = expenses => {
