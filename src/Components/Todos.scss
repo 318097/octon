@@ -1,0 +1,15 @@
+.todo-header{
+  display: flex;
+  h3{
+    flex-grow:1; 
+  }
+  i{
+    font-size: 18px;
+    margin-top: 3px;
+    cursor: pointer;
+  }
+}
+.disabled{
+  text-decoration: line-through;
+  background: rgb(238, 238, 238);
+}
