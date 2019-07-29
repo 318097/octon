@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react'
 import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
-import './expenses.scss';
+import './Expenses.scss';
 import config from '../config';
 
 const { MonthPicker } = DatePicker;
