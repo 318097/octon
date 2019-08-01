@@ -1,13 +1,28 @@
+@font-face{
+  font-family: AmaticSC-Bold;
+  src: url('./assets/fonts/AmaticSC-Bold.ttf');
+}
+
+@font-face{
+  font-family: Barriecito-Regular;
+  src: url('./assets/fonts/Barriecito-Regular.ttf');
+}
+
+@font-face{
+  font-family: Neucha-Regular;
+  src: url('./assets/fonts/Neucha-Regular.ttf');
+}
+
+#root {
+  font-family: Neucha-Regular;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: monospace;
 }
