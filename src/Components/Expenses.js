@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List } from 'antd';
+import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List, message, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import './Expenses.scss';
@@ -10,17 +10,21 @@ const Expenses = () => {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [date, setDate] = useState(moment());
   const [expenseList, setExpenseList] = useState([]);
-  const [expenseListModalVisible, setExpenseListModalVisible] = useState(false);
   const [expense, setExpense] = useState({});
+  const [expenseType, setExpenseType] = useState('');
   const [total, setTotal] = useState(0);
+  const [visibility, setVisibility] = useState({
+    expenseListModal: false,
+    addExpenseType: false,
+  });
 
   useEffect(() => {
     fetchExpensesTypes();
-    fetchExpenses();
+    fetchExpenseByMonth();
   }, []);
 
-  const fetchExpenses = async () => {
-    const { data: { expenses } } = await axios.get(`/expenses`);
+  const fetchExpenseByMonth = async () => {
+    const { data: { expenses } } = await axios.get(`/expenses/${date.month() + 1}`);
     setExpenseList(expenses);
     calculateTotal(expenses);
   }
@@ -31,79 +35,159 @@ const Expenses = () => {
   }
 
   const addExpense = async () => {
-    const result = await axios.post(`/expenses`, { ...expense });
+    await axios.post(`/expenses`, { ...expense });
+    setExpense({});
+    message.success('Success');
+    fetchExpenseByMonth();
+  };
+
+  const addExpenseType = async () => {
+    await axios.post(`/expenses/types`, { name: expenseType });
+    setVisibilityStatus('addExpenseType', false);
+    message.success('Success');
+    fetchExpensesTypes();
   };
 
   const calculateTotal = expenses => {
-    const total = expenses.reduce((acc, { expense }) => expense + acc, 0);
+    const total = expenses.reduce((acc, { amount }) => amount + acc, 0);
     setTotal(total);
   };
 
   const setData = (key, value) => {
     const data = expense;
     data[key] = value;
-    setExpense(data);
+    setExpense({ ...data });
+  }
+
+  const setVisibilityStatus = (key, value) => {
+    setVisibility({
+      ...visibility,
+      [key]: value
+    });
   }
 
   return (
     <Fragment>
-      <div>
+      <Card>
         <PageHeader
           title="Expenses"
           extra={[
-            <span className="total">Rs/- {total}</span>,
-            <Icon onClick={() => setExpenseListModalVisible(true)} type="container" />,
+            <span key="total" className="total">Rs/- {total}</span>,
+            <Icon key="list-expenses" onClick={() => setVisibilityStatus('expenseListModal', true)} type="wallet" />,
           ]}
         />
-        <MonthPicker className="input" format="MMM, YYYY" onChange={date => setDate(date)} value={date} placeholder="Select month" />
-        <h4>Select Type</h4>
+        <MonthPicker
+          className="input"
+          format="MMM, YYYY"
+          onChange={date => setDate(date)}
+          value={date}
+          placeholder="Select month"
+        />
+        <h4>Select Type&nbsp;
+          {visibility.addExpenseType ?
+            <Icon type="minus-circle" onClick={() => setVisibilityStatus('addExpenseType', false)} /> :
+            <Icon type="plus-circle" onClick={() => setVisibilityStatus('addExpenseType', true)} />
+          }
+        </h4>
+        {
+          visibility.addExpenseType && (
+            <Card className="custom-card">
+              <Input
+                className="input"
+                placeholder="Expense Type"
+                onChange={(e) => setExpenseType(e.target.value)}
+              />
+              <Button
+                className="input"
+                onClick={addExpenseType}
+              >Add</Button>
+            </Card>
+          )
+        }
         <Radio.Group
           className="input"
-          onChange={e => setData('expenseType', e.target.value)}
+          onChange={e => setData('expenseTypeId', e.target.value)}
         >
           {expenseTypes.map(type => <Radio key={type._id} value={type._id}>{type.name}</Radio>)}
         </Radio.Group>
         <br />
         <InputNumber
           className="input"
-          size="large"
           min={1}
           placeholder='Amount'
-          defaultValue={expense.amount}
+          value={expense.amount}
           onChange={value => setData('amount', value)}
         />
         <br />
-        <Input className="input" size="large" placeholder="Message" onChange={(e) => setData('message', e.target.value)} />
+        <Input
+          className="input"
+          placeholder="Message"
+          value={expense.message}
+          onChange={(e) => setData('message', e.target.value)}
+        />
         <br />
-        <Button className="input" type="primary" onClick={addExpense}>Add</Button>
-      </div>
+        <Button
+          className="input"
+          type="primary"
+          onClick={addExpense}
+        >Add</Button>
+      </Card>
 
       <Modal
-        visible={expenseListModalVisible}
+        visible={visibility.expenseListModal}
         title="Expenses"
-        onCancel={() => setExpenseListModalVisible(false)}
+        onCancel={() => setVisibilityStatus('expenseListModal', false)}
         footer={[
-          <Button key="back" onClick={() => setExpenseListModalVisible(false)}>
+          <Button key="back" onClick={() => setVisibilityStatus('expenseListModal', false)}>
             Close
-            </Button>
+          </Button>
         ]}
       >
-        <ExpenseList list={expenseList} />
+        <ExpenseList
+          list={expenseList}
+          fetchExpenseByMonth={fetchExpenseByMonth}
+        />
       </Modal>
     </Fragment>
   )
 };
 
-const ExpenseList = ({ list }) => {
-  const [editExpenseModal, setEditExpenseModal] = useState(false);
-  const [deleteExpenseModal, setDeleteExpenseModal] = useState(false);
+const ExpenseList = ({ list, fetchExpenseByMonth }) => {
+  const [editExpenseId, setEditExpenseId] = useState(null);
+  const [deleteExpenseId, setDeleteExpenseId] = useState(null);
+  const [expense, setExpense] = useState({});
+  const [visibility, setVisibility] = useState({
+    editExpenseModal: false,
+    deleteExpenseModal: false,
+  });
 
-  const updateExpense = id => {
-
+  const setVisibilityStatus = (key, value) => {
+    setVisibility({
+      ...visibility,
+      [key]: value
+    });
   };
 
-  const deleteExpense = id => {
+  const updateExpense = async () => {
+    await axios.put(`/expenses/${editExpenseId}`, { ...expense });
+    setVisibilityStatus('editExpenseModal', false);
+    fetchExpenseByMonth();
+  };
 
+  const deleteExpense = async () => {
+    await axios.delete(`/expenses/${deleteExpenseId}`);
+    setVisibilityStatus('deleteExpenseModal', false);
+    fetchExpenseByMonth();
+  };
+
+  const editExpenseHandler = (id) => {
+    setEditExpenseId(id);
+    setVisibilityStatus('editExpenseModal', true);
+  };
+
+  const deleteExpenseHandler = (id) => {
+    setDeleteExpenseId(id);
+    setVisibilityStatus('deleteExpenseModal', true);
   };
 
   const renderItem = (row) => {
@@ -113,11 +197,11 @@ const ExpenseList = ({ list }) => {
     return (
       <List.Item
         actions={[
-          <Icon type="edit" onClick={() => setEditExpenseModal(true)} />,
-          <Icon type="delete" onClick={() => setDeleteExpenseModal(true)} />
+          <Icon key="edit-expense" type="edit" onClick={() => editExpenseHandler(row._id)} />,
+          <Icon key="delete-expense" type="delete" onClick={() => deleteExpenseHandler(row._id)} />
         ]}
       >
-        {date}:  Rs/-{row.expense} {message}
+        {date}:  Rs/-{row.amount} <span className="message">{message}</span>
       </List.Item>
     );
   };
@@ -127,27 +211,28 @@ const ExpenseList = ({ list }) => {
       <List
         itemLayout="horizontal"
         size="small"
+        bordered
         dataSource={list}
         renderItem={renderItem}
       />
       <Modal
-        visible={editExpenseModal}
+        visible={visibility.editExpenseModal}
         title="Edit Expense"
-        onCancel={() => setEditExpenseModal(false)}
+        onCancel={() => setVisibilityStatus('editExpenseModal', false)}
         footer={[
-          <Button key="back" onClick={() => setEditExpenseModal(false)}> Cancel</Button>,
-          <Button key="back" type={"primary"} onClick={() => updateExpense(false)}>Update</Button>
+          <Button key="back" onClick={() => setVisibilityStatus('editExpenseModal', false)}> Cancel</Button>,
+          <Button key="update" type={"primary"} onClick={updateExpense}>Update</Button>
         ]}
       >
       </Modal>
 
       <Modal
-        visible={deleteExpenseModal}
+        visible={visibility.deleteExpenseModal}
         title="Delete Expense"
-        onCancel={() => setDeleteExpenseModal(false)}
+        onCancel={() => setVisibilityStatus('deleteExpenseModal', false)}
         footer={[
-          <Button key="back" onClick={() => setDeleteExpenseModal(false)}> No</Button>,
-          <Button key="back" onClick={() => deleteExpense(false)}>Yes</Button>
+          <Button key="back" onClick={() => setVisibilityStatus('deleteExpenseModal', false)}> No</Button>,
+          <Button key="update" onClick={deleteExpense}>Yes</Button>
         ]}
       >
         Confirm deletion?
