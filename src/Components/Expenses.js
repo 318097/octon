@@ -10,7 +10,9 @@ const Expenses = () => {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [date, setDate] = useState(moment());
   const [expenseList, setExpenseList] = useState([]);
-  const [expense, setExpense] = useState({});
+  const [expense, setExpense] = useState({
+    expenseGroup: 'PERSONAL'
+  });
   const [expenseType, setExpenseType] = useState('');
   const [total, setTotal] = useState(0);
   const [visibility, setVisibility] = useState({
@@ -83,6 +85,16 @@ const Expenses = () => {
           value={date}
           placeholder="Select month"
         />
+
+        <Radio.Group
+          value={expense.expenseGroup}
+          buttonStyle="solid"
+          onChange={e => setData('expenseGroup', e.target.value)}
+        >
+          <Radio.Button value="PERSONAL">Personal</Radio.Button>
+          <Radio.Button value="HOME">Home</Radio.Button>
+        </Radio.Group>
+
         <h4>Select Type&nbsp;
           {visibility.addExpenseType ?
             <Icon type="minus-circle" onClick={() => setVisibilityStatus('addExpenseType', false)} /> :
@@ -156,10 +168,21 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
   const [editExpenseId, setEditExpenseId] = useState(null);
   const [deleteExpenseId, setDeleteExpenseId] = useState(null);
   const [expense, setExpense] = useState({});
+  const [dataSource, setDataSource] = useState([]);
+  const [filterType, setFilterType] = useState('ALL');
   const [visibility, setVisibility] = useState({
     editExpenseModal: false,
     deleteExpenseModal: false,
   });
+
+  useEffect(() => {
+    filterData();
+  }, [list, filterType])
+
+  const filterData = () => {
+    const data = filterType === 'ALL' ? list : list.filter(list => list.expenseGroup === filterType);
+    setDataSource(data);
+  };
 
   const setVisibilityStatus = (key, value) => {
     setVisibility({
@@ -197,6 +220,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
     return (
       <List.Item
         actions={[
+          <span>{row.expenseType ? row.expenseType.toUpperCase() : null}</span>,
           <Icon key="edit-expense" type="edit" onClick={() => editExpenseHandler(row._id)} />,
           <Icon key="delete-expense" type="delete" onClick={() => deleteExpenseHandler(row._id)} />
         ]}
@@ -208,13 +232,25 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
 
   return (
     <Fragment>
+      <Radio.Group
+        style={{ marginBottom: '5px' }}
+        defaultValue={filterType}
+        buttonStyle="solid"
+        onChange={e => setFilterType(e.target.value)}
+      >
+        <Radio.Button value="ALL">All</Radio.Button>
+        <Radio.Button value="PERSONAL">Personal</Radio.Button>
+        <Radio.Button value="HOME">Home</Radio.Button>
+      </Radio.Group>
+
       <List
         itemLayout="horizontal"
         size="small"
         bordered
-        dataSource={list}
+        dataSource={dataSource}
         renderItem={renderItem}
       />
+
       <Modal
         visible={visibility.editExpenseModal}
         title="Edit Expense"
