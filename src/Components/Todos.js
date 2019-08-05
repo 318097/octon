@@ -5,7 +5,9 @@ import axios from 'axios';
 import './Todos.scss';
 
 const Todos = () => {
-  const [todo, setTodo] = useState({});
+  const [todo, setTodo] = useState({
+    type: 'SINGLE'
+  });
   const [todosList, setTodosList] = useState([]);
   const [addTodoVisibility, setAddTodoVisibility] = useState(false);
 
@@ -23,9 +25,15 @@ const Todos = () => {
     fetchTodosList();
   };
 
+  const deleteTodo = async id => {
+    await axios.delete(`/todos/${id}`);
+    fetchTodosList();
+  };
+
   const renderTodoItem = (todo) => {
     const weekNo = moment().week();
     let markedToday = false;
+    let percentRatio;
     if (todo['stamps'] && todo['stamps'][`week-${weekNo}`]) {
       const currentWeekStamps = todo['stamps'][`week-${weekNo}`];
       if (currentWeekStamps.length) {
@@ -33,17 +41,23 @@ const Todos = () => {
         const today = moment().format('DD-MM-YYYY');
         markedToday = lastAttended === today;
       }
+      percentRatio = Math.round((currentWeekStamps.length / todo.frequency) * 100);
     }
-    const actionButton = markedToday ? null : <Icon type="check-circle" onClick={() => markTodo(todo._id)} />
+
+    const actionButton = <Icon type="check-circle" className={markedToday ? 'success' : null} onClick={() => markedToday ? null : markTodo(todo._id)} />;
+
     return (
       <List.Item
-        className={markedToday ? 'disabled' : 'null'}
-        actions={[actionButton]}
+        actions={[
+          actionButton,
+          <Icon type="delete" onClick={() => deleteTodo(todo._id)} />,
+        ]}
       >
-        {todo.task}
+        <span className={markedToday ? 'disabled' : null}>{todo.task || '---'}</span>&nbsp;|&nbsp;
+        <span style={{ fontStyle: 'italic', fontSize: '80%', textDecoration: 'none' }}>{percentRatio}%</span>
       </List.Item>
     );
-  }
+  };
 
   const addTodo = async () => {
     await axios.post('/todos', { ...todo })
@@ -59,9 +73,10 @@ const Todos = () => {
 
   return (
     <Fragment>
+      <TodoHeader setAddTodoVisibility={setAddTodoVisibility} />
       <List
         size="small"
-        header={<TodoHeader setAddTodoVisibility={setAddTodoVisibility} />}
+        header='Todos: Weekly'
         footer={<div>Footer</div>}
         bordered
         dataSource={todosList}
@@ -71,10 +86,8 @@ const Todos = () => {
         visible={addTodoVisibility}
         title="Add Todo"
         onCancel={() => setAddTodoVisibility(false)}
-        footer={[
-          <Button key="back" onClick={() => setAddTodoVisibility(false)}>Cancel</Button>,
-          <Button key="add" onClick={addTodo}>Add</Button>
-        ]}
+        okText="Add"
+        onOk={addTodo}
       >
         <Radio.Group
           className="input"
@@ -88,8 +101,8 @@ const Todos = () => {
 
         <Input
           className="input"
-          size="large"
-          placeholder="Todo"
+          placeholder="Task"
+          autoFocus
           onChange={(e) => setData('task', e.target.value)}
         />
         <br />
@@ -97,7 +110,6 @@ const Todos = () => {
           todo.type === 'WEEKLY' ? (
             <InputNumber
               className="input"
-              size="large"
               min={1}
               placeholder='Frequency'
               onChange={value => setData('frequency', value)}
@@ -112,7 +124,7 @@ const Todos = () => {
 const TodoHeader = ({ setAddTodoVisibility }) => {
   return (
     <div className="todo-header">
-      <h3>Todos: Weekly</h3>
+      <h3>Todos</h3>
       <Icon
         onClick={() => setAddTodoVisibility(true)}
         type="plus-circle" />

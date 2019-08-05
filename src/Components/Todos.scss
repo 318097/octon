@@ -1,4 +1,5 @@
 .todo-header{
+  padding: 0 10px;
   display: flex;
   h3{
     flex-grow:1; 
@@ -9,7 +10,13 @@
     cursor: pointer;
   }
 }
+
 .disabled{
   text-decoration: line-through;
-  background: rgb(238, 238, 238);
+  background: rgb(246, 246, 246);
+}
+
+.success{
+  color: rgb(10, 90, 10);
+  cursor: not-allowed;
 }
