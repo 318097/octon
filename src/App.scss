@@ -1,0 +1,19 @@
+.app{
+  // border: 1px solid grey;
+  width: 80%;
+  margin: 0 auto;
+  .app-header{
+    text-align: center;
+  }
+  nav{
+    text-align: center;
+    a{
+      padding: 3px;
+    }
+  }
+  section{
+    width: 100%,;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
