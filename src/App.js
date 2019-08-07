@@ -4,6 +4,7 @@ import './App.scss';
 import 'antd/dist/antd.css';
 import axios from 'axios';
 
+import Login from './components/Login';
 import Home from './components/Home';
 import Expenses from './components/Expenses';
 import Todos from './components/Todos';
@@ -27,6 +28,7 @@ function App() {
           </nav>
           <section>
             <Switch>
+              <Route exact path="/login" component={Login} />
               <Route exact path="/expenses" component={Expenses} />
               <Route exact path="/todos" component={Todos} />
               <Route exact path="/" component={Home} />
