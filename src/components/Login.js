@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
+import { Redirect } from 'react-router-dom';
+
+import axios from 'axios';
 import './Login.scss';
 
 export default class Login extends Component {
@@ -7,17 +10,32 @@ export default class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      redirect: false,
     }
   }
 
   handleInput = key => e => this.setState({ [key]: e.target.value })
 
-  handleLogin = () => {
-
+  handleLogin = async () => {
+    const { username, password } = this.state;
+    try {
+      const { data } = await axios.post('/auth/login', {
+        username, password
+      })
+      // console.log(data);
+      localStorage.setItem('bbox-token', data.token);
+      this.setState({ redirect: true });
+    } catch (err) {
+      message.error(err.message);
+      console.log(err);
+    }
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />
+    }
     return (
       <Fragment>
         <form>
