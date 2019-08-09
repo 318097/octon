@@ -1,17 +1,20 @@
-import React, { Fragment } from 'react';
-import { Switch, Route, BrowserRouter, Link } from 'react-router-dom';
-import './App.scss';
-import 'antd/dist/antd.css';
-import axios from 'axios';
+import React, { Fragment } from "react";
+import { Switch, Route, BrowserRouter, Link } from "react-router-dom";
+import "./App.scss";
+import "antd/dist/antd.css";
+import axios from "axios";
 
-import Login from './components/Login';
-import Home from './components/Home';
-import Expenses from './components/Expenses';
-import Todos from './components/Todos';
-import PageNotFound from './components/PageNotFound';
+import Login from "./components/Login";
+import Home from "./components/Home";
+import Expenses from "./components/Expenses";
+import Todos from "./components/Todos";
+import PageNotFound from "./components/PageNotFound";
 
-axios.defaults.baseURL = 'http://localhost:3001/api';
-axios.defaults.headers.common['authorization'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDNlZjVmMjc0MzcxNjRlYTdhMGJhM2UiLCJpYXQiOjE1NjQ0MDcyOTB9.NMMr1avMBlYtZ6hbG1UPy-pvQ56-D1D7UboBrpVHjkM';
+import config from "./config";
+
+axios.defaults.baseURL = config.SERVER_URL;
+axios.defaults.headers.common["authorization"] =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDNlZjVmMjc0MzcxNjRlYTdhMGJhM2UiLCJpYXQiOjE1NjQ0MDcyOTB9.NMMr1avMBlYtZ6hbG1UPy-pvQ56-D1D7UboBrpVHjkM";
 
 function App() {
   return (
