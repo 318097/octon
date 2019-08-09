@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List, message, Card } from 'antd';
+import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List, message, Card, Popconfirm } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import './Expenses.scss';
@@ -166,13 +166,11 @@ const Expenses = () => {
 
 const ExpenseList = ({ list, fetchExpenseByMonth }) => {
   const [editExpenseId, setEditExpenseId] = useState(null);
-  const [deleteExpenseId, setDeleteExpenseId] = useState(null);
   const [expense, setExpense] = useState({});
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState('ALL');
   const [visibility, setVisibility] = useState({
     editExpenseModal: false,
-    deleteExpenseModal: false,
   });
 
   useEffect(() => {
@@ -197,8 +195,8 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
     fetchExpenseByMonth();
   };
 
-  const deleteExpense = async () => {
-    await axios.delete(`/expenses/${deleteExpenseId}`);
+  const deleteExpense = id => async () => {
+    await axios.delete(`/expenses/${id}`);
     setVisibilityStatus('deleteExpenseModal', false);
     fetchExpenseByMonth();
   };
@@ -206,11 +204,6 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
   const editExpenseHandler = (id) => {
     setEditExpenseId(id);
     setVisibilityStatus('editExpenseModal', true);
-  };
-
-  const deleteExpenseHandler = (id) => {
-    setDeleteExpenseId(id);
-    setVisibilityStatus('deleteExpenseModal', true);
   };
 
   const renderItem = (row) => {
@@ -222,7 +215,12 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
         actions={[
           <span>{row.expenseType ? row.expenseType.toUpperCase() : null}</span>,
           <Icon key="edit-expense" type="edit" onClick={() => editExpenseHandler(row._id)} />,
-          <Icon key="delete-expense" type="delete" onClick={() => deleteExpenseHandler(row._id)} />
+          <Popconfirm
+            title="Delete?"
+            onConfirm={deleteExpense(row._id)}
+          >
+            <Icon key="delete-expense" type="delete" />
+          </Popconfirm>
         ]}
       >
         {date}:  Rs/-{row.amount} <span className="message">{message}</span>
@@ -260,18 +258,6 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
           <Button key="update" type={"primary"} onClick={updateExpense}>Update</Button>
         ]}
       >
-      </Modal>
-
-      <Modal
-        visible={visibility.deleteExpenseModal}
-        title="Delete Expense"
-        onCancel={() => setVisibilityStatus('deleteExpenseModal', false)}
-        footer={[
-          <Button key="back" onClick={() => setVisibilityStatus('deleteExpenseModal', false)}> No</Button>,
-          <Button key="update" onClick={deleteExpense}>Yes</Button>
-        ]}
-      >
-        Confirm deletion?
       </Modal>
     </Fragment>
   );

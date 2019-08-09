@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List } from 'antd';
+import { Radio, PageHeader, InputNumber, Input, Button, Modal, DatePicker, Icon, List, Popconfirm } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import './Todos.scss';
@@ -50,7 +50,12 @@ const Todos = () => {
       <List.Item
         actions={[
           actionButton,
-          <Icon type="delete" onClick={() => deleteTodo(todo._id)} />,
+          <Popconfirm
+            title="Delete?"
+            onConfirm={() => deleteTodo(todo._id)}
+          >
+          <Icon type="delete" />
+          </Popconfirm>
         ]}
       >
         <span className={markedToday ? 'disabled' : null}>{todo.task || '---'}</span>&nbsp;|&nbsp;
