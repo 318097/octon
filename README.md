@@ -1,3 +1,6 @@
+# Brainbox.in 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/abed44de-111d-436c-bb1d-6d05fa2605b9/deploy-status)](https://app.netlify.com/sites/naughty-nightingale-aad9e5/deploys)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
