@@ -14,7 +14,7 @@ import config from "./config";
 
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDNlZjVmMjc0MzcxNjRlYTdhMGJhM2UiLCJpYXQiOjE1NjQ0MDcyOTB9.NMMr1avMBlYtZ6hbG1UPy-pvQ56-D1D7UboBrpVHjkM";
+  localStorage.getItem("bbox-token") || "";
 
 function App() {
   return (
