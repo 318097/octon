@@ -3,29 +3,31 @@ import { Input, Button, message } from "antd";
 import { Redirect } from "react-router-dom";
 
 import axios from "axios";
-import "./Login.scss";
 
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
       username: "",
       password: "",
+      email: "",
       redirect: false
     };
   }
 
   handleInput = key => e => this.setState({ [key]: e.target.value });
 
-  handleLogin = async () => {
-    const { username, password } = this.state;
+  handleRegister = async () => {
+    const { name, username, password, email } = this.state;
     try {
-      const { data } = await axios.post("/auth/login", {
+      await axios.post("/auth/register", {
         username,
-        password
+        password,
+        name,
+        email
       });
-      // console.log(data);
-      localStorage.setItem("bbox-token", data.token);
+
       this.setState({ redirect: true });
     } catch (err) {
       message.error(err.message);
@@ -33,15 +35,25 @@ export default class Login extends Component {
     }
   };
 
-  redirectToRegister = () => this.props.history.push("/register");
-
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/" />;
+      return <Redirect to="/login" />;
     }
     return (
       <Fragment>
         <form>
+          <Input
+            className="input"
+            value={this.state.name}
+            onChange={this.handleInput("name")}
+            placeholder="Name"
+          />
+          <Input
+            className="input"
+            value={this.state.email}
+            onChange={this.handleInput("email")}
+            placeholder="Email"
+          />
           <Input
             className="input"
             value={this.state.username}
@@ -55,11 +67,12 @@ export default class Login extends Component {
             placeholder="Password"
           />
           <br />
-          <Button className="input" onClick={this.redirectToRegister}>
+          <Button
+            className="input"
+            type="primary"
+            onClick={this.handleRegister}
+          >
             Register
-          </Button>
-          <Button className="input" type="primary" onClick={this.handleLogin}>
-            Login
           </Button>
         </form>
       </Fragment>
