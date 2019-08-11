@@ -1,19 +1,18 @@
-.app{
-  // border: 1px solid grey;
+.app {
+  min-width: 300px;
   width: 80%;
   margin: 0 auto;
-  .app-header{
+  .app-header {
     text-align: center;
   }
-  nav{
+  nav {
     text-align: center;
-    a{
+    a {
       padding: 3px;
     }
   }
-  section{
-    text-align: center;
-    width: 100%,;
+  section {
+    width: 100%;
     max-width: 400px;
     margin: 0 auto;
   }

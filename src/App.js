@@ -28,6 +28,7 @@ function App() {
             <Link to="/">Home</Link>
             <Link to="/expenses">Expenses</Link>
             <Link to="/todos">Todos</Link>
+            <Link to="/login">Login</Link>
           </nav>
           <section>
             <Switch>
