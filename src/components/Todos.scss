@@ -1,22 +1,29 @@
-.todo-header{
+.todo-header {
   padding: 0 10px;
   display: flex;
-  h3{
-    flex-grow:1; 
+  h3 {
+    flex-grow: 1;
   }
-  i{
+  i {
     font-size: 18px;
     margin-top: 3px;
     cursor: pointer;
   }
 }
 
-.disabled{
+.disabled {
   text-decoration: line-through;
   background: rgb(246, 246, 246);
 }
 
-.success{
+.success {
   color: rgb(10, 90, 10);
   cursor: not-allowed;
+}
+
+.percent-ratio {
+  margin-left: 5px;
+  font-style: italic;
+  font-size: 80%;
+  text-decoration: none;
 }
