@@ -19,6 +19,9 @@ import "./Expenses.scss";
 
 const { MonthPicker } = DatePicker;
 
+const calculateTotal = expenses =>
+  expenses.reduce((acc, { amount }) => amount + acc, 0);
+
 const Expenses = () => {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [date, setDate] = useState(moment());
@@ -49,7 +52,7 @@ const Expenses = () => {
       data: { expenses }
     } = await axios.get(`/expenses/${date.month() + 1}`);
     setExpenseList(expenses);
-    calculateTotal(expenses);
+    setTotal(calculateTotal(expenses));
   };
 
   const fetchExpensesTypes = async () => {
@@ -78,11 +81,6 @@ const Expenses = () => {
     message.success("Success");
     fetchExpensesTypes();
     setLoadingStatus("addExpenseType", false);
-  };
-
-  const calculateTotal = expenses => {
-    const total = expenses.reduce((acc, { amount }) => amount + acc, 0);
-    setTotal(total);
   };
 
   const setData = (key, value) => {
@@ -232,6 +230,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
   const [expense, setExpense] = useState({});
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
+  const [total, setTotal] = useState(0);
   const [visibility, setVisibility] = useState({
     editExpenseModal: false
   });
@@ -247,6 +246,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
         ? list
         : list.filter(list => list.expenseGroup === filterType);
     setDataSource(data);
+    setTotal(calculateTotal(data));
   };
 
   const setVisibilityStatus = (key, value) => {
@@ -298,16 +298,27 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
 
   return (
     <Fragment>
-      <Radio.Group
-        style={{ marginBottom: "5px" }}
-        defaultValue={filterType}
-        buttonStyle="solid"
-        onChange={e => setFilterType(e.target.value)}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
       >
-        <Radio.Button value="ALL">All</Radio.Button>
-        <Radio.Button value="PERSONAL">Personal</Radio.Button>
-        <Radio.Button value="HOME">Home</Radio.Button>
-      </Radio.Group>
+        <Radio.Group
+          style={{ marginBottom: "5px" }}
+          defaultValue={filterType}
+          buttonStyle="solid"
+          onChange={e => setFilterType(e.target.value)}
+        >
+          <Radio.Button value="ALL">All</Radio.Button>
+          <Radio.Button value="PERSONAL">Personal</Radio.Button>
+          <Radio.Button value="HOME">Home</Radio.Button>
+        </Radio.Group>
+        <span style={{ color: "lightgrey", fontWeight: "bold" }}>
+          Total: {total}
+        </span>
+      </div>
 
       <List
         style={{ maxHeight: "40vh", overflowY: "auto" }}
