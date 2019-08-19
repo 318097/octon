@@ -4,6 +4,7 @@ import "./App.scss";
 import "antd/dist/antd.css";
 import axios from "axios";
 
+import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -35,8 +36,8 @@ function App() {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/expenses" component={Expenses} />
-              <Route exact path="/todos" component={Todos} />
+              <PrivateRoute exact path="/expenses" component={Expenses} />
+              <PrivateRoute exact path="/todos" component={Todos} />
               <Route exact path="/" component={Home} />
               <Route component={PageNotFound} />
             </Switch>
