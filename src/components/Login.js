@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { Input, Button, message } from "antd";
+import { Input, Button, message, Divider } from "antd";
 import { Redirect } from "react-router-dom";
+import GoogleAuth from "./GoogleAuth";
 
 import axios from "axios";
 import "./Login.scss";
@@ -24,7 +25,8 @@ export default class Login extends Component {
         username,
         password
       });
-      // console.log(data);
+
+      localStorage.clear();
       localStorage.setItem("bbox-token", data.token);
       this.setState({ redirect: true });
     } catch (err) {
@@ -62,6 +64,9 @@ export default class Login extends Component {
             Login
           </Button>
         </form>
+        <br />
+        {/* <Divider /> */}
+        <GoogleAuth />
       </Fragment>
     );
   }
