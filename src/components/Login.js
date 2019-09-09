@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Input, Button, message, Divider } from "antd";
 import { Redirect } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
@@ -6,7 +6,7 @@ import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import "./Login.scss";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +42,7 @@ export default class Login extends Component {
       return <Redirect to="/" />;
     }
     return (
-      <Fragment>
+      <section className="center">
         <form>
           <Input
             className="input"
@@ -65,9 +65,11 @@ export default class Login extends Component {
           </Button>
         </form>
         <br />
-        {/* <Divider /> */}
+        {/* <Divider style={{ width: "50%" }} /> */}
         <GoogleAuth />
-      </Fragment>
+      </section>
     );
   }
 }
+
+export default Login;

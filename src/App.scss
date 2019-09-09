@@ -1,18 +1,34 @@
 .app {
+  margin: 20px auto;
   width: 97%;
-  margin: 0 auto;
+  max-width: 400px;
+  background: rgb(219, 228, 231);
   .app-header {
+    margin-top: 5px;
     text-align: center;
+    h2 {
+      font-weight: bold;
+    }
   }
   nav {
     text-align: center;
+    padding-bottom: 10px;
     a {
-      padding: 3px;
+      padding: 3px 5px;
+      margin: 0 3px;
+      color: white;
+      background: rgb(2, 96, 139);
+      border-radius: 5px;
     }
   }
-  section {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+  div {
+    section {
+      padding: 5px;
+      background: rgb(255, 255, 255);
+      min-height: 300px;
+      &.center {
+        text-align: center;
+      }
+    }
   }
 }

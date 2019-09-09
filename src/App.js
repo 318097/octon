@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Switch, Route, BrowserRouter, Link } from "react-router-dom";
 import "./App.scss";
 import "antd/dist/antd.css";
@@ -18,34 +18,32 @@ axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] =
   localStorage.getItem("bbox-token") || "";
 
-function App() {
+const App = () => {
   return (
-    <Fragment>
-      <BrowserRouter>
-        <div className="app">
-          <header className="app-header">
-            <h2>Brainbox</h2>
-          </header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/expenses">Expenses</Link>
-            <Link to="/todos">Todos</Link>
-            <Link to="/login">Login</Link>
-          </nav>
-          <section>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <PrivateRoute exact path="/expenses" component={Expenses} />
-              <PrivateRoute exact path="/todos" component={Todos} />
-              <Route exact path="/" component={Home} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </section>
+    <BrowserRouter>
+      <div className="app">
+        <header className="app-header">
+          <h2>Brainbox</h2>
+        </header>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/expenses">Expenses</Link>
+          <Link to="/todos">Todos</Link>
+          <Link to="/login">Login</Link>
+        </nav>
+        <div>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <PrivateRoute exact path="/expenses" component={Expenses} />
+            <PrivateRoute exact path="/todos" component={Todos} />
+            <Route exact path="/" component={Home} />
+            <Route component={PageNotFound} />
+          </Switch>
         </div>
-      </BrowserRouter>
-    </Fragment>
+      </div>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

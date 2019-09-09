@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Radio,
   PageHeader,
@@ -46,7 +46,7 @@ const Todos = () => {
   };
 
   return (
-    <Fragment>
+    <section>
       <TodoHeader setAddTodoVisibility={setAddTodoVisibility} />
 
       <TodoList
@@ -94,7 +94,7 @@ const Todos = () => {
           />
         ) : null}
       </Modal>
-    </Fragment>
+    </section>
   );
 };
 

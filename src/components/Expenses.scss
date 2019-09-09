@@ -6,25 +6,26 @@ h4 {
   margin: 5px;
   font-weight: bold;
 }
-.total {
-  font-size: 120%;
-  font-weight: bold;
-}
-.container {
-  .ant-card-body {
-    padding: 5px;
+section {
+  .container {
+    .ant-card-body {
+      padding: 5px;
+    }
+    .total {
+      font-size: 120%;
+      font-weight: bold;
+    }
+    .custom-card {
+      background: rgb(240, 240, 240);
+      position: relative;
+      z-index: 1;
+      border-radius: 15px;
+      text-align: center;
+      & .ant-card-body {
+        padding: 0;
+      }
+    }
   }
-}
-.custom-card {
-  background: rgb(240, 240, 240);
-  position: relative;
-  z-index: 1;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.custom-card .ant-card-body {
-  padding: 0;
 }
 
 .message {

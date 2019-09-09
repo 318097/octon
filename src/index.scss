@@ -1,32 +1,34 @@
-@font-face{
-  font-family: AmaticSC-Bold;
-  src: url('./assets/fonts/AmaticSC-Bold.ttf');
-}
-
-@font-face{
+@font-face {
   font-family: Barriecito-Regular;
-  src: url('./assets/fonts/Barriecito-Regular.ttf');
+  src: url("./assets/fonts/Barriecito-Regular.ttf");
 }
 
-@font-face{
+@font-face {
   font-family: Neucha-Regular;
-  src: url('./assets/fonts/Neucha-Regular.ttf');
+  src: url("./assets/fonts/Neucha-Regular.ttf");
 }
 
-#root {
-  font-family: Neucha-Regular;
+@font-face {
+  font-family: PoiretOne-Regular;
+  src: url("./assets/fonts/PoiretOne-Regular.ttf");
+}
+
+#root,
+.custom-font,
+.input,
+button {
+  font-family: PoiretOne-Regular;
 }
 
 body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
   code {
     font-family: monospace;
   }
-
-  .input{
+  .input {
     margin: 5px;
   }
 }

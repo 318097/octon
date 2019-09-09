@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Input, Button, message } from "antd";
 import { Redirect } from "react-router-dom";
 
@@ -40,7 +40,7 @@ export default class Register extends Component {
       return <Redirect to="/login" />;
     }
     return (
-      <Fragment>
+      <section>
         <form>
           <Input
             className="input"
@@ -75,7 +75,7 @@ export default class Register extends Component {
             Register
           </Button>
         </form>
-      </Fragment>
+      </section>
     );
   }
 }

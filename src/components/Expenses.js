@@ -47,6 +47,11 @@ const Expenses = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    fetchExpenseByMonth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date]);
+
   const fetchExpenseByMonth = async () => {
     const {
       data: { expenses }
@@ -104,7 +109,7 @@ const Expenses = () => {
   };
 
   return (
-    <Fragment>
+    <section>
       <Card className="container">
         <PageHeader
           title="Expenses"
@@ -205,10 +210,24 @@ const Expenses = () => {
 
       <Modal
         visible={visibility.expenseListModal}
-        title="Expenses"
+        title={
+          <div className="custom-font">
+            Expenses{" "}
+            <span
+              style={{
+                fontSize: "12px",
+                fontStyle: "italic",
+                color: "tomato"
+              }}
+            >
+              ({date.format("MMM YY")})
+            </span>
+          </div>
+        }
         onCancel={() => setVisibilityStatus("expenseListModal", false)}
         footer={[
           <Button
+            className="custom-font"
             key="back"
             onClick={() => setVisibilityStatus("expenseListModal", false)}
           >
@@ -221,7 +240,7 @@ const Expenses = () => {
           fetchExpenseByMonth={fetchExpenseByMonth}
         />
       </Modal>
-    </Fragment>
+    </section>
   );
 };
 
@@ -279,6 +298,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
 
     return (
       <List.Item
+        className="custom-font"
         actions={[
           <span>{row.expenseType ? row.expenseType.toUpperCase() : null}</span>,
           <Icon
@@ -307,6 +327,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
       >
         <Radio.Group
           style={{ marginBottom: "5px" }}
+          className="custom-font"
           defaultValue={filterType}
           buttonStyle="solid"
           onChange={e => setFilterType(e.target.value)}
@@ -315,7 +336,7 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
           <Radio.Button value="PERSONAL">Personal</Radio.Button>
           <Radio.Button value="HOME">Home</Radio.Button>
         </Radio.Group>
-        <span style={{ color: "lightgrey", fontWeight: "bold" }}>
+        <span className="custom-font" style={{ color: "lightgrey" }}>
           Total: {total}
         </span>
       </div>
