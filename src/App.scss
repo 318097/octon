@@ -2,7 +2,7 @@
   margin: 20px auto;
   width: 97%;
   max-width: 400px;
-  background: rgb(219, 228, 231);
+  background: rgb(231, 231, 231);
   .app-header {
     margin-top: 5px;
     text-align: center;
@@ -12,18 +12,18 @@
   }
   nav {
     text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     a {
       padding: 3px 5px;
-      margin: 0 3px;
+      margin: 0 2px;
       color: white;
-      background: rgb(2, 96, 139);
-      border-radius: 5px;
+      background: rgb(236, 102, 25);
+      border-radius: 4px;
     }
   }
   div {
     section {
-      padding: 5px;
+      padding: 20px 5px;
       background: rgb(255, 255, 255);
       min-height: 300px;
       &.center {

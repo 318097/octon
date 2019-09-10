@@ -217,10 +217,11 @@ const Expenses = () => {
               style={{
                 fontSize: "12px",
                 fontStyle: "italic",
+                fontWeight: "bold",
                 color: "tomato"
               }}
             >
-              ({date.format("MMM YY")})
+              ({date.format("MMM 'YY")})
             </span>
           </div>
         }
@@ -336,7 +337,10 @@ const ExpenseList = ({ list, fetchExpenseByMonth }) => {
           <Radio.Button value="PERSONAL">Personal</Radio.Button>
           <Radio.Button value="HOME">Home</Radio.Button>
         </Radio.Group>
-        <span className="custom-font" style={{ color: "lightgrey" }}>
+        <span
+          className="custom-font"
+          style={{ color: "grey", fontWeight: "bold", fontStyle: "italic" }}
+        >
           Total: {total}
         </span>
       </div>

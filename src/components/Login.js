@@ -64,8 +64,7 @@ class Login extends Component {
             Login
           </Button>
         </form>
-        <br />
-        {/* <Divider style={{ width: "50%" }} /> */}
+        <Divider style={{ width: "50%" }} />
         <GoogleAuth />
       </section>
     );
