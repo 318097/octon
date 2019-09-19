@@ -6,26 +6,41 @@ h4 {
   margin: 5px;
   font-weight: bold;
 }
-section {
-  .container {
-    .ant-card-body {
-      padding: 5px;
-    }
-    .total {
-      font-size: 120%;
-      font-weight: bold;
-    }
-    .custom-card {
-      background: rgb(240, 240, 240);
-      position: relative;
-      z-index: 1;
-      border-radius: 15px;
-      text-align: center;
-      & .ant-card-body {
-        padding: 0;
-      }
+.container {
+  .ant-card-body {
+    padding: 5px;
+  }
+  .custom-card {
+    background: rgb(240, 240, 240);
+    position: relative;
+    z-index: 1;
+    border-radius: 15px;
+    text-align: center;
+    & .ant-card-body {
+      padding: 0;
     }
   }
+}
+
+.expense-list-title {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: bold;
+  color: tomato;
+}
+
+.expense-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+span.total {
+  font-size: 120%;
+  font-weight: bold;
+  color: grey;
+  font-style: italic;
 }
 
 .message {
