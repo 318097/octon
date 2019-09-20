@@ -1,72 +1,82 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   Radio,
-  PageHeader,
   InputNumber,
   Input,
-  Button,
   Modal,
-  DatePicker,
   Icon,
   List,
-  Popconfirm
+  Popconfirm,
+  Divider
 } from "antd";
 import moment from "moment";
 import axios from "axios";
 import "./Todos.scss";
 
 const Todos = () => {
-  const [todo, setTodo] = useState({
-    type: "SINGLE"
-  });
-  const [todosList, setTodosList] = useState([]);
-  const [addTodoVisibility, setAddTodoVisibility] = useState(false);
+  const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    fetchTodosList();
+    fetchTodoList();
   }, []);
 
-  const fetchTodosList = async () => {
+  const fetchTodoList = async () => {
     const {
       data: { todos }
     } = await axios.get(`todos`);
-    setTodosList(todos);
-  };
-
-  const addTodo = async () => {
-    await axios.post("/todos", { ...todo });
-    fetchTodosList();
-    setAddTodoVisibility(false);
-  };
-
-  const setData = (key, value) => {
-    const data = todo;
-    data[key] = value;
-    setTodo({ ...data });
+    setTodoList(todos);
   };
 
   return (
     <section>
-      <TodoHeader setAddTodoVisibility={setAddTodoVisibility} />
+      <div className="todo-header">
+        <h3>Todos</h3>
+        <AddTodo fetchTodoList={fetchTodoList} />
+      </div>
 
       <TodoList
-        todosList={todosList}
-        fetchTodosList={fetchTodosList}
+        todoList={todoList}
+        fetchTodoList={fetchTodoList}
         type="SINGLE"
       />
       <br />
       <TodoList
-        todosList={todosList}
-        fetchTodosList={fetchTodosList}
+        todoList={todoList}
+        fetchTodoList={fetchTodoList}
         type="WEEKLY"
       />
+    </section>
+  );
+};
 
+const AddTodo = ({ fetchTodoList }) => {
+  const [addTodoVisibility, setAddTodoVisibility] = useState(false);
+  const [todo, setTodo] = useState({
+    type: "SINGLE"
+  });
+
+  const setData = (key, value) =>
+    setTodo(todo => ({
+      ...todo,
+      [key]: value
+    }));
+
+  const addTodo = async () => {
+    await axios.post("/todos", todo);
+    fetchTodoList();
+    setAddTodoVisibility(false);
+  };
+
+  return (
+    <Fragment>
+      <Icon onClick={() => setAddTodoVisibility(true)} type="plus-circle" />
       <Modal
         visible={addTodoVisibility}
         title="Add Todo"
         onCancel={() => setAddTodoVisibility(false)}
         okText="Add"
         onOk={addTodo}
+        width={380}
       >
         <Radio.Group
           className="input"
@@ -94,81 +104,76 @@ const Todos = () => {
           />
         ) : null}
       </Modal>
-    </section>
+    </Fragment>
   );
 };
 
-const TodoHeader = ({ setAddTodoVisibility }) => {
-  return (
-    <div className="todo-header">
-      <h3>Todos</h3>
-      <Icon onClick={() => setAddTodoVisibility(true)} type="plus-circle" />
-    </div>
-  );
-};
-
-const TodoList = ({ todosList, fetchTodosList, type }) => {
-  const todos = todosList.filter(todo => todo.type === type);
-
+const TodoList = ({ todoList, fetchTodoList, type }) => {
   const markTodo = async (id, type) => {
     await axios.put(`/todos/${id}/stamp`, { date: moment().toDate(), type });
-    fetchTodosList();
+    fetchTodoList();
   };
 
   const deleteTodo = async id => {
     await axios.delete(`/todos/${id}`);
-    fetchTodosList();
+    fetchTodoList();
   };
 
   const renderTodoItem = todo => {
-    let status, percentRatio;
-    if (todo.type === "WEEKLY") {
-      let markedToday = false;
-      const weekNo = moment().week();
-      if (todo["stamps"] && todo["stamps"][`week-${weekNo}`]) {
-        const currentWeekStamps = todo["stamps"][`week-${weekNo}`];
-        if (currentWeekStamps.length) {
-          const lastAttended = moment(
-            currentWeekStamps[currentWeekStamps.length - 1]
-          ).format("DD-MM-YYYY");
-          const today = moment().format("DD-MM-YYYY");
-          markedToday = lastAttended === today;
-        }
+    const { stamps = {}, type, frequency, _id, status, task } = todo;
+    let todoStatus, info, actionButton;
 
-        percentRatio = Math.round(
-          (currentWeekStamps.length / todo.frequency) * 100
-        );
+    if (type === "WEEKLY") {
+      let percentRatio,
+        fraction,
+        markedToday = false;
+      const weekNo = moment().week();
+      const currentWeekStamps = stamps[`week-${weekNo}`];
+      const today = moment().format("DD-MM-YYYY");
+
+      if (currentWeekStamps) {
+        const lastAttended = moment(
+          currentWeekStamps[currentWeekStamps.length - 1]
+        ).format("DD-MM-YYYY");
+        markedToday = lastAttended === today;
+        percentRatio = Math.round((currentWeekStamps.length / frequency) * 100);
+        fraction = `${currentWeekStamps.length}/${frequency}`;
       }
-      status = markedToday;
+
+      todoStatus = markedToday;
+      info = (
+        <span className="info">
+          <span>{percentRatio}%</span>
+          <Divider type="vertical" />
+          <span>{fraction}</span>
+        </span>
+      );
     } else {
-      status = todo.status === "COMPLETE";
+      // SINGLE
+      todoStatus = status === "COMPLETE";
     }
 
-    const actionButton = (
+    actionButton = [
       <Icon
         type="check-circle"
-        className={status ? "success" : null}
-        onClick={() => (status ? null : markTodo(todo._id, todo.type))}
-      />
-    );
+        className={todoStatus ? "success" : null}
+        onClick={() => (todoStatus ? null : markTodo(_id, type))}
+      />,
+      <Popconfirm title="Delete?" onConfirm={() => deleteTodo(_id)}>
+        <Icon type="delete" />
+      </Popconfirm>
+    ];
 
     return (
-      <List.Item
-        actions={[
-          actionButton,
-          <Popconfirm title="Delete?" onConfirm={() => deleteTodo(todo._id)}>
-            <Icon type="delete" />
-          </Popconfirm>
-        ]}
-      >
-        <span className={status ? "disabled" : null}>{todo.task}</span>
+      <List.Item actions={actionButton}>
+        <span className={todoStatus ? "task disabled" : "task"}>{task}</span>
         &nbsp;
-        {type === "WEEKLY" && (
-          <span className="percent-ratio">{percentRatio}%</span>
-        )}
+        {info}
       </List.Item>
     );
   };
+
+  const todos = todoList.filter(todo => todo.type === type);
 
   return (
     <List

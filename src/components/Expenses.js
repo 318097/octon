@@ -314,6 +314,7 @@ const ExpenseList = ({
       title={expenseTitle}
       onCancel={() => setVisibilityStatus("expenseListModal", false)}
       footer={actionButton}
+      width={380}
     >
       <div className="expense-list">
         <Radio.Group

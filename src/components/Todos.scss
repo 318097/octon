@@ -11,7 +11,11 @@
   }
 }
 
-.disabled {
+.task {
+  padding: 2px 5px;
+}
+
+.task.disabled {
   text-decoration: line-through;
   background: rgb(246, 246, 246);
 }
@@ -21,9 +25,7 @@
   cursor: not-allowed;
 }
 
-.percent-ratio {
-  margin-left: 5px;
+.info {
   font-style: italic;
   font-size: 80%;
-  text-decoration: none;
 }
