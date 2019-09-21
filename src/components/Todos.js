@@ -13,7 +13,7 @@ import moment from "moment";
 import axios from "axios";
 import "./Todos.scss";
 
-const calculateWeekStatus = week => {
+const WeekStatus = ({ week }) => {
   const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   return weekDays.map((day, index) => {
     let status = false;
@@ -151,18 +151,17 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
         weekStatus,
         markedToday = false;
       const weekNo = moment().week();
-      const currentWeekStamps = stamps[`week-${weekNo}`];
+      const currentWeekStamps = stamps[`week-${weekNo}`] || [];
       const today = moment().format("DD-MM-YYYY");
 
-      if (currentWeekStamps) {
+      if (currentWeekStamps.length) {
         const lastAttended = moment(
           currentWeekStamps[currentWeekStamps.length - 1]
         ).format("DD-MM-YYYY");
         markedToday = lastAttended === today;
-        percentRatio = Math.round((currentWeekStamps.length / frequency) * 100);
-        fraction = `${currentWeekStamps.length}/${frequency}`;
-        weekStatus = calculateWeekStatus(currentWeekStamps);
       }
+      percentRatio = Math.round((currentWeekStamps.length / frequency) * 100);
+      fraction = `${currentWeekStamps.length}/${frequency}`;
 
       todoStatus = markedToday;
       info = (
@@ -171,7 +170,9 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
           <Divider type="vertical" />
           <span>{fraction}</span>
           <Divider type="vertical" />
-          <span>{weekStatus}</span>
+          <span>
+            <WeekStatus week={currentWeekStamps} />
+          </span>
         </Fragment>
       );
     } else {
