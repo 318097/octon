@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import axios from "axios";
 
-export default class Register extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,7 +40,7 @@ export default class Register extends Component {
       return <Redirect to="/login" />;
     }
     return (
-      <section>
+      <section className="center">
         <form>
           <Input
             className="input"
@@ -65,6 +65,7 @@ export default class Register extends Component {
             value={this.state.password}
             onChange={this.handleInput("password")}
             placeholder="Password"
+            onPressEnter={this.handleRegister}
           />
           <br />
           <Button
@@ -79,3 +80,5 @@ export default class Register extends Component {
     );
   }
 }
+
+export default Register;
