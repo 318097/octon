@@ -13,6 +13,26 @@
   src: url("./assets/fonts/PoiretOne-Regular.ttf");
 }
 
+@font-face {
+  font-family: AmaticSC-Bold;
+  src: url("./assets/fonts/AmaticSC-Bold.ttf");
+}
+
+@font-face {
+  font-family: ArchitectsDaughter-Regular;
+  src: url("./assets/fonts/ArchitectsDaughter-Regular.ttf");
+}
+
+@font-face {
+  font-family: Economica-Regular;
+  src: url("./assets/fonts/Economica-Regular.ttf");
+}
+
+@font-face {
+  font-family: HiMelody-Regular;
+  src: url("./assets/fonts/HiMelody-Regular.ttf");
+}
+
 #root,
 .custom-font,
 .input,
@@ -20,7 +40,8 @@ button,
 .ant-modal-title,
 .ant-btn,
 .ant-calendar-month-panel-cell {
-  font-family: PoiretOne-Regular;
+  // font-family: PoiretOne-Regular;
+  font-family: ArchitectsDaughter-Regular;
 }
 .ant-modal-body {
   padding: 12px !important;
