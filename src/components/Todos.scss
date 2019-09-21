@@ -1,6 +1,6 @@
 section {
   .todo-header {
-    padding: 5px 10px;
+    padding: 0 10px 15px 10px;
     display: flex;
     align-items: center;
     div {
@@ -9,6 +9,7 @@ section {
       align-items: center;
       h3 {
         margin: 0 10px 0 0;
+        font-weight: bold;
       }
     }
     i {

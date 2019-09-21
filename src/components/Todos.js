@@ -148,7 +148,6 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
     if (type === "WEEKLY") {
       let percentRatio,
         fraction,
-        weekStatus,
         markedToday = false;
       const weekNo = moment().week();
       const currentWeekStamps = stamps[`week-${weekNo}`] || [];
