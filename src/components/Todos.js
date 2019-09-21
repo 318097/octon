@@ -13,8 +13,26 @@ import moment from "moment";
 import axios from "axios";
 import "./Todos.scss";
 
+const calculateWeekStatus = week => {
+  const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  return weekDays.map((day, index) => {
+    let status = false;
+    week.forEach(date => {
+      if (moment(date).weekday() === index) {
+        status = true;
+      }
+    });
+    return (
+      <span key={index} className={status ? "day active" : "day"}>
+        {day}
+      </span>
+    );
+  });
+};
+
 const Todos = () => {
   const [todoList, setTodoList] = useState([]);
+  const [todoType, setTodoType] = useState("WEEKLY");
 
   useEffect(() => {
     fetchTodoList();
@@ -30,20 +48,24 @@ const Todos = () => {
   return (
     <section>
       <div className="todo-header">
-        <h3>Todos</h3>
+        <div>
+          <h3>Todos</h3>
+          <Radio.Group
+            defaultValue={todoType}
+            buttonStyle="solid"
+            onChange={e => setTodoType(e.target.value)}
+          >
+            <Radio.Button value="SINGLE">SINGLE</Radio.Button>
+            <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
+          </Radio.Group>
+        </div>
         <AddTodo fetchTodoList={fetchTodoList} />
       </div>
 
       <TodoList
         todoList={todoList}
         fetchTodoList={fetchTodoList}
-        type="SINGLE"
-      />
-      <br />
-      <TodoList
-        todoList={todoList}
-        fetchTodoList={fetchTodoList}
-        type="WEEKLY"
+        type={todoType}
       />
     </section>
   );
@@ -126,6 +148,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
     if (type === "WEEKLY") {
       let percentRatio,
         fraction,
+        weekStatus,
         markedToday = false;
       const weekNo = moment().week();
       const currentWeekStamps = stamps[`week-${weekNo}`];
@@ -138,15 +161,18 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
         markedToday = lastAttended === today;
         percentRatio = Math.round((currentWeekStamps.length / frequency) * 100);
         fraction = `${currentWeekStamps.length}/${frequency}`;
+        weekStatus = calculateWeekStatus(currentWeekStamps);
       }
 
       todoStatus = markedToday;
       info = (
-        <span className="info">
+        <Fragment>
           <span>{percentRatio}%</span>
           <Divider type="vertical" />
           <span>{fraction}</span>
-        </span>
+          <Divider type="vertical" />
+          <span>{weekStatus}</span>
+        </Fragment>
       );
     } else {
       // SINGLE
@@ -166,9 +192,10 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
 
     return (
       <List.Item actions={actionButton}>
-        <span className={todoStatus ? "task disabled" : "task"}>{task}</span>
-        &nbsp;
-        {info}
+        <div className="task-container">
+          <div className={todoStatus ? "task disabled" : "task"}>{task}</div>
+          <div className="info">{info}</div>
+        </div>
       </List.Item>
     );
   };

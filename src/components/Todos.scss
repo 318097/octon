@@ -1,31 +1,52 @@
-.todo-header {
-  padding: 0 10px;
-  display: flex;
-  h3 {
-    flex-grow: 1;
+section {
+  .todo-header {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    div {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      h3 {
+        margin: 0 10px 0 0;
+      }
+    }
+    i {
+      font-size: 18px;
+      margin-top: 3px;
+      cursor: pointer;
+    }
   }
-  i {
-    font-size: 18px;
-    margin-top: 3px;
-    cursor: pointer;
+  div.task-container {
+    flex: 1;
+    .task {
+      display: inline-block;
+      padding: 2px 5px;
+    }
+
+    .task.disabled {
+      text-decoration: line-through;
+      background: rgb(246, 246, 246);
+    }
+
+    .info {
+      padding: 2px 5px;
+      font-style: italic;
+      font-size: 80%;
+    }
+
+    span.day {
+      margin: 2px;
+    }
+
+    span.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
   }
-}
 
-.task {
-  padding: 2px 5px;
-}
-
-.task.disabled {
-  text-decoration: line-through;
-  background: rgb(246, 246, 246);
-}
-
-.success {
-  color: rgb(10, 90, 10);
-  cursor: not-allowed;
-}
-
-.info {
-  font-style: italic;
-  font-size: 80%;
+  .success {
+    color: rgb(0, 151, 0);
+    cursor: not-allowed;
+  }
 }
