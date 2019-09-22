@@ -1,15 +1,12 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { isLoggedIn } from "../authService";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem("bbox-token") ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
+      isLoggedIn() ? <Component {...props} /> : <Redirect to="/login" />
     }
   />
 );

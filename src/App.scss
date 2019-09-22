@@ -4,9 +4,9 @@
   max-width: 400px;
   background: rgb(231, 231, 231);
   .app-header {
-    margin-top: 5px;
     text-align: center;
     h2 {
+      padding-top: 10px;
       font-weight: bold;
     }
   }
@@ -21,11 +21,18 @@
       border-radius: 4px;
     }
   }
-  div {
+  div.content {
+    position: relative;
+    min-height: 300px;
+    background: rgb(255, 255, 255);
+    .ant-spin {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
     section {
       padding: 20px 5px;
-      background: rgb(255, 255, 255);
-      min-height: 300px;
       &.center {
         text-align: center;
       }

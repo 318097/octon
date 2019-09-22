@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Input, Button, message, Divider } from "antd";
-import { Redirect } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
-
 import axios from "axios";
+import { withRouter } from "react-router-dom";
+
+import { setToken, isLoggedIn } from "../authService";
 import "./Login.scss";
 
 class Login extends Component {
@@ -11,12 +12,15 @@ class Login extends Component {
     super(props);
     this.state = {
       username: "",
-      password: "",
-      redirect: false
+      password: ""
     };
   }
 
-  handleInput = key => e => this.setState({ [key]: e.target.value });
+  componentWillMount() {
+    if (isLoggedIn()) {
+      this.props.history.push("/");
+    }
+  }
 
   handleLogin = async () => {
     const { username, password } = this.state;
@@ -26,49 +30,51 @@ class Login extends Component {
         password
       });
 
-      localStorage.clear();
-      localStorage.setItem("bbox-token", data.token);
-      this.setState({ redirect: true });
+      setToken(data.token);
+      this.props.setLoginState({ loggedIn: true, info: "LOGIN" });
+      this.props.history.push("/");
     } catch (err) {
       message.error(err.message);
       console.log(err);
     }
   };
 
-  redirectToRegister = () => this.props.history.push("/register");
+  handleInput = key => event => this.setState({ [key]: event.target.value });
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
+    const { username, password } = this.state;
     return (
       <section className="center">
         <form>
           <Input
             className="input"
-            value={this.state.username}
+            value={username}
             onChange={this.handleInput("username")}
             placeholder="Username"
           />
           <Input.Password
             className="input"
-            value={this.state.password}
+            value={password}
+            onPressEnter={this.handleLogin}
             onChange={this.handleInput("password")}
             placeholder="Password"
           />
           <br />
-          <Button className="input" onClick={this.redirectToRegister}>
+          <Button
+            className="input"
+            onClick={() => this.props.history.push("/register")}
+          >
             Register
           </Button>
           <Button className="input" type="primary" onClick={this.handleLogin}>
             Login
           </Button>
         </form>
-        <Divider style={{ width: "50%" }} />
+        <Divider />
         <GoogleAuth />
       </section>
     );
   }
 }
 
-export default Login;
+export default withRouter(Login);
