@@ -57,7 +57,7 @@ const App = ({ history }) => {
         <NavLink exact activeClassName="active-link" to="/todos">
           Todos
         </NavLink>
-        {loginState ? (
+        {loginState.loggedIn ? (
           <NavLink to="#" className="logout" type="link" onClick={logout}>
             Logout&nbsp;
             <Icon type="logout" />

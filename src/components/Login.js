@@ -45,6 +45,7 @@ class Login extends Component {
     const { username, password } = this.state;
     return (
       <section className="center">
+        <h3>Login</h3>
         <form>
           <Input
             className="input"

@@ -41,6 +41,7 @@ class Register extends Component {
     }
     return (
       <section className="center">
+        <h3>Register</h3>
         <form>
           <Input
             className="input"
