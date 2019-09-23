@@ -63,11 +63,11 @@ const Expenses = () => {
     });
   };
 
-  const setLoadingStatus = (key, value) => {
-    setLoading({
-      ...loading,
+  const setLoadingStatus = (key, value = false) => {
+    setLoading(state => ({
+      ...state,
       [key]: value
-    });
+    }));
   };
 
   const fetchExpenseByMonth = async () => {
