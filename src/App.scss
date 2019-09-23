@@ -1,8 +1,10 @@
+@import "theme.scss";
+
 .app {
   margin: 20px auto;
   width: 97%;
   max-width: 400px;
-  background: rgb(231, 231, 231);
+  background: $app-background;
   .app-header {
     text-align: center;
     h2 {
@@ -13,18 +15,33 @@
   nav {
     text-align: center;
     padding-bottom: 20px;
-    a {
+    a,
+    logout {
+      font-size: 11px;
+      text-decoration: none;
+      text-align: center;
+      transition: 0.8s;
       padding: 3px 5px;
       margin: 0 2px;
-      color: white;
-      background: rgb(236, 102, 25);
+      cursor: pointer;
       border-radius: 4px;
+      border: 1px solid $primary;
+      color: $primary;
+    }
+    a:hover,
+    .logout,
+    a.active-link {
+      color: $white;
+      background: $primary;
+    }
+    .logout {
+      opacity: 0.4;
     }
   }
   div.content {
     position: relative;
     min-height: 300px;
-    background: rgb(255, 255, 255);
+    background: $white;
     & > .ant-spin {
       position: absolute;
       top: 50%;

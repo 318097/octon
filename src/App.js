@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import "./App.scss";
 import axios from "axios";
 import { Icon, Button, Spin } from "antd";
@@ -48,15 +48,24 @@ const App = ({ history }) => {
         <h2>Brainbox</h2>
       </header>
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/expenses">Expenses</Link>
-        <Link to="/todos">Todos</Link>
+        <NavLink exact activeClassName="active-link" to="/">
+          Home
+        </NavLink>
+        <NavLink exact activeClassName="active-link" to="/expenses">
+          Expenses
+        </NavLink>
+        <NavLink exact activeClassName="active-link" to="/todos">
+          Todos
+        </NavLink>
         {loginState ? (
-          <Button type="link" onClick={logout}>
-            Logout
-          </Button>
+          <NavLink to="#" className="logout" type="link" onClick={logout}>
+            Logout&nbsp;
+            <Icon type="logout" />
+          </NavLink>
         ) : (
-          <Link to="/login">Login</Link>
+          <NavLink exact activeClassName="active-link" to="/login">
+            Login
+          </NavLink>
         )}
       </nav>
       {loading ? (
