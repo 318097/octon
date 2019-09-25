@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 import "./App.scss";
 import axios from "axios";
-import { Icon, Button, Spin } from "antd";
+import { Icon, Spin } from "antd";
 import { withRouter } from "react-router-dom";
 
 import "antd/dist/antd.css";
@@ -38,6 +38,7 @@ const App = ({ history }) => {
   }, [loginState]);
 
   const logout = () => {
+    setLoginState({ loggedIn: false });
     localStorage.clear();
     history.push("/login");
   };
@@ -64,7 +65,8 @@ const App = ({ history }) => {
           </NavLink>
         ) : (
           <NavLink exact activeClassName="active-link" to="/login">
-            Login
+            Login&nbsp;
+            <Icon type="login" />
           </NavLink>
         )}
       </nav>
