@@ -22,18 +22,22 @@ h4 {
   }
 }
 
-.expense-list-title {
+.expense-list-month {
   font-size: 12px;
   font-style: italic;
   font-weight: bold;
   color: tomato;
 }
 
-.expense-list {
+.expense-list-actions-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+}
+
+.expense-list-container {
+  flex: 1;
 }
 
 span.total {

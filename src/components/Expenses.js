@@ -217,6 +217,7 @@ const Expenses = () => {
           type="primary"
           loading={loading.addExpense}
           onClick={addExpense}
+          disabled={!expense.amount}
         >
           Add
         </Button>
@@ -244,6 +245,7 @@ const ExpenseList = ({
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const filterData = () => {
@@ -259,14 +261,34 @@ const ExpenseList = ({
   }, [list, filterType]);
 
   const deleteExpense = id => async () => {
+    setLoading(true);
     await axios.delete(`/expenses/${id}`);
     fetchExpenseByMonth();
+    setLoading(false);
   };
 
   const editExpenseHandler = id => {
     setEditExpenseId(id);
     setVisibilityStatus("editExpenseModal", true);
   };
+
+  const expenseTitle = (
+    <div className="custom-font">
+      Expenses{" "}
+      <span className="expense-list-month">({date.format("MMM 'YY")})</span>
+      &nbsp;
+      <span>{loading && <Spin size="small" />}</span>
+    </div>
+  );
+
+  const actionButton = [
+    <Button
+      key="back"
+      onClick={() => setVisibilityStatus("expenseListModal", false)}
+    >
+      Close
+    </Button>
+  ];
 
   const renderItem = row => {
     const date = moment(row.createdAt).format("DD/MM");
@@ -287,26 +309,15 @@ const ExpenseList = ({
           </Popconfirm>
         ]}
       >
-        {date}: Rs/-{row.amount} <span className="message">{message}</span>
+        <div className="expense-list-container">
+          <div>
+            {date}: Rs/-{row.amount}
+          </div>
+          <div className="message">{message}</div>
+        </div>
       </List.Item>
     );
   };
-
-  const expenseTitle = (
-    <div className="custom-font">
-      Expenses{" "}
-      <span className="expense-list-title">({date.format("MMM 'YY")})</span>
-    </div>
-  );
-
-  const actionButton = [
-    <Button
-      key="back"
-      onClick={() => setVisibilityStatus("expenseListModal", false)}
-    >
-      Close
-    </Button>
-  ];
 
   return (
     <Modal
@@ -316,7 +327,7 @@ const ExpenseList = ({
       footer={actionButton}
       width={380}
     >
-      <div className="expense-list">
+      <div className="expense-list-actions-row">
         <Radio.Group
           className="custom-font"
           defaultValue={filterType}
