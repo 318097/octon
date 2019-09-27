@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
-import "./App.scss";
+import { Switch, Route, withRouter } from "react-router-dom";
+import { Spin } from "antd";
 import axios from "axios";
-import { Icon, Spin } from "antd";
-import { withRouter } from "react-router-dom";
 
 import "antd/dist/antd.css";
+import "./App.scss";
+
+import Header from "./layouts/Header";
+import Navigation from "./layouts/Navigation";
 
 import PrivateRoute from "./components/PrivateRoute";
+
 import Login from "./components/Login";
 import Register from "./components/Register";
+import PageNotFound from "./components/PageNotFound";
 import Home from "./components/Home";
 import Expenses from "./components/Expenses";
 import Todos from "./components/Todos";
-import PageNotFound from "./components/PageNotFound";
+import Timeline from "./components/timeline/Timeline";
+
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
 
@@ -45,31 +50,8 @@ const App = ({ history }) => {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <h2>Brainbox</h2>
-      </header>
-      <nav>
-        <NavLink exact activeClassName="active-link" to="/">
-          Home
-        </NavLink>
-        <NavLink exact activeClassName="active-link" to="/expenses">
-          Expenses
-        </NavLink>
-        <NavLink exact activeClassName="active-link" to="/todos">
-          Todos
-        </NavLink>
-        {loginState.loggedIn ? (
-          <NavLink to="#" className="logout" type="link" onClick={logout}>
-            Logout&nbsp;
-            <Icon type="logout" />
-          </NavLink>
-        ) : (
-          <NavLink exact activeClassName="active-link" to="/login">
-            Login&nbsp;
-            <Icon type="login" />
-          </NavLink>
-        )}
-      </nav>
+      <Header />
+      <Navigation loginState={loginState} logout={logout} />
       {loading ? (
         <div className="content">
           <Spin />
@@ -85,6 +67,7 @@ const App = ({ history }) => {
             <Route exact path="/register" component={Register} />
             <PrivateRoute exact path="/expenses" component={Expenses} />
             <PrivateRoute exact path="/todos" component={Todos} />
+            <PrivateRoute exact path="/timeline" component={Timeline} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
