@@ -1,0 +1,24 @@
+.add-icon {
+  position: absolute;
+  font-size: 17px;
+  right: 10px;
+  bottom: 10px;
+  transition: 1.5s;
+  &:hover {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+section {
+  .timeline {
+    max-height: 70vh;
+    overflow: auto;
+    padding: 15px 10px;
+    margin: 0px 20px;
+    .ant-card-body {
+      padding: 10px;
+    }
+  }
+}
+.timeline::-webkit-scrollbar {
+  width: 0 !important;
+}
