@@ -33,8 +33,8 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
     setContent("");
   };
 
-  const onClickHandler = () => () => {
-    setVisibilityStatus(true);
+  const onClickHandler = () => {
+    setVisibilityStatus(true)();
     setMode("ADD");
   };
 

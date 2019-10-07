@@ -78,7 +78,11 @@ const Timeline = () => {
                     type="edit"
                     onClick={editPost(item._id)}
                   />
-                  <Popconfirm title="Delete?" onConfirm={deletePost(item._id)}>
+                  <Popconfirm
+                    placement="bottomRight"
+                    title="Delete?"
+                    onConfirm={deletePost(item._id)}
+                  >
                     <Icon key="delete-post" type="delete" />
                   </Popconfirm>
                 </div>
@@ -87,9 +91,8 @@ const Timeline = () => {
           ))}
         </AntTimeline>
       </div>
-      {/* <Button block ghost onClick={() => setPage(page => page + 1)}>
-        Load
-      </Button> */}
+
+      {/* <Button onClick={() => setPage(page => page + 1)}>Load</Button> */}
       <AddPost
         fetchTimeline={fetchTimeline}
         post={currentPost}
