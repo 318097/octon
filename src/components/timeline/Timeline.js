@@ -1,32 +1,62 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
 import {
   Timeline as AntTimeline,
   Card,
   Icon,
-  Modal,
-  Input,
-  DatePicker,
-  Tag
+  Tag,
+  Popconfirm,
+  Button
 } from "antd";
 import axios from "axios";
 import moment from "moment";
 
-import "./Timeline.scss";
+import AddPost from "./AddPost";
 
-const { TextArea } = Input;
+import "./Timeline.scss";
 
 const Timeline = () => {
   const [data, setData] = useState([]);
+  const [currentPost, setCurrentPost] = useState(null);
+  const [page, setPage] = useState(1);
+  const [visibility, setVisibility] = useState(false);
 
   useEffect(() => {
     fetchTimeline();
   }, []);
 
+  useEffect(() => {
+    fetchTimeline();
+  }, [page]);
+
+  const setVisibilityStatus = status => () => setVisibility(status);
+
   const fetchTimeline = async () => {
     const {
       data: { timeline }
-    } = await axios.get(`/timeline`);
-    setData(timeline);
+    } = await axios.get(`/timeline`, {
+      params: {
+        page
+      }
+    });
+    if (page > 1) {
+      setData(data => [...data, ...timeline]);
+    } else {
+      setData(timeline);
+    }
+  };
+
+  const editPost = id => async () => {
+    const [post] = data.filter(post => post._id === id);
+    setCurrentPost(post);
+    setVisibility(true);
+  };
+
+  const deletePost = id => async () => {
+    // setLoading(true);
+    await axios.delete(`/timeline/${id}`);
+    fetchTimeline();
+    // setLoading(false);
   };
 
   return (
@@ -36,68 +66,37 @@ const Timeline = () => {
           {data.map(item => (
             <AntTimeline.Item color="green" key={item._id}>
               <Card>
-                <div>
+                <div style={{ flex: 1 }}>
                   <Tag color="#87d068">
                     {moment(item.date).format("DD,MMM")}
                   </Tag>
                   {item.content}
+                </div>
+                <div>
+                  <Icon
+                    key="edit-post"
+                    type="edit"
+                    onClick={editPost(item._id)}
+                  />
+                  <Popconfirm title="Delete?" onConfirm={deletePost(item._id)}>
+                    <Icon key="delete-post" type="delete" />
+                  </Popconfirm>
                 </div>
               </Card>
             </AntTimeline.Item>
           ))}
         </AntTimeline>
       </div>
-      <AddPost fetchTimeline={fetchTimeline} />
-    </section>
-  );
-};
-
-const AddPost = ({ fetchTimeline }) => {
-  const [visibility, setVisibility] = useState(false);
-  const [content, setContent] = useState("");
-  const [date, setDate] = useState(moment());
-
-  const setVisibilityStatus = status => () => setVisibility(status);
-
-  const addPost = async () => {
-    await axios.post(`/timeline`, { content, date: date.format() });
-    setVisibility(false);
-    fetchTimeline();
-    setContent("");
-  };
-
-  return (
-    <Fragment>
-      <Icon
-        className="add-icon"
-        onClick={setVisibilityStatus(true)}
-        type="plus-circle"
+      {/* <Button block ghost onClick={() => setPage(page => page + 1)}>
+        Load
+      </Button> */}
+      <AddPost
+        fetchTimeline={fetchTimeline}
+        post={currentPost}
+        visibility={visibility}
+        setVisibilityStatus={setVisibilityStatus}
       />
-      <Modal
-        visible={visibility}
-        title="Add Post"
-        onOk={addPost}
-        onCancel={setVisibilityStatus(false)}
-        okText="Submit"
-        width={380}
-      >
-        <form>
-          <DatePicker
-            className="input"
-            value={date}
-            onChange={value => setDate(value)}
-          />
-          <TextArea
-            autoFocus
-            className="input"
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            placeholder="Message"
-            rows={4}
-          />
-        </form>
-      </Modal>
-    </Fragment>
+    </section>
   );
 };
 
