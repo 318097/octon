@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin } from "antd";
@@ -29,8 +30,18 @@ const App = ({ history }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loggedIn = isLoggedIn();
-    setLoginState({ loggedIn, info: "ACTIVE" });
+    const isAccountActive = async () => {
+      if (isLoggedIn()) {
+        try {
+          const token = getToken();
+          await axios.post(`/auth/account-status`, { token });
+          setLoginState({ loggedIn: true, info: "ON_LOAD" });
+        } catch (err) {
+          logout();
+        }
+      }
+    };
+    isAccountActive();
   }, []);
 
   useEffect(() => {
