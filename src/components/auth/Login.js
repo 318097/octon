@@ -4,7 +4,7 @@ import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 
-import { setToken, isLoggedIn } from "../authService";
+import { setToken, isLoggedIn } from "../../authService";
 import "./Login.scss";
 
 class Login extends Component {

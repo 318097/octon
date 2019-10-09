@@ -9,14 +9,14 @@ import "./App.scss";
 import Header from "./layouts/Header";
 import Navigation from "./layouts/Navigation";
 
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/auth/PrivateRoute";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 import PageNotFound from "./components/PageNotFound";
 import Home from "./components/Home";
-import Expenses from "./components/Expenses";
-import Todos from "./components/Todos";
+import Expenses from "./components/expense/Expenses";
+import Todos from "./components/todos/Todos";
 import Timeline from "./components/timeline/Timeline";
 
 import { getToken, isLoggedIn } from "./authService";

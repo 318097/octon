@@ -3,7 +3,7 @@ import { Button, Icon } from "antd";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
-import config from "../config";
+import config from "../../config";
 
 class GoogleAuth extends Component {
   constructor(props) {
