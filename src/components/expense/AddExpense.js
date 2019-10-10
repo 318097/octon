@@ -1,0 +1,176 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect, Fragment } from "react";
+import {
+  Radio,
+  InputNumber,
+  Input,
+  Button,
+  DatePicker,
+  Icon,
+  message,
+  Card
+} from "antd";
+import moment from "moment";
+import axios from "axios";
+import "./Expenses.scss";
+
+const AddExpense = ({
+  setAppLoading,
+  fetchExpenseByMonth,
+  currentExpense,
+  setVisibilityStatus,
+  mode
+}) => {
+  const [expenseTypes, setExpenseTypes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [expense, setExpense] = useState({
+    expenseGroup: "PERSONAL",
+    expenseTypeId: null,
+    amount: null,
+    message: "",
+    date: moment()
+  });
+
+  useEffect(() => {
+    fetchExpensesTypes();
+  }, []);
+
+  useEffect(() => {
+    if (!currentExpense) return;
+    setExpense({ ...currentExpense, date: moment(currentExpense.date) });
+  }, [currentExpense]);
+
+  const saveExpense = async () => {
+    setLoading(true);
+
+    if (mode === "ADD") await axios.post(`/expenses`, { ...expense });
+    else await axios.put(`/expenses/${expense._id}`, { ...expense });
+
+    setExpense({ ...expense, amount: null, message: null });
+    if (mode === "EDIT") setVisibilityStatus("editExpenseModal", false);
+    message.success("Success");
+    fetchExpenseByMonth();
+    setLoading(false);
+  };
+
+  const fetchExpensesTypes = async () => {
+    setAppLoading(true);
+    const {
+      data: { expenseTypes }
+    } = await axios.get(`/expenses/types`);
+    setExpenseTypes(expenseTypes);
+    if (mode === "ADD") setData("expenseTypeId", expenseTypes[0]["_id"]);
+    setAppLoading(false);
+  };
+
+  const setData = (key, value) => {
+    const data = expense;
+    data[key] = value;
+    setExpense({ ...data });
+  };
+
+  return (
+    <Fragment>
+      <DatePicker
+        allowClear={false}
+        className="input"
+        onChange={date => setData("date", date)}
+        value={expense.date}
+        placeholder="Select month"
+      />
+
+      <Radio.Group
+        className="input"
+        value={expense.expenseGroup}
+        buttonStyle="solid"
+        onChange={e => setData("expenseGroup", e.target.value)}
+      >
+        <Radio.Button value="PERSONAL">Personal</Radio.Button>
+        <Radio.Button value="HOME">Home</Radio.Button>
+      </Radio.Group>
+
+      <h4>
+        Select Type&nbsp;
+        {mode === "ADD" && (
+          <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
+        )}
+      </h4>
+
+      <Radio.Group
+        className="input"
+        value={expense.expenseTypeId}
+        onChange={e => setData("expenseTypeId", e.target.value)}
+      >
+        {expenseTypes.map(type => (
+          <Radio key={type._id} value={type._id}>
+            {type.name}
+          </Radio>
+        ))}
+      </Radio.Group>
+      <br />
+      <InputNumber
+        className="input"
+        min={1}
+        placeholder="Amount"
+        value={expense.amount}
+        onChange={value => setData("amount", value)}
+      />
+      <br />
+      <Input
+        className="input"
+        placeholder="Message"
+        value={expense.message}
+        onChange={e => setData("message", e.target.value)}
+      />
+      <br />
+      <Button
+        className="input"
+        type="primary"
+        loading={loading}
+        onClick={saveExpense}
+        disabled={!expense.amount}
+      >
+        {mode === "ADD" ? "Add" : "Update"}
+      </Button>
+    </Fragment>
+  );
+};
+
+const AddExpenseType = ({ fetchExpensesTypes }) => {
+  const [expenseType, setExpenseType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [visibility, setVisibility] = useState(false);
+
+  const addExpenseType = async () => {
+    setLoading(true);
+    await axios.post(`/expenses/types`, { name: expenseType });
+    message.success("Success");
+    fetchExpensesTypes();
+    setVisibility(false);
+    setLoading(false);
+  };
+
+  return (
+    <Fragment>
+      {visibility ? (
+        <Icon type="minus-circle" onClick={() => setVisibility(false)} />
+      ) : (
+        <Icon type="plus-circle" onClick={() => setVisibility(true)} />
+      )}
+      {visibility && (
+        <Card className="custom-card">
+          <Input
+            className="input"
+            placeholder="Expense Type"
+            onChange={e => setExpenseType(e.target.value)}
+          />
+          <Button className="input" onClick={addExpenseType} loading={loading}>
+            Add
+          </Button>
+        </Card>
+      )}
+    </Fragment>
+  );
+};
+
+export default AddExpense;

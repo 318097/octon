@@ -185,7 +185,11 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
         className={todoStatus ? "success" : null}
         onClick={() => (todoStatus ? null : markTodo(_id, type))}
       />,
-      <Popconfirm title="Delete?" onConfirm={() => deleteTodo(_id)}>
+      <Popconfirm
+        placement="bottomRight"
+        title="Delete?"
+        onConfirm={() => deleteTodo(_id)}
+      >
         <Icon type="delete" />
       </Popconfirm>
     ];
