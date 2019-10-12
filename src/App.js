@@ -19,6 +19,7 @@ import Home from "./components/Home";
 import Expenses from "./components/expense/Expenses";
 import Todos from "./components/todos/Todos";
 import Timeline from "./components/timeline/Timeline";
+import Posts from "./components/posts/Posts";
 
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
@@ -79,6 +80,7 @@ const App = ({ history }) => {
             <PrivateRoute exact path="/expenses" component={Expenses} />
             <PrivateRoute exact path="/todos" component={Todos} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
+            <PrivateRoute exact path="/posts" component={Posts} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>

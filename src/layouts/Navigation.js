@@ -19,6 +19,9 @@ const Navigation = ({ loginState, logout }) => {
       <NavLink exact activeClassName="active-link" to="/timeline">
         Timeline
       </NavLink>
+      <NavLink exact activeClassName="active-link" to="/posts">
+        Posts
+      </NavLink>
       {loginState.loggedIn ? (
         <NavLink to="#" className="logout" type="link" onClick={logout}>
           Logout&nbsp;
