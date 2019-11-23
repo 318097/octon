@@ -31,12 +31,7 @@ import { setSession } from './store/app/actions';
 axios.defaults.baseURL = config.SERVER_URL;
 
 const App = ({ history, session, setSession }) => {
-  const [loginState, setLoginState] = useState({ loggedIn: false, info: "" });
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    console.log('SESSSSSION:', session);
-  }, [session]);
 
   useEffect(() => {
     const isAccountActive = async () => {
@@ -44,9 +39,9 @@ const App = ({ history, session, setSession }) => {
         try {
           const token = getToken();
           await axios.post(`/auth/account-status`, { token });
-          setLoginState({ loggedIn: true, info: "ON_LOAD" });
+          setSession({ loggedIn: true, info: "ON_LOAD" });
         } catch (err) {
-          logout();
+          console.log(err);
         }
       }
     };
@@ -54,24 +49,18 @@ const App = ({ history, session, setSession }) => {
   }, []);
 
   useEffect(() => {
-    if (loginState) {
+    if (session) {
       const setAxiosHeaderToken = () =>
         (axios.defaults.headers.common["authorization"] = getToken());
       setAxiosHeaderToken();
     }
     setTimeout(() => setLoading(false), 1000);
-  }, [loginState]);
-
-  const logout = () => {
-    setLoginState({ loggedIn: false });
-    localStorage.clear();
-    history.push("/login");
-  };
+  }, [session]);
 
   return (
     <div className="app">
       <Header />
-      <Navigation loginState={loginState} logout={logout} />
+      <Navigation />
       {loading ? (
         <div className="content">
           <Spin />
@@ -79,11 +68,7 @@ const App = ({ history, session, setSession }) => {
       ) : (
           <div className="content">
             <Switch>
-              <Route
-                exact
-                path="/login"
-                component={() => <Login setLoginState={setLoginState} />}
-              />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
               <PrivateRoute exact path="/expenses" component={Expenses} />
               <PrivateRoute exact path="/todos" component={Todos} />

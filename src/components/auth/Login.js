@@ -3,8 +3,13 @@ import { Input, Button, message, Divider } from "antd";
 import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
 
 import { setToken, isLoggedIn } from "../../authService";
+
+import { getSession } from '../../store/app/selectors';
+import { setSession } from '../../store/app/actions';
+
 import "./Login.scss";
 
 class Login extends Component {
@@ -31,7 +36,8 @@ class Login extends Component {
       });
 
       setToken(data.token);
-      this.props.setLoginState({ loggedIn: true, info: "LOGIN" });
+
+      this.props.setSession({ loggedIn: true, info: "LOGIN" });
       this.props.history.push("/");
     } catch (err) {
       message.error(err.message);
@@ -78,4 +84,8 @@ class Login extends Component {
   }
 }
 
-export default withRouter(Login);
+const mapStateToProps = state => ({ session: getSession(state) });
+
+const mapDispatchToProps = ({ setSession });
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
