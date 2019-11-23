@@ -1,7 +1,8 @@
-import { SET_APP_LOADING } from '../constants/app';
+import { SET_APP_LOADING, SET_SESSION } from './constants';
 
 const initialState = {
-  appLoading: false
+  appLoading: false,
+  session: null,
 };
 
 const appReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         appLoading: action.payload
+      }
+    case SET_SESSION:
+      return {
+        ...state,
+        session: action.payload
       }
     default:
       return state;

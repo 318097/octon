@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin } from "antd";
 import axios from "axios";
+import { connect } from 'react-redux';
 
 import "antd/dist/antd.css";
 import "./App.scss";
@@ -24,11 +25,18 @@ import Posts from "./components/posts/Posts";
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
 
+import { getSession } from './store/app/selectors';
+import { setSession } from './store/app/actions';
+
 axios.defaults.baseURL = config.SERVER_URL;
 
-const App = ({ history }) => {
+const App = ({ history, session, setSession }) => {
   const [loginState, setLoginState] = useState({ loggedIn: false, info: "" });
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log('SESSSSSION:', session);
+  }, [session]);
 
   useEffect(() => {
     const isAccountActive = async () => {
@@ -69,25 +77,29 @@ const App = ({ history }) => {
           <Spin />
         </div>
       ) : (
-        <div className="content">
-          <Switch>
-            <Route
-              exact
-              path="/login"
-              component={() => <Login setLoginState={setLoginState} />}
-            />
-            <Route exact path="/register" component={Register} />
-            <PrivateRoute exact path="/expenses" component={Expenses} />
-            <PrivateRoute exact path="/todos" component={Todos} />
-            <PrivateRoute exact path="/timeline" component={Timeline} />
-            <PrivateRoute exact path="/posts" component={Posts} />
-            <Route exact path="/" component={Home} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </div>
-      )}
+          <div className="content">
+            <Switch>
+              <Route
+                exact
+                path="/login"
+                component={() => <Login setLoginState={setLoginState} />}
+              />
+              <Route exact path="/register" component={Register} />
+              <PrivateRoute exact path="/expenses" component={Expenses} />
+              <PrivateRoute exact path="/todos" component={Todos} />
+              <PrivateRoute exact path="/timeline" component={Timeline} />
+              <PrivateRoute exact path="/posts" component={Posts} />
+              <Route exact path="/" component={Home} />
+              <Route component={PageNotFound} />
+            </Switch>
+          </div>
+        )}
     </div>
   );
 };
 
-export default withRouter(App);
+const mapStateToProps = state => ({ session: getSession(state) });
+
+const mapDispatchToProps = ({ setSession });
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
