@@ -2,11 +2,10 @@ import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { Icon } from "antd";
 import { connect } from 'react-redux';
+import './Navigation.scss';
 
 import { getSession } from '../store/app/selectors';
 import { setSession } from '../store/app/actions';
-
-import "./Navigation.scss";
 
 const Navigation = ({ history, session, setSession }) => {
   const logout = () => {

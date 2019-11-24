@@ -1,9 +1,9 @@
 @import "theme.scss";
 
 .app {
-  margin: 20px auto;
+  padding: 0;
+  margin: 0px auto;
   width: 97%;
-  max-width: 400px;
   background: $app-background;
 
   div.content {

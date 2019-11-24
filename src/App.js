@@ -9,7 +9,6 @@ import "antd/dist/antd.css";
 import "./App.scss";
 
 import Header from "./layouts/Header";
-import Navigation from "./layouts/Navigation";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
@@ -30,7 +29,7 @@ import { setSession } from './store/app/actions';
 
 axios.defaults.baseURL = config.SERVER_URL;
 
-const App = ({ history, session, setSession }) => {
+const App = ({ session, setSession }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -60,7 +59,6 @@ const App = ({ history, session, setSession }) => {
   return (
     <div className="app">
       <Header />
-      <Navigation />
       {loading ? (
         <div className="content">
           <Spin />
