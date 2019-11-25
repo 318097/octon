@@ -8,6 +8,9 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  @media (max-width: 480px){
+    flex-direction: column;
+  }
   h2 {
     font-weight: bold;
     margin: 0;
