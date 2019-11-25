@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, Button, Modal, Icon, List, Popconfirm, Spin } from "antd";
+import { Radio, PageHeader, Modal, Icon, List, Popconfirm, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
 import "./Expenses.scss";
@@ -9,17 +9,13 @@ import AddExpense from "./AddExpense";
 const calculateTotal = expenses =>
   expenses.reduce((acc, { amount }) => amount + acc, 0);
 
-const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
+const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseListVisibilityStatus }) => {
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const [visibility, setVisibility] = useState({
-    expenseListModal: false,
-    editExpenseModal: false
-  });
+  const [editExpenseVisibility, setEditExpenseVisibility] = useState(false);
 
   useEffect(() => {
     const filterData = () => {
@@ -34,13 +30,6 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     filterData();
   }, [list, filterType]);
 
-  const setVisibilityStatus = (key, value) => {
-    setVisibility({
-      ...visibility,
-      [key]: value
-    });
-  };
-
   const deleteExpense = id => async () => {
     setLoading(true);
     await axios.delete(`/expenses/${id}`);
@@ -52,26 +41,17 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     const [expenseById] = dataSource.filter(expense => expense._id === id);
 
     setEditExpense({ ...expenseById });
-    setVisibilityStatus("editExpenseModal", true);
+    setEditExpenseVisibility(true);
   };
 
-  const expenseTitle = (
-    <div className="custom-font">
-      Expenses{" "}
-      <span className="expense-list-month">({date.format("MMM 'YY")})</span>
-      &nbsp;
-      <span>{loading && <Spin size="small" />}</span>
-    </div>
-  );
-
-  const actionButton = [
-    <Button
-      key="back"
-      onClick={() => setVisibilityStatus("expenseListModal", false)}
-    >
-      Close
-    </Button>
-  ];
+  // const actionButton = [
+  //   <Button
+  //     key="back"
+  //     onClick={() => setVisibilityStatus("expenseListModal", false)}
+  //   >
+  //     Close
+  //   </Button>
+  // ];
 
   const renderItem = row => {
     const date = moment(row.date).format("DD/MM");
@@ -108,24 +88,23 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
 
   return (
     <Fragment>
-      <Icon
-        key="list-expenses"
-        onClick={() => setVisibilityStatus("expenseListModal", true)}
-        type="wallet"
-      />
-      <Modal
-        visible={visibility.expenseListModal}
-        title={expenseTitle}
-        onCancel={() => setVisibilityStatus("expenseListModal", false)}
-        footer={actionButton}
-        width={380}
-      >
-        <div className="flex-row">
+      <div>
+        <PageHeader
+          title={
+            <div className="expense-list-header custom-font">
+              Expenses{" "}
+              <span className="month">({date.format("MMM 'YY")})</span>
+              &nbsp;
+              <span>{loading && <Spin size="small" />}</span>
+            </div>
+          }
+        />
+        <div className="expense-list-actions">
           <Radio.Group
             className="custom-font"
             defaultValue={filterType}
             buttonStyle="solid"
-            onChange={e => setFilterType(e.target.value)}
+            onChange={({ target: { value } }) => setFilterType(value)}
           >
             <Radio.Button value="ALL">All</Radio.Button>
             <Radio.Button value="PERSONAL">Personal</Radio.Button>
@@ -142,19 +121,19 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
           dataSource={dataSource}
           renderItem={renderItem}
         />
-      </Modal>
+      </div>
 
       <Modal
-        visible={visibility.editExpenseModal}
+        visible={editExpenseVisibility}
         title="Edit Expense"
         width={380}
-        onCancel={() => setVisibilityStatus("editExpenseModal", false)}
+        onCancel={() => setEditExpenseVisibility(false)}
         footer={[]}
       >
         <AddExpense
           fetchExpenseByMonth={fetchExpenseByMonth}
           currentExpense={editExpense}
-          setVisibilityStatus={setVisibilityStatus}
+          setVisibilityStatus={setEditExpenseVisibility}
           mode="EDIT"
           setAppLoading={setAppLoading}
         />

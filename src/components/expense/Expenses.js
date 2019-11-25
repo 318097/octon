@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
-import { DatePicker, Card, Spin, PageHeader } from "antd";
+import { DatePicker, Card, Spin, PageHeader, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
 import "./Expenses.scss";
 
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
+import Resize from '../utils/Resize';
 
 const { MonthPicker } = DatePicker;
 
@@ -18,6 +19,8 @@ const Expenses = () => {
   const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
   const [loading, setLoading] = useState(false);
+
+  const [expenseListVisibilityStatus, setExpenseListVisibilityStatus] = useState(false);
 
   useEffect(() => {
     fetchExpenseByMonth();
@@ -38,8 +41,8 @@ const Expenses = () => {
   };
 
   return (
-    <section>
-      <Card className="container">
+    <section id="expenses">
+      <Card className="card">
         <PageHeader
           title={
             <Fragment>
@@ -60,12 +63,10 @@ const Expenses = () => {
             <span key="total" className="total">
               Rs/- {total}
             </span>,
-            <ExpenseList
-              key="expense-list"
-              list={expenseList}
-              fetchExpenseByMonth={fetchExpenseByMonth}
-              date={date}
-              setAppLoading={setLoading}
+            <Icon
+              key="list-expenses"
+              onClick={() => setExpenseListVisibilityStatus(true)}
+              type="wallet"
             />
           ]}
         />
@@ -75,6 +76,21 @@ const Expenses = () => {
           mode="ADD"
         />
       </Card>
+      <Resize
+        modalProps={{
+          visible: expenseListVisibilityStatus,
+          setVisibility: setExpenseListVisibilityStatus,
+          title: "",
+          width: 380,
+          onCancel: () => setExpenseListVisibilityStatus(false),
+          footer: null
+        }}
+        component={ExpenseList}
+        list={expenseList}
+        fetchExpenseByMonth={fetchExpenseByMonth}
+        date={date}
+        setAppLoading={setLoading}
+      />
     </section>
   );
 };

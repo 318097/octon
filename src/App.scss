@@ -17,17 +17,10 @@
       transform: translate(-50%, -50%);
     }
     section {
-      padding: 20px 5px;
+      padding: 20px 10px;
       &.center {
         text-align: center;
       }
     }
   }
-}
-
-.flex-row {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 5px;
 }

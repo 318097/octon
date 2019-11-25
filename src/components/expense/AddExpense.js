@@ -47,7 +47,7 @@ const AddExpense = ({
     else await axios.put(`/expenses/${expense._id}`, { ...expense });
 
     setExpense({ ...expense, amount: null, message: null });
-    if (mode === "EDIT") setVisibilityStatus("editExpenseModal", false);
+    if (mode === "EDIT") setVisibilityStatus(false);
     message.success("Success");
     fetchExpenseByMonth();
     setLoading(false);
@@ -155,8 +155,8 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
       {visibility ? (
         <Icon type="minus-circle" onClick={() => setVisibility(false)} />
       ) : (
-        <Icon type="plus-circle" onClick={() => setVisibility(true)} />
-      )}
+          <Icon type="plus-circle" onClick={() => setVisibility(true)} />
+        )}
       {visibility && (
         <Card className="custom-card">
           <Input
