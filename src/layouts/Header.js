@@ -5,6 +5,10 @@ import Navigation from "./Navigation";
 
 const StyledHeader = styled.header`
   display: flex;
+  position: sticky;
+  z-index: 10;
+  background: white;
+  top: 0;
   justify-content: space-between;
   align-items: center;
   padding: 10px;

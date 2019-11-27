@@ -1,3 +1,5 @@
+@import "theme.scss";
+
 @font-face {
   font-family: Barriecito-Regular;
   src: url("./assets/fonts/Barriecito-Regular.ttf");
@@ -48,11 +50,16 @@ button,
 }
 
 body {
-  background: url("./assets/backgrounds/concrete-texture.png");
-  overflow: hidden;
+  background: $app-background;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100vh;
   width: 100vw;
   margin: 0;
+  #root{
+    height: 100%;
+    width: 100%;
+  }
   .input {
     margin: 5px;
   }

@@ -20,6 +20,7 @@ import Expenses from "./components/expense/Expenses";
 import Todos from "./components/todos/Todos";
 import Timeline from "./components/timeline/Timeline";
 import Posts from "./components/posts/Posts";
+import PostView from "./components/posts/PostView";
 
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
@@ -72,6 +73,7 @@ const App = ({ session, setSession }) => {
               <PrivateRoute exact path="/todos" component={Todos} />
               <PrivateRoute exact path="/timeline" component={Timeline} />
               <PrivateRoute exact path="/posts" component={Posts} />
+              <PrivateRoute exact path="/posts/:id" component={PostView} />
               <Route exact path="/" component={Home} />
               <Route component={PageNotFound} />
             </Switch>

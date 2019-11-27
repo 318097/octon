@@ -208,6 +208,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
 
   return (
     <List
+      style={{ background: 'white' }}
       size="small"
       header={`Todos: ${type}`}
       footer={<div>Footer</div>}

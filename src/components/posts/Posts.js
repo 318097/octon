@@ -1,9 +1,29 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { PageHeader, Card } from "antd";
+import React, { useState, useEffect } from "react";
+import { PageHeader } from "antd";
 import axios from "axios";
-import AddPost from "./addPost";
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-const Posts = () => {
+import Card from './Card';
+
+const Container = styled.div`
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+.post-wrapper{
+  width: 215px;
+  height: 115px;
+  margin: 7px;
+  cursor: pointer;
+  position: relative;
+  .card{
+    padding: 5px;
+    overflow: hidden;
+  }
+}
+`
+
+const Posts = ({ history }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -17,20 +37,28 @@ const Posts = () => {
     setPosts(posts);
   };
 
+  const handleClick = _id => () => history.push(`/posts/${_id}`);
+
   return (
     <section>
       <PageHeader
         title="Posts"
-        extra={[<AddPost fetchPosts={fetchPosts} key="add-post" />]}
       />
-      {posts.map(post => (
-        <Card key={post._id}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
-        </Card>
-      ))}
+      <Container>
+        {
+          posts.map(post => (
+            <div
+              className="post-wrapper"
+              onClick={handleClick(post._id)}
+              key={post._id}
+            >
+              <Card post={post} />
+            </div>
+          ))
+        }
+      </Container>
     </section>
   );
 };
 
-export default Posts;
+export default withRouter(Posts);
