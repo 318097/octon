@@ -1,11 +1,6 @@
 @import "theme.scss";
 
 @font-face {
-  font-family: Barriecito-Regular;
-  src: url("./assets/fonts/Barriecito-Regular.ttf");
-}
-
-@font-face {
   font-family: Neucha-Regular;
   src: url("./assets/fonts/Neucha-Regular.ttf");
 }
@@ -13,16 +8,6 @@
 @font-face {
   font-family: PoiretOne-Regular;
   src: url("./assets/fonts/PoiretOne-Regular.ttf");
-}
-
-@font-face {
-  font-family: AmaticSC-Bold;
-  src: url("./assets/fonts/AmaticSC-Bold.ttf");
-}
-
-@font-face {
-  font-family: ArchitectsDaughter-Regular;
-  src: url("./assets/fonts/ArchitectsDaughter-Regular.ttf");
 }
 
 @font-face {
@@ -35,6 +20,16 @@
   src: url("./assets/fonts/HiMelody-Regular.ttf");
 }
 
+@font-face {
+  font-family: LuckiestGuy-Regular;
+  src: url("./assets/fonts/LuckiestGuy-Regular.ttf");
+}
+
+@font-face {
+  font-family: SairaExtraCondensed-Bold;
+  src: url("./assets/fonts/SairaExtraCondensed-Bold.ttf");
+}
+
 #root,
 .custom-font,
 .input,
@@ -43,7 +38,7 @@ button,
 .ant-btn,
 .ant-calendar-month-panel-cell,
 .ant-checkbox-group {
-  font-family: ArchitectsDaughter-Regular;
+  font-family: SairaExtraCondensed-Bold;
 }
 .ant-modal-body {
   padding: 12px !important;
