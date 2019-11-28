@@ -1,0 +1,36 @@
+.bg-white{
+  background: white;
+}
+
+.mt{
+  margin-top: 10px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.custom-header{
+  position: relative;
+  &:after{
+    content: '';
+    width: 110%;
+    height: 4px;
+    background: $tommy;
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+  }
+}
+
+.input {
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+.defaults{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

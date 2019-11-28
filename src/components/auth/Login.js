@@ -10,8 +10,6 @@ import { setToken, isLoggedIn } from "../../authService";
 import { getSession } from '../../store/app/selectors';
 import { setSession } from '../../store/app/actions';
 
-import "./Login.scss";
-
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -40,8 +38,8 @@ class Login extends Component {
       this.props.setSession({ loggedIn: true, info: "LOGIN" });
       this.props.history.push("/");
     } catch (err) {
-      message.error(err.message);
-      console.log(err);
+      const { data: errorMessage } = err.response;
+      message.error(errorMessage);
     }
   };
 
@@ -50,8 +48,8 @@ class Login extends Component {
   render() {
     const { username, password } = this.state;
     return (
-      <section className="center">
-        <h3>Login</h3>
+      <section id="login">
+        <h3 className="text-center"><span className="custom-header">Login</span></h3>
         <form>
           <Input
             className="input"

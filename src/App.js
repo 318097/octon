@@ -72,8 +72,8 @@ const App = ({ session, setSession }) => {
               <PrivateRoute exact path="/expenses" component={Expenses} />
               <PrivateRoute exact path="/todos" component={Todos} />
               <PrivateRoute exact path="/timeline" component={Timeline} />
-              <PrivateRoute exact path="/posts" component={Posts} />
-              <PrivateRoute exact path="/posts/:id" component={PostView} />
+              <Route exact path="/posts" component={Posts} />
+              <Route exact path="/posts/:id" component={PostView} />
               <Route exact path="/" component={Home} />
               <Route component={PageNotFound} />
             </Switch>

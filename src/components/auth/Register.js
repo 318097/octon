@@ -43,8 +43,8 @@ class Register extends Component {
       return <Redirect to="/login" />;
     }
     return (
-      <section className="center">
-        <h3>Register</h3>
+      <section id="register">
+        <h3 className="text-center"><span className="custom-header">Register</span></h3>
         <form>
           <Input
             className="input"

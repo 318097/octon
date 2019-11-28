@@ -36,6 +36,7 @@ flex-direction: column;
   }
 }
 .tags{
+  text-align: left;
   .ant-tag{
     margin-right: 3px;
     padding: 0px 4px;

@@ -1,4 +1,5 @@
 @import 'theme.scss';
+@import 'custom-styles.scss';
 
 .app {
   padding: 0;
@@ -18,21 +19,32 @@
     }
     & > section {
       padding: 20px 10px;
-      &.center {
-        text-align: center;
+      &#login, &#register{
+          width: 100%;
+          max-width: 320px;
+          margin: 20px auto;
+          padding: 30px 20px 60px;
+          overflow: hidden;
+          position: relative;
+          border-radius: 10px;
+          @extend .bg-white;
+          @extend .text-center;
+          &:after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            left: 0;
+            bottom: 0px;
+            height: 7px;
+            background: lightgrey;
+
+
+          }
+          .ant-input, .ant-input-password{
+            margin-left: 0;
+            margin-right: 0;
+          }
       }
-    }
-  }
-  .custom-header{
-    position: relative;
-    &:after{
-      content: '';
-      width: 110%;
-      height: 4px;
-      background: $tommy;
-      position: absolute;
-      bottom: 1px;
-      left: 0;
     }
   }
 }

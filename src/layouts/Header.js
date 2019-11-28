@@ -15,6 +15,7 @@ const StyledHeader = styled.header`
   padding: 5px 15px;
   @media (max-width: 480px){
     flex-direction: column;
+    padding-bottom: 12px;
   }
   h2 {
     margin: 0;
