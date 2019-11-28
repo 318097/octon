@@ -44,7 +44,7 @@ const PostView = ({ history, match }) => {
     setPost(post);
   };
 
-  const handleNavigateBack = () => history.push(`/posts`);
+  // const handleNavigateBack = () => history.push(`/posts`);
 
   return (
     <section>
@@ -53,7 +53,7 @@ const PostView = ({ history, match }) => {
           <Icon type="caret-left" />
         </div> */}
         <div className="post-wrapper">
-          <Card post={post} disableClick={true} />
+          <Card post={post} disableClick={true} view="EXPANDED" />
         </div>
       </Container>
     </section>

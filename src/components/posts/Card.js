@@ -48,7 +48,7 @@ const Card = ({
   history,
   post,
   view = 'CARD',
-  disableClick = false
+  disableClick = false,
 }) => {
   const { title = '', content = '', type = 'DROP', tags = [], id } = post || {};
 
@@ -63,13 +63,16 @@ const Card = ({
 
   return (
     <Wrapper className="card">
-      {type && <h3 className="title">{title}</h3>}
-      <div
-        onClick={handleClick}
-        className="content"
-        dangerouslySetInnerHTML={{ __html: marked(content) }}
-      >
-      </div>
+      {type === 'POST' && <h3 className="title">{title}</h3>}
+      {
+        (type === 'DROP' || view === 'EXPANDED') &&
+        <div
+          onClick={handleClick}
+          className="content"
+          dangerouslySetInnerHTML={{ __html: marked(content) }}
+        >
+        </div>
+      }
       <div className="tags">
         {tags.map((tag, index) => <Tag key={index}>{tag.toUpperCase()}</Tag>)}
       </div>
