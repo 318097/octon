@@ -1,8 +1,12 @@
+@import '../../theme.scss';
+
 section#expenses{
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   .card {
     margin: 0 5px;
+    padding: 0 10px 20px;
     flex:1 1 48%;
     .custom-card {
       background: rgb(240, 240, 240);
@@ -34,6 +38,12 @@ section#expenses{
     color: grey;
     font-style: italic;
   }
+
+  span.total.background{
+    padding: 3px 15px 3px 3px;
+    background: $tommy;
+    color: white;
+  }
   
   .message {
     font-style: italic;
@@ -44,8 +54,8 @@ section#expenses{
 
 .ant-modal{
   .ant-page-header{
-        padding: 5px;
-      }
+      padding: 5px;
+    }
 }
 
 .expense-list-header {
@@ -53,7 +63,7 @@ section#expenses{
     font-size: 12px;
     font-style: italic;
     font-weight: bold;
-    color: tomato;
+    color: $tommy;
   }
 }
 .expense-list-actions{
@@ -61,6 +71,7 @@ section#expenses{
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+  padding: 0 2px;
 }
 
 .expense-list-container {

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { PageHeader } from "antd";
 import axios from "axios";
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
 import Card from './Card';
+
+import './Posts.scss';
 
 const Container = styled.div`
 display: flex;
@@ -40,10 +41,12 @@ const Posts = ({ history }) => {
   const handleClick = _id => () => history.push(`/posts/${_id}`);
 
   return (
-    <section>
-      <PageHeader
-        title="Posts"
-      />
+    <section id="posts">
+      <div>
+        <h3 className="custom-header">
+          Posts
+        </h3>
+      </div>
       <Container>
         {
           posts.map(post => (

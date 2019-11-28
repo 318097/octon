@@ -46,10 +46,10 @@ const Todos = () => {
   };
 
   return (
-    <section>
+    <section id="todos">
       <div className="todo-header">
         <div>
-          <h3>Todos</h3>
+          <h3 className="custom-header">Todos</h3>
           <Radio.Group
             defaultValue={todoType}
             buttonStyle="solid"

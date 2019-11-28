@@ -110,11 +110,11 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseLi
             <Radio.Button value="PERSONAL">Personal</Radio.Button>
             <Radio.Button value="HOME">Home</Radio.Button>
           </Radio.Group>
-          <span className="custom-font total">Total: Rs/-{total}</span>
+          <span className="custom-font total background">Total: Rs/-{total}</span>
         </div>
 
         <List
-          style={{ maxHeight: "40vh", overflowY: "auto" }}
+          style={{ maxHeight: "50vh", overflowY: "auto" }}
           itemLayout="horizontal"
           size="small"
           bordered

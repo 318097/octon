@@ -52,7 +52,7 @@ const Card = ({
 }) => {
   const { title = '', content = '', type = 'DROP', tags = [], id } = post || {};
 
-  const handleFavorite = () => { };
+  // const handleFavorite = () => { };
 
   const handleClick = () => {
     if (disableClick) return;

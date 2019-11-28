@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { PageHeader } from "antd";
+import { Icon } from "antd";
 import axios from "axios";
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
@@ -7,6 +7,15 @@ import { withRouter } from 'react-router-dom';
 import Card from './Card';
 
 const Container = styled.div`
+.controls{
+  width: 300px;
+  background: white;
+  margin: 0 auto;
+  padding: 5px 20px;
+  position: relative;
+  bottom: 12px;
+  border-radius: 10px;
+}
 .post-wrapper{
   width: 45vw;
   height: 60vh;
@@ -35,14 +44,15 @@ const PostView = ({ history, match }) => {
     setPost(post);
   };
 
-  const handleClick = _id => () => history.push(`/posts`);
+  const handleNavigateBack = () => history.push(`/posts`);
 
   return (
     <section>
       <Container>
-        <div
-          className="post-wrapper"
-        >
+        {/* <div className="controls">
+          <Icon type="caret-left" />
+        </div> */}
+        <div className="post-wrapper">
           <Card post={post} disableClick={true} />
         </div>
       </Container>

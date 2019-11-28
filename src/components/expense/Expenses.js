@@ -46,7 +46,9 @@ const Expenses = () => {
         <PageHeader
           title={
             <Fragment>
-              Expenses&nbsp;
+              <span className="custom-header">
+                Expenses&nbsp;
+              </span>
               {loading && <Spin size="small" />}
             </Fragment>
           }

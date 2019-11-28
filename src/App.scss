@@ -1,9 +1,10 @@
+@import 'theme.scss';
+
 .app {
   padding: 0;
   margin: 0px;
   width: 100%;
   height: 100%;
-  background: url("./assets/backgrounds/concrete-texture.png");
   display: flex;
   flex-direction: column;
   & > div.content {
@@ -20,6 +21,18 @@
       &.center {
         text-align: center;
       }
+    }
+  }
+  .custom-header{
+    position: relative;
+    &:after{
+      content: '';
+      width: 110%;
+      height: 4px;
+      background: $tommy;
+      position: absolute;
+      bottom: 1px;
+      left: 0;
     }
   }
 }
