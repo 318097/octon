@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { Input, Button, message, Divider } from "antd";
 import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
@@ -10,76 +11,72 @@ import { setToken, isLoggedIn } from "../../authService";
 import { getSession } from '../../store/app/selectors';
 import { setSession } from '../../store/app/actions';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: ""
-    };
-  }
+const Login = ({ history, setSession }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  componentWillMount() {
-    if (isLoggedIn()) {
-      this.props.history.push("/");
-    }
-  }
+  const [loading, setLoading] = useState(false);
 
-  handleLogin = async () => {
-    const { username, password } = this.state;
+  useEffect(() => {
+    if (isLoggedIn())
+      history.push("/");
+  }, []);
+
+  const handleLogin = async () => {
+    setLoading(true);
     try {
-      const { data } = await axios.post("/auth/login", {
-        username,
-        password
-      });
+      const { data } = await axios.post("/auth/login", { username, password });
 
       setToken(data.token);
 
-      this.props.setSession({ loggedIn: true, info: "LOGIN" });
-      this.props.history.push("/");
+      setSession({ loggedIn: true, info: "LOGIN" });
+      history.push("/");
     } catch (err) {
       const { data: errorMessage } = err.response;
       message.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
-  handleInput = key => event => this.setState({ [key]: event.target.value });
-
-  render() {
-    const { username, password } = this.state;
-    return (
-      <section id="login">
-        <h3 className="text-center"><span className="custom-header">Login</span></h3>
-        <form>
-          <Input
-            className="input"
-            value={username}
-            onChange={this.handleInput("username")}
-            placeholder="Username"
-          />
-          <Input.Password
-            className="input"
-            value={password}
-            onPressEnter={this.handleLogin}
-            onChange={this.handleInput("password")}
-            placeholder="Password"
-          />
-          <br />
-          <Button
-            className="input"
-            onClick={() => this.props.history.push("/register")}
-          >
-            Register
-          </Button>
-          <Button className="input" type="primary" onClick={this.handleLogin}>
-            Login
-          </Button>
-        </form>
-        <Divider />
-        <GoogleAuth />
-      </section>
-    );
-  }
+  return (
+    <section id="login">
+      <h3 className="text-center"><span className="custom-header">Login</span></h3>
+      <form>
+        <Input
+          className="input"
+          value={username}
+          onChange={({ target: { value } }) => setUsername(value)}
+          placeholder="Username"
+        />
+        <Input.Password
+          className="input"
+          value={password}
+          onPressEnter={handleLogin}
+          onChange={({ target: { value } }) => setPassword(value)}
+          placeholder="Password"
+        />
+        <br />
+        <Button
+          className="input"
+          onClick={() => history.push("/register")}
+        >
+          Register
+        </Button>
+        <Button
+          className="input"
+          type="primary"
+          onClick={handleLogin}
+          loading={loading}
+          disabled={!username.length || !password.length}
+        >
+          Login
+        </Button>
+      </form>
+      <Divider />
+      <GoogleAuth />
+    </section>
+  );
 }
 
 const mapStateToProps = state => ({ session: getSession(state) });
