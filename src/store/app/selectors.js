@@ -7,4 +7,9 @@ const getSession = createSelector(
   app => app.session
 );
 
-export { getSession }
+const getAppNotification = createSelector(
+  selectApp,
+  app => app.appNotification
+);
+
+export { getSession, getAppNotification };

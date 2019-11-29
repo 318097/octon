@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 import axios from "axios";
 import { connect } from 'react-redux';
 
@@ -30,7 +30,7 @@ import { setSession } from './store/app/actions';
 
 axios.defaults.baseURL = config.SERVER_URL;
 
-const App = ({ session, setSession }) => {
+const App = ({ session, setSession, appNotification }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,6 +56,16 @@ const App = ({ session, setSession }) => {
     }
     setTimeout(() => setLoading(false), 1000);
   }, [session]);
+
+  useEffect(() => {
+    if (appNotification) {
+      const { type, message: msg } = appNotification;
+      if (type === 'error')
+        message.error(msg);
+      else if (type === 'success')
+        message.success(msg);
+    }
+  }, [appNotification]);
 
   return (
     <div className="app">
@@ -83,7 +93,7 @@ const App = ({ session, setSession }) => {
   );
 };
 
-const mapStateToProps = state => ({ session: getSession(state) });
+const mapStateToProps = state => ({ session: getSession(state), appNotification: state.app.appNotification });
 
 const mapDispatchToProps = ({ setSession });
 
