@@ -11,7 +11,7 @@ const Container = styled.div`
 display: flex;
 justify-content: center;
 flex-wrap: wrap;
-.post-wrapper{
+.card-wrapper{
   width: 215px;
   height: 115px;
   margin: 7px;
@@ -19,7 +19,19 @@ flex-wrap: wrap;
   position: relative;
   .card{
     padding: 5px;
-    overflow: hidden;
+    .title, .content{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 13px;
+    }
+    &:hover{
+      background: #efefef;
+    }
+    .content{
+      overflow: hidden;
+    }
   }
 }
 `
@@ -51,11 +63,11 @@ const Posts = ({ history }) => {
         {
           posts.map(post => (
             <div
-              className="post-wrapper"
+              className="card-wrapper"
               onClick={handleClick(post._id)}
               key={post._id}
             >
-              <Card post={post} />
+              <Card view="CARD" post={post} />
             </div>
           ))
         }

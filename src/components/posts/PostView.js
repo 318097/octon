@@ -16,15 +16,25 @@ const Container = styled.div`
   bottom: 12px;
   border-radius: 10px;
 }
-.post-wrapper{
-  width: 45vw;
-  height: 60vh;
+.card-wrapper{
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
+  height: 80%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   .card{
-    padding: 30px 20px;
+    padding: 20px 10px;
+    .title{
+      text-align: center;
+      margin: 10px;
+    }
+    .content{
+      overflow: auto;
+      padding: 20px 0;
+    }
   }
 }
 `
@@ -52,8 +62,8 @@ const PostView = ({ history, match }) => {
         {/* <div className="controls">
           <Icon type="caret-left" />
         </div> */}
-        <div className="post-wrapper">
-          <Card post={post} disableClick={true} view="EXPANDED" />
+        <div className="card-wrapper">
+          <Card post={post} view="EXPANDED" />
         </div>
       </Container>
     </section>
