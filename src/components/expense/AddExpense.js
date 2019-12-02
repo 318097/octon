@@ -117,7 +117,7 @@ const AddExpense = ({
       />
       <br />
       <Input
-        className="input"
+        className="input input-width"
         placeholder="Message"
         value={expense.message}
         onChange={e => setData("message", e.target.value)}

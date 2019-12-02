@@ -31,7 +31,7 @@ justify-content: flex-end;
     padding: 5px;
   }
   p{
-    text-align: justify;
+    text-align: left;
   }
 }
 .tags{
@@ -63,22 +63,26 @@ justify-content: flex-end;
     transform: scale(1.2);
   }
 }
-`;
+`
 
 const Card = ({
   history,
   post,
   view = 'CARD',
-  disableClick = false,
 }) => {
   const { title = '', content = '', type = 'DROP', tags = [], id } = post || {};
 
   // const handleFavorite = () => { };
 
+  const handleTagClick = value => event => {
+    event.stopPropagation();
+    history.push(`/posts?tags=${value}`);
+  };
+
   const hideTitle = type === 'DROP';
   const hideContent = type === 'POST' && view === 'CARD';
 
-  if (!post) return <Fragment />
+  if (!post) return <Fragment />;
 
   return (
     <Wrapper className="card">
@@ -92,7 +96,7 @@ const Card = ({
         </div>
       }
       <div className="tags">
-        {tags.map((tag, index) => <Tag key={index}>{tag.toUpperCase()}</Tag>)}
+        {tags.map((tag, index) => <Tag onClick={handleTagClick(tag)} key={index}>{tag.toUpperCase()}</Tag>)}
       </div>
       {type === 'DROP' && <Icon className="bulb-icon" type="bulb" />}
       {
@@ -104,7 +108,7 @@ const Card = ({
         />
       }
     </Wrapper>
-  )
+  );
 };
 
 export default withRouter(Card);

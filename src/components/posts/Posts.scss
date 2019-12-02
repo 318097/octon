@@ -1,8 +1,12 @@
 section#posts{
-  & > div{
-    text-align: center;
+  & > div.header{
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+    justify-content: flex-start;
     h3{
       display: inline-block;
+      margin-right: 20px;
     }
   }
 }
