@@ -23,6 +23,10 @@ flex-wrap: wrap;
   margin: 7px;
   cursor: pointer;
   position: relative;
+  @media (max-width: 400px){
+    width: 90%;
+    margin: 7px auto;
+  }
   .card{
     padding: 5px;
     .title, .content{

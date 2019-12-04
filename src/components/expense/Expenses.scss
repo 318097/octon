@@ -1,4 +1,5 @@
 @import '../../theme.scss';
+@import '../../custom-styles.scss';
 
 section#expenses{
   display: flex;
@@ -8,6 +9,7 @@ section#expenses{
     margin: 0 5px;
     padding: 0 10px 20px;
     flex:1 1 48%;
+    @extend .max-width;
     .custom-card {
       background: rgb(240, 240, 240);
       position: relative;

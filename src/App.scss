@@ -21,7 +21,7 @@
       padding: 20px 10px;
       &#login, &#register{
           width: 100%;
-          max-width: 320px;
+          @extend .max-width;
           margin: 20px auto;
           padding: 30px 20px 60px;
           overflow: hidden;

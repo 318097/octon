@@ -1,4 +1,9 @@
+@import '../../theme.scss';
+@import '../../custom-styles.scss';
+
 section#todos {
+  width: 98%;
+  @extend .max-width;
   .todo-header {
     padding: 0 10px 15px 10px;
     display: flex;

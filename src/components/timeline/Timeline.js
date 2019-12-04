@@ -59,7 +59,7 @@ const Timeline = () => {
   };
 
   return (
-    <section>
+    <section id="timeline" className="max-width">
       <div className="timeline">
         <AntTimeline>
           {data.map(item => (
@@ -89,15 +89,15 @@ const Timeline = () => {
             </AntTimeline.Item>
           ))}
         </AntTimeline>
+        <AddPost
+          fetchTimeline={fetchTimeline}
+          post={currentPost}
+          visibility={visibility}
+          setVisibilityStatus={setVisibilityStatus}
+        />
       </div>
-
       {/* <Button onClick={() => setPage(page => page + 1)}>Load</Button> */}
-      <AddPost
-        fetchTimeline={fetchTimeline}
-        post={currentPost}
-        visibility={visibility}
-        setVisibilityStatus={setVisibilityStatus}
-      />
+
     </section>
   );
 };

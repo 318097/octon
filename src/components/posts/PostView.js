@@ -6,19 +6,19 @@ import { withRouter } from 'react-router-dom';
 import Card from './Card';
 
 const Container = styled.div`
-.controls{
-  width: 300px;
-  background: white;
-  margin: 0 auto;
-  padding: 5px 20px;
-  position: relative;
-  bottom: 12px;
-  border-radius: 10px;
-}
+// .controls{
+//   width: 300px;
+//   background: white;
+//   margin: 0 auto;
+//   padding: 5px 20px;
+//   position: relative;
+//   bottom: 12px;
+//   border-radius: 10px;
+// }
 .card-wrapper{
   margin-top: 20px;
   max-width: 400px;
-  width: 100%;
+  width: 95%;
   height: 80%;
   position: absolute;
   top: 50%;

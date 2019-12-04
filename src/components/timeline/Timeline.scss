@@ -1,24 +1,26 @@
-.add-icon {
-  position: absolute;
-  font-size: 17px;
-  right: 10px;
-  bottom: 10px;
-  transition: 1.5s;
-  &:hover {
-    transform: rotate(360deg) scale(1.2);
-  }
-}
-section {
+section#timeline {
   .timeline {
-    max-height: 70vh;
+    background: white;
+    height: 70vh;
     overflow: auto;
     padding: 15px 10px;
+    position: relative;
     margin: 0px 20px;
     .ant-card-body {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px;
+    }
+  }
+  .add-icon {
+    position: absolute;
+    font-size: 17px;
+    right: 10px;
+    bottom: 10px;
+    transition: 1.5s;
+    &:hover {
+      transform: rotate(360deg) scale(1.2);
     }
   }
 }
