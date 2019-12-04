@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Icon } from "antd";
 import axios from "axios";
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
@@ -26,14 +25,14 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   .card{
-    padding: 20px 10px;
+    padding: 20px 0 20px 10px;
     .title{
       text-align: center;
       margin: 10px;
     }
     .content{
       overflow: auto;
-      padding: 20px 0;
+      padding: 20px 10px;
     }
   }
 }

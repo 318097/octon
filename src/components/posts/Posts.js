@@ -3,12 +3,15 @@ import axios from "axios";
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
-import { Tag, Input } from "antd";
+import { Tag, Input, Button, Select } from "antd";
+// import _ from 'lodash';
+
 import Card from './Card';
 
 import './Posts.scss';
 
 const { Search } = Input;
+const { Option } = Select;
 
 const Container = styled.div`
 display: flex;
@@ -30,7 +33,7 @@ flex-wrap: wrap;
       font-size: 13px;
     }
     &:hover{
-      background: #efefef;
+      background: #f9f9f9;
     }
     .content{
       overflow: hidden;
@@ -39,23 +42,41 @@ flex-wrap: wrap;
 }
 `
 
+const tagList = [
+  'react',
+  'javascript'
+];
+
 const Posts = ({ history, location }) => {
   const [posts, setPosts] = useState([]);
+  // const [searchLoading, setSearchLoading] = useState(false);
   const [totalPosts, setTotalPosts] = useState(null);
-  const [filters, setFilters] = useState({
-    search: '',
-    tags: [],
-  });
+  const [filters, setFilters] = useState(null);
+  const [concatData, setConcatData] = useState(false);
 
   useEffect(() => {
+    // console.log(JSON.stringify(filters, undefined, 2));
+    if (!filters) return;
     fetchPosts();
   }, [filters]);
 
   useEffect(() => {
-    const { tags, search } = queryString.parse(location.search, { arrayFormat: 'comma' });
-    console.log(location);
+    if (!location.search) {
+      setFilters({
+        search: '',
+        tags: [],
+        type: '',
+        page: 1
+      })
+      return;
+    }
+
+    const { tags = [], search, type, page } = queryString.parse(location.search, { arrayFormat: 'comma' });
+
     setFilters({
       search,
+      type,
+      page: Number(page) || 1,
       tags: [].concat(tags),
     });
   }, [location]);
@@ -63,20 +84,33 @@ const Posts = ({ history, location }) => {
   const setFilterValues = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
 
   const fetchPosts = async () => {
-    const {
-      data: { posts, meta }
-    } = await axios.get("/posts", { params: filters });
+    try {
+      const {
+        data: { posts: data, meta }
+      } = await axios.get("/posts", { params: filters });
 
-    setTotalPosts(meta.count);
-    setPosts(posts);
+      setTotalPosts(meta.count);
+      setPosts(concatData ? [...posts, ...data] : data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setConcatData(false);
+    }
   };
 
   const handleClick = _id => () => history.push(`/posts/${_id}`);
 
-  const handleTagClose = tag => () => {
-
+  const handleTagClose = selectedTag => () => {
+    let { tags = [] } = filters;
+    tags = tags.filter(tag => tag !== selectedTag);
+    const queryParams = { ...filters, tags };
+    const query = queryString.stringify(queryParams, { arrayFormat: 'comma' });
+    history.push(`/posts?${query}`);
   };
 
+  const handleTagFilter = values => setFilterValues('tags', values);
+
+  const { tags = [], search = '', page = 0 } = filters || {};
   return (
     <section id="posts">
       <div className="header">
@@ -84,17 +118,26 @@ const Posts = ({ history, location }) => {
           Posts
         </h3>
         <Search
+          allowClear
           className="input input-width"
           placeholder="Search..."
-          value={filters.search}
-          onChange={({ target: { value } }) => setFilterValues('search', value)}
-          onSearch={() => fetchPosts()}
+          defaultValue={search}
+          onSearch={value => setFilterValues('search', value)}
         />
+        <Select
+          mode="multiple"
+          className="input input-width"
+          placeholder="Tags"
+          value={tags}
+          onChange={handleTagFilter}
+        >
+          {tagList.map(item => <Option key={item}>{item}</Option>)}
+        </Select>
         <div>
-          {totalPosts} posts.
+          Showing <span className="custom-header">{posts.length}</span> of {totalPosts} posts.
         </div>
         <div>
-          {filters.tags.map(tag => <Tag key={tag} onClose={handleTagClose(tag)} closable>{tag}</Tag>)}
+          {tags.map(tag => <Tag key={tag} onClose={handleTagClose(tag)} closable>{tag}</Tag>)}
         </div>
       </div>
       <Container>
@@ -110,6 +153,12 @@ const Posts = ({ history, location }) => {
           ))
         }
       </Container>
+      {
+        (page * 10) < totalPosts &&
+        <div className="flex center mt">
+          <Button type="danger" onClick={() => (setFilterValues('page', page + 1), setConcatData(true))}>Load</Button>
+        </div>
+      }
     </section>
   );
 };

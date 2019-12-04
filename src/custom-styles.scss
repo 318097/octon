@@ -39,3 +39,11 @@
   margin: 0;
   padding: 0;
 }
+
+.flex{
+  display: flex;
+}
+
+.flex.center{
+  justify-content: center;
+}

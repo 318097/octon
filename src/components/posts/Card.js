@@ -96,7 +96,7 @@ const Card = ({
         </div>
       }
       <div className="tags">
-        {tags.map((tag, index) => <Tag onClick={handleTagClick(tag)} key={index}>{tag.toUpperCase()}</Tag>)}
+        {tags.map((tag, index) => <Tag onClick={handleTagClick(tag)} key={index}>{tag}</Tag>)}
       </div>
       {type === 'DROP' && <Icon className="bulb-icon" type="bulb" />}
       {
