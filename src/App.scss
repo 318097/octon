@@ -7,10 +7,12 @@
   width: 100%;
   height: 100%;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   & > div.content {
     flex-grow: 1;
     min-height: 300px;
+    overflow-y: auto;
     & > .ant-spin {
       position: absolute;
       top: 50%;
@@ -20,28 +22,28 @@
     & > section {
       padding: 20px 10px;
       &#login, &#register{
+        width: 100%;
+        @extend .max-width;
+        margin: 20px auto;
+        padding: 30px 20px 60px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 10px;
+        @extend .bg-white;
+        @extend .text-center;
+        &:after{
+          content: '';
+          position: absolute;
           width: 100%;
-          @extend .max-width;
-          margin: 20px auto;
-          padding: 30px 20px 60px;
-          overflow: hidden;
-          position: relative;
-          border-radius: 10px;
-          @extend .bg-white;
-          @extend .text-center;
-          &:after{
-            content: '';
-            position: absolute;
-            width: 100%;
-            left: 0;
-            bottom: 0px;
-            height: 7px;
-            background: lightgrey;
-          }
-          .ant-input, .ant-input-password{
-            margin-left: 0;
-            margin-right: 0;
-          }
+          left: 0;
+          bottom: 0px;
+          height: 7px;
+          background: lightgrey;
+        }
+        .ant-input, .ant-input-password{
+          margin-left: 0;
+          margin-right: 0;
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ import "antd/dist/antd.css";
 import "./App.scss";
 
 import Header from "./layouts/Header";
+import Footer from "./layouts/Footer";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
@@ -89,6 +90,7 @@ const App = ({ session, setSession, appNotification }) => {
             </Switch>
           </div>
         )}
+      <Footer />
     </div>
   );
 };
