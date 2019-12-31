@@ -59,7 +59,8 @@ const AddExpense = ({
       data: { expenseTypes }
     } = await axios.get(`/expenses/types`);
     setExpenseTypes(expenseTypes);
-    if (mode === "ADD") setData("expenseTypeId", expenseTypes[0]["_id"]);
+    if (mode === "ADD" && expenseTypes.length)
+      setData("expenseTypeId", expenseTypes[0]["_id"]);
     setAppLoading(false);
   };
 
@@ -152,15 +153,15 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
 
   return (
     <Fragment>
-      {visibility ? (
-        <Icon type="minus-circle" onClick={() => setVisibility(false)} />
-      ) : (
-          <Icon type="plus-circle" onClick={() => setVisibility(true)} />
-        )}
+      <Icon
+        type={visibility ? "minus-circle" : "plus-circle"}
+        onClick={() => setVisibility(prev => !prev)}
+      />
       {visibility && (
         <Card className="custom-card">
           <Input
             className="input"
+            style={{ width: "70%" }}
             placeholder="Expense Type"
             onChange={e => setExpenseType(e.target.value)}
           />

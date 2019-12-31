@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Input, Button, message } from "antd";
 import { Redirect } from "react-router-dom";
-
+import { connect } from "react-redux";
 import axios from "axios";
 
-const Register = () => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { sendAppNotification } from "../../store/app/actions";
+
+const Register = ({ dispatch }) => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -24,6 +26,11 @@ const Register = () => {
       });
 
       setTimeout(() => setRedirect(true), 1000);
+      dispatch(
+        sendAppNotification({
+          message: "User registered successfully."
+        })
+      );
     } catch (err) {
       const { data: errorMessage } = err.response;
       message.error(errorMessage);
@@ -36,7 +43,9 @@ const Register = () => {
 
   return (
     <section id="register">
-      <h3 className="text-center"><span className="custom-header">Register</span></h3>
+      <h3 className="text-center">
+        <span className="custom-header">Register</span>
+      </h3>
       <form>
         <Input
           className="input"
@@ -71,10 +80,10 @@ const Register = () => {
           loading={loading}
         >
           Register
-          </Button>
+        </Button>
       </form>
     </section>
   );
-}
+};
 
-export default Register;
+export default connect()(Register);

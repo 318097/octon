@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin, message } from "antd";
 import axios from "axios";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import "antd/dist/antd.css";
 import "./App.scss";
@@ -26,8 +26,8 @@ import PostView from "./components/posts/PostView";
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
 
-import { getSession } from './store/app/selectors';
-import { setSession } from './store/app/actions';
+import { getSession } from "./store/app/selectors";
+import { setSession } from "./store/app/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
 
@@ -50,21 +50,15 @@ const App = ({ session, setSession, appNotification }) => {
   }, []);
 
   useEffect(() => {
-    if (session) {
-      const setAxiosHeaderToken = () =>
-        (axios.defaults.headers.common["authorization"] = getToken());
-      setAxiosHeaderToken();
-    }
+    if (session) axios.defaults.headers.common["authorization"] = getToken();
     setTimeout(() => setLoading(false), 1000);
   }, [session]);
 
   useEffect(() => {
     if (appNotification) {
       const { type, message: msg } = appNotification;
-      if (type === 'error')
-        message.error(msg);
-      else if (type === 'success')
-        message.success(msg);
+      if (type === "error") message.error(msg);
+      else if (type === "success") message.success(msg);
     }
   }, [appNotification]);
 
@@ -76,27 +70,30 @@ const App = ({ session, setSession, appNotification }) => {
           <Spin />
         </div>
       ) : (
-          <div className="content">
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <PrivateRoute exact path="/expenses" component={Expenses} />
-              <PrivateRoute exact path="/todos" component={Todos} />
-              <PrivateRoute exact path="/timeline" component={Timeline} />
-              <Route exact path="/posts" component={Posts} />
-              <Route exact path="/posts/:id" component={PostView} />
-              <Route exact path="/" component={Home} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </div>
-        )}
+        <div className="content">
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <PrivateRoute exact path="/expenses" component={Expenses} />
+            <PrivateRoute exact path="/todos" component={Todos} />
+            <PrivateRoute exact path="/timeline" component={Timeline} />
+            <Route exact path="/posts" component={Posts} />
+            <Route exact path="/posts/:id" component={PostView} />
+            <Route exact path="/" component={Home} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
+      )}
       <Footer />
     </div>
   );
 };
 
-const mapStateToProps = state => ({ session: getSession(state), appNotification: state.app.appNotification });
+const mapStateToProps = state => ({
+  session: getSession(state),
+  appNotification: state.app.appNotification
+});
 
-const mapDispatchToProps = ({ setSession });
+const mapDispatchToProps = { setSession };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

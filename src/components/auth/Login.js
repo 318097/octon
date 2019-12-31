@@ -4,35 +4,37 @@ import { Input, Button, message, Divider } from "antd";
 import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { setToken, isLoggedIn } from "../../authService";
+import { setToken, setUser, isLoggedIn } from "../../authService";
 
-import { getSession } from '../../store/app/selectors';
-import { setSession } from '../../store/app/actions';
+import { getSession } from "../../store/app/selectors";
+import { setSession } from "../../store/app/actions";
 
 const Login = ({ history, setSession }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn())
-      history.push("/");
+    if (isLoggedIn()) history.push("/");
   }, []);
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post("/auth/login", { username, password });
+      const {
+        data: { token, user }
+      } = await axios.post("/auth/login", { username, password });
 
-      setToken(data.token);
+      setToken(token);
+      setUser(user);
 
       setSession({ loggedIn: true, info: "LOGIN" });
       history.push("/");
     } catch (err) {
-      const { data: errorMessage } = err.response;
+      const { response: { data: errorMessage = "Error." } = {} } = err;
       message.error(errorMessage);
     } finally {
       setLoading(false);
@@ -41,7 +43,9 @@ const Login = ({ history, setSession }) => {
 
   return (
     <section id="login">
-      <h3 className="text-center"><span className="custom-header">Login</span></h3>
+      <h3 className="text-center">
+        <span className="custom-header">Login</span>
+      </h3>
       <form>
         <Input
           className="input"
@@ -57,10 +61,7 @@ const Login = ({ history, setSession }) => {
           placeholder="Password"
         />
         <br />
-        <Button
-          className="input"
-          onClick={() => history.push("/register")}
-        >
+        <Button className="input" onClick={() => history.push("/register")}>
           Register
         </Button>
         <Button
@@ -77,10 +78,10 @@ const Login = ({ history, setSession }) => {
       <GoogleAuth />
     </section>
   );
-}
+};
 
 const mapStateToProps = state => ({ session: getSession(state) });
 
-const mapDispatchToProps = ({ setSession });
+const mapDispatchToProps = { setSession };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

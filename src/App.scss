@@ -1,5 +1,5 @@
-@import 'theme.scss';
-@import 'custom-styles.scss';
+@import "theme.scss";
+@import "custom-styles.scss";
 
 .app {
   padding: 0;
@@ -21,9 +21,10 @@
     }
     & > section {
       padding: 20px 10px;
-      &#login, &#register{
+      &#login,
+      &#register {
         width: 100%;
-        @extend .max-width;
+        max-width: 275px;
         margin: 20px auto;
         padding: 30px 20px 60px;
         overflow: hidden;
@@ -31,8 +32,8 @@
         border-radius: 10px;
         @extend .bg-white;
         @extend .text-center;
-        &:after{
-          content: '';
+        &:after {
+          content: "";
           position: absolute;
           width: 100%;
           left: 0;
@@ -40,7 +41,8 @@
           height: 7px;
           background: lightgrey;
         }
-        .ant-input, .ant-input-password{
+        .ant-input,
+        .ant-input-password {
           margin-left: 0;
           margin-right: 0;
         }
