@@ -12,6 +12,8 @@ import {
 } from "antd";
 import moment from "moment";
 import axios from "axios";
+import { sendAppNotification } from "../../store/app/actions";
+
 import "./Expenses.scss";
 
 const AddExpense = ({
@@ -42,26 +44,35 @@ const AddExpense = ({
 
   const saveExpense = async () => {
     setLoading(true);
+    try {
+      if (mode === "ADD") await axios.post(`/expenses`, { ...expense });
+      else await axios.put(`/expenses/${expense._id}`, { ...expense });
 
-    if (mode === "ADD") await axios.post(`/expenses`, { ...expense });
-    else await axios.put(`/expenses/${expense._id}`, { ...expense });
-
-    setExpense({ ...expense, amount: null, message: null });
-    if (mode === "EDIT") setVisibilityStatus(false);
-    message.success("Success");
-    fetchExpenseByMonth();
-    setLoading(false);
+      setExpense({ ...expense, amount: null, message: null });
+      if (mode === "EDIT") setVisibilityStatus(false);
+      message.success("Success");
+      fetchExpenseByMonth();
+    } catch (err) {
+      sendAppNotification({ message: err.message, type: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchExpensesTypes = async () => {
     setAppLoading(true);
-    const {
-      data: { expenseTypes }
-    } = await axios.get(`/expenses/types`);
-    setExpenseTypes(expenseTypes);
-    if (mode === "ADD" && expenseTypes.length)
-      setData("expenseTypeId", expenseTypes[0]["_id"]);
-    setAppLoading(false);
+    try {
+      const {
+        data: { expenseTypes }
+      } = await axios.get(`/expenses/types`);
+      setExpenseTypes(expenseTypes);
+      if (mode === "ADD" && expenseTypes.length)
+        setData("expenseTypeId", expenseTypes[0]["_id"]);
+    } catch (err) {
+      sendAppNotification({ message: err.message, type: "error" });
+    } finally {
+      setAppLoading(false);
+    }
   };
 
   const setData = (key, value) => {

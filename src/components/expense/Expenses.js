@@ -7,7 +7,8 @@ import "./Expenses.scss";
 
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
-import Resize from '../utils/Resize';
+import Resize from "../utils/Resize";
+import { sendAppNotification } from "../../store/app/actions";
 
 const { MonthPicker } = DatePicker;
 
@@ -20,11 +21,10 @@ const Expenses = () => {
   const [date, setDate] = useState(moment());
   const [loading, setLoading] = useState(false);
 
-  const [expenseListVisibilityStatus, setExpenseListVisibilityStatus] = useState(false);
-
-  useEffect(() => {
-    fetchExpenseByMonth();
-  }, []);
+  const [
+    expenseListVisibilityStatus,
+    setExpenseListVisibilityStatus
+  ] = useState(false);
 
   useEffect(() => {
     fetchExpenseByMonth();
@@ -32,12 +32,17 @@ const Expenses = () => {
 
   const fetchExpenseByMonth = async () => {
     setLoading(true);
-    const {
-      data: { expenses }
-    } = await axios.get(`/expenses/${date.month() + 1}`);
-    setExpenseList(expenses);
-    setTotal(calculateTotal(expenses));
-    setLoading(false);
+    try {
+      const {
+        data: { expenses }
+      } = await axios.get(`/expenses/${date.month() + 1}?year=${date.year()}`);
+      setExpenseList(expenses);
+      setTotal(calculateTotal(expenses));
+    } catch (err) {
+      sendAppNotification({ message: err.message, type: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,9 +51,7 @@ const Expenses = () => {
         <PageHeader
           title={
             <Fragment>
-              <span className="custom-header">
-                Expenses&nbsp;
-              </span>
+              <span className="custom-header">Expenses&nbsp;</span>
               {loading && <Spin size="small" />}
             </Fragment>
           }

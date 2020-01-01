@@ -27,7 +27,7 @@ import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
 
 import { getSession } from "./store/app/selectors";
-import { setSession } from "./store/app/actions";
+import { setSession, sendAppNotification } from "./store/app/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
 
@@ -42,7 +42,7 @@ const App = ({ session, setSession, appNotification }) => {
           await axios.post(`/auth/account-status`, { token });
           setSession({ loggedIn: true, info: "ON_LOAD" });
         } catch (err) {
-          console.log(err);
+          sendAppNotification({ type: "error", message: "Error" });
         }
       }
     };

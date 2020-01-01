@@ -1,20 +1,20 @@
-.bg-white{
+.bg-white {
   background: white;
 }
 
-.mt{
+.mt {
   margin-top: 10px;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.custom-header{
+.custom-header {
   position: relative;
-  &:after{
-    content: '';
-    width: 110%;
+  &:after {
+    content: "";
+    width: 105%;
     height: 4px;
     background: $tommy;
     position: absolute;
@@ -28,27 +28,27 @@
   box-sizing: border-box;
 }
 
-.input-width{
+.input-width {
   width: 100%;
   max-width: 150px;
 }
 
-.defaults{
+.defaults {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-.flex{
+.flex {
   display: flex;
 }
 
-.flex.center{
+.flex.center {
   justify-content: center;
 }
 
-.max-width{
+.max-width {
   max-width: 350px;
   margin-left: auto;
   margin-right: auto;
