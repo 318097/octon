@@ -12,6 +12,8 @@ import {
 } from "antd";
 import moment from "moment";
 import axios from "axios";
+import { connect } from "react-redux";
+
 import { sendAppNotification } from "../../store/app/actions";
 
 import "./Expenses.scss";
@@ -21,7 +23,8 @@ const AddExpense = ({
   fetchExpenseByMonth,
   currentExpense,
   setVisibilityStatus,
-  mode
+  mode,
+  sendAppNotification
 }) => {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -53,7 +56,10 @@ const AddExpense = ({
       message.success("Success");
       fetchExpenseByMonth();
     } catch (err) {
-      sendAppNotification({ message: err.message, type: "error" });
+      sendAppNotification({
+        message: err.response.data || err.message,
+        type: "error"
+      });
     } finally {
       setLoading(false);
     }
@@ -69,7 +75,10 @@ const AddExpense = ({
       if (mode === "ADD" && expenseTypes.length)
         setData("expenseTypeId", expenseTypes[0]["_id"]);
     } catch (err) {
-      sendAppNotification({ message: err.message, type: "error" });
+      sendAppNotification({
+        message: err.response.data || err.message,
+        type: "error"
+      });
     } finally {
       setAppLoading(false);
     }
@@ -185,4 +194,6 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
   );
 };
 
-export default AddExpense;
+export default connect(null, {
+  sendAppNotification
+})(AddExpense);

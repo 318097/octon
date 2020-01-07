@@ -4,6 +4,7 @@ import { DatePicker, Card, Spin, PageHeader, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
 import "./Expenses.scss";
+import { connect } from "react-redux";
 
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
@@ -15,7 +16,7 @@ const { MonthPicker } = DatePicker;
 const calculateTotal = expenses =>
   expenses.reduce((acc, { amount }) => amount + acc, 0);
 
-const Expenses = () => {
+const Expenses = ({ sendAppNotification }) => {
   const [expenseList, setExpenseList] = useState([]);
   const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
@@ -39,7 +40,10 @@ const Expenses = () => {
       setExpenseList(expenses);
       setTotal(calculateTotal(expenses));
     } catch (err) {
-      sendAppNotification({ message: err.message, type: "error" });
+      sendAppNotification({
+        message: err.response.data || err.message,
+        type: "error"
+      });
     } finally {
       setLoading(false);
     }
@@ -100,4 +104,6 @@ const Expenses = () => {
   );
 };
 
-export default Expenses;
+export default connect(null, {
+  sendAppNotification
+})(Expenses);
