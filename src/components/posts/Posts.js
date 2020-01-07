@@ -1,65 +1,60 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import queryString from "query-string";
 import { Tag, Input, Button, Select } from "antd";
+import { tagList } from "./util";
 // import _ from 'lodash';
 
-import Card from './Card';
+import Card from "./Card";
 
-import './Posts.scss';
+import "./Posts.scss";
 
 const { Search } = Input;
 const { Option } = Select;
 
 const Container = styled.div`
-display: flex;
-justify-content: center;
-flex-wrap: wrap;
-.card-wrapper{
-  width: 215px;
-  height: 115px;
-  margin: 7px;
-  cursor: pointer;
-  position: relative;
-  @media (max-width: 400px){
-    width: 90%;
-    margin: 7px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .card-wrapper {
+    width: 215px;
+    height: 115px;
+    margin: 7px;
+    cursor: pointer;
+    position: relative;
+    @media (max-width: 400px) {
+      width: 90%;
+      margin: 7px auto;
+    }
+    .card {
+      padding: 5px;
+      .title,
+      .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 13px;
+      }
+      &:hover {
+        background: #f9f9f9;
+      }
+      .content {
+        overflow: hidden;
+      }
+    }
   }
-  .card{
-    padding: 5px;
-    .title, .content{
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 13px;
-    }
-    &:hover{
-      background: #f9f9f9;
-    }
-    .content{
-      overflow: hidden;
-    }
-  }
-}
-`
-
-const tagList = [
-  'react',
-  'javascript'
-];
+`;
 
 const Posts = ({ history, location }) => {
   const [posts, setPosts] = useState([]);
-  // const [searchLoading, setSearchLoading] = useState(false);
   const [totalPosts, setTotalPosts] = useState(null);
   const [filters, setFilters] = useState(null);
   const [concatData, setConcatData] = useState(false);
 
   useEffect(() => {
-    // console.log(JSON.stringify(filters, undefined, 2));
     if (!filters) return;
     fetchPosts();
   }, [filters]);
@@ -67,25 +62,29 @@ const Posts = ({ history, location }) => {
   useEffect(() => {
     if (!location.search) {
       setFilters({
-        search: '',
+        search: "",
         tags: [],
-        type: '',
+        type: "",
         page: 1
-      })
+      });
       return;
     }
 
-    const { tags = [], search, type, page } = queryString.parse(location.search, { arrayFormat: 'comma' });
+    const { tags = [], search, type, page } = queryString.parse(
+      location.search,
+      { arrayFormat: "comma" }
+    );
 
     setFilters({
       search,
       type,
       page: Number(page) || 1,
-      tags: [].concat(tags),
+      tags: [].concat(tags)
     });
   }, [location]);
 
-  const setFilterValues = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
+  const setFilterValues = (key, value) =>
+    setFilters(prev => ({ ...prev, [key]: value }));
 
   const fetchPosts = async () => {
     try {
@@ -108,25 +107,23 @@ const Posts = ({ history, location }) => {
     let { tags = [] } = filters;
     tags = tags.filter(tag => tag !== selectedTag);
     const queryParams = { ...filters, tags };
-    const query = queryString.stringify(queryParams, { arrayFormat: 'comma' });
+    const query = queryString.stringify(queryParams, { arrayFormat: "comma" });
     history.push(`/posts?${query}`);
   };
 
-  const handleTagFilter = values => setFilterValues('tags', values);
+  const handleTagFilter = values => setFilterValues("tags", values);
 
-  const { tags = [], search = '', page = 0 } = filters || {};
+  const { tags = [], search = "", page = 0 } = filters || {};
   return (
     <section id="posts">
       <div className="header">
-        <h3 className="custom-header">
-          Posts
-        </h3>
+        <h3 className="custom-header">Posts</h3>
         <Search
           allowClear
           className="input input-width"
           placeholder="Search..."
           defaultValue={search}
-          onSearch={value => setFilterValues('search', value)}
+          onSearch={value => setFilterValues("search", value)}
         />
         <Select
           mode="multiple"
@@ -135,34 +132,47 @@ const Posts = ({ history, location }) => {
           value={tags}
           onChange={handleTagFilter}
         >
-          {tagList.map(item => <Option key={item}>{item}</Option>)}
+          {tagList.map(({ label, value }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
         </Select>
         <div>
-          Showing <span className="custom-header">{posts.length}</span> of {totalPosts} posts.
+          Showing <span className="custom-header">{posts.length}</span> of{" "}
+          {totalPosts} posts.
         </div>
         <div>
-          {tags.map(tag => <Tag key={tag} onClose={handleTagClose(tag)} closable>{tag}</Tag>)}
+          {tags.map(tag => (
+            <Tag key={tag} onClose={handleTagClose(tag)} closable>
+              {tag}
+            </Tag>
+          ))}
         </div>
       </div>
       <Container>
-        {
-          posts.map(post => (
-            <div
-              className="card-wrapper"
-              onClick={handleClick(post._id)}
-              key={post._id}
-            >
-              <Card view="CARD" post={post} />
-            </div>
-          ))
-        }
+        {posts.map(post => (
+          <div
+            className="card-wrapper"
+            onClick={handleClick(post._id)}
+            key={post._id}
+          >
+            <Card view="CARD" post={post} />
+          </div>
+        ))}
       </Container>
-      {
-        (page * 10) < totalPosts &&
+      {page * 10 < totalPosts && (
         <div className="flex center mt">
-          <Button type="danger" onClick={() => (setFilterValues('page', page + 1), setConcatData(true))}>Load</Button>
+          <Button
+            type="danger"
+            onClick={() => (
+              setFilterValues("page", page + 1), setConcatData(true)
+            )}
+          >
+            Load
+          </Button>
         </div>
-      }
+      )}
     </section>
   );
 };
