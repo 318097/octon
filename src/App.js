@@ -50,8 +50,10 @@ const App = ({ session, setSession, appNotification }) => {
   }, []);
 
   useEffect(() => {
-    if (session) axios.defaults.headers.common["authorization"] = getToken();
-    setTimeout(() => setLoading(false), 1000);
+    if (session) {
+      axios.defaults.headers.common["authorization"] = getToken();
+      setTimeout(() => setLoading(false), 1000);
+    }
   }, [session]);
 
   useEffect(() => {
