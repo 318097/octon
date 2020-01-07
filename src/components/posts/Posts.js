@@ -127,7 +127,8 @@ const Posts = ({ history, location }) => {
         />
         <Select
           mode="multiple"
-          className="input input-width"
+          className="input"
+          style={{ minWidth: "150px" }}
           placeholder="Tags"
           value={tags}
           onChange={handleTagFilter}
