@@ -57,8 +57,7 @@ const AddExpense = ({
       fetchExpenseByMonth();
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message,
-        type: "error"
+        message: err.response.data || err.message
       });
     } finally {
       setLoading(false);
@@ -76,8 +75,7 @@ const AddExpense = ({
         setData("expenseTypeId", expenseTypes[0]["_id"]);
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message,
-        type: "error"
+        message: err.response.data || err.message
       });
     } finally {
       setAppLoading(false);

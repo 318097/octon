@@ -41,8 +41,7 @@ const Expenses = ({ sendAppNotification }) => {
       setTotal(calculateTotal(expenses));
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message,
-        type: "error"
+        message: err.response.data || err.message
       });
     } finally {
       setLoading(false);

@@ -28,7 +28,8 @@ const Register = ({ dispatch }) => {
       setTimeout(() => setRedirect(true), 1000);
       dispatch(
         sendAppNotification({
-          message: "User registered successfully."
+          message: "User registered successfully.",
+          type: "success"
         })
       );
     } catch (err) {

@@ -42,7 +42,7 @@ const App = ({ session, setSession, appNotification }) => {
           await axios.post(`/auth/account-status`, { token });
           setSession({ loggedIn: true, info: "ON_LOAD" });
         } catch (err) {
-          sendAppNotification({ type: "error", message: "Error" });
+          sendAppNotification();
         }
       }
     };
