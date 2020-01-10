@@ -1,14 +1,18 @@
-section#posts{
-  & > div.header{
+section#posts {
+  & > div.header {
     display: flex;
     align-items: center;
     justify-content: center;
-    @media screen and (max-width: 400px){
+    @media screen and (max-width: 400px) {
       flex-direction: column;
     }
-    h3{
+    h3 {
       display: inline-block;
       margin-right: 20px;
     }
+  }
+  .not-found {
+    margin-top: 10px;
+    font-size: 1.2rem;
   }
 }

@@ -83,8 +83,8 @@ const Posts = ({ history, location }) => {
     });
   }, [location]);
 
-  const setFilterValues = (key, value) =>
-    setFilters(prev => ({ ...prev, [key]: value }));
+  const setFilterValues = filter =>
+    setFilters(prev => ({ ...prev, ...filter }));
 
   const fetchPosts = async () => {
     try {
@@ -111,7 +111,7 @@ const Posts = ({ history, location }) => {
     history.push(`/posts?${query}`);
   };
 
-  const handleTagFilter = values => setFilterValues("tags", values);
+  const handleTagFilter = values => setFilterValues({ tags: values });
 
   const { tags = [], search = "", page = 0 } = filters || {};
   return (
@@ -123,7 +123,7 @@ const Posts = ({ history, location }) => {
           className="input input-width"
           placeholder="Search..."
           defaultValue={search}
-          onSearch={value => setFilterValues("search", value)}
+          onSearch={value => setFilterValues({ search: value })}
         />
         <Select
           mode="multiple"
@@ -152,22 +152,26 @@ const Posts = ({ history, location }) => {
         </div>
       </div>
       <Container>
-        {posts.map(post => (
-          <div
-            className="card-wrapper"
-            onClick={handleClick(post._id)}
-            key={post._id}
-          >
-            <Card view="CARD" post={post} />
-          </div>
-        ))}
+        {posts.length > 0 ? (
+          posts.map(post => (
+            <div
+              className="card-wrapper"
+              onClick={handleClick(post._id)}
+              key={post._id}
+            >
+              <Card view="CARD" post={post} />
+            </div>
+          ))
+        ) : (
+          <span className="not-found">No posts found.</span>
+        )}
       </Container>
       {page * 10 < totalPosts && (
         <div className="flex center mt">
           <Button
             type="danger"
             onClick={() => (
-              setFilterValues("page", page + 1), setConcatData(true)
+              setFilterValues({ page: page + 1 }), setConcatData(true)
             )}
           >
             Load
