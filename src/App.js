@@ -44,7 +44,7 @@ const App = ({ session, setSession, appNotification }) => {
         } catch (err) {
           sendAppNotification();
         }
-      }
+      } else setLoading(false);
     };
     isAccountActive();
   }, []);
@@ -67,12 +67,10 @@ const App = ({ session, setSession, appNotification }) => {
   return (
     <div className="app">
       <Header />
-      {loading ? (
-        <div className="content">
+      <div className="content">
+        {loading ? (
           <Spin />
-        </div>
-      ) : (
-        <div className="content">
+        ) : (
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
@@ -84,8 +82,8 @@ const App = ({ session, setSession, appNotification }) => {
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
-        </div>
-      )}
+        )}
+      </div>
       <Footer />
     </div>
   );
