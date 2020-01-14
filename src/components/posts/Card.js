@@ -66,7 +66,7 @@ const Wrapper = styled.div`
 `;
 
 const Card = ({ history, post, view = "CARD" }) => {
-  const { title = "", content = "", type = "DROP", tags = [], id } = post || {};
+  const { title = "", content = "", type = "DROP", tags = [] } = post || {};
 
   // const handleFavorite = () => { };
 
@@ -92,7 +92,7 @@ const Card = ({ history, post, view = "CARD" }) => {
       <div className="tags">
         {tags.map((tag, index) => (
           <Tag onClick={handleTagClick(tag)} key={index}>
-            {tag}
+            {tag.toUpperCase()}
           </Tag>
         ))}
       </div>

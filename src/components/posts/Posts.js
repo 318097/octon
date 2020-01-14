@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import queryString from "query-string";
 import { Tag, Input, Button, Select } from "antd";
-import { tagList } from "./util";
 // import _ from 'lodash';
 
 import Card from "./Card";
@@ -53,11 +52,29 @@ const Posts = ({ history, location }) => {
   const [totalPosts, setTotalPosts] = useState(null);
   const [filters, setFilters] = useState(null);
   const [concatData, setConcatData] = useState(false);
+  const [tagList, setTagList] = useState([]);
 
   useEffect(() => {
     if (!filters) return;
     fetchPosts();
   }, [filters]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      const {
+        data: { tags }
+      } = await axios.get("/posts/tags");
+      setTagList(
+        tags.map(({ _id, color, name }) => ({
+          _id,
+          color,
+          label: name.toUpperCase(),
+          value: name
+        }))
+      );
+    };
+    fetchTags();
+  }, []);
 
   useEffect(() => {
     if (!location.search) {
@@ -114,6 +131,7 @@ const Posts = ({ history, location }) => {
   const handleTagFilter = values => setFilterValues({ tags: values });
 
   const { tags = [], search = "", page = 0 } = filters || {};
+
   return (
     <section id="posts">
       <div className="header">
