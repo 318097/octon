@@ -37,6 +37,7 @@ const Wrapper = styled.div`
   .tags {
     text-align: left;
     .ant-tag {
+      cursor: pointer;
       margin-right: 3px;
       padding: 0px 4px;
       font-size: 12px;
@@ -48,20 +49,6 @@ const Wrapper = styled.div`
     right: 5px;
     z-index: 10;
     color: green;
-  }
-  .back-icon {
-    position: absolute;
-    background: lightgrey;
-    top: -7px;
-    left: -9px;
-    z-index: 10;
-    padding: 5px;
-    border-radius: 30px;
-    transition: 1s;
-    &:hover {
-      color: grey;
-      transform: scale(1.2);
-    }
   }
 `;
 
@@ -97,13 +84,6 @@ const Card = ({ history, post, view = "CARD" }) => {
         ))}
       </div>
       {type === "DROP" && <Icon className="bulb-icon" type="bulb" />}
-      {view === "EXPANDED" && (
-        <Icon
-          className="back-icon"
-          onClick={() => history.push("/posts")}
-          type="caret-left"
-        />
-      )}
     </Wrapper>
   );
 };
