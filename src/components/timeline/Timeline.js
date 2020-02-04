@@ -1,12 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import {
-  Timeline as AntTimeline,
-  Card,
-  Icon,
-  Tag,
-  Popconfirm
-} from "antd";
+import { Timeline as AntTimeline, Card, Icon, Tag, Popconfirm } from "antd";
 import axios from "axios";
 import moment from "moment";
 
@@ -19,10 +13,6 @@ const Timeline = () => {
   const [currentPost, setCurrentPost] = useState(null);
   const [page, setPage] = useState(1);
   const [visibility, setVisibility] = useState(false);
-
-  useEffect(() => {
-    fetchTimeline();
-  }, []);
 
   useEffect(() => {
     fetchTimeline();
@@ -97,7 +87,6 @@ const Timeline = () => {
         />
       </div>
       {/* <Button onClick={() => setPage(page => page + 1)}>Load</Button> */}
-
     </section>
   );
 };

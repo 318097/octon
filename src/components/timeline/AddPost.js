@@ -36,6 +36,8 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
   const onClickHandler = () => {
     setVisibilityStatus(true)();
     setMode("ADD");
+    setContent("");
+    setDate(moment());
   };
 
   return (
@@ -45,7 +47,7 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
         visible={visibility}
         title={`${mode === "ADD" ? "Add" : "Edit"} Post`}
         onOk={savePost}
-        okText={`${mode === "ADD" ? "Add" : "Update"}`}
+        okText={mode === "ADD" ? "Add" : "Update"}
         onCancel={setVisibilityStatus(false)}
         width={380}
       >
@@ -56,7 +58,6 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
             onChange={value => setDate(value)}
           />
           <TextArea
-            autoFocus
             className="input"
             value={content}
             onChange={e => setContent(e.target.value)}

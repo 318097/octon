@@ -2,10 +2,13 @@ section#timeline {
   .timeline {
     background: white;
     height: 70vh;
-    overflow: auto;
     padding: 15px 10px;
     position: relative;
     margin: 0px 20px;
+    .ant-timeline {
+      overflow: auto;
+      height: 100%;
+    }
     .ant-card-body {
       display: flex;
       justify-content: space-between;
@@ -24,6 +27,6 @@ section#timeline {
     }
   }
 }
-.timeline::-webkit-scrollbar {
+.ant-timeline::-webkit-scrollbar {
   width: 0 !important;
 }
