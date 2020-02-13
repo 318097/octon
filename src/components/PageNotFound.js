@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   font-size: 30px;
@@ -10,11 +10,12 @@ const Container = styled.div`
   font-weight: bold;
   text-transform: uppercase;
   color: lightgrey;
-`
+  text-align: center;
+`;
 
 const PageNotFound = () => (
   <section>
-    <Container style={{ textAlign: "center" }}>404: Page Not Found</Container>
+    <Container>404: Page Not Found</Container>
   </section>
 );
 
