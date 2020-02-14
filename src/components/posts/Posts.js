@@ -14,19 +14,15 @@ const { Search } = Input;
 const { Option } = Select;
 
 const Container = styled.div`
-  display: flex;
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 215px);
   justify-content: center;
-  flex-wrap: wrap;
+  grid-gap: 8px;
   .card-wrapper {
-    width: 215px;
     height: 115px;
-    margin: 7px;
     cursor: pointer;
     position: relative;
-    @media (max-width: 400px) {
-      width: 90%;
-      margin: 7px auto;
-    }
     .card {
       padding: 5px;
       .title,

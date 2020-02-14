@@ -55,8 +55,6 @@ const Wrapper = styled.div`
 const Card = ({ history, post, view = "CARD" }) => {
   const { title = "", content = "", type = "DROP", tags = [] } = post || {};
 
-  // const handleFavorite = () => { };
-
   const handleTagClick = value => event => {
     event.stopPropagation();
     history.push(`/posts?tags=${value}`);
