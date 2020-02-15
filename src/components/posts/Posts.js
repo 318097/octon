@@ -19,28 +19,6 @@ const Container = styled.div`
   grid-template-columns: repeat(auto-fill, 215px);
   justify-content: center;
   grid-gap: 8px;
-  .card-wrapper {
-    height: 115px;
-    cursor: pointer;
-    position: relative;
-    .card {
-      padding: 5px;
-      .title,
-      .content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 13px;
-      }
-      &:hover {
-        background: #f9f9f9;
-      }
-      .content {
-        overflow: hidden;
-      }
-    }
-  }
 `;
 
 const Posts = ({ history, location }) => {
@@ -114,8 +92,6 @@ const Posts = ({ history, location }) => {
     }
   };
 
-  const handleClick = _id => () => history.push(`/posts/${_id}`);
-
   const handleTagClose = selectedTag => () => {
     let { tags = [] } = filters;
     tags = tags.filter(tag => tag !== selectedTag);
@@ -167,15 +143,7 @@ const Posts = ({ history, location }) => {
       </div>
       <Container>
         {posts.length > 0 ? (
-          posts.map(post => (
-            <div
-              className="card-wrapper"
-              onClick={handleClick(post._id)}
-              key={post._id}
-            >
-              <Card view="CARD" post={post} />
-            </div>
-          ))
+          posts.map(post => <Card key={post._id} post={post} />)
         ) : (
           <span className="not-found">No posts found.</span>
         )}

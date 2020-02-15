@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import marked from "marked";
 import styled from "styled-components";
-import { Icon } from "antd";
+import { Tag, Icon } from "antd";
 import { withRouter } from "react-router-dom";
 
-import Card from "./Card";
+import { Card as MCard } from "../../UIComponents";
 
-const CardWrapper = styled.div`
+const Wrapper = styled.div`
   margin-top: 20px;
-  max-width: 400px;
+  max-width: 450px;
   width: 95%;
   height: 80%;
   position: absolute;
@@ -16,14 +17,24 @@ const CardWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   .card {
-    padding: 10px 0 5px 5px;
+    height: 100%;
+    padding: 10px 0 10px 5px;
+    display: flex;
+    flex-direction: column;
     .title {
       text-align: center;
       margin: 10px;
     }
     .content {
+      flex: 1 1 auto;
       overflow: auto;
       padding: 20px 10px;
+      pre {
+        border: 1px solid lightgrey;
+        code {
+          font-size: 0.7rem;
+        }
+      }
     }
   }
   .back-icon {
@@ -49,6 +60,11 @@ const PostView = ({ history, match }) => {
     fetchPostById();
   }, []);
 
+  const handleTagClick = value => event => {
+    event.stopPropagation();
+    history.push(`/posts?tags=${value}`);
+  };
+
   const fetchPostById = async () => {
     const { id } = match.params;
     const {
@@ -57,16 +73,31 @@ const PostView = ({ history, match }) => {
     setPost(post);
   };
 
+  if (!post) return null;
+
   return (
     <section>
-      <CardWrapper>
-        <Card post={post} view="EXPANDED" />
+      <Wrapper>
+        <MCard>
+          <h3 className="title">{post.title}</h3>
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: marked(post.content) }}
+          ></div>
+          <div className="tags">
+            {post.tags.map((tag, index) => (
+              <Tag onClick={handleTagClick(tag)} key={index}>
+                {tag.toUpperCase()}
+              </Tag>
+            ))}
+          </div>
+        </MCard>
         <Icon
           className="back-icon"
           onClick={() => history.push("/posts")}
           type="caret-left"
         />
-      </CardWrapper>
+      </Wrapper>
     </section>
   );
 };

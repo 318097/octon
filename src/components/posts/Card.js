@@ -3,44 +3,49 @@ import marked from "marked";
 import styled from "styled-components";
 import { Tag, Icon } from "antd";
 import { withRouter } from "react-router-dom";
+import { Card as MCard } from "../../UIComponents";
 
 const Wrapper = styled.div`
-  background: white;
-  height: 100%;
-  width: 100%;
-  border-radius: 5px;
-  border: 1px solid lightgrey;
-  box-shadow: 3px 3px 3px lightgrey;
-  transition: 1s;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  .title {
-    text-align: center;
-    margin-bottom: 5px;
-  }
-  .content {
-    padding: 5px;
-    word-wrap: break-word;
-    flex: 1 1 auto;
-    width: 100%;
-    pre {
-      font-size: 10px;
-      margin: 0 auto;
-      border: 1px solid lightgrey;
+  height: 115px;
+  cursor: pointer;
+  position: relative;
+  padding: 0px;
+  .card {
+    font-size: 13px;
+    &:hover {
+      background: #f3f3f3;
+    }
+    .title {
+      font-size: inherit;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .content {
+      font-size: inherit;
+      width: 100%;
+      overflow: auto;
       padding: 5px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      pre code {
+        font-size: 0.7rem;
+      }
     }
-    p {
+    .tags {
+      position: absolute;
+      bottom: 9px;
+      left: 3px;
       text-align: left;
-    }
-  }
-  .tags {
-    text-align: left;
-    .ant-tag {
-      cursor: pointer;
-      margin-right: 3px;
-      padding: 0px 4px;
-      font-size: 12px;
+      .ant-tag {
+        cursor: pointer;
+        margin-right: 3px;
+        padding: 0px 4px;
+        font-size: 12px;
+      }
     }
   }
   .bulb-icon {
@@ -52,38 +57,45 @@ const Wrapper = styled.div`
   }
 `;
 
-const Card = ({ history, post, view = "CARD" }) => {
-  const { title = "", content = "", type = "DROP", tags = [] } = post || {};
+const Card = ({ history, post }) => {
+  const { title = "", content = "", type = "DROP", tags = [], _id } =
+    post || {};
+
+  const handleClick = () => history.push(`/posts/${_id}`);
 
   const handleTagClick = value => event => {
     event.stopPropagation();
     history.push(`/posts?tags=${value}`);
   };
 
-  const hideTitle = type === "DROP";
-  const hideContent = type === "POST" && view === "CARD";
-
   if (!post) return <Fragment />;
 
   return (
-    <Wrapper className="card">
-      {!hideTitle && <h3 className="title">{title}</h3>}
-      {!hideContent && (
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{ __html: marked(content) }}
-        ></div>
-      )}
-      <div className="tags">
-        {tags.map((tag, index) => (
-          <Tag onClick={handleTagClick(tag)} key={index}>
-            {tag.toUpperCase()}
-          </Tag>
-        ))}
-      </div>
-      {type === "DROP" && <Icon className="bulb-icon" type="bulb" />}
+    <Wrapper onClick={handleClick}>
+      <MCard>
+        {type === "POST" && <h3 className="title">{title}</h3>}
+        {type === "DROP" && (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: marked(content) }}
+          ></div>
+        )}
+        <div className="tags">
+          {tags.map((tag, index) => (
+            <Tag onClick={handleTagClick(tag)} key={index}>
+              {tag.toUpperCase()}
+            </Tag>
+          ))}
+        </div>
+        {type === "DROP" && <Icon className="bulb-icon" type="bulb" />}
+      </MCard>
     </Wrapper>
   );
+};
+
+Card.defaultProps = {
+  showTitle: true,
+  showContent: true
 };
 
 export default withRouter(Card);
