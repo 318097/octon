@@ -1,7 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Icon, Modal, DatePicker, Input } from "antd";
+import { Modal, DatePicker, Input } from "antd";
 import axios from "axios";
 import moment from "moment";
+import { Icon } from "../../UIComponents";
 
 const { TextArea } = Input;
 
@@ -42,7 +43,7 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
 
   return (
     <Fragment>
-      <Icon className="add-icon" onClick={onClickHandler} type="plus-circle" />
+      <Icon className="add-icon" onClick={onClickHandler} type="plus" />
       <Modal
         visible={visibility}
         title={`${mode === "ADD" ? "Add" : "Edit"} Post`}

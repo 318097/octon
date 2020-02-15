@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Timeline as AntTimeline, Card, Icon, Tag, Popconfirm } from "antd";
+import { Timeline as AntTimeline, Card, Tag, Popconfirm } from "antd";
 import axios from "axios";
 import moment from "moment";
 
+import { Icon } from "../../UIComponents";
 import AddPost from "./AddPost";
 
 import "./Timeline.scss";
@@ -53,12 +54,10 @@ const Timeline = () => {
       <div className="timeline">
         <AntTimeline>
           {data.map(item => (
-            <AntTimeline.Item color="green" key={item._id}>
+            <AntTimeline.Item color="gray" key={item._id}>
               <Card>
                 <div style={{ flex: 1 }}>
-                  <Tag color="#87d068">
-                    {moment(item.date).format("DD,MMM")}
-                  </Tag>
+                  <Tag color="#555">{moment(item.date).format("DD,MMM")}</Tag>
                   {item.content}
                 </div>
                 <div>
