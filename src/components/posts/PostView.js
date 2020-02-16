@@ -39,15 +39,17 @@ const Wrapper = styled.div`
   }
   .back-icon {
     position: absolute;
-    background: lightgrey;
-    top: -7px;
-    left: -9px;
+    background: #484848;
+    color: white;
+    top: 5px;
+    left: 5px;
     z-index: 10;
     padding: 5px;
     border-radius: 30px;
     transition: 1s;
     &:hover {
-      color: grey;
+      background: #484848;
+      color: white;
       transform: scale(1.2);
     }
   }

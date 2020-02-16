@@ -1,9 +1,11 @@
-@import '../../theme.scss';
-@import '../../custom-styles.scss';
+@import "../../theme.scss";
+@import "../../custom-styles.scss";
 
 section#todos {
   width: 98%;
+  background: white;
   @extend .max-width;
+  margin-top: 20px;
   .todo-header {
     padding: 0 10px 15px 10px;
     display: flex;

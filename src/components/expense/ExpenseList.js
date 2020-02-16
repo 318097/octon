@@ -2,14 +2,14 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Radio, PageHeader, Modal, Icon, List, Popconfirm, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
-import "./Expenses.scss";
 
+import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 
 const calculateTotal = expenses =>
   expenses.reduce((acc, { amount }) => amount + acc, 0);
 
-const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseListVisibilityStatus }) => {
+const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
@@ -43,15 +43,6 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseLi
     setEditExpense({ ...expenseById });
     setEditExpenseVisibility(true);
   };
-
-  // const actionButton = [
-  //   <Button
-  //     key="back"
-  //     onClick={() => setVisibilityStatus("expenseListModal", false)}
-  //   >
-  //     Close
-  //   </Button>
-  // ];
 
   const renderItem = row => {
     const date = moment(row.date).format("DD/MM");
@@ -92,8 +83,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseLi
         <PageHeader
           title={
             <div className="expense-list-header custom-font">
-              Expenses{" "}
-              <span className="month">({date.format("MMM 'YY")})</span>
+              Expenses <span className="month">({date.format("MMM 'YY")})</span>
               &nbsp;
               <span>{loading && <Spin size="small" />}</span>
             </div>
@@ -110,7 +100,9 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading, expenseLi
             <Radio.Button value="PERSONAL">Personal</Radio.Button>
             <Radio.Button value="HOME">Home</Radio.Button>
           </Radio.Group>
-          <span className="custom-font total background">Total: Rs/-{total}</span>
+          <span className="custom-font total background">
+            Total: Rs/-{total}
+          </span>
         </div>
 
         <List

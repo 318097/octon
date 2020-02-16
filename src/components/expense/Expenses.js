@@ -3,9 +3,9 @@ import React, { useState, useEffect, Fragment } from "react";
 import { DatePicker, Card, Spin, PageHeader, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
-import "./Expenses.scss";
 import { connect } from "react-redux";
 
+import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
@@ -61,7 +61,7 @@ const Expenses = ({ sendAppNotification }) => {
           extra={[
             <MonthPicker
               key="month-picker"
-              style={{ width: "85px" }}
+              style={{ width: "75px" }}
               allowClear={false}
               format="MMM, YY"
               onChange={date => setDate(date)}

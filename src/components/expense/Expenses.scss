@@ -1,16 +1,19 @@
-@import '../../theme.scss';
-@import '../../custom-styles.scss';
+@import "../../theme.scss";
+@import "../../custom-styles.scss";
 
-section#expenses{
+section#expenses {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
+  padding: 10px;
+  margin-top: 20px;
   .card {
     margin: 0 5px;
     padding: 0 10px 20px;
-    flex:1 1 48%;
+    flex: 1 1 48%;
     @extend .max-width;
     .custom-card {
+      // add type box
       background: rgb(240, 240, 240);
       position: relative;
       z-index: 1;
@@ -22,8 +25,8 @@ section#expenses{
     }
   }
   .ant-card-body {
-      padding: 5px;
-    }
+    padding: 5px;
+  }
   h4 {
     margin: 5px;
     font-weight: bold;
@@ -36,12 +39,12 @@ section#expenses{
     font-style: italic;
   }
 
-  span.total.background{
-    padding: 3px 15px 3px 3px;
+  span.total.background {
+    padding: 2px 15px 2px 3px;
     background: $tommy;
     color: white;
   }
-  
+
   .message {
     font-style: italic;
     color: rgb(112, 112, 112);
@@ -49,25 +52,25 @@ section#expenses{
   }
 }
 
-.ant-modal{
-  .ant-page-header{
-      padding: 5px;
-    }
+.ant-modal {
+  .ant-page-header {
+    padding: 5px;
+  }
 }
 
 .expense-list-header {
-  & > .month{
+  & > .month {
     font-size: 12px;
     font-style: italic;
     font-weight: bold;
     color: $tommy;
   }
 }
-.expense-list-actions{
+.expense-list-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 0 2px;
 }
 

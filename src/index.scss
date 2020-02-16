@@ -1,28 +1,9 @@
 @import "theme.scss";
+@import "custom-styles.scss";
 
 @font-face {
   font-family: Neucha-Regular;
   src: url("./assets/fonts/Neucha-Regular.ttf");
-}
-
-@font-face {
-  font-family: PoiretOne-Regular;
-  src: url("./assets/fonts/PoiretOne-Regular.ttf");
-}
-
-@font-face {
-  font-family: Economica-Regular;
-  src: url("./assets/fonts/Economica-Regular.ttf");
-}
-
-@font-face {
-  font-family: HiMelody-Regular;
-  src: url("./assets/fonts/HiMelody-Regular.ttf");
-}
-
-@font-face {
-  font-family: LuckiestGuy-Regular;
-  src: url("./assets/fonts/LuckiestGuy-Regular.ttf");
 }
 
 @font-face {
@@ -42,6 +23,7 @@ button,
 .ant-calendar-month-panel-cell,
 .ant-checkbox-group {
   font-family: SairaExtraCondensed-Bold;
+  // font-family: Neucha-Regular;
 }
 
 .ant-modal-body {
@@ -49,17 +31,10 @@ button,
 }
 
 body {
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  margin: 0;
+  @extend .defaults;
   background: url("./assets/backgrounds/concrete-texture.png");
   #root {
-    height: 100%;
-    width: 100%;
-  }
-  i {
-    padding: 3px;
+    @extend .defaults;
   }
 }
 
@@ -72,16 +47,16 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f3f3f3;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(71, 71, 71);
+  background: rgb(98, 98, 98);
   border-radius: 15px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(2, 67, 104);
+  background: rgb(58, 58, 58);
 }

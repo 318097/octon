@@ -1,30 +1,47 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import Facebook from '../assets/icons/facebook.png';
-import Instagram from '../assets/icons/instagram.png';
-import Twitter from '../assets/icons/twitter.png';
+import Facebook from "../assets/icons/facebook.png";
+import Instagram from "../assets/icons/instagram.png";
+import Twitter from "../assets/icons/twitter.png";
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 4px;
+  right: 0px;
   display: flex;
-  padding: 0 5px 2px 5px;
-  justify-content: flex-end;
-  a{
+  flex-direction: column;
+  padding-right: 3px;
+  a {
     margin: 1px;
     cursor: pointer;
     transition: 1s;
   }
-`
+`;
 
 const Footer = () => (
   <Wrapper>
-    <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/brainbox.in/"><img src={Facebook} alt="facebook" /></a>
-    <a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/brainbox.in/"><img src={Instagram} alt="instagram" /></a>
-    <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/brainboxin"><img src={Twitter} alt="twitter" /></a>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.facebook.com/brainbox.in/"
+    >
+      <img src={Facebook} alt="facebook" />
+    </a>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://www.instagram.com/brainbox.in/"
+    >
+      <img src={Instagram} alt="instagram" />
+    </a>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://twitter.com/brainboxin"
+    >
+      <img src={Twitter} alt="twitter" />
+    </a>
   </Wrapper>
 );
 

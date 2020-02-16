@@ -6,7 +6,6 @@ import {
   Input,
   Button,
   DatePicker,
-  Icon,
   message,
   Card
 } from "antd";
@@ -14,6 +13,7 @@ import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
 
+import { Icon } from "../../UIComponents";
 import { sendAppNotification } from "../../store/app/actions";
 
 import "./Expenses.scss";
@@ -172,7 +172,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
   return (
     <Fragment>
       <Icon
-        type={visibility ? "minus-circle" : "plus-circle"}
+        type={visibility ? "minus" : "plus"}
         onClick={() => setVisibility(prev => !prev)}
       />
       {visibility && (
