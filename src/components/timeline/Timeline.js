@@ -4,7 +4,7 @@ import { Timeline as AntTimeline, Card, Tag, Popconfirm } from "antd";
 import axios from "axios";
 import moment from "moment";
 
-import { Icon } from "../../UIComponents";
+import { Icon, PageHeader } from "../../UIComponents";
 import AddPost from "./AddPost";
 
 import "./Timeline.scss";
@@ -51,6 +51,9 @@ const Timeline = () => {
 
   return (
     <section id="timeline" className="max-width">
+      <PageHeader>
+        <h3 className="custom-header">Timeline</h3>
+      </PageHeader>
       <div className="timeline">
         <AntTimeline>
           {data.map(item => (

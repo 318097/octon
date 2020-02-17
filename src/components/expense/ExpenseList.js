@@ -1,7 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, PageHeader, Modal, Icon, List, Popconfirm, Spin } from "antd";
+import { Radio, Modal, Icon, List, Popconfirm, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
+
+import { PageHeader } from "../../UIComponents";
 
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
@@ -80,16 +82,14 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   return (
     <Fragment>
       <div>
-        <PageHeader
-          title={
-            <div className="expense-list-header custom-font">
-              Expenses <span className="month">({date.format("MMM 'YY")})</span>
-              &nbsp;
-              <span>{loading && <Spin size="small" />}</span>
-            </div>
-          }
-        />
-        <div className="expense-list-actions">
+        <PageHeader>
+          <div className="expense-list-header custom-font">
+            Expenses <span className="month">({date.format("MMM 'YY")})</span>
+            &nbsp;
+            <span>{loading && <Spin size="small" />}</span>
+          </div>
+        </PageHeader>
+        <PageHeader>
           <Radio.Group
             className="custom-font"
             defaultValue={filterType}
@@ -103,7 +103,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
           <span className="custom-font total background">
             Total: Rs/-{total}
           </span>
-        </div>
+        </PageHeader>
 
         <List
           style={{ maxHeight: "50vh", overflowY: "auto" }}

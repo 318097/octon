@@ -101,6 +101,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
 
   return (
     <List
+      className="todo-list"
       style={{ background: "white" }}
       size="small"
       header={`Todos: ${type}`}

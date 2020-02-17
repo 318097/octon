@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, Fragment } from "react";
-import { DatePicker, Card, Spin, PageHeader, Icon } from "antd";
+import React, { useState, useEffect } from "react";
+import { DatePicker, Card, Spin, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -10,6 +10,7 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
 import { sendAppNotification } from "../../store/app/actions";
+import { PageHeader } from "../../UIComponents";
 
 const { MonthPicker } = DatePicker;
 
@@ -51,14 +52,12 @@ const Expenses = ({ sendAppNotification }) => {
   return (
     <section id="expenses">
       <Card className="card">
-        <PageHeader
-          title={
-            <Fragment>
-              <span className="custom-header">Expenses&nbsp;</span>
-              {loading && <Spin size="small" />}
-            </Fragment>
-          }
-          extra={[
+        <PageHeader>
+          <div>
+            <span className="custom-header">Expenses&nbsp;</span>
+            {loading && <Spin size="small" />}
+          </div>
+          <div>
             <MonthPicker
               key="month-picker"
               style={{ width: "75px" }}
@@ -67,17 +66,17 @@ const Expenses = ({ sendAppNotification }) => {
               onChange={date => setDate(date)}
               value={date}
               placeholder="Select month"
-            />,
-            <span key="total" className="total">
+            />
+            <span style={{ margin: "0 8px" }} key="total" className="total">
               Rs/- {total}
-            </span>,
+            </span>
             <Icon
               key="list-expenses"
               onClick={() => setExpenseListVisibilityStatus(true)}
               type="wallet"
             />
-          ]}
-        />
+          </div>
+        </PageHeader>
         <AddExpense
           setAppLoading={setLoading}
           fetchExpenseByMonth={fetchExpenseByMonth}

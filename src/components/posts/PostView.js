@@ -78,7 +78,7 @@ const PostView = ({ history, match }) => {
   if (!post) return null;
 
   return (
-    <section>
+    <section id="view-post">
       <Wrapper>
         <MCard>
           <h3 className="title">{post.title}</h3>

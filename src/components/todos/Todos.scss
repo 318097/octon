@@ -2,34 +2,22 @@
 @import "../../custom-styles.scss";
 
 section#todos {
-  width: 98%;
   background: white;
+  width: 98%;
   @extend .max-width;
-  margin-top: 20px;
-  .todo-header {
-    padding: 0 10px 15px 10px;
+  div.page-header {
     display: flex;
     align-items: center;
-    div {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      h3 {
-        margin: 0 10px 0 0;
-        font-weight: bold;
-      }
-    }
-    i {
-      font-size: 18px;
-      margin-top: 3px;
-      cursor: pointer;
+    h3 {
+      margin: 0 8px 0 0;
     }
   }
+
   div.task-container {
     flex: 1;
     .task {
       display: inline-block;
-      padding: 2px 5px;
+      padding: 2px;
     }
 
     .task.disabled {
@@ -52,7 +40,11 @@ section#todos {
       text-decoration: underline;
     }
   }
-
+  .todo-list {
+    .ant-list-item {
+      padding: 4px;
+    }
+  }
   .success {
     color: rgb(0, 151, 0);
     cursor: not-allowed;

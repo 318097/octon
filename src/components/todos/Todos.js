@@ -4,6 +4,7 @@ import axios from "axios";
 
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
+import { PageHeader } from "../../UIComponents";
 import "./Todos.scss";
 
 const Todos = () => {
@@ -23,8 +24,8 @@ const Todos = () => {
 
   return (
     <section id="todos">
-      <div className="todo-header">
-        <div>
+      <PageHeader>
+        <div className="page-header">
           <h3 className="custom-header">Todos</h3>
           <Radio.Group
             defaultValue={todoType}
@@ -36,7 +37,7 @@ const Todos = () => {
           </Radio.Group>
         </div>
         <AddTodo fetchTodoList={fetchTodoList} />
-      </div>
+      </PageHeader>
 
       <TodoList
         todoList={todoList}
