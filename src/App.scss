@@ -10,13 +10,9 @@
     overflow-y: auto;
     padding-top: 10px;
     & > .ant-spin {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      @extend .center-container;
     }
     & > section {
-      // background: #f7f7f7;
       background: url("./assets/backgrounds/funky-lines.png");
       border-radius: 10px;
       margin: 0px auto;
@@ -27,7 +23,7 @@
       width: 98%;
       &#login,
       &#register {
-        max-width: 275px;
+        max-width: 300px;
         padding: 30px 20px 60px;
         overflow: hidden;
         position: relative;

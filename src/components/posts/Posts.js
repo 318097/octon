@@ -13,7 +13,7 @@ import "./Posts.scss";
 const { Search } = Input;
 const { Option } = Select;
 
-const Container = styled.div`
+const GridContainer = styled.div`
   margin-top: 12px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 215px);
@@ -141,13 +141,16 @@ const Posts = ({ history, location }) => {
           ))}
         </div>
       </div>
-      <Container>
-        {posts.length > 0 ? (
-          posts.map(post => <Card key={post._id} post={post} />)
-        ) : (
-          <span className="not-found">No posts found.</span>
-        )}
-      </Container>
+
+      <div className="post-container">
+        <GridContainer>
+          {posts.length > 0 ? (
+            posts.map(post => <Card key={post._id} post={post} />)
+          ) : (
+            <span className="not-found">No posts found.</span>
+          )}
+        </GridContainer>
+      </div>
       {page * 10 < totalPosts && (
         <div className="flex center mt">
           <Button

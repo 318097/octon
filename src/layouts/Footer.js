@@ -11,6 +11,10 @@ const Wrapper = styled.div`
   right: 0px;
   display: flex;
   padding-right: 3px;
+  @media screen and (max-width: 400px) {
+    position: relative;
+    left: 4px;
+  }
   a {
     margin: 1px;
     cursor: pointer;
