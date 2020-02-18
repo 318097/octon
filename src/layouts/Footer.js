@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   bottom: 4px;
   right: 0px;
   display: flex;
-  flex-direction: column;
   padding-right: 3px;
   a {
     margin: 1px;

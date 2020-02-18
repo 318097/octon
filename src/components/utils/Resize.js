@@ -1,7 +1,7 @@
-import React, { useLayoutEffect, useState } from 'react'
-import { Card, Modal } from 'antd';
+import React, { useLayoutEffect, useState } from "react";
+import { Modal } from "antd";
 
-const getMode = () => window.innerWidth > 650 ? 'CARD' : 'MODAL';
+const getMode = () => (window.innerWidth > 650 ? "CARD" : "MODAL");
 
 const Resize = ({
   component: Component,
@@ -11,15 +11,16 @@ const Resize = ({
   const [mode, setMode] = useState(null);
   useLayoutEffect(() => {
     const updateView = () => setMode(getMode());
-    window.addEventListener('resize', updateView);
+    window.addEventListener("resize", updateView);
     setMode(getMode());
-    return () => window.removeEventListener('resize', updateView);
+    return () => window.removeEventListener("resize", updateView);
   }, []);
 
-  return mode === 'CARD' ?
-    <Card className="card">
+  return mode === "CARD" ? (
+    <div className="card">
       <Component {...rest} />
-    </Card> :
+    </div>
+  ) : (
     <Modal
       visible={visible}
       title={title}
@@ -29,6 +30,7 @@ const Resize = ({
     >
       <Component {...rest} />
     </Modal>
-}
+  );
+};
 
 export default Resize;

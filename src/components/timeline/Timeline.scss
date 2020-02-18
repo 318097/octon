@@ -1,11 +1,8 @@
 section#timeline {
-  background: white;
   .timeline {
     height: 70vh;
-    padding: 8px;
     position: relative;
     .ant-timeline {
-      padding: 8px;
       overflow: auto;
       height: 100%;
     }

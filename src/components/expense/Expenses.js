@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Card, Spin, Icon } from "antd";
+import { DatePicker, Spin, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -51,7 +51,7 @@ const Expenses = ({ sendAppNotification }) => {
 
   return (
     <section id="expenses">
-      <Card className="card">
+      <div className="card">
         <PageHeader>
           <div>
             <span className="custom-header">Expenses&nbsp;</span>
@@ -82,7 +82,7 @@ const Expenses = ({ sendAppNotification }) => {
           fetchExpenseByMonth={fetchExpenseByMonth}
           mode="ADD"
         />
-      </Card>
+      </div>
       <Resize
         modalProps={{
           visible: expenseListVisibilityStatus,

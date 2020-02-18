@@ -176,7 +176,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
         onClick={() => setVisibility(prev => !prev)}
       />
       {visibility && (
-        <Card className="custom-card">
+        <div className="add-type-card">
           <Input
             className="input"
             style={{ width: "70%" }}
@@ -186,7 +186,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
           <Button className="input" onClick={addExpenseType} loading={loading}>
             Add
           </Button>
-        </Card>
+        </div>
       )}
     </Fragment>
   );

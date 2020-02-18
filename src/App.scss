@@ -7,8 +7,8 @@
   flex-direction: column;
   & > div.content {
     flex-grow: 1;
-    height: 100%;
     overflow-y: auto;
+    padding-top: 10px;
     & > .ant-spin {
       position: absolute;
       top: 50%;
@@ -16,19 +16,22 @@
       transform: translate(-50%, -50%);
     }
     & > section {
-      margin-top: 10px;
+      // background: #f7f7f7;
+      background: url("./assets/backgrounds/funky-lines.png");
+      border-radius: 10px;
+      margin: 0px auto;
       padding: 10px;
-      min-height: 50vh;
+      min-height: 40vh;
+      max-height: 98%;
+      box-sizing: border-box;
+      width: 98%;
       &#login,
       &#register {
-        width: 100%;
         max-width: 275px;
-        margin: 20px auto;
         padding: 30px 20px 60px;
         overflow: hidden;
         position: relative;
         border-radius: 10px;
-        @extend .bg-white;
         @extend .text-center;
         &:after {
           content: "";
