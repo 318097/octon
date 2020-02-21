@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Facebook from "../assets/icons/facebook.png";
-import Instagram from "../assets/icons/instagram.png";
-import Twitter from "../assets/icons/twitter.png";
+import Facebook from "../assets/icons/set2/facebook.svg";
+import Instagram from "../assets/icons/set2/instagram.svg";
+import Twitter from "../assets/icons/set2/twitter.svg";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -12,13 +12,18 @@ const Wrapper = styled.div`
   display: flex;
   padding-right: 3px;
   @media screen and (max-width: 400px) {
+    display: none;
     position: relative;
     left: 4px;
   }
   a {
-    margin: 1px;
+    margin: 0 2px;
     cursor: pointer;
     transition: 1s;
+    img {
+      height: 1rem;
+      width: 1rem;
+    }
   }
 `;
 
