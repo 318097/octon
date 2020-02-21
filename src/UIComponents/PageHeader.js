@@ -5,7 +5,7 @@ const StyledPageHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 6px 0;
+  margin: 8px 4px;
 `;
 
 const PageHeader = props => (

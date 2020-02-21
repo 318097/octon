@@ -2,13 +2,12 @@
 @import "../../custom-styles.scss";
 
 section#expenses {
-  padding: 0;
   display: flex;
   justify-content: center;
   align-items: stretch;
-  max-width: 600px;
+  max-width: 700px;
   .card {
-    padding: 0 10px 10px;
+    padding: 0 10px;
     flex: 1 1 48%;
     .add-type-card {
       background: rgb(240, 240, 240);
@@ -21,22 +20,19 @@ section#expenses {
       }
     }
   }
-  h4 {
-    margin: 5px;
-    font-weight: bold;
-  }
 
-  span.total {
+  .total {
     font-size: 120%;
     font-weight: bold;
     color: grey;
     font-style: italic;
-  }
 
-  span.total.background {
-    padding: 2px 15px 2px 3px;
-    background: $tommy;
-    color: white;
+    &.background {
+      padding: 2px 15px 2px 3px;
+      border-radius: 5px;
+      background: $tomato;
+      color: $white;
+    }
   }
 
   .message {
@@ -46,18 +42,11 @@ section#expenses {
   }
 }
 
-.ant-modal {
-  .ant-page-header {
-    padding: 5px;
-  }
-}
-
 .expense-list-header {
-  & > .month {
-    font-size: 12px;
+  .month {
+    font-size: 0.7rem;
     font-style: italic;
-    font-weight: bold;
-    color: $tommy;
+    color: $tomato;
   }
 }
 
@@ -65,6 +54,22 @@ section#expenses {
   flex: 1;
 }
 
+.spinner {
+  margin-left: 4px;
+  position: relative;
+  top: 2px;
+}
+
+.ant-modal {
+  .ant-page-header {
+    padding: 5px;
+  }
+}
+
 .ant-list {
   background: white;
+}
+.ant-list-items.ant-list-item {
+  padding-left: 8px;
+  padding-right: 8px;
 }

@@ -2,14 +2,10 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Radio, Modal, Icon, List, Popconfirm, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
-
+import { calculateTotal } from "./util";
 import { PageHeader } from "../../UIComponents";
-
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
-
-const calculateTotal = expenses =>
-  expenses.reduce((acc, { amount }) => amount + acc, 0);
 
 const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   const [editExpense, setEditExpense] = useState(null);
@@ -81,39 +77,36 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
 
   return (
     <Fragment>
-      <div>
-        <PageHeader>
-          <div className="expense-list-header custom-font">
+      <PageHeader>
+        <div className="expense-list-header custom-font">
+          <h4>
             Expenses <span className="month">({date.format("MMM 'YY")})</span>
-            &nbsp;
-            <span>{loading && <Spin size="small" />}</span>
-          </div>
-        </PageHeader>
-        <PageHeader>
-          <Radio.Group
-            className="custom-font"
-            defaultValue={filterType}
-            buttonStyle="solid"
-            onChange={({ target: { value } }) => setFilterType(value)}
-          >
-            <Radio.Button value="ALL">All</Radio.Button>
-            <Radio.Button value="PERSONAL">Personal</Radio.Button>
-            <Radio.Button value="HOME">Home</Radio.Button>
-          </Radio.Group>
-          <span className="custom-font total background">
-            Total: Rs/-{total}
-          </span>
-        </PageHeader>
+            {loading && <Spin className="spinner" size="small" />}
+          </h4>
+        </div>
+      </PageHeader>
+      <PageHeader>
+        <Radio.Group
+          className="custom-font"
+          defaultValue={filterType}
+          buttonStyle="solid"
+          onChange={({ target: { value } }) => setFilterType(value)}
+        >
+          <Radio.Button value="ALL">All</Radio.Button>
+          <Radio.Button value="PERSONAL">Personal</Radio.Button>
+          <Radio.Button value="HOME">Home</Radio.Button>
+        </Radio.Group>
+        <span className="custom-font total background">Total: Rs/-{total}</span>
+      </PageHeader>
 
-        <List
-          style={{ maxHeight: "50vh", overflowY: "auto" }}
-          itemLayout="horizontal"
-          size="small"
-          bordered
-          dataSource={dataSource}
-          renderItem={renderItem}
-        />
-      </div>
+      <List
+        style={{ maxHeight: "50vh", overflowY: "auto" }}
+        itemLayout="horizontal"
+        size="small"
+        bordered
+        dataSource={dataSource}
+        renderItem={renderItem}
+      />
 
       <Modal
         visible={editExpenseVisibility}

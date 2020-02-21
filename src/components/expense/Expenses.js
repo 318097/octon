@@ -11,11 +11,8 @@ import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
 import { sendAppNotification } from "../../store/app/actions";
 import { PageHeader } from "../../UIComponents";
-
+import { calculateTotal } from "./util";
 const { MonthPicker } = DatePicker;
-
-const calculateTotal = expenses =>
-  expenses.reduce((acc, { amount }) => amount + acc, 0);
 
 const Expenses = ({ sendAppNotification }) => {
   const [expenseList, setExpenseList] = useState([]);
@@ -53,10 +50,10 @@ const Expenses = ({ sendAppNotification }) => {
     <section id="expenses">
       <div className="card">
         <PageHeader>
-          <div>
+          <h4>
             <span className="custom-header">Expenses&nbsp;</span>
-            {loading && <Spin size="small" />}
-          </div>
+            {loading && <Spin className="spinner" size="small" />}
+          </h4>
           <div>
             <MonthPicker
               key="month-picker"

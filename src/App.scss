@@ -5,6 +5,7 @@
   @extend .defaults;
   display: flex;
   flex-direction: column;
+  background: url("./assets/backgrounds/dot-grid.png");
   & > div.content {
     flex-grow: 1;
     overflow-y: auto;
@@ -13,22 +14,21 @@
       @extend .center-container;
     }
     & > section {
-      background: url("./assets/backgrounds/funky-lines.png");
-      border-radius: 10px;
+      background: $shade1;
+      border-radius: 20px;
       margin: 0px auto;
-      padding: 10px;
+      padding: 20px 12px;
       min-height: 40vh;
       max-height: 98%;
       box-sizing: border-box;
       width: 98%;
+      position: relative;
       &#login,
       &#register {
-        max-width: 300px;
+        max-width: 350px;
+        @extend .text-center;
         padding: 30px 20px 60px;
         overflow: hidden;
-        position: relative;
-        border-radius: 10px;
-        @extend .text-center;
         &:after {
           content: "";
           position: absolute;

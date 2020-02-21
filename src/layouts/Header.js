@@ -7,11 +7,10 @@ const StyledHeader = styled.header`
   display: flex;
   position: sticky;
   z-index: 10;
-  background: white;
   top: 0;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
+  padding: 4px 16px;
   @media (max-width: 480px) {
     flex-direction: column;
     padding-bottom: 12px;
@@ -26,7 +25,7 @@ const StyledHeader = styled.header`
       }
     }
     .extension {
-      color: green;
+      color: gray;
     }
   }
 `;
