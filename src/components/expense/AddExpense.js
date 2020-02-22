@@ -1,14 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
-import {
-  Radio,
-  InputNumber,
-  Input,
-  Button,
-  DatePicker,
-  message,
-  Card
-} from "antd";
+import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";

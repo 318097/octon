@@ -1,7 +1,7 @@
+@import "../../theme.scss";
 section#timeline {
   .timeline {
     height: 70vh;
-    position: relative;
     .ant-timeline {
       overflow: auto;
       height: 100%;
@@ -21,6 +21,7 @@ section#timeline {
   }
   .add-icon {
     position: absolute;
+    background: $gray;
     font-size: 18px;
     right: 4px;
     bottom: 4px;

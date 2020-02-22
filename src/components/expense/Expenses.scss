@@ -10,8 +10,9 @@ section#expenses {
     padding: 0 10px;
     flex: 1 1 48%;
     .add-type-card {
-      background: rgb(240, 240, 240);
+      background: #c1c1c1;
       position: relative;
+      max-width: 300px;
       z-index: 1;
       border-radius: 15px;
       text-align: center;

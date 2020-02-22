@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const StyledIcon = styled(AntIcon)`
   padding: 4px;
-  background: #efefef;
+  background: #e4e4e4;
   transition: 0.8s;
   margin: 2px;
   border-radius: 50%;

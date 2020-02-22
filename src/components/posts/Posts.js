@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
@@ -30,7 +30,7 @@ const Posts = ({ history, location }) => {
 
   useEffect(() => {
     if (!filters) return;
-    fetchPosts();
+    // fetchPosts();
   }, [filters]);
 
   useEffect(() => {
@@ -108,31 +108,35 @@ const Posts = ({ history, location }) => {
     <section id="posts">
       <div className="header">
         <h3 className="custom-header">Posts</h3>
-        <Search
-          allowClear
-          className="input input-width"
-          placeholder="Search..."
-          defaultValue={search}
-          onSearch={value => setFilterValues({ search: value })}
-        />
-        <Select
-          mode="multiple"
-          className="input"
-          style={{ minWidth: "150px" }}
-          placeholder="Tags"
-          value={tags}
-          onChange={handleTagFilter}
-        >
-          {tagList.map(({ label, value }) => (
-            <Option key={value} value={value}>
-              {label}
-            </Option>
-          ))}
-        </Select>
-        <div>
-          Showing <span className="custom-header">{posts.length}</span> of{" "}
-          {totalPosts} posts.
-        </div>
+
+        {posts.length > 0 && (
+          <Fragment>
+            <Search
+              allowClear
+              className="input input-width"
+              placeholder="Search..."
+              defaultValue={search}
+              onSearch={value => setFilterValues({ search: value })}
+            />
+            <Select
+              mode="multiple"
+              className="input"
+              style={{ minWidth: "150px" }}
+              placeholder="Tags"
+              value={tags}
+              onChange={handleTagFilter}
+            >
+              {tagList.map(({ label, value }) => (
+                <Option key={value} value={value}>
+                  {label}
+                </Option>
+              ))}
+            </Select>
+            <div>
+              Showing {posts.length} of {totalPosts} posts.
+            </div>
+          </Fragment>
+        )}
         <div>
           {tags.map(tag => (
             <Tag key={tag} onClose={handleTagClose(tag)} closable>
@@ -143,21 +147,24 @@ const Posts = ({ history, location }) => {
       </div>
 
       <div className="post-container">
-        <GridContainer>
-          {posts.length > 0 ? (
-            posts.map(post => <Card key={post._id} post={post} />)
-          ) : (
-            <span className="not-found">No posts found.</span>
-          )}
-        </GridContainer>
+        {posts.length ? (
+          <GridContainer>
+            {posts.map(post => (
+              <Card key={post._id} post={post} />
+            ))}
+          </GridContainer>
+        ) : (
+          <div className="not-found">No posts found.</div>
+        )}
       </div>
       {page * 10 < totalPosts && (
         <div className="flex center mt">
           <Button
             type="danger"
-            onClick={() => (
-              setFilterValues({ page: page + 1 }), setConcatData(true)
-            )}
+            onClick={() => {
+              setFilterValues({ page: page + 1 });
+              setConcatData(true);
+            }}
           >
             Load
           </Button>
