@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Spin, Icon, Divider } from "antd";
+import { DatePicker, Spin, Icon } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";

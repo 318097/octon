@@ -23,6 +23,12 @@
       box-sizing: border-box;
       width: 96%;
       position: relative;
+      &#home,
+      &#goals,
+      &#todos {
+        width: 98%;
+        @extend .max-width;
+      }
       &#login,
       &#register {
         max-width: 275px;

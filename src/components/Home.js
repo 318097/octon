@@ -1,5 +1,5 @@
 import React from "react";
 
-const Home = () => <section className="center">Home</section>;
+const Home = () => <section id="home">Home</section>;
 
 export default Home;

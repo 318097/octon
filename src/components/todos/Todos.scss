@@ -2,8 +2,6 @@
 @import "../../custom-styles.scss";
 
 section#todos {
-  width: 98%;
-  @extend .max-width;
   div.page-header {
     display: flex;
     align-items: center;
