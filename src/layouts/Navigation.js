@@ -1,11 +1,11 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { Icon } from "antd";
-import { connect } from 'react-redux';
-import './Navigation.scss';
+import { connect } from "react-redux";
+import "./Navigation.scss";
 
-import { getSession } from '../store/app/selectors';
-import { setSession } from '../store/app/actions';
+import { getSession } from "../store/app/selectors";
+import { setSession } from "../store/app/actions";
 
 const Navigation = ({ history, session, setSession }) => {
   const logout = () => {
@@ -25,32 +25,34 @@ const Navigation = ({ history, session, setSession }) => {
       <NavLink exact activeClassName="active-link" to="/todos">
         Todos
       </NavLink>
+      <NavLink exact activeClassName="active-link" to="/goals">
+        Goals
+      </NavLink>
       <NavLink exact activeClassName="active-link" to="/timeline">
         Timeline
       </NavLink>
       <NavLink exact activeClassName="active-link" to="/posts">
         Posts
       </NavLink>
-      {
-        session && session.loggedIn ?
-          (
-            <NavLink to="#" className="logout" type="link" onClick={logout}>
-              Logout&nbsp;
-              <Icon type="logout" />
-            </NavLink>
-          ) : (
-            <NavLink exact activeClassName="active-link" to="/login">
-              Login&nbsp;
-              <Icon type="login" />
-            </NavLink>
-          )
-      }
+      {session && session.loggedIn ? (
+        <NavLink to="#" className="logout" type="link" onClick={logout}>
+          Logout&nbsp;
+          <Icon type="logout" />
+        </NavLink>
+      ) : (
+        <NavLink exact activeClassName="active-link" to="/login">
+          Login&nbsp;
+          <Icon type="login" />
+        </NavLink>
+      )}
     </nav>
   );
 };
 
 const mapStateToProps = state => ({ session: getSession(state) });
 
-const mapDispatchToProps = ({ setSession });
+const mapDispatchToProps = { setSession };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigation));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Navigation)
+);

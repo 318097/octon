@@ -1,0 +1,55 @@
+@import "../../theme.scss";
+@import "../../custom-styles.scss";
+
+section#goals {
+  div.page-header {
+    display: flex;
+    align-items: center;
+    h3 {
+      margin: 0 8px 0 0;
+    }
+  }
+  .goal-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .goal-item {
+      flex: 0 0 49%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4px 8px;
+      height: 150px;
+      width: 150px;
+      background: #82d5ff;
+      margin: 4px 0;
+      border-radius: 5px;
+      color: whitesmoke;
+      position: relative;
+      .goal {
+        font-size: 1.2rem;
+      }
+      .time {
+        font-size: 1.8rem;
+      }
+      .date {
+        font-size: 0.8rem;
+      }
+      .check-icon {
+        position: absolute;
+        background: whitesmoke;
+        color: #82d5ff;
+        right: 2px;
+        bottom: 2px;
+        transition: 0.3;
+        &:hover {
+          background: #82d5ff;
+          color: whitesmoke;
+        }
+      }
+    }
+  }
+  .success {
+  }
+}
