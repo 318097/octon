@@ -53,7 +53,7 @@ const App = ({ session, setSession, appNotification }) => {
   useEffect(() => {
     if (session && session.loggedIn) {
       axios.defaults.headers.common["authorization"] = getToken();
-      setTimeout(() => setLoading(false), 1000);
+      setTimeout(() => setLoading(false), 200);
     }
   }, [session]);
 

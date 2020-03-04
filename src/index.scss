@@ -36,19 +36,15 @@ button,
 .ant-calendar-month-panel-cell,
 .ant-checkbox-group {
   font-family: SairaExtraCondensed-Bold;
-  // font-family: Neucha-Regular;
 }
 
 .ant-modal-body {
   padding: 12px !important;
 }
 
-body {
+body,
+#root {
   @extend .defaults;
-  // background: url("./assets/backgrounds/funky-lines.png");
-  #root {
-    @extend .defaults;
-  }
 }
 
 /* Custom scrollbar */
