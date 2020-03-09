@@ -1,9 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import moment from "moment";
 import axios from "axios";
 
 import { Icon } from "../../UIComponents";
 import "./Goals.scss";
+
+const formatDate = date => moment(date).format("DD MMM/YY");
 
 const GoalList = ({ goalList, fetchGoalList }) => {
   const markGoal = async id => {
@@ -19,46 +21,37 @@ const GoalList = ({ goalList, fetchGoalList }) => {
   return (
     <div className="goal-list">
       {goalList.map(item => {
-        const { status, deadline, finishedOn } = item;
-        let remainingTime;
+        const { status, deadline, finishedOn, _id, goal } = item;
 
+        const remainingTime = moment(deadline).diff(moment(), "days");
         const isExpired = moment().isAfter(moment(deadline));
-        const goalOpen = !isExpired && status === "OPEN";
 
-        if (goalOpen) remainingTime = moment(deadline).diff(moment(), "days");
         return (
           <div
-            key={item._id}
+            key={_id}
             className="goal-item"
             style={{
               background:
                 status === "DONE" ? "#54ca54" : isExpired ? "tomato" : null
             }}
           >
-            <span className="goal">{item.goal}</span>
+            <span className="goal">{goal}</span>
+            <span className="date">Deadline - {formatDate(deadline)}</span>
             {status === "DONE" ? (
-              <Fragment>
-                <span className="date">
-                  Finished on - {moment(finishedOn).format("DD MMM, YYYY")}
-                </span>
-                <span className="date">
-                  Deadline - {moment(deadline).format("DD MMM, YYYY")}
-                </span>
-              </Fragment>
-            ) : goalOpen ? (
+              <span className="date">
+                Finished on - {formatDate(finishedOn)}
+              </span>
+            ) : (
               <span>
                 <span className="time">{remainingTime}</span> day(s)
               </span>
-            ) : (
-              <span className="date">
-                Deadline - {moment(deadline).format("DD MMM, YYYY")}
-              </span>
             )}
-            {goalOpen && (
+
+            {status === "OPEN" && (
               <Icon
                 className="check-icon"
                 type="check"
-                onClick={() => markGoal(item._id)}
+                onClick={() => markGoal(_id)}
               />
             )}
           </div>

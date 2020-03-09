@@ -39,17 +39,15 @@ section#goals {
       .check-icon {
         position: absolute;
         background: whitesmoke;
-        color: #82d5ff;
+        color: #3a3a3a;
         right: 2px;
         bottom: 2px;
         transition: 0.3;
         &:hover {
-          background: #82d5ff;
+          background: inherit;
           color: whitesmoke;
         }
       }
     }
-  }
-  .success {
   }
 }
