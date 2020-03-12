@@ -3,6 +3,7 @@ import { Input, Button, message } from "antd";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import _ from "lodash";
 
 import { sendAppNotification } from "../../store/app/actions";
 
@@ -33,8 +34,8 @@ const Register = ({ dispatch }) => {
         })
       );
     } catch (err) {
-      const { data: errorMessage } = err.response;
-      message.error(errorMessage);
+      const errorMsg = _.get(err, "response.data", "Server error");
+      message.error(errorMsg);
     } finally {
       setLoading(false);
     }
