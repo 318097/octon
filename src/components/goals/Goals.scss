@@ -10,6 +10,9 @@ section#goals {
     }
   }
   .goal-list {
+    overflow-y: auto;
+    height: 400px;
+    padding: 0 4px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -29,6 +32,7 @@ section#goals {
       position: relative;
       .goal {
         font-size: 1.2rem;
+        text-align: center;
       }
       .time {
         font-size: 1.8rem;
