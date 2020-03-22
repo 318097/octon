@@ -25,6 +25,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "ml318097.mui/page-header@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/UIComponents/PageHeader.js",
+                "test": false,
+                "name": "PageHeader.js"
+            }
+        ],
+        "mainFile": "src/UIComponents/PageHeader.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "ml318097.pages/page-not-found@0.0.1": {
         "files": [
             {
