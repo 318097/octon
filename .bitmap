@@ -13,6 +13,18 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "ml318097.mui/icon@0.0.1": {
+        "files": [
+            {
+                "relativePath": "src/UIComponents/Icon.js",
+                "test": false,
+                "name": "Icon.js"
+            }
+        ],
+        "mainFile": "src/UIComponents/Icon.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "ml318097.pages/page-not-found@0.0.1": {
         "files": [
             {
