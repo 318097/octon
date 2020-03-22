@@ -30,7 +30,7 @@ const Posts = ({ history, location }) => {
 
   useEffect(() => {
     if (!filters) return;
-    // fetchPosts();
+    fetchPosts();
   }, [filters]);
 
   useEffect(() => {
