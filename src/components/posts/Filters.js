@@ -65,7 +65,7 @@ const Filters = ({ setFilter, filters, meta, tagList = [], postCount }) => {
           </Option>
         ))}
       </Select>
-      {postCount && (
+      {postCount > 0 && (
         <div>
           Showing {postCount} of {meta.count} posts.
         </div>
