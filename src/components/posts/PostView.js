@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import marked from "marked";
 import styled from "styled-components";
 import { Tag, Icon } from "antd";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { getPostById } from "../../store/posts/actions";
 import { Card as MCard } from "../../UIComponents";
 
 const Wrapper = styled.div`
@@ -55,24 +56,15 @@ const Wrapper = styled.div`
   }
 `;
 
-const PostView = ({ history, match }) => {
-  const [post, setPost] = useState(null);
-
+const PostView = ({ history, match, post, getPostById }) => {
   useEffect(() => {
-    fetchPostById();
+    const { id } = match.params;
+    getPostById(id);
   }, []);
 
   const handleTagClick = value => event => {
     event.stopPropagation();
     history.push(`/posts?tags=${value}`);
-  };
-
-  const fetchPostById = async () => {
-    const { id } = match.params;
-    const {
-      data: { post }
-    } = await axios.get(`/posts/${id}`);
-    setPost(post);
   };
 
   if (!post) return null;
@@ -104,4 +96,15 @@ const PostView = ({ history, match }) => {
   );
 };
 
-export default withRouter(PostView);
+const mapStateToProps = ({ posts }) => ({
+  post: posts.selectedPost
+});
+
+const mapDispatchToProps = {
+  getPostById
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(PostView));

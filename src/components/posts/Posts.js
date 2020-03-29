@@ -1,151 +1,49 @@
-import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import queryString from "query-string";
-import { Tag, Input, Button, Select } from "antd";
-// import _ from 'lodash';
-
+// import queryString from "query-string";
+import { Button } from "antd";
+import Filters from "./Filters";
+import { fetchPosts, setFilter, fetchTags } from "../../store/posts/actions";
 import Card from "./Card";
-
 import "./Posts.scss";
 
-const { Search } = Input;
-const { Option } = Select;
-
 const GridContainer = styled.div`
-  margin-top: 12px;
+  margin-top: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 215px);
   justify-content: center;
   grid-gap: 8px;
 `;
 
-const Posts = ({ history, location }) => {
-  const [posts, setPosts] = useState([]);
-  const [totalPosts, setTotalPosts] = useState(null);
-  const [filters, setFilters] = useState(null);
-  const [concatData, setConcatData] = useState(false);
-  const [tagList, setTagList] = useState([]);
-
+const Posts = ({
+  history,
+  location,
+  posts,
+  fetchPosts,
+  setFilter,
+  fetchTags,
+  tagList,
+  meta,
+  filters
+}) => {
   useEffect(() => {
-    if (!filters) return;
     fetchPosts();
-  }, [filters]);
-
-  useEffect(() => {
-    const fetchTags = async () => {
-      const {
-        data: { tags }
-      } = await axios.get("/posts/tags");
-      setTagList(
-        tags.map(({ _id, color, name }) => ({
-          _id,
-          color,
-          label: name.toUpperCase(),
-          value: name
-        }))
-      );
-    };
     fetchTags();
   }, []);
 
-  useEffect(() => {
-    if (!location.search) {
-      setFilters({
-        search: "",
-        tags: [],
-        type: "",
-        page: 1
-      });
-      return;
-    }
-
-    const { tags = [], search, type, page } = queryString.parse(
-      location.search,
-      { arrayFormat: "comma" }
-    );
-
-    setFilters({
-      search,
-      type,
-      page: Number(page) || 1,
-      tags: [].concat(tags)
-    });
-  }, [location]);
-
-  const setFilterValues = filter =>
-    setFilters(prev => ({ ...prev, ...filter }));
-
-  const fetchPosts = async () => {
-    try {
-      const {
-        data: { posts: data, meta }
-      } = await axios.get("/posts", { params: filters });
-
-      setTotalPosts(meta.count);
-      setPosts(concatData ? [...posts, ...data] : data);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setConcatData(false);
-    }
-  };
-
-  const handleTagClose = selectedTag => () => {
-    let { tags = [] } = filters;
-    tags = tags.filter(tag => tag !== selectedTag);
-    const queryParams = { ...filters, tags };
-    const query = queryString.stringify(queryParams, { arrayFormat: "comma" });
-    history.push(`/posts?${query}`);
-  };
-
-  const handleTagFilter = values => setFilterValues({ tags: values });
-
-  const { tags = [], search = "", page = 0 } = filters || {};
+  const { page = 1 } = filters;
 
   return (
     <section id="posts">
-      <div className="header">
-        <h3 className="custom-header">Posts</h3>
-
-        {posts.length > 0 && (
-          <Fragment>
-            <Search
-              allowClear
-              className="input input-width"
-              placeholder="Search..."
-              defaultValue={search}
-              onSearch={value => setFilterValues({ search: value })}
-            />
-            <Select
-              mode="multiple"
-              className="input"
-              style={{ minWidth: "150px" }}
-              placeholder="Tags"
-              value={tags}
-              onChange={handleTagFilter}
-            >
-              {tagList.map(({ label, value }) => (
-                <Option key={value} value={value}>
-                  {label}
-                </Option>
-              ))}
-            </Select>
-            <div>
-              Showing {posts.length} of {totalPosts} posts.
-            </div>
-          </Fragment>
-        )}
-        <div>
-          {tags.map(tag => (
-            <Tag key={tag} onClose={handleTagClose(tag)} closable>
-              {tag}
-            </Tag>
-          ))}
-        </div>
-      </div>
-
+      <Filters
+        filters={filters}
+        setFilter={setFilter}
+        tagList={tagList}
+        meta={meta}
+        postCount={posts.length || 0}
+      />
       <div className="post-container">
         {posts.length ? (
           <GridContainer>
@@ -157,13 +55,12 @@ const Posts = ({ history, location }) => {
           <div className="not-found">No posts found.</div>
         )}
       </div>
-      {page * 10 < totalPosts && (
+      {meta && page * 10 < meta.count && (
         <div className="flex center mt">
           <Button
             type="danger"
             onClick={() => {
-              setFilterValues({ page: page + 1 });
-              setConcatData(true);
+              setFilter({ page: page + 1 });
             }}
           >
             Load
@@ -174,4 +71,17 @@ const Posts = ({ history, location }) => {
   );
 };
 
-export default withRouter(Posts);
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.posts ? posts.posts : [],
+  meta: posts.meta,
+  tagList: posts.tags,
+  filters: posts.filters
+});
+
+const mapDispatchToProps = {
+  fetchPosts,
+  setFilter,
+  fetchTags
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Posts));

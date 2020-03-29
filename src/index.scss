@@ -24,19 +24,22 @@ h4 {
   font-size: 1rem;
 }
 
-#root,
-.custom-font,
-.input,
-button,
-.ant-modal-title,
-.ant-calendar-month-panel-year-select-content,
-.ant-btn,
-.ant-select,
-.ant-select-dropdown-menu,
-.ant-calendar-month-panel-cell,
-.ant-checkbox-group {
+* {
   font-family: SairaExtraCondensed-Bold;
 }
+// #root
+// .custom-font,
+// .input,
+// button,
+// .ant-modal-title,
+// .ant-calendar-month-panel-year-select-content,
+// .ant-btn,
+// .ant-select,
+// .ant-select-dropdown-menu,
+// .ant-calendar-month-panel-cell,
+// .ant-checkbox-group {
+//   font-family: SairaExtraCondensed-Bold;
+// }
 
 .ant-modal-body {
   padding: 12px !important;

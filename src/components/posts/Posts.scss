@@ -1,5 +1,6 @@
 section#posts {
   height: 98%;
+  background: transparent;
   display: flex;
   flex-direction: column;
 
@@ -25,4 +26,7 @@ section#posts {
     text-align: center;
     font-size: 1.2rem;
   }
+}
+section#view-post {
+  background: transparent;
 }

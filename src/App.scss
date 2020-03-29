@@ -9,7 +9,6 @@
   & > div.content {
     flex-grow: 1;
     overflow-y: auto;
-    padding-top: 10px;
     & > .ant-spin {
       @extend .center-container;
     }
