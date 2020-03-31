@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin, message } from "antd";

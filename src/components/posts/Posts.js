@@ -18,8 +18,6 @@ const GridContainer = styled.div`
 `;
 
 const Posts = ({
-  history,
-  location,
   posts,
   fetchPosts,
   setFilter,
@@ -29,8 +27,8 @@ const Posts = ({
   filters
 }) => {
   useEffect(() => {
-    fetchPosts();
-    fetchTags();
+    if (!posts.length) fetchPosts();
+    if (!tagList.length) fetchTags();
   }, []);
 
   const { page = 1 } = filters;

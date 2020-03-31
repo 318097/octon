@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { getPostById } from "../../store/posts/actions";
 import { Card as MCard } from "../../UIComponents";
+import colors from "../../colors";
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -31,7 +32,7 @@ const Wrapper = styled.div`
       overflow: auto;
       padding: 20px 10px;
       pre {
-        border: 1px solid lightgrey;
+        border: 1px solid;
         code {
           font-size: 0.7rem;
         }
@@ -40,8 +41,8 @@ const Wrapper = styled.div`
   }
   .back-icon {
     position: absolute;
-    background: #484848;
-    color: white;
+    background: ${colors.black};
+    color: ${colors.white};
     top: 5px;
     left: 5px;
     z-index: 10;
@@ -49,8 +50,8 @@ const Wrapper = styled.div`
     border-radius: 30px;
     transition: 1s;
     &:hover {
-      background: #484848;
-      color: white;
+      background: ${colors.black};
+      color: ${colors.white};
       transform: scale(1.2);
     }
   }

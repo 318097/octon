@@ -79,10 +79,10 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     <Fragment>
       <PageHeader>
         <div className="expense-list-header custom-font">
-          <h4>
+          <h3>
             Expenses <span className="month">({date.format("MMM 'YY")})</span>
             {loading && <Spin className="spinner" size="small" />}
-          </h4>
+          </h3>
         </div>
       </PageHeader>
       <PageHeader>

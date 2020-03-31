@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import colors from "../colors";
 
 const Container = styled.div`
-  font-size: 30px;
+  font-size: 3.2rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: bold;
   text-transform: uppercase;
-  color: lightgrey;
   text-align: center;
 `;
 

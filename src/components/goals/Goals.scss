@@ -25,31 +25,34 @@ section#goals {
       padding: 4px 8px;
       height: 150px;
       width: 150px;
-      background: #82d5ff;
+      background: $orchid;
       margin: 4px 0;
       border-radius: 5px;
-      color: whitesmoke;
+      color: $white;
       position: relative;
       .goal {
-        font-size: 1.2rem;
+        line-height: 2rem;
+        font-size: 2rem;
         text-align: center;
-      }
-      .time {
-        font-size: 1.8rem;
+        margin-bottom: 6px;
       }
       .date {
-        font-size: 0.8rem;
+        line-height: 1.6rem;
+        font-size: 1.4rem;
+      }
+      .time {
+        font-size: 2rem;
       }
       .check-icon {
         position: absolute;
-        background: whitesmoke;
-        color: #3a3a3a;
+        background: $bg;
+        color: $black;
         right: 2px;
         bottom: 2px;
         transition: 0.3;
         &:hover {
           background: inherit;
-          color: whitesmoke;
+          color: $bg;
         }
       }
     }

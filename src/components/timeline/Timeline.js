@@ -6,7 +6,7 @@ import moment from "moment";
 
 import { Icon, PageHeader } from "../../UIComponents";
 import AddPost from "./AddPost";
-
+import colors from "../../colors";
 import "./Timeline.scss";
 
 const Timeline = () => {
@@ -57,10 +57,12 @@ const Timeline = () => {
       <div className="timeline">
         <AntTimeline>
           {data.map(item => (
-            <AntTimeline.Item color="gray" key={item._id}>
+            <AntTimeline.Item color={colors.bar} key={item._id}>
               <Card>
                 <div style={{ flex: 1 }}>
-                  <Tag color="#555">{moment(item.date).format("DD,MMM")}</Tag>
+                  <Tag color={colors.bar}>
+                    {moment(item.date).format("DD,MMM")}
+                  </Tag>
                   {item.content}
                 </div>
                 <div>

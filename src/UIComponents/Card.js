@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-
+import colors from "../colors";
 const Wrapper = styled.div`
-  background: white;
+  background: ${colors.white};
   height: inherit;
   width: inherit;
   border-radius: 10px;
-  border: 1px solid #f2f2f2;
-  box-shadow: 3px 3px 3px #f2f2f2;
+  border: 1px solid ${colors.bg};
+  box-shadow: 3px 3px 3px ${colors.bg};
   transition: 1s;
   position: relative;
   overflow: hidden;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
     left: 0;
     width: 100%;
     height: 5px;
-    background: lightgrey;
+    background: ${colors.strokeTwo};
   }
 `;
 

@@ -21,12 +21,13 @@ section#timeline {
   }
   .add-icon {
     position: absolute;
-    background: $gray;
-    font-size: 18px;
+    background: $shade2;
+    font-size: 1.8rem;
     right: 4px;
     bottom: 4px;
   }
 }
+
 .ant-timeline::-webkit-scrollbar {
   width: 0 !important;
 }

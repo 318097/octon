@@ -49,10 +49,10 @@ const Expenses = ({ sendAppNotification }) => {
     <section id="expenses">
       <div className="card">
         <PageHeader>
-          <h4>
+          <h3>
             <span className="custom-header">Expenses&nbsp;</span>
             {loading && <Spin className="spinner" size="small" />}
-          </h4>
+          </h3>
           <div>
             <MonthPicker
               key="month-picker"

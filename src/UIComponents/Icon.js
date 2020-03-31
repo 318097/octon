@@ -1,15 +1,16 @@
 import React from "react";
 import { Icon as AntIcon } from "antd";
 import styled from "styled-components";
+import colors from "../colors";
 
 const StyledIcon = styled(AntIcon)`
   padding: 4px;
-  background: #e4e4e4;
+  background: ${colors.strokeOne};
   transition: 0.8s;
   margin: 2px;
   border-radius: 50%;
   &:hover {
-    background: lightgrey;
+    background: ${colors.shade2};
   }
 `;
 

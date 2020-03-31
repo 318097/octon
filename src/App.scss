@@ -13,10 +13,10 @@
       @extend .center-container;
     }
     & > section {
-      background: $shade1;
+      background: $bg;
       border-radius: 20px;
       margin: 0px auto;
-      padding: 20px 12px;
+      padding: 12px;
       min-height: 40vh;
       max-height: 98%;
       box-sizing: border-box;
@@ -29,25 +29,19 @@
       }
       &#login,
       &#register {
+        margin-top: 40px;
         max-width: 275px;
         @extend .text-center;
         padding: 30px 20px 60px;
-        overflow: hidden;
-        &:after {
-          content: "";
-          position: absolute;
-          width: 100%;
-          left: 0;
-          bottom: 0px;
-          height: 7px;
-          background: lightgrey;
-        }
         .ant-input,
         .ant-input-password {
           margin-left: 0;
           margin-right: 0;
         }
       }
+    }
+    & > section.no-background {
+      background: none;
     }
   }
 }

@@ -21,8 +21,8 @@ const Wrapper = styled.div`
     cursor: pointer;
     transition: 1s;
     img {
-      height: 1rem;
-      width: 1rem;
+      height: 1.4rem;
+      width: 1.4rem;
     }
   }
 `;

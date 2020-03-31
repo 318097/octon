@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import colors from "../colors";
 
 import Navigation from "./Navigation";
 
+console.log(colors);
 const StyledHeader = styled.header`
   display: flex;
   position: sticky;
@@ -16,16 +18,15 @@ const StyledHeader = styled.header`
     padding-bottom: 12px;
   }
   h2 {
-    margin: 0;
+    font-size: 1.8rem;
     .first-letter {
-      font-size: 150%;
-      font-weight: bold;
+      font-size: 2.4rem;
       &:after {
-        bottom: 9px;
+        bottom: 6px;
       }
     }
     .extension {
-      color: gray;
+      color: ${colors.gray};
     }
   }
 `;

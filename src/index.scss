@@ -11,38 +11,21 @@
   src: url("./assets/fonts/SairaExtraCondensed-Bold.ttf");
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
-h4 {
-  font-size: 1rem;
-}
-
 * {
   font-family: SairaExtraCondensed-Bold;
 }
-// #root
-// .custom-font,
-// .input,
-// button,
-// .ant-modal-title,
-// .ant-calendar-month-panel-year-select-content,
-// .ant-btn,
-// .ant-select,
-// .ant-select-dropdown-menu,
-// .ant-calendar-month-panel-cell,
-// .ant-checkbox-group {
-//   font-family: SairaExtraCondensed-Bold;
-// }
 
-.ant-modal-body {
-  padding: 12px !important;
+html,
+body {
+  font-size: 10px;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
 }
 
 body,
@@ -50,11 +33,15 @@ body,
   @extend .defaults;
 }
 
+.ant-modal-body {
+  padding: 12px !important;
+}
+
 /* Custom scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 
 /* Track */
@@ -64,11 +51,11 @@ body,
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(98, 98, 98);
+  background: $black2;
   border-radius: 15px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(58, 58, 58);
+  background: $bar;
 }

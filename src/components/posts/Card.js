@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Tag, Icon } from "antd";
 import { withRouter } from "react-router-dom";
 import { Card as MCard } from "../../UIComponents";
+import colors from "../../colors";
 
 const Wrapper = styled.div`
   height: 115px;
@@ -11,12 +12,11 @@ const Wrapper = styled.div`
   position: relative;
   padding: 0px;
   .card {
-    font-size: 13px;
+    font-size: 1.4rem;
     &:hover {
-      background: #f3f3f3;
+      background: ${colors.bg};
     }
     .title {
-      font-size: inherit;
       text-align: center;
       position: absolute;
       top: 50%;
@@ -24,7 +24,6 @@ const Wrapper = styled.div`
       transform: translate(-50%, -50%);
     }
     .content {
-      font-size: inherit;
       width: 100%;
       overflow: auto;
       padding: 5px;
@@ -32,7 +31,7 @@ const Wrapper = styled.div`
       top: 50%;
       transform: translateY(-50%);
       pre code {
-        font-size: 0.7rem;
+        font-size: 1rem;
       }
     }
     .tags {
@@ -44,7 +43,7 @@ const Wrapper = styled.div`
         cursor: pointer;
         margin-right: 3px;
         padding: 0px 4px;
-        font-size: 12px;
+        font-size: 1.2rem;
       }
     }
   }
@@ -53,7 +52,7 @@ const Wrapper = styled.div`
     top: 5px;
     right: 5px;
     z-index: 10;
-    color: green;
+    color: ${colors.green};
   }
 `;
 

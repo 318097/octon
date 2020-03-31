@@ -2,12 +2,12 @@ import React, { Fragment } from "react";
 import { List, Popconfirm, Divider } from "antd";
 import moment from "moment";
 import axios from "axios";
-
+import colors from "../../colors";
 import { Icon } from "../../UIComponents";
 import "./Todos.scss";
 
+const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const WeekStatus = ({ week }) => {
-  const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
   return weekDays.map((day, index) => {
     let status = false;
     week.forEach(date => {
@@ -16,7 +16,7 @@ const WeekStatus = ({ week }) => {
       }
     });
     return (
-      <span key={index} className={`${status && "active"} day`}>
+      <span key={index} className={`${status ? "active" : ""} day`}>
         {day}
       </span>
     );
@@ -102,7 +102,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
   return (
     <List
       className="todo-list"
-      style={{ background: "white" }}
+      style={{ background: colors.white }}
       size="small"
       header={`Todos: ${type}`}
       // footer={<div>Footer</div>}

@@ -19,13 +19,12 @@ section#todos {
 
     .task.disabled {
       text-decoration: line-through;
-      background: rgb(246, 246, 246);
     }
 
     .info {
-      padding: 2px 5px;
+      padding: 2px 4px;
       font-style: italic;
-      font-size: 80%;
+      font-size: 1rem;
     }
 
     span.day {
@@ -43,7 +42,6 @@ section#todos {
     }
   }
   .success {
-    color: rgb(0, 151, 0);
-    cursor: not-allowed;
+    color: $green;
   }
 }

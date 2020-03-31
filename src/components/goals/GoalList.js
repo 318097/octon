@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import axios from "axios";
-
+import colors from "../../colors";
 import { Icon } from "../../UIComponents";
 import "./Goals.scss";
 
@@ -32,7 +32,11 @@ const GoalList = ({ goalList, fetchGoalList }) => {
             className="goal-item"
             style={{
               background:
-                status === "DONE" ? "#54ca54" : isExpired ? "tomato" : null
+                status === "DONE"
+                  ? colors.green
+                  : isExpired
+                  ? colors.yellow
+                  : null
             }}
           >
             <span className="goal">{goal}</span>
