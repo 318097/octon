@@ -1,12 +1,13 @@
 export default {
-  primary: "#069ee4",
-
+  primary: "#2c3d63",
   red: "#ff3838",
   watermelon: "#f75961",
   blue: "#2dadba",
   orchid: "#6464dc",
   yellow: "#ffb400",
+  orange: "#f57b39",
   green: "#116138",
+  coffee: "#7e544d",
   bar: "#202632",
   black: "#282828",
   black2: "#353535",
@@ -22,6 +23,5 @@ export default {
   shade2: "#f9f9f9",
   bg: "whitesmoke",
   white: "#ffffff",
-
   error: "#fc374b"
 };

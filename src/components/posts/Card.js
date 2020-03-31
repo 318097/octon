@@ -13,10 +13,12 @@ const Wrapper = styled.div`
   padding: 0px;
   .card {
     font-size: 1.4rem;
+    line-height: 1.6rem;
     &:hover {
       background: ${colors.bg};
     }
     .title {
+      color: ${colors.iron};
       text-align: center;
       position: absolute;
       top: 50%;

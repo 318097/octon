@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   .card {
     height: 100%;
-    padding: 10px 0 10px 5px;
+    padding: 12px 0 12px 6px;
     display: flex;
     flex-direction: column;
     .title {
@@ -32,23 +32,25 @@ const Wrapper = styled.div`
       overflow: auto;
       padding: 20px 10px;
       pre {
-        border: 1px solid;
+        padding: 4px;
+        border: 1px solid ${colors.strokeTwo};
+        line-height: 1.4rem;
         code {
-          font-size: 0.7rem;
+          font-size: 1.2rem;
         }
       }
     }
   }
   .back-icon {
     position: absolute;
-    background: ${colors.black};
-    color: ${colors.white};
+    background: ${colors.strokeTwo};
+    color: ${colors.bar};
     top: 5px;
     left: 5px;
-    z-index: 10;
-    padding: 5px;
+    z-index: 1;
+    padding: 4px;
     border-radius: 30px;
-    transition: 1s;
+    transition: 0.3s;
     &:hover {
       background: ${colors.black};
       color: ${colors.white};
