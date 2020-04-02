@@ -87,6 +87,7 @@ const PostView = ({ history, match, post, getPostById }) => {
           </div>
         </MCard>
         <Icon
+          background={true}
           className="back-icon"
           onClick={() => history.push("/posts")}
           type="caret-left"

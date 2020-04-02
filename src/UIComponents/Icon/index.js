@@ -18,21 +18,21 @@ import {
 const StyledIcon = styled.span`
   line-height: 1;
   cursor: pointer;
-  display: inline-block;
-  /* border-radius: 50%; */
-  margin: 2px;
-  /* padding: ${({ background }) => (background ? "4px" : 0)}; */
-  /* background: ${({ background }) => (background ? colors.grey : "none")}; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   vertical-align: middle;
-  transition: 0.4s;
+  border-radius: 50%;
+  margin: 2px;
+  height: 20px;
+  width: 20px;
+  background: ${({ background }) => (background ? colors.grey : "none")};
+  transition: all 0.4s;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   svg {
-    display: inline-block;
     font-family: initial;
     fill: ${({ color }) => color};
-    /* position: relative; */
-    /* top: 1; */
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -85,7 +85,11 @@ const Icon = ({
     onClick={onClick}
     color={color}
   >
-    <SVGIcon type={type} height={size} width={size} />
+    <SVGIcon
+      type={type}
+      height={background ? size - 4 : size}
+      width={background ? size - 4 : size}
+    />
   </StyledIcon>
 );
 
