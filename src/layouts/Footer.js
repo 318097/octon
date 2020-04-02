@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Facebook from "../assets/icons/set2/facebook.svg";
-import Instagram from "../assets/icons/set2/instagram.svg";
-import Twitter from "../assets/icons/set2/twitter.svg";
+import Facebook from "../assets/icons/Facebook";
+import Instagram from "../assets/icons/Instagram";
+import Twitter from "../assets/icons/Twitter";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -20,10 +20,6 @@ const Wrapper = styled.div`
     margin: 0 2px;
     cursor: pointer;
     transition: 1s;
-    img {
-      height: 1.4rem;
-      width: 1.4rem;
-    }
   }
 `;
 
@@ -34,21 +30,21 @@ const Footer = () => (
       rel="noopener noreferrer"
       href="https://www.facebook.com/brainbox.in/"
     >
-      <img src={Facebook} alt="facebook" />
+      <Facebook />
     </a>
     <a
       target="_blank"
       rel="noopener noreferrer"
       href="https://www.instagram.com/brainbox.in/"
     >
-      <img src={Instagram} alt="instagram" />
+      <Instagram />
     </a>
     <a
       target="_blank"
       rel="noopener noreferrer"
       href="https://twitter.com/brainboxin"
     >
-      <img src={Twitter} alt="twitter" />
+      <Twitter />
     </a>
   </Wrapper>
 );

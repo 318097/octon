@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Button, Icon } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-
+import { Icon } from "../../UIComponents";
 import config from "../../config";
 
 class GoogleAuth extends Component {

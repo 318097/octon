@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import marked from "marked";
 import styled from "styled-components";
-import { Tag, Icon } from "antd";
+import { Tag } from "antd";
 import { withRouter } from "react-router-dom";
-import { Card as MCard } from "../../UIComponents";
+import { Icon, Card as MCard } from "../../UIComponents";
 import colors from "../../colors";
 
 const Wrapper = styled.div`

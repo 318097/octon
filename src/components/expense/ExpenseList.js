@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, Modal, Icon, List, Popconfirm, Spin } from "antd";
+import { Radio, Modal, List, Popconfirm, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "./util";
-import { PageHeader } from "../../UIComponents";
+import { PageHeader, Icon } from "../../UIComponents";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 

@@ -4,7 +4,6 @@ import colors from "../colors";
 
 import Navigation from "./Navigation";
 
-console.log(colors);
 const StyledHeader = styled.header`
   display: flex;
   position: sticky;
@@ -18,9 +17,9 @@ const StyledHeader = styled.header`
     padding-bottom: 12px;
   }
   h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     .first-letter {
-      font-size: 2.4rem;
+      font-size: 2.8rem;
       &:after {
         bottom: 6px;
       }

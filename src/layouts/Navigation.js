@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import { Icon } from "antd";
+import { Icon } from "../UIComponents";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
@@ -21,7 +21,7 @@ const StyledNavigation = styled.nav`
     padding: 2px 6px;
     margin: 0 2px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 2px;
     border: 1px solid ${colors.primary};
     color: ${colors.primary};
   }
@@ -62,13 +62,13 @@ const Navigation = ({ history, session = {}, setSession }) => {
       ))}
       {loggedIn ? (
         <NavLink to="#" className="logout" type="link" onClick={logout}>
-          Logout&nbsp;
-          <Icon type="logout" />
+          Logout
+          {/* <Icon type="logout" /> */}
         </NavLink>
       ) : (
         <NavLink exact activeClassName="active-link" to="/login">
-          Login&nbsp;
-          <Icon type="login" />
+          Login
+          {/* <Icon type="login" /> */}
         </NavLink>
       )}
     </StyledNavigation>

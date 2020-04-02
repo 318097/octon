@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import marked from "marked";
 import styled from "styled-components";
-import { Tag, Icon } from "antd";
+import { Tag } from "antd";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getPostById } from "../../store/posts/actions";
-import { Card as MCard } from "../../UIComponents";
+import { Card as MCard, Icon } from "../../UIComponents";
 import colors from "../../colors";
 
 const Wrapper = styled.div`
@@ -43,17 +43,14 @@ const Wrapper = styled.div`
   }
   .back-icon {
     position: absolute;
-    background: ${colors.strokeTwo};
-    color: ${colors.bar};
+    /* background: ${colors.strokeTwo}; */
+    /* color: ${colors.bar}; */
     top: 5px;
     left: 5px;
     z-index: 1;
-    padding: 4px;
-    border-radius: 30px;
     transition: 0.3s;
     &:hover {
-      background: ${colors.black};
-      color: ${colors.white};
+      /* color: ${colors.white}; */
       transform: scale(1.2);
     }
   }

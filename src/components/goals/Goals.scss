@@ -45,14 +45,14 @@ section#goals {
       }
       .check-icon {
         position: absolute;
-        background: $bg;
-        color: $black;
+        // background: $bg;
+        // color: $black;
         right: 2px;
         bottom: 2px;
         transition: 0.3;
         &:hover {
-          background: inherit;
-          color: $bg;
+          // background: inherit;
+          // color: $bg;
         }
       }
     }

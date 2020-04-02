@@ -23,5 +23,6 @@ export default {
   shade2: "#f9f9f9",
   bg: "whitesmoke",
   white: "#ffffff",
-  error: "#fc374b"
+  error: "#fc374b",
+  grey: "#ccc"
 };

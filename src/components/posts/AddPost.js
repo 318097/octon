@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
-import { Radio, Input, Modal, Icon, Checkbox } from "antd";
+import { Radio, Input, Modal, Checkbox } from "antd";
 import axios from "axios";
-
+import { Icon } from "../../UIComponents";
 const { TextArea } = Input;
 
 const initialState = {

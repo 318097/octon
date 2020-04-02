@@ -100,12 +100,14 @@ const AddExpense = ({
         <Radio.Button value="HOME">Home</Radio.Button>
       </Radio.Group>
 
-      <h4>
-        Select Type&nbsp;
-        {mode === "ADD" && (
-          <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
-        )}
-      </h4>
+      <div>
+        <h4>
+          Select Type
+          {mode === "ADD" && (
+            <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
+          )}
+        </h4>
+      </div>
 
       <Radio.Group
         className="input"
@@ -164,6 +166,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
   return (
     <Fragment>
       <Icon
+        size={12}
         type={visibility ? "minus" : "plus"}
         onClick={() => setVisibility(prev => !prev)}
       />

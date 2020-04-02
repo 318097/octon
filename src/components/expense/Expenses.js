@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Spin, Icon } from "antd";
+import { DatePicker, Spin } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
 import { sendAppNotification } from "../../store/app/actions";
-import { PageHeader } from "../../UIComponents";
+import { PageHeader, Icon } from "../../UIComponents";
 import { calculateTotal } from "./util";
 const { MonthPicker } = DatePicker;
 
@@ -53,7 +53,7 @@ const Expenses = ({ sendAppNotification }) => {
             <span className="custom-header">Expenses&nbsp;</span>
             {loading && <Spin className="spinner" size="small" />}
           </h3>
-          <div>
+          <div className="flex center">
             <MonthPicker
               key="month-picker"
               style={{ width: "75px" }}

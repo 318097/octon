@@ -65,7 +65,7 @@ const Timeline = () => {
                   </Tag>
                   {item.content}
                 </div>
-                <div>
+                <div className="flex align-center">
                   <Icon
                     key="edit-post"
                     type="edit"
