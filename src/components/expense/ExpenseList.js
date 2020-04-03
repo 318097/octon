@@ -96,7 +96,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
           <Radio.Button value="PERSONAL">Personal</Radio.Button>
           <Radio.Button value="HOME">Home</Radio.Button>
         </Radio.Group>
-        <span className="custom-font total background">Total: Rs/-{total}</span>
+        <span className="custom-font total">Total: Rs/-{total}</span>
       </PageHeader>
 
       <List

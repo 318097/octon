@@ -67,6 +67,7 @@ const Expenses = ({ sendAppNotification }) => {
               Rs/- {total}
             </span>
             <Icon
+              className="wallet-icon"
               key="list-expenses"
               onClick={() => setExpenseListVisibilityStatus(true)}
               type="wallet"

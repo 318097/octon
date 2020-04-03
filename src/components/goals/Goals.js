@@ -28,7 +28,6 @@ const Goals = () => {
         </div>
         <AddGoal fetchGoalList={fetchGoalList} />
       </PageHeader>
-
       <GoalList goalList={goalList} fetchGoalList={fetchGoalList} />
     </section>
   );

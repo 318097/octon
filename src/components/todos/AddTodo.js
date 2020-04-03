@@ -11,16 +11,17 @@ const AddTodo = ({ fetchTodoList }) => {
     type: "SINGLE"
   });
 
-  const setData = (key, value) =>
+  const setData = updatedValue =>
     setTodo(todo => ({
       ...todo,
-      [key]: value
+      ...updatedValue
     }));
 
   const addTodo = async () => {
     await axios.post("/todos", todo);
     fetchTodoList();
     setAddTodoVisibility(false);
+    setData({ task: "" });
   };
 
   return (
@@ -42,7 +43,7 @@ const AddTodo = ({ fetchTodoList }) => {
           className="input"
           defaultValue={todo.type}
           buttonStyle="solid"
-          onChange={e => setData("type", e.target.value)}
+          onChange={e => setData({ type: e.target.value })}
         >
           <Radio.Button value="SINGLE">Single</Radio.Button>
           <Radio.Button value="WEEKLY">Weekly</Radio.Button>
@@ -52,7 +53,7 @@ const AddTodo = ({ fetchTodoList }) => {
           className="input"
           placeholder="Task"
           autoFocus
-          onChange={e => setData("task", e.target.value)}
+          onChange={e => setData({ task: e.target.value })}
         />
         <br />
         {todo.type === "WEEKLY" ? (
@@ -60,7 +61,7 @@ const AddTodo = ({ fetchTodoList }) => {
             className="input"
             min={1}
             placeholder="Frequency"
-            onChange={value => setData("frequency", value)}
+            onChange={value => setData({ frequency: value })}
           />
         ) : null}
       </Modal>

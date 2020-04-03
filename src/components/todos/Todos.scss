@@ -37,6 +37,8 @@ section#todos {
     }
   }
   .todo-list {
+    flex: 1;
+    overflow: auto;
     .ant-list-item {
       padding: 4px;
     }

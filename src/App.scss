@@ -17,11 +17,13 @@
       border-radius: 20px;
       margin: 0px auto;
       padding: 12px;
-      min-height: 40vh;
-      max-height: 98%;
+      // min-height: 40vh;
+      height: 98%;
       box-sizing: border-box;
       width: 96%;
       position: relative;
+      display: flex;
+      flex-direction: column;
       &#home,
       &#goals,
       &#todos {

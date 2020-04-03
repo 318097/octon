@@ -8,7 +8,7 @@ const CaretLeft = props => (
     focusable="false"
     data-prefix="fas"
     data-icon="caret-left"
-    class="svg-inline--fa fa-caret-left fa-w-6"
+    className="svg-inline--fa fa-caret-left fa-w-6"
     role="img"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 192 512"
