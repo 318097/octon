@@ -166,6 +166,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
   return (
     <Fragment>
       <Icon
+        background={true}
         size={12}
         type={visibility ? "minus" : "plus"}
         onClick={() => setVisibility(prev => !prev)}

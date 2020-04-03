@@ -43,7 +43,12 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
 
   return (
     <Fragment>
-      <Icon className="add-icon" onClick={onClickHandler} type="plus" />
+      <Icon
+        background={true}
+        className="add-icon"
+        onClick={onClickHandler}
+        type="plus"
+      />
       <Modal
         visible={visibility}
         title={`${mode === "ADD" ? "Add" : "Edit"} Post`}

@@ -29,7 +29,11 @@ const AddGoal = ({ fetchGoalList }) => {
 
   return (
     <Fragment>
-      <Icon onClick={() => setAddGoalVisibility(true)} type="plus" />
+      <Icon
+        background={true}
+        onClick={() => setAddGoalVisibility(true)}
+        type="plus"
+      />
       <Modal
         visible={addGoalVisibility}
         title="Add Goal"

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Icon } from "../../UIComponents";
 import config from "../../config";
-
+import colors from "../../colors";
 class GoogleAuth extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +54,7 @@ class GoogleAuth extends Component {
     }
     return (
       <Button type="danger" onClick={this.handleGoogleLogin}>
-        <Icon type="google" />
+        <Icon type="google" color={colors.white} size={14} />
         Log in
       </Button>
     );

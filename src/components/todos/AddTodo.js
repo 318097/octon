@@ -25,7 +25,11 @@ const AddTodo = ({ fetchTodoList }) => {
 
   return (
     <Fragment>
-      <Icon onClick={() => setAddTodoVisibility(true)} type="plus" />
+      <Icon
+        onClick={() => setAddTodoVisibility(true)}
+        type="plus"
+        background={true}
+      />
       <Modal
         visible={addTodoVisibility}
         title="Add Todo"
