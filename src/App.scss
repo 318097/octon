@@ -17,7 +17,6 @@
       border-radius: 20px;
       margin: 0px auto;
       padding: 12px;
-      // min-height: 40vh;
       height: 98%;
       box-sizing: border-box;
       width: 96%;
@@ -31,6 +30,7 @@
       }
       &#login,
       &#register {
+        height: auto;
         margin-top: 40px;
         max-width: 275px;
         @extend .text-center;
