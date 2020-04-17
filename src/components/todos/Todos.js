@@ -17,7 +17,7 @@ const Todos = () => {
 
   const fetchTodoList = async () => {
     const {
-      data: { todos }
+      data: { todos },
     } = await axios.get(`todos`);
     setTodoList(todos);
   };
@@ -30,7 +30,7 @@ const Todos = () => {
           <Radio.Group
             defaultValue={todoType}
             buttonStyle="solid"
-            onChange={e => setTodoType(e.target.value)}
+            onChange={(e) => setTodoType(e.target.value)}
           >
             <Radio.Button value="SINGLE">SINGLE</Radio.Button>
             <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
@@ -40,7 +40,7 @@ const Todos = () => {
       </PageHeader>
 
       <TodoList
-        todoList={todoList}
+        todoList={todoList.filter((todo) => todo.type === todoType)}
         fetchTodoList={fetchTodoList}
         type={todoType}
       />

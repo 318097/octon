@@ -9,9 +9,6 @@ section#expenses {
   .card {
     padding: 0 10px;
     flex: 1 1 49%;
-    &:nth-child(1) {
-      border-right: 2px dashed $white;
-    }
     .add-type-card {
       background: $chrome;
       position: relative;
