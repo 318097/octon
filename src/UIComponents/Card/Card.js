@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../colors";
+import colors from "../../colors";
+
 const Wrapper = styled.div`
   background: ${colors.white};
   height: inherit;
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Card = props => {
+const Card = (props) => {
   return <Wrapper className="card">{props.children}</Wrapper>;
 };
 
