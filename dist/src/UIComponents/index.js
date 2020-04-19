@@ -21,12 +21,20 @@ Object.defineProperty(exports, "PageHeader", {
     return _PageHeader.default;
   }
 });
+Object.defineProperty(exports, "Button", {
+  enumerable: true,
+  get: function get() {
+    return _Button.default;
+  }
+});
 
 var _Card = _interopRequireDefault(require("./Card"));
 
 var _Icon = _interopRequireDefault(require("./Icon"));
 
 var _PageHeader = _interopRequireDefault(require("./PageHeader"));
+
+var _Button = _interopRequireDefault(require("./Button"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
