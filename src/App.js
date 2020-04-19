@@ -22,6 +22,7 @@ import Goals from "./components/goals/Goals";
 import Timeline from "./components/timeline/Timeline";
 import Posts from "./components/posts/Posts";
 import PostView from "./components/posts/PostView";
+import ComponentList from "./components/test/ComponentList";
 
 import { getToken, isLoggedIn } from "./authService";
 import config from "./config";
@@ -80,6 +81,7 @@ const App = ({ session, setSession, appNotification }) => {
             <PrivateRoute exact path="/timeline" component={Timeline} />
             <Route exact path="/posts" component={Posts} />
             <Route exact path="/posts/:id" component={PostView} />
+            <Route exact path="/ui" component={ComponentList} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
@@ -90,9 +92,9 @@ const App = ({ session, setSession, appNotification }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   session: getSession(state),
-  appNotification: state.app.appNotification
+  appNotification: state.app.appNotification,
 });
 
 const mapDispatchToProps = { setSession };

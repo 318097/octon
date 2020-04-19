@@ -42,7 +42,8 @@ const list = [
   { route: "/todos", label: "Todos" },
   { route: "/goals", label: "Goals" },
   { route: "/timeline", label: "Timeline" },
-  { route: "/posts", label: "Posts" }
+  { route: "/posts", label: "Posts" },
+  { route: "/ui", label: "UI" },
 ];
 
 const Navigation = ({ history, session = {}, setSession }) => {
@@ -75,7 +76,7 @@ const Navigation = ({ history, session = {}, setSession }) => {
   );
 };
 
-const mapStateToProps = state => ({ session: getSession(state) });
+const mapStateToProps = (state) => ({ session: getSession(state) });
 
 const mapDispatchToProps = { setSession };
 
