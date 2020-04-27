@@ -25,7 +25,7 @@ const Login = ({ history, setSession }) => {
     setLoading(true);
     try {
       const {
-        data: { token, user }
+        data: { token, user },
       } = await axios.post("/auth/login", { username, password });
 
       setToken(token);
@@ -44,7 +44,7 @@ const Login = ({ history, setSession }) => {
   return (
     <section id="login">
       <h3 className="text-center">
-        <span className="custom-header">Login</span>
+        <span className="underline">Login</span>
       </h3>
       <form>
         <Input
@@ -80,7 +80,7 @@ const Login = ({ history, setSession }) => {
   );
 };
 
-const mapStateToProps = state => ({ session: getSession(state) });
+const mapStateToProps = (state) => ({ session: getSession(state) });
 
 const mapDispatchToProps = { setSession };
 

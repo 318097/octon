@@ -21,7 +21,7 @@ const Expenses = ({ sendAppNotification }) => {
 
   const [
     expenseListVisibilityStatus,
-    setExpenseListVisibilityStatus
+    setExpenseListVisibilityStatus,
   ] = useState(false);
 
   useEffect(() => {
@@ -32,13 +32,13 @@ const Expenses = ({ sendAppNotification }) => {
     setLoading(true);
     try {
       const {
-        data: { expenses }
+        data: { expenses },
       } = await axios.get(`/expenses/${date.month() + 1}?year=${date.year()}`);
       setExpenseList(expenses);
       setTotal(calculateTotal(expenses));
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message
+        message: err.response.data || err.message,
       });
     } finally {
       setLoading(false);
@@ -50,7 +50,7 @@ const Expenses = ({ sendAppNotification }) => {
       <div className="card">
         <PageHeader>
           <h3>
-            <span className="custom-header">Expenses&nbsp;</span>
+            <span className="underline">Expenses&nbsp;</span>
             {loading && <Spin className="spinner" size="small" />}
           </h3>
           <div className="flex center">
@@ -59,7 +59,7 @@ const Expenses = ({ sendAppNotification }) => {
               style={{ width: "75px" }}
               allowClear={false}
               format="MMM, YY"
-              onChange={date => setDate(date)}
+              onChange={(date) => setDate(date)}
               value={date}
               placeholder="Select month"
             />
@@ -87,7 +87,7 @@ const Expenses = ({ sendAppNotification }) => {
           title: "",
           width: 380,
           onCancel: () => setExpenseListVisibilityStatus(false),
-          footer: null
+          footer: null,
         }}
         component={ExpenseList}
         list={expenseList}
@@ -100,5 +100,5 @@ const Expenses = ({ sendAppNotification }) => {
 };
 
 export default connect(null, {
-  sendAppNotification
+  sendAppNotification,
 })(Expenses);

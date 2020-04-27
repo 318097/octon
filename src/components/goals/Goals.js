@@ -15,7 +15,7 @@ const Goals = () => {
 
   const fetchGoalList = async () => {
     const {
-      data: { goals }
+      data: { goals },
     } = await axios.get(`goals`);
     setGoalList(goals);
   };
@@ -24,7 +24,7 @@ const Goals = () => {
     <section id="goals">
       <PageHeader>
         <div className="page-header">
-          <h3 className="custom-header">Goals</h3>
+          <h3 className="underline">Goals</h3>
         </div>
         <AddGoal fetchGoalList={fetchGoalList} />
       </PageHeader>

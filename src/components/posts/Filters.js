@@ -36,20 +36,20 @@ const Filters = ({ setFilter, filters, meta, tagList = [], postCount }) => {
   //   history.push(`/posts?${query}`);
   // };
 
-  const handleTagFilter = values => setFilter({ tags: values });
+  const handleTagFilter = (values) => setFilter({ tags: values });
 
   const { tags = [], search = "" } = filters || {};
 
   return (
     <div className="header">
-      <h3 className="custom-header">Posts</h3>
+      <h3 className="underline">Posts</h3>
 
       <Search
         allowClear
         className="input input-width"
         placeholder="Search..."
         defaultValue={search}
-        onSearch={value => setFilter({ search: value })}
+        onSearch={(value) => setFilter({ search: value })}
       />
       <Select
         mode="multiple"

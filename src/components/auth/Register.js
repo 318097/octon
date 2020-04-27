@@ -23,14 +23,14 @@ const Register = ({ dispatch }) => {
         username,
         password,
         name,
-        email
+        email,
       });
 
       setTimeout(() => setRedirect(true), 1000);
       dispatch(
         sendAppNotification({
           message: "User registered successfully.",
-          type: "success"
+          type: "success",
         })
       );
     } catch (err) {
@@ -46,7 +46,7 @@ const Register = ({ dispatch }) => {
   return (
     <section id="register">
       <h3 className="text-center">
-        <span className="custom-header">Register</span>
+        <span className="underline">Register</span>
       </h3>
       <form>
         <Input

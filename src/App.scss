@@ -2,7 +2,6 @@
 @import "./madDesign/custom-styles.scss";
 
 .app {
-  @extend .defaults;
   display: flex;
   flex-direction: column;
   background: url("./assets/backgrounds/dot-grid.png");

@@ -1,5 +1,4 @@
-@import "./madDesign/colors.scss";
-@import "./madDesign/custom-styles.scss";
+@import "./madDesign/defaults.scss";
 
 @font-face {
   font-family: Neucha-Regular;
@@ -15,50 +14,12 @@
   font-family: SairaExtraCondensed-Bold;
 }
 
-html,
 body {
-  font-size: 10px;
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-  }
   h3 {
     font-size: 1.6rem;
   }
 }
 
-body,
-#root {
-  @extend .defaults;
-}
-
 .ant-modal-body {
   padding: 12px !important;
-}
-
-/* Custom scrollbar */
-/* width */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $black2;
-  border-radius: 15px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $bar;
 }

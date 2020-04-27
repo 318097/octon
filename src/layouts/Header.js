@@ -33,7 +33,7 @@ const StyledHeader = styled.header`
 const Header = () => (
   <StyledHeader>
     <h2>
-      <span className="first-letter custom-header">B</span>rainbox
+      <span className="first-letter underline">B</span>rainbox
       <span className="extension">.in</span>
     </h2>
     <Navigation />
