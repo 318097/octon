@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Tag } from "antd";
 import { withRouter } from "react-router-dom";
 import { Icon, Card as MCard } from "../../UIComponents";
-import colors from "../../colors";
+import colors from "../../madDesign/colors";
 
 const Wrapper = styled.div`
   height: 115px;
@@ -14,6 +14,8 @@ const Wrapper = styled.div`
   .card {
     font-size: 1.4rem;
     line-height: 1.6rem;
+    height: 100%;
+    width: 100%;
     &:hover {
       background: ${colors.bg};
     }
@@ -64,7 +66,7 @@ const Card = ({ history, post }) => {
 
   const handleClick = () => history.push(`/posts/${_id}`);
 
-  const handleTagClick = value => event => {
+  const handleTagClick = (value) => (event) => {
     event.stopPropagation();
     history.push(`/posts?tags=${value}`);
   };
@@ -96,7 +98,7 @@ const Card = ({ history, post }) => {
 
 Card.defaultProps = {
   showTitle: true,
-  showContent: true
+  showContent: true,
 };
 
 export default withRouter(Card);

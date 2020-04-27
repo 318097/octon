@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 import { getPostById } from "../../store/posts/actions";
 import { Card as MCard, Icon } from "../../UIComponents";
-import colors from "../../colors";
+import colors from "../../madDesign/colors";
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -62,7 +62,7 @@ const PostView = ({ history, match, post, getPostById }) => {
     getPostById(id);
   }, []);
 
-  const handleTagClick = value => event => {
+  const handleTagClick = (value) => (event) => {
     event.stopPropagation();
     history.push(`/posts?tags=${value}`);
   };
@@ -98,11 +98,11 @@ const PostView = ({ history, match, post, getPostById }) => {
 };
 
 const mapStateToProps = ({ posts }) => ({
-  post: posts.selectedPost
+  post: posts.selectedPost,
 });
 
 const mapDispatchToProps = {
-  getPostById
+  getPostById,
 };
 
 export default connect(

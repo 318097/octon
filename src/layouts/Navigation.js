@@ -4,7 +4,7 @@ import { Icon } from "../UIComponents";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
-import colors from "../colors";
+import colors from "../madDesign/colors";
 
 import { getSession } from "../store/app/selectors";
 import { setSession } from "../store/app/actions";

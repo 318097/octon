@@ -6,7 +6,7 @@ import moment from "moment";
 
 import { Icon, PageHeader } from "../../UIComponents";
 import AddPost from "./AddPost";
-import colors from "../../colors";
+import colors from "../../madDesign/colors";
 import "./Timeline.scss";
 
 const Timeline = () => {
@@ -19,30 +19,30 @@ const Timeline = () => {
     fetchTimeline();
   }, [page]);
 
-  const setVisibilityStatus = status => () => setVisibility(status);
+  const setVisibilityStatus = (status) => () => setVisibility(status);
 
   const fetchTimeline = async () => {
     const {
-      data: { timeline }
+      data: { timeline },
     } = await axios.get(`/timeline`, {
       params: {
-        page
-      }
+        page,
+      },
     });
     if (page > 1) {
-      setData(data => [...data, ...timeline]);
+      setData((data) => [...data, ...timeline]);
     } else {
       setData(timeline);
     }
   };
 
-  const editPost = id => async () => {
-    const [post] = data.filter(post => post._id === id);
+  const editPost = (id) => async () => {
+    const [post] = data.filter((post) => post._id === id);
     setCurrentPost(post);
     setVisibility(true);
   };
 
-  const deletePost = id => async () => {
+  const deletePost = (id) => async () => {
     // setLoading(true);
     await axios.delete(`/timeline/${id}`);
     fetchTimeline();
@@ -56,7 +56,7 @@ const Timeline = () => {
       </PageHeader>
       <div className="timeline">
         <AntTimeline>
-          {data.map(item => (
+          {data.map((item) => (
             <AntTimeline.Item color={colors.bar} key={item._id}>
               <Card>
                 <div style={{ flex: 1 }}>

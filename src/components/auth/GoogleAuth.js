@@ -4,13 +4,13 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Icon } from "../../UIComponents";
 import config from "../../config";
-import colors from "../../colors";
+import colors from "../../madDesign/colors";
 class GoogleAuth extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isSignedIn: null,
-      redirect: false
+      redirect: false,
     };
   }
 
@@ -22,7 +22,7 @@ class GoogleAuth extends Component {
       window.gapi.auth2
         .init({
           clientId: config.GOOGLE_LOGIN_CLIENT_ID,
-          scope: "email"
+          scope: "email",
         })
         .then(() => {
           this.auth = window.gapi.auth2.getAuthInstance();
@@ -36,7 +36,7 @@ class GoogleAuth extends Component {
 
             const { data } = await axios.post(`/auth/login`, {
               goggleAuthToken: authResponse["id_token"],
-              isGoogleAuth: true
+              isGoogleAuth: true,
             });
 
             localStorage.clear();

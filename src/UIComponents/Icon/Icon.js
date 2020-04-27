@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../../colors";
+import colors from "../../madDesign/colors";
 import {
   Plus,
   Google,
@@ -12,7 +12,7 @@ import {
   Check,
   Drop,
   CaretLeft,
-  Wallet
+  Wallet,
 } from "./icon-svgs";
 
 const StyledIcon = styled.span`
@@ -76,7 +76,7 @@ const Icon = ({
   background = false,
   type,
   size = 16,
-  color = "black"
+  color = "black",
 }) => (
   <StyledIcon
     className={className}
