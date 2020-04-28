@@ -1,30 +1,34 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../../colors";
+import classNames from "classnames";
+import colors from "../../madDesign/colors";
 
 const Wrapper = styled.div`
   background: ${colors.white};
-  height: inherit;
-  width: inherit;
-  border-radius: 10px;
+  min-height: 100px;
+  min-width: 120px;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 4px;
   border: 1px solid ${colors.bg};
   box-shadow: 3px 3px 3px ${colors.bg};
-  transition: 1s;
+  transition: 0.3s;
   position: relative;
-  overflow: hidden;
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: ${colors.strokeTwo};
-  }
+  overflow: auto;
 `;
 
-const Card = (props) => {
-  return <Wrapper className="card">{props.children}</Wrapper>;
+const Card = ({
+  children,
+  style,
+  className = "card",
+  curved = true,
+  bottomLine = true,
+}) => {
+  const classes = classNames({
+    "curve-border": curved,
+    "bottom-line": bottomLine,
+  });
+  return <Wrapper className={`${classes} ${className}`}>{children}</Wrapper>;
 };
 
 export default Card;
