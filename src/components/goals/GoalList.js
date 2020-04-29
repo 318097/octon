@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import axios from "axios";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 import { Icon } from "../../UIComponents";
 import "./Goals.scss";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 
 const Wrapper = styled.div`
   background: ${colors.white};

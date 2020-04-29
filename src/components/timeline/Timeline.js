@@ -6,7 +6,7 @@ import moment from "moment";
 
 import { Icon, PageHeader } from "../../UIComponents";
 import AddPost from "./AddPost";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 import "./Timeline.scss";
 
 const Timeline = () => {

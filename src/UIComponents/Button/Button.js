@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 
 const getThemeColors = (property) => ({ theme, type }) => {
   let value = {};

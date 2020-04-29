@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Tag } from "antd";
 import { withRouter } from "react-router-dom";
 import { Icon, Card as MCard } from "../../UIComponents";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 
 const Wrapper = styled.div`
   height: 115px;

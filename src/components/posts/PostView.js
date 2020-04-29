@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 
 import { getPostById } from "../../store/posts/actions";
 import { Card as MCard, Icon } from "../../UIComponents";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 
 const Wrapper = styled.div`
   margin-top: 20px;

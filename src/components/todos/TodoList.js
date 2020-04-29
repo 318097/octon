@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { List, Popconfirm, Divider } from "antd";
 import moment from "moment";
 import axios from "axios";
-import colors from "../../madDesign/colors";
+import colors from "../../magicdust/colors";
 import { Icon } from "../../UIComponents";
 import "./Todos.scss";
 
