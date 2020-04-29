@@ -32,7 +32,7 @@ import { setSession, sendAppNotification } from "./store/app/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
 
-const App = ({ session, setSession, appNotification }) => {
+const App = ({ session, setSession, appNotification, appLoading }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const App = ({ session, setSession, appNotification }) => {
 
   return (
     <div className="app">
-      <Header />
+      <Header appLoading={appLoading} />
       <div className="content">
         {loading ? (
           <Spin />
@@ -95,6 +95,7 @@ const App = ({ session, setSession, appNotification }) => {
 const mapStateToProps = (state) => ({
   session: getSession(state),
   appNotification: state.app.appNotification,
+  appLoading: state.app.appLoading,
 });
 
 const mapDispatchToProps = { setSession };

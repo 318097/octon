@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../magicdust/colors";
-
+import { Spin } from "antd";
 import Navigation from "./Navigation";
 
 const StyledHeader = styled.header`
@@ -30,11 +30,12 @@ const StyledHeader = styled.header`
   }
 `;
 
-const Header = () => (
+const Header = ({ appLoading }) => (
   <StyledHeader>
     <h2>
       <span className="first-letter underline">B</span>rainbox
-      <span className="extension">.in</span>
+      <span className="extension">.in</span>&nbsp;
+      {appLoading ? <Spin className="spinner" size="small" /> : null}
     </h2>
     <Navigation />
   </StyledHeader>
