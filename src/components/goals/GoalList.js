@@ -35,7 +35,7 @@ const GoalList = ({ goalList, fetchGoalList }) => {
                 status === "DONE"
                   ? colors.green
                   : isExpired
-                  ? colors.yellow
+                  ? colors.red
                   : null,
             }}
           >
