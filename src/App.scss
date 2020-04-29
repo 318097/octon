@@ -2,18 +2,13 @@
 @import "./magicdust/custom-styles.scss";
 
 .app {
-  display: flex;
-  flex-direction: column;
   background: url("./assets/backgrounds/dot-grid.png");
   & > div.content {
-    flex-grow: 1;
-    overflow-y: auto;
     & > .ant-spin {
       @extend .center-container;
     }
     & > section {
-      background: $bg;
-      border-radius: 20px;
+      border-radius: 4px;
       margin: 0px auto;
       padding: 12px;
       height: 98%;
@@ -22,13 +17,9 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      &#home,
-      &#goals,
-      &#todos {
-        @extend .max-width;
-      }
       &#login,
       &#register {
+        background: $bg;
         height: auto;
         margin-top: 40px;
         max-width: 275px;
@@ -40,9 +31,6 @@
           margin-right: 0;
         }
       }
-    }
-    & > section.no-background {
-      background: none;
     }
   }
 }

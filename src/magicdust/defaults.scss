@@ -1,5 +1,5 @@
-@import "./custom-styles.scss";
 @import "./colors.scss";
+@import "./custom-styles.scss";
 
 html {
   @extend .defaults;
@@ -23,6 +23,18 @@ body,
 #root,
 #root .app {
   @extend .defaults;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  & > div.content {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  & > .loader {
+    @extend .center-container;
+  }
 }
 
 /* Custom scrollbar */

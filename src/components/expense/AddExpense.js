@@ -16,7 +16,7 @@ const AddExpense = ({
   currentExpense,
   setVisibilityStatus,
   mode,
-  sendAppNotification
+  sendAppNotification,
 }) => {
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ const AddExpense = ({
     expenseTypeId: null,
     amount: null,
     message: "",
-    date: moment()
+    date: moment(),
   });
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const AddExpense = ({
       fetchExpenseByMonth();
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message
+        message: err.response.data || err.message,
       });
     } finally {
       setLoading(false);
@@ -60,14 +60,14 @@ const AddExpense = ({
     setAppLoading(true);
     try {
       const {
-        data: { expenseTypes }
+        data: { expenseTypes },
       } = await axios.get(`/expenses/types`);
       setExpenseTypes(expenseTypes);
       if (mode === "ADD" && expenseTypes.length)
         setData("expenseTypeId", expenseTypes[0]["_id"]);
     } catch (err) {
       sendAppNotification({
-        message: err.response.data || err.message
+        message: err.response.data || err.message,
       });
     } finally {
       setAppLoading(false);
@@ -82,25 +82,27 @@ const AddExpense = ({
 
   return (
     <Fragment>
-      <DatePicker
-        allowClear={false}
-        className="input"
-        onChange={date => setData("date", date)}
-        value={expense.date}
-        placeholder="Select month"
-      />
+      {mode === "ADD" ? <h4>Add expense</h4> : null}
+      <div className="mt">
+        <DatePicker
+          allowClear={false}
+          onChange={(date) => setData("date", date)}
+          value={expense.date}
+          placeholder="Select month"
+        />
 
-      <Radio.Group
-        className="input"
-        value={expense.expenseGroup}
-        buttonStyle="solid"
-        onChange={e => setData("expenseGroup", e.target.value)}
-      >
-        <Radio.Button value="PERSONAL">Personal</Radio.Button>
-        <Radio.Button value="HOME">Home</Radio.Button>
-      </Radio.Group>
+        <Radio.Group
+          className="ml"
+          value={expense.expenseGroup}
+          buttonStyle="solid"
+          onChange={(e) => setData("expenseGroup", e.target.value)}
+        >
+          <Radio.Button value="PERSONAL">Personal</Radio.Button>
+          <Radio.Button value="HOME">Home</Radio.Button>
+        </Radio.Group>
+      </div>
 
-      <div>
+      <div className="mt">
         <h4>
           Select Type
           {mode === "ADD" && (
@@ -109,42 +111,45 @@ const AddExpense = ({
         </h4>
       </div>
 
-      <Radio.Group
-        className="input"
-        value={expense.expenseTypeId}
-        onChange={e => setData("expenseTypeId", e.target.value)}
-      >
-        {expenseTypes.map(type => (
-          <Radio key={type._id} value={type._id}>
-            {type.name}
-          </Radio>
-        ))}
-      </Radio.Group>
-      <br />
-      <InputNumber
-        className="input"
-        min={1}
-        placeholder="Amount"
-        value={expense.amount}
-        onChange={value => setData("amount", value)}
-      />
-      <br />
-      <Input
-        className="input input-width"
-        placeholder="Message"
-        value={expense.message}
-        onChange={e => setData("message", e.target.value)}
-      />
-      <br />
-      <Button
-        className="input"
-        type="primary"
-        loading={loading}
-        onClick={saveExpense}
-        disabled={!expense.amount}
-      >
-        {mode === "ADD" ? "Add" : "Update"}
-      </Button>
+      <div className="mt">
+        <Radio.Group
+          value={expense.expenseTypeId}
+          onChange={(e) => setData("expenseTypeId", e.target.value)}
+        >
+          {expenseTypes.map((type) => (
+            <Radio key={type._id} value={type._id}>
+              {type.name}
+            </Radio>
+          ))}
+        </Radio.Group>
+      </div>
+
+      <div className="mt">
+        <InputNumber
+          min={1}
+          placeholder="Amount"
+          value={expense.amount}
+          onChange={(value) => setData("amount", value)}
+        />
+      </div>
+      <div className="mt">
+        <Input
+          className=" input-width"
+          placeholder="Message"
+          value={expense.message}
+          onChange={(e) => setData("message", e.target.value)}
+        />
+      </div>
+      <div className="mt">
+        <Button
+          type="primary"
+          loading={loading}
+          onClick={saveExpense}
+          disabled={!expense.amount}
+        >
+          {mode === "ADD" ? "Add" : "Update"}
+        </Button>
+      </div>
     </Fragment>
   );
 };
@@ -158,7 +163,7 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
     setLoading(true);
     await axios.post(`/expenses/types`, { name: expenseType });
     message.success("Success");
-    fetchExpensesTypes();
+    await fetchExpensesTypes();
     setVisibility(false);
     setLoading(false);
   };
@@ -169,17 +174,16 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
         background={true}
         size={12}
         type={visibility ? "minus" : "plus"}
-        onClick={() => setVisibility(prev => !prev)}
+        onClick={() => setVisibility((prev) => !prev)}
       />
       {visibility && (
         <div className="add-type-card">
           <Input
-            className="input"
             style={{ width: "70%" }}
             placeholder="Expense Type"
-            onChange={e => setExpenseType(e.target.value)}
+            onChange={(e) => setExpenseType(e.target.value)}
           />
-          <Button className="input" onClick={addExpenseType} loading={loading}>
+          <Button onClick={addExpenseType} loading={loading}>
             Add
           </Button>
         </div>
@@ -189,5 +193,5 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
 };
 
 export default connect(null, {
-  sendAppNotification
+  sendAppNotification,
 })(AddExpense);

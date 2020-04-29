@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, Modal, List, Popconfirm, Spin } from "antd";
+import { Radio, Modal, List, Popconfirm } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "./util";
@@ -12,7 +12,6 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [editExpenseVisibility, setEditExpenseVisibility] = useState(false);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
       const data =
         filterType === "ALL"
           ? list
-          : list.filter(list => list.expenseGroup === filterType);
+          : list.filter((list) => list.expenseGroup === filterType);
       setDataSource(data);
       setTotal(calculateTotal(data));
     };
@@ -28,21 +27,21 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     filterData();
   }, [list, filterType]);
 
-  const deleteExpense = id => async () => {
-    setLoading(true);
+  const deleteExpense = (id) => async () => {
+    setAppLoading(true);
     await axios.delete(`/expenses/${id}`);
-    fetchExpenseByMonth();
-    setLoading(false);
+    await fetchExpenseByMonth();
+    setAppLoading(false);
   };
 
-  const editExpenseHandler = id => {
-    const [expenseById] = dataSource.filter(expense => expense._id === id);
+  const editExpenseHandler = (id) => {
+    const [expenseById] = dataSource.filter((expense) => expense._id === id);
 
     setEditExpense({ ...expenseById });
     setEditExpenseVisibility(true);
   };
 
-  const renderItem = row => {
+  const renderItem = (row) => {
     const date = moment(row.date).format("DD/MM");
     const message = row.message ? <span>({row.message})</span> : null;
 
@@ -62,7 +61,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
             onConfirm={deleteExpense(row._id)}
           >
             <Icon key="delete-expense" type="delete" />
-          </Popconfirm>
+          </Popconfirm>,
         ]}
       >
         <div className="expense-list-container">
@@ -81,7 +80,6 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         <div className="expense-list-header custom-font">
           <h3>
             Expenses <span className="month">({date.format("MMM 'YY")})</span>
-            {loading && <Spin className="spinner" size="small" />}
           </h3>
         </div>
       </PageHeader>

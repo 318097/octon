@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Spin } from "antd";
+import { DatePicker } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -8,17 +8,16 @@ import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
-import { sendAppNotification } from "../../store/app/actions";
+import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import { PageHeader, Icon } from "../../UIComponents";
 import { calculateTotal } from "./util";
+
 const { MonthPicker } = DatePicker;
 
-const Expenses = ({ sendAppNotification }) => {
+const Expenses = ({ sendAppNotification, setAppLoading }) => {
   const [expenseList, setExpenseList] = useState([]);
   const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
-  const [loading, setLoading] = useState(false);
-
   const [
     expenseListVisibilityStatus,
     setExpenseListVisibilityStatus,
@@ -29,7 +28,7 @@ const Expenses = ({ sendAppNotification }) => {
   }, [date]);
 
   const fetchExpenseByMonth = async () => {
-    setLoading(true);
+    setAppLoading(true);
     try {
       const {
         data: { expenses },
@@ -41,7 +40,7 @@ const Expenses = ({ sendAppNotification }) => {
         message: err.response.data || err.message,
       });
     } finally {
-      setLoading(false);
+      setAppLoading(false);
     }
   };
 
@@ -50,8 +49,7 @@ const Expenses = ({ sendAppNotification }) => {
       <div className="card">
         <PageHeader>
           <h3>
-            <span className="underline">Expenses&nbsp;</span>
-            {loading && <Spin className="spinner" size="small" />}
+            <span className="underline">Expenses</span>
           </h3>
           <div className="flex center">
             <MonthPicker
@@ -74,12 +72,15 @@ const Expenses = ({ sendAppNotification }) => {
             />
           </div>
         </PageHeader>
+        <div className="divider"></div>
+
         <AddExpense
-          setAppLoading={setLoading}
+          setAppLoading={setAppLoading}
           fetchExpenseByMonth={fetchExpenseByMonth}
           mode="ADD"
         />
       </div>
+
       <Resize
         modalProps={{
           visible: expenseListVisibilityStatus,
@@ -93,12 +94,15 @@ const Expenses = ({ sendAppNotification }) => {
         list={expenseList}
         fetchExpenseByMonth={fetchExpenseByMonth}
         date={date}
-        setAppLoading={setLoading}
+        setAppLoading={setAppLoading}
       />
     </section>
   );
 };
 
-export default connect(null, {
+const mapActionsToProps = {
   sendAppNotification,
-})(Expenses);
+  setAppLoading,
+};
+
+export default connect(null, mapActionsToProps)(Expenses);

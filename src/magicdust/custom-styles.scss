@@ -10,7 +10,11 @@
 }
 
 .mt {
-  margin-top: 10px;
+  margin-top: 8px;
+}
+
+.ml {
+  margin-left: 8px;
 }
 
 .text-center {
@@ -38,7 +42,7 @@
 }
 
 .input {
-  margin: 5px;
+  margin: 4px 4px 0 0;
   box-sizing: border-box;
 }
 
@@ -80,4 +84,17 @@
     height: 4px;
     background: $strokeTwo;
   }
+}
+
+@mixin flex($align: center, $justify: center, $direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  align-items: $justify;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: $white;
 }
