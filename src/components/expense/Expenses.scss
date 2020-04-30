@@ -9,6 +9,9 @@ section#expenses {
     margin: 0 4px;
     border-radius: 4px;
     background: $bg;
+    @media screen and (max-width: 650px) {
+      flex-grow: 1;
+    }
     .add-type-card {
       background: $strokeOne;
       position: relative;

@@ -12,7 +12,6 @@ const UIComponent = ({ type }) => {
       return <Tag>Test file</Tag>;
     case "INPUT":
       return <Input />;
-
     default:
       return null;
   }
@@ -24,7 +23,7 @@ const ComponentList = () => {
   return (
     <div className="ui-container">
       {uiList.map((type) => (
-        <div className="item">
+        <div key={type} className="item">
           <UIComponent type={type} />
           <span className="name">{type}</span>
         </div>

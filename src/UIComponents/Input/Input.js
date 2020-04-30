@@ -21,7 +21,7 @@ const Input = ({
   style = {},
   className = "input",
   curved = true,
-  autofocus = true,
+  autoFocus = true,
   placeholder = "",
   onChange,
   onBlur,
@@ -40,7 +40,7 @@ const Input = ({
 
   return (
     <Wrapper
-      autofocus={autofocus}
+      autoFocus={autoFocus}
       placeholder={placeholder}
       style={{ ...style }}
       className={`${classes} ${className}`}
