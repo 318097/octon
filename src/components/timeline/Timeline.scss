@@ -1,5 +1,7 @@
 @import "../../magicdust/colors.scss";
 section#timeline {
+  background: $bg;
+  padding: 4px 8px;
   .timeline {
     flex: 1;
     overflow: auto;
