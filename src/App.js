@@ -44,6 +44,8 @@ const App = ({ session, setSession, appNotification, appLoading }) => {
           setSession({ loggedIn: true, info: "ON_LOAD" });
         } catch (err) {
           sendAppNotification();
+        } finally {
+          setLoading(false);
         }
       } else setLoading(false);
     };
