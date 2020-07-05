@@ -17,7 +17,7 @@ export const setAppLoading = (status) => ({
 export const sendAppNotification = ({
   type = "error",
   message = "Error.",
-}) => ({
+} = {}) => ({
   type: SEND_APP_NOTIFICATION,
   payload: { type, message },
 });

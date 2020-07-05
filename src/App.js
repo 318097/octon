@@ -31,6 +31,7 @@ import { getSession } from "./store/app/selectors";
 import { setSession, sendAppNotification } from "./store/app/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
+axios.defaults.headers.common["authorization"] = getToken();
 
 const App = ({ session, setSession, appNotification, appLoading }) => {
   const [loading, setLoading] = useState(true);
@@ -45,19 +46,12 @@ const App = ({ session, setSession, appNotification, appLoading }) => {
         } catch (err) {
           sendAppNotification();
         } finally {
-          setLoading(false);
+          setTimeout(() => setLoading(false), 300);
         }
       } else setLoading(false);
     };
     isAccountActive();
   }, []);
-
-  useEffect(() => {
-    if (session && session.loggedIn) {
-      axios.defaults.headers.common["authorization"] = getToken();
-      setTimeout(() => setLoading(false), 200);
-    }
-  }, [session]);
 
   useEffect(() => {
     if (appNotification) {
