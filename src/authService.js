@@ -1,21 +1,18 @@
-const isLoggedIn = () => !!getToken();
+const hasToken = () => !!getToken();
 
-const getToken = () => localStorage.getItem("bbox-token");
+const getToken = () => getSessionFromStorage().token || "";
 
-const setToken = token => {
+const setSessionInStorage = (data = {}) => {
   localStorage.clear();
-  localStorage.setItem("bbox-token", token);
+  localStorage.setItem("bbox", JSON.stringify(data));
 };
 
-const setUser = user =>
-  sessionStorage.setItem("bbox-user", JSON.stringify(user));
-
-const getUser = () => JSON.parse(sessionStorage.getItem("bbox-user") || "{}");
+const getSessionFromStorage = () =>
+  JSON.parse(localStorage.getItem("bbox") || "{}");
 
 module.exports = {
-  isLoggedIn,
+  hasToken,
   getToken,
-  setToken,
-  setUser,
-  getUser
+  setSessionInStorage,
+  getSessionFromStorage,
 };

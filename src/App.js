@@ -24,7 +24,7 @@ import Posts from "./components/posts/Posts";
 import PostView from "./components/posts/PostView";
 import ComponentList from "./components/test/ComponentList";
 
-import { getToken, isLoggedIn } from "./authService";
+import { getToken, hasToken } from "./authService";
 import config from "./config";
 
 import { getSession } from "./store/app/selectors";
@@ -33,16 +33,16 @@ import { setSession, sendAppNotification } from "./store/app/actions";
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = getToken();
 
-const App = ({ session, setSession, appNotification, appLoading }) => {
+const App = ({ setSession, appNotification, appLoading }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const isAccountActive = async () => {
-      if (isLoggedIn()) {
+      if (hasToken()) {
         try {
           const token = getToken();
-          await axios.post(`/auth/account-status`, { token });
-          setSession({ loggedIn: true, info: "ON_LOAD" });
+          const { data } = await axios.post(`/auth/account-status`, { token });
+          setSession({ loggedIn: true, info: "ON_LOAD", ...data });
         } catch (err) {
           sendAppNotification();
         } finally {

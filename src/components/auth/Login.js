@@ -6,33 +6,34 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { setToken, setUser, isLoggedIn } from "../../authService";
+import { setSessionInStorage } from "../../authService";
 
 import { getSession } from "../../store/app/selectors";
 import { setSession } from "../../store/app/actions";
 
-const Login = ({ history, setSession }) => {
+const Login = ({ history, setSession, session }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn()) history.push("/");
+    if (session && session.loggedIn) history.push("/");
   }, []);
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const {
-        data: { token, user },
-      } = await axios.post("/auth/login", { username, password });
+      const { data } = await axios.post("/auth/login", { username, password });
 
-      setToken(token);
-      setUser(user);
-
-      setSession({ loggedIn: true, info: "LOGIN" });
-      history.push("/");
+      setSessionInStorage(data);
+      await setSession({
+        loggedIn: true,
+        info: "LOGIN",
+        ...data,
+      });
+      axios.defaults.headers.common["authorization"] = data.token;
+      setTimeout(() => history.push("/"), 400);
     } catch (err) {
       const { response: { data: errorMessage = "Error." } = {} } = err;
       message.error(errorMessage);
