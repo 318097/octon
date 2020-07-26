@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../magicdust/colors";
+import colors from "@codedrops/react-ui";
 import { Spin } from "antd";
 import Navigation from "./Navigation";
 

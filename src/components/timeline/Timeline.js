@@ -4,9 +4,8 @@ import { Timeline as AntTimeline, Card, Tag, Popconfirm } from "antd";
 import axios from "axios";
 import moment from "moment";
 
-import { Icon, PageHeader } from "../../UIComponents";
 import AddPost from "./AddPost";
-import colors from "../../magicdust/colors";
+import colors, { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Timeline.scss";
 
 const Timeline = () => {
@@ -51,9 +50,7 @@ const Timeline = () => {
 
   return (
     <section id="timeline" className="max-width">
-      <PageHeader>
-        <h3 className="underline">Timeline</h3>
-      </PageHeader>
+      <PageHeader title={<h3 className="underline">Timeline</h3>} />
       <div className="timeline">
         <AntTimeline>
           {data.map((item) => (

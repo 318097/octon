@@ -1,11 +1,8 @@
 import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import { Icon } from "../UIComponents";
 import { connect } from "react-redux";
 import styled from "styled-components";
-
-import colors from "../magicdust/colors";
-
+import colors from "@codedrops/react-ui";
 import { getSession } from "../store/app/selectors";
 import { setSession } from "../store/app/actions";
 
@@ -42,8 +39,6 @@ const list = [
   { route: "/todos", label: "Todos" },
   { route: "/goals", label: "Goals" },
   { route: "/timeline", label: "Timeline" },
-  { route: "/posts", label: "Posts" },
-  { route: "/ui", label: "UI" },
 ];
 
 const Navigation = ({ history, session = {}, setSession }) => {

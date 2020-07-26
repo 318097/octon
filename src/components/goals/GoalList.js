@@ -1,8 +1,7 @@
 import React from "react";
 import moment from "moment";
 import axios from "axios";
-import colors from "../../magicdust/colors";
-import { Icon } from "../../UIComponents";
+import colors, { Icon } from "@codedrops/react-ui";
 import "./Goals.scss";
 
 const formatDate = (date) => moment(date).format("DD MMM/YY");

@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Button } from "antd";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Icon } from "../../UIComponents";
+import colors, { Icon } from "@codedrops/react-ui";
 import config from "../../config";
-import colors from "../../magicdust/colors";
 class GoogleAuth extends Component {
   constructor(props) {
     super(props);

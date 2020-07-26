@@ -4,7 +4,7 @@ import axios from "axios";
 
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
-import { PageHeader } from "../../UIComponents";
+import { PageHeader } from "@codedrops/react-ui";
 import "./Todos.scss";
 
 const Todos = () => {
@@ -24,20 +24,22 @@ const Todos = () => {
 
   return (
     <section id="todos">
-      <PageHeader>
-        <div className="page-header">
-          <h3 className="underline">Todos</h3>
-          <Radio.Group
-            defaultValue={todoType}
-            buttonStyle="solid"
-            onChange={(e) => setTodoType(e.target.value)}
-          >
-            <Radio.Button value="SINGLE">SINGLE</Radio.Button>
-            <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
-          </Radio.Group>
-        </div>
-        <AddTodo fetchTodoList={fetchTodoList} />
-      </PageHeader>
+      <PageHeader
+        title={
+          <div className="page-header">
+            <h3 className="underline">Todos</h3>
+            <Radio.Group
+              defaultValue={todoType}
+              buttonStyle="solid"
+              onChange={(e) => setTodoType(e.target.value)}
+            >
+              <Radio.Button value="SINGLE">SINGLE</Radio.Button>
+              <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
+            </Radio.Group>
+          </div>
+        }
+        actions={<AddTodo fetchTodoList={fetchTodoList} />}
+      />
 
       <TodoList
         todoList={todoList.filter((todo) => todo.type === todoType)}

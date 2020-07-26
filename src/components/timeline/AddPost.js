@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Modal, DatePicker, Input } from "antd";
 import axios from "axios";
 import moment from "moment";
-import { Icon } from "../../UIComponents";
+import { Icon } from "@codedrops/react-ui";
 
 const { TextArea } = Input;
 
@@ -24,7 +24,7 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
     if (mode === "EDIT") {
       await axios.put(`/timeline/${post._id}`, {
         content,
-        date: date.format()
+        date: date.format(),
       });
     } else {
       await axios.post(`/timeline`, { content, date: date.format() });
@@ -61,12 +61,12 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
           <DatePicker
             className="input"
             value={date}
-            onChange={value => setDate(value)}
+            onChange={(value) => setDate(value)}
           />
           <TextArea
             className="input"
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="Message"
             rows={4}
           />

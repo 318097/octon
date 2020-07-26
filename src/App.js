@@ -20,9 +20,6 @@ import Expenses from "./components/expense/Expenses";
 import Todos from "./components/todos/Todos";
 import Goals from "./components/goals/Goals";
 import Timeline from "./components/timeline/Timeline";
-import Posts from "./components/posts/Posts";
-import PostView from "./components/posts/PostView";
-import ComponentList from "./components/test/ComponentList";
 
 import { getToken, hasToken } from "./authService";
 import config from "./config";
@@ -75,9 +72,6 @@ const App = ({ setSession, appNotification, appLoading }) => {
             <PrivateRoute exact path="/todos" component={Todos} />
             <PrivateRoute exact path="/goals" component={Goals} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
-            <Route exact path="/posts" component={Posts} />
-            <Route exact path="/posts/:id" component={PostView} />
-            <Route exact path="/ui" component={ComponentList} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>

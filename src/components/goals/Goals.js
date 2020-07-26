@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AddGoal from "./AddGoal";
 import GoalList from "./GoalList";
-import { PageHeader } from "../../UIComponents";
+import { PageHeader } from "@codedrops/react-ui";
 import "./Goals.scss";
 
 const Goals = () => {
@@ -22,12 +22,14 @@ const Goals = () => {
 
   return (
     <section id="goals">
-      <PageHeader>
-        <div className="page-header">
-          <h3 className="underline">Goals</h3>
-        </div>
-        <AddGoal fetchGoalList={fetchGoalList} />
-      </PageHeader>
+      <PageHeader
+        title={
+          <div className="page-header">
+            <h3 className="underline">Goals</h3>
+          </div>
+        }
+        actions={<AddGoal fetchGoalList={fetchGoalList} />}
+      />
       <GoalList goalList={goalList} fetchGoalList={fetchGoalList} />
     </section>
   );

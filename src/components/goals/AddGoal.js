@@ -3,7 +3,7 @@ import { DatePicker, Input, Modal } from "antd";
 import axios from "axios";
 import "./Goals.scss";
 import moment from "moment";
-import { Icon } from "../../UIComponents";
+import { Icon } from "@codedrops/react-ui";
 
 const { MonthPicker } = DatePicker;
 
@@ -12,13 +12,13 @@ const AddGoal = ({ fetchGoalList }) => {
   const [goalObj, setGoalObj] = useState({
     deadline: moment(),
     type: "DATE",
-    goal: ""
+    goal: "",
   });
 
   const setData = (key, value) =>
-    setGoalObj(prevState => ({
+    setGoalObj((prevState) => ({
       ...prevState,
-      [key]: value
+      [key]: value,
     }));
 
   const addGoal = async () => {
@@ -45,12 +45,12 @@ const AddGoal = ({ fetchGoalList }) => {
         {goalObj.type === "DATE" ? (
           <DatePicker
             className="custom-font input"
-            onChange={date => setData("deadline", date)}
+            onChange={(date) => setData("deadline", date)}
           />
         ) : (
           <MonthPicker
             className="custom-font input"
-            onChange={date => setData("deadline", date)}
+            onChange={(date) => setData("deadline", date)}
             placeholder="Select month"
           />
         )}

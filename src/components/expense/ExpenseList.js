@@ -3,7 +3,7 @@ import { Radio, Modal, List, Popconfirm } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "./util";
-import { PageHeader, Icon } from "../../UIComponents";
+import { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 
@@ -76,26 +76,31 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
 
   return (
     <Fragment>
-      <PageHeader>
-        <div className="expense-list-header custom-font">
-          <h3>
-            Expenses <span className="month">({date.format("MMM 'YY")})</span>
-          </h3>
-        </div>
-      </PageHeader>
-      <PageHeader>
-        <Radio.Group
-          className="custom-font"
-          defaultValue={filterType}
-          buttonStyle="solid"
-          onChange={({ target: { value } }) => setFilterType(value)}
-        >
-          <Radio.Button value="ALL">All</Radio.Button>
-          <Radio.Button value="PERSONAL">Personal</Radio.Button>
-          <Radio.Button value="HOME">Home</Radio.Button>
-        </Radio.Group>
-        <span className="custom-font total">Total: Rs/-{total}</span>
-      </PageHeader>
+      <PageHeader
+        title={
+          <div className="expense-list-header custom-font">
+            <h3>
+              Expenses <span className="month">({date.format("MMM 'YY")})</span>
+            </h3>
+          </div>
+        }
+      />
+
+      <PageHeader
+        title={
+          <Radio.Group
+            className="custom-font"
+            defaultValue={filterType}
+            buttonStyle="solid"
+            onChange={({ target: { value } }) => setFilterType(value)}
+          >
+            <Radio.Button value="ALL">All</Radio.Button>
+            <Radio.Button value="PERSONAL">Personal</Radio.Button>
+            <Radio.Button value="HOME">Home</Radio.Button>
+          </Radio.Group>
+        }
+        actions={<span className="custom-font total">Total: Rs/-{total}</span>}
+      />
 
       <List
         style={{ maxHeight: "50vh", overflowY: "auto" }}

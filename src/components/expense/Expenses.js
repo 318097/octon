@@ -9,7 +9,7 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
-import { PageHeader, Icon } from "../../UIComponents";
+import { Icon, PageHeader } from "@codedrops/react-ui";
 import { calculateTotal } from "./util";
 
 const { MonthPicker } = DatePicker;
@@ -47,31 +47,35 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
   return (
     <section id="expenses">
       <div className="card">
-        <PageHeader>
-          <h3>
-            <span className="underline">Expenses</span>
-          </h3>
-          <div className="flex center">
-            <MonthPicker
-              key="month-picker"
-              style={{ width: "75px" }}
-              allowClear={false}
-              format="MMM, YY"
-              onChange={(date) => setDate(date)}
-              value={date}
-              placeholder="Select month"
-            />
-            <span style={{ margin: "0 8px" }} key="total" className="total">
-              Rs/- {total}
-            </span>
-            <Icon
-              className="wallet-icon"
-              key="list-expenses"
-              onClick={() => setExpenseListVisibilityStatus(true)}
-              type="wallet"
-            />
-          </div>
-        </PageHeader>
+        <PageHeader
+          title={
+            <h3>
+              <span className="underline">Expenses</span>
+            </h3>
+          }
+          actions={
+            <div className="flex center">
+              <MonthPicker
+                key="month-picker"
+                style={{ width: "75px" }}
+                allowClear={false}
+                format="MMM, YY"
+                onChange={(date) => setDate(date)}
+                value={date}
+                placeholder="Select month"
+              />
+              <span style={{ margin: "0 8px" }} key="total" className="total">
+                Rs/- {total}
+              </span>
+              <Icon
+                className="wallet-icon"
+                key="list-expenses"
+                onClick={() => setExpenseListVisibilityStatus(true)}
+                type="wallet"
+              />
+            </div>
+          }
+        />
         <div className="divider"></div>
 
         <AddExpense
