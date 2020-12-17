@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@codedrops/react-ui": "^0.26.0",
+    "@codedrops/react-ui": "*",
     "antd": "^3.20.7",
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
@@ -25,8 +25,8 @@
   },
   "scripts": {
     "start": "PORT=7001 react-scripts start",
-    "server": "cd ../bubblegum && yarn serve",
-    "dev": "concurrently \"yarn start\" \"yarn server\"",
+    "server": "cd ../bubblegum && npm run serve",
+    "dev": "concurrently \"npm run start\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
