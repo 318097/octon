@@ -34,7 +34,6 @@ const StyledNavigation = styled.nav`
 `;
 
 const list = [
-  { route: "/", label: "Home" },
   { route: "/expenses", label: "Expenses" },
   { route: "/todos", label: "Todos" },
   { route: "/goals", label: "Goals" },
@@ -59,12 +58,10 @@ const Navigation = ({ history, session = {}, setSession }) => {
       {loggedIn ? (
         <NavLink to="#" className="logout" type="link" onClick={logout}>
           Logout
-          {/* <Icon type="logout" /> */}
         </NavLink>
       ) : (
         <NavLink exact activeClassName="active-link" to="/login">
           Login
-          {/* <Icon type="login" /> */}
         </NavLink>
       )}
     </StyledNavigation>

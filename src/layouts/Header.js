@@ -16,25 +16,12 @@ const StyledHeader = styled.header`
     flex-direction: column;
     padding-bottom: 12px;
   }
-  h2 {
-    font-size: 2rem;
-    .first-letter {
-      font-size: 2.8rem;
-      &:after {
-        bottom: 6px;
-      }
-    }
-    .extension {
-      color: ${colors.gray};
-    }
-  }
 `;
 
 const Header = ({ appLoading }) => (
   <StyledHeader>
     <h2>
-      <span className="first-letter underline">B</span>rainbox
-      <span className="extension">.in</span>&nbsp;
+      Atom
       {appLoading ? <Spin className="spinner" size="small" /> : null}
     </h2>
     <Navigation />

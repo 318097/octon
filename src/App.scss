@@ -2,18 +2,15 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 .app {
-  background: url("./assets/backgrounds/dot-grid.png");
+  // background: url("./assets/backgrounds/dot-grid.png");
   & > div.content {
-    & > .ant-spin {
-      @extend .center-container;
-    }
     & > section {
-      border-radius: 4px;
-      margin: 0px auto;
+      border-radius: 2px;
+      // margin: 0px auto;
       // padding: 12px;
-      height: 98%;
+      // height: 98%;
       box-sizing: border-box;
-      width: 96%;
+      // width: 96%;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -25,11 +22,6 @@
         max-width: 275px;
         @extend .text-center;
         padding: 30px 20px 60px;
-        .ant-input,
-        .ant-input-password {
-          margin-left: 0;
-          margin-right: 0;
-        }
       }
     }
   }

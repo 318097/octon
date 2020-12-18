@@ -8,14 +8,13 @@ import "antd/dist/antd.css";
 import "./App.scss";
 
 import Header from "./layouts/Header";
-import Footer from "./layouts/Footer";
+// import Footer from "./layouts/Footer";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import PageNotFound from "./components/PageNotFound";
-import Home from "./components/Home";
 import Expenses from "./components/expense/Expenses";
 import Todos from "./components/todos/Todos";
 import Goals from "./components/goals/Goals";
@@ -59,7 +58,7 @@ const App = ({ setSession, appNotification, appLoading }) => {
   }, [appNotification]);
 
   return (
-    <div className="app">
+    <div className="app" id="react-ui">
       <Header appLoading={appLoading} />
       <div className="content">
         {loading ? (
@@ -72,12 +71,11 @@ const App = ({ setSession, appNotification, appLoading }) => {
             <PrivateRoute exact path="/todos" component={Todos} />
             <PrivateRoute exact path="/goals" component={Goals} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
-            <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
         )}
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

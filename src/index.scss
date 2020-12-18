@@ -1,25 +1,9 @@
 @import "@codedrops/react-ui/dist/styles/defaults.scss";
 
-@font-face {
-  font-family: Neucha-Regular;
-  src: url("./assets/fonts/Neucha-Regular.ttf");
-}
-
-@font-face {
-  font-family: SairaExtraCondensed-Bold;
-  src: url("./assets/fonts/SairaExtraCondensed-Bold.ttf");
-}
-
 * {
-  font-family: SairaExtraCondensed-Bold;
+  font-family: monospace;
 }
 
-body {
-  h3 {
-    font-size: 1.6rem;
-  }
-}
-
-.ant-modal-body {
-  padding: 12px !important;
-}
+// .ant-modal-body {
+//   padding: 12px !important;
+// }
