@@ -4,7 +4,7 @@ import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Icon } from "@codedrops/react-ui";
+import { Icon, Card } from "@codedrops/react-ui";
 import { sendAppNotification } from "../../store/app/actions";
 
 import "./Expenses.scss";
@@ -80,8 +80,8 @@ const AddExpense = ({
   };
 
   return (
-    <Fragment>
-      {mode === "ADD" ? <h4>Add expense</h4> : null}
+    <Card className="card add-expense">
+      {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
       <div className="mt">
         <DatePicker
           allowClear={false}
@@ -101,14 +101,14 @@ const AddExpense = ({
         </Radio.Group>
       </div>
 
-      <div className="mt">
+      {/* <div className="mt">
         <h4>
           Select Type
           {mode === "ADD" && (
             <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
           )}
         </h4>
-      </div>
+      </div> */}
 
       <div className="mt">
         <Radio.Group
@@ -149,7 +149,7 @@ const AddExpense = ({
           {mode === "ADD" ? "Add" : "Update"}
         </Button>
       </div>
-    </Fragment>
+    </Card>
   );
 };
 
