@@ -20,6 +20,7 @@ import Todos from "./components/todos/Todos";
 import Goals from "./components/goals/Goals";
 import Timeline from "./components/timeline/Timeline";
 
+import Navigation from "./layouts/Navigation";
 import { getToken, hasToken } from "./authService";
 import config from "./config";
 
@@ -59,7 +60,8 @@ const App = ({ setSession, appNotification, appLoading }) => {
 
   return (
     <div className="app" id="react-ui">
-      <Header appLoading={appLoading} />
+      {/* <Header appLoading={appLoading} /> */}
+      <Navigation />
       <div className="content">
         {loading ? (
           <Spin />

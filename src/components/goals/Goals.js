@@ -24,7 +24,7 @@ const Goals = () => {
     <section id="goals">
       <PageHeader
         title={
-          <div className="page-header">
+          <div className="fcc">
             <h3 className="underline">Goals</h3>
           </div>
         }

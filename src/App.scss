@@ -2,13 +2,15 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 .app {
-  // background: url("./assets/backgrounds/dot-grid.png");
+  background: url("./assets/backgrounds/dot-grid.png");
+  flex-direction: row;
   & > div.content {
+    flex-grow: 1 1 auto;
     & > section {
       border-radius: 2px;
       // margin: 0px auto;
-      // padding: 12px;
-      // height: 98%;
+      padding: 12px;
+      height: 100%;
       box-sizing: border-box;
       // width: 96%;
       position: relative;
@@ -24,5 +26,11 @@
         padding: 30px 20px 60px;
       }
     }
+  }
+  .page-header {
+    margin: 0 0 12px 0;
+    height: 54px;
+    // align-items: center;
+    // padding: 0;
   }
 }

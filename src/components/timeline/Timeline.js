@@ -49,7 +49,7 @@ const Timeline = () => {
   };
 
   return (
-    <section id="timeline" className="max-width">
+    <section id="timeline">
       <PageHeader title={<h3 className="underline">Timeline</h3>} />
       <div className="timeline">
         <AntTimeline>

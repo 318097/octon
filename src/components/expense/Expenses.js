@@ -46,39 +46,48 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
 
   return (
     <section id="expenses">
-      <Card className="card summary">
-        <MonthPicker
-          key="month-picker"
-          style={{ width: "100px" }}
-          allowClear={false}
-          format="MMM, YY"
-          onChange={(date) => setDate(date)}
-          value={date}
-          placeholder="Select month"
+      <div className="flex column">
+        <Card className="card summary">
+          <MonthPicker
+            key="month-picker"
+            style={{ width: "100px" }}
+            allowClear={false}
+            format="MMM, YY"
+            onChange={(date) => setDate(date)}
+            value={date}
+            placeholder="Select month"
+          />
+          <span style={{ margin: "0 8px" }} key="total" className="total">
+            Rs/- {total}
+          </span>
+        </Card>
+        {/* <PageHeader
+            actions={
+              <div className="flex center">
+                <Icon
+                  className="wallet-icon"
+                  key="list-expenses"
+                  onClick={() => setExpenseListVisibilityStatus(true)}
+                  type="wallet"
+                />
+              </div>
+            }
+          /> */}
+
+        <AddExpense
+          setAppLoading={setAppLoading}
+          fetchExpenseByMonth={fetchExpenseByMonth}
+          mode="ADD"
         />
-        <span style={{ margin: "0 8px" }} key="total" className="total">
-          Rs/- {total}
-        </span>
+      </div>
+      <Card>
+        <ExpenseList
+          list={expenseList}
+          fetchExpenseByMonth={fetchExpenseByMonth}
+          date={date}
+          setAppLoading={setAppLoading}
+        />
       </Card>
-      {/* <PageHeader
-          actions={
-            <div className="flex center">
-              <Icon
-                className="wallet-icon"
-                key="list-expenses"
-                onClick={() => setExpenseListVisibilityStatus(true)}
-                type="wallet"
-              />
-            </div>
-          }
-        /> */}
-
-      <AddExpense
-        setAppLoading={setAppLoading}
-        fetchExpenseByMonth={fetchExpenseByMonth}
-        mode="ADD"
-      />
-
       {/* <Resize
         modalProps={{
           visible: expenseListVisibilityStatus,
@@ -94,14 +103,6 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
         date={date}
         setAppLoading={setAppLoading}
       /> */}
-      <Card>
-        <ExpenseList
-          list={expenseList}
-          fetchExpenseByMonth={fetchExpenseByMonth}
-          date={date}
-          setAppLoading={setAppLoading}
-        />
-      </Card>
     </section>
   );
 };

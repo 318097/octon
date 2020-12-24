@@ -4,7 +4,7 @@ import axios from "axios";
 import colors, { Icon } from "@codedrops/react-ui";
 import "./Goals.scss";
 
-const formatDate = (date) => moment(date).format("DD MMM/YY");
+const formatDate = (date) => moment(date).format("DD MMM, YY");
 
 const GoalList = ({ goalList, fetchGoalList }) => {
   const markGoal = async (id) => {
@@ -38,17 +38,18 @@ const GoalList = ({ goalList, fetchGoalList }) => {
                   : null,
             }}
           >
-            <span className="goal">{goal}</span>
-            <span className="date">Deadline - {formatDate(deadline)}</span>
-            {status === "DONE" ? (
-              <span className="date">
-                Finished on - {formatDate(finishedOn)}
-              </span>
-            ) : (
-              <span>
-                <span className="time">{remainingTime}</span> day(s)
-              </span>
-            )}
+            <div className="goal">{goal}</div>
+            <div>
+              <span className="time">{remainingTime}</span> day(s)
+            </div>
+            <div className="stats">
+              <div className="date">Deadline - {formatDate(deadline)}</div>
+              {status === "DONE" && (
+                <div className="date">
+                  Finished on - {formatDate(finishedOn)}
+                </div>
+              )}
+            </div>
 
             {status === "OPEN" && (
               <Icon

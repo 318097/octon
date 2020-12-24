@@ -26,8 +26,8 @@ const Todos = () => {
     <section id="todos">
       <PageHeader
         title={
-          <div className="page-header">
-            <h3 className="underline">Todos</h3>
+          <div className="fcc">
+            <h3 className="underline mr">Todos</h3>
             <Radio.Group
               defaultValue={todoType}
               buttonStyle="solid"

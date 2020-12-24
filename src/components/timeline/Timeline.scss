@@ -1,11 +1,11 @@
 @import "@codedrops/react-ui/dist/styles/colors.scss";
 
 section#timeline {
-  background: $bg;
-  padding: 4px 8px;
   .timeline {
     flex: 1;
     overflow: auto;
+    margin: 0;
+    width: 100%;
     .ant-timeline {
       padding-top: 6px;
       overflow: auto;

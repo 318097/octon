@@ -5,39 +5,42 @@ import styled from "styled-components";
 import colors from "@codedrops/react-ui";
 import { getSession } from "../store/app/selectors";
 import { setSession } from "../store/app/actions";
+import { Icon } from "antd";
 
 const StyledNavigation = styled.nav`
-  text-align: center;
-  a,
-  .logout {
-    font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  width: max-content;
+  padding: 8px;
+  background: ${colors.bar};
+  a {
+    font-size: 1.6rem;
     background: ${colors.white};
-    text-decoration: none;
-    text-align: center;
-    transition: 0.8s;
-    padding: 2px 6px;
-    margin: 0 2px;
+    transition: 0.4s;
+    margin-bottom: 8px;
     cursor: pointer;
     border-radius: 2px;
-    border: 1px solid ${colors.primary};
     color: ${colors.primary};
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
   }
   a:hover,
-  .logout,
   a.active-link {
     color: ${colors.white};
     background: ${colors.primary};
   }
-  .logout {
-    opacity: 0.4;
-  }
 `;
 
 const list = [
-  { route: "/expenses", label: "Expenses" },
-  { route: "/todos", label: "Todos" },
-  { route: "/goals", label: "Goals" },
-  { route: "/timeline", label: "Timeline" },
+  { route: "/expenses", label: "Expenses", icon: <Icon type="wallet" /> },
+  { route: "/todos", label: "Todos", icon: <Icon type="unordered-list" /> },
+  { route: "/goals", label: "Goals", icon: <Icon type="appstore" /> },
+  { route: "/timeline", label: "Timeline", icon: <Icon type="hourglass" /> },
 ];
 
 const Navigation = ({ history, session = {}, setSession }) => {
@@ -48,20 +51,21 @@ const Navigation = ({ history, session = {}, setSession }) => {
   };
 
   const { loggedIn } = session || {};
+
   return (
     <StyledNavigation>
-      {list.map(({ route, label }) => (
+      {list.map(({ route, label, icon }) => (
         <NavLink key={label} exact activeClassName="active-link" to={route}>
-          {label}
+          {icon}
         </NavLink>
       ))}
       {loggedIn ? (
-        <NavLink to="#" className="logout" type="link" onClick={logout}>
-          Logout
+        <NavLink to="#" type="link" onClick={logout}>
+          <Icon type="logout" />
         </NavLink>
       ) : (
         <NavLink exact activeClassName="active-link" to="/login">
-          Login
+          <Icon type="login" />
         </NavLink>
       )}
     </StyledNavigation>
