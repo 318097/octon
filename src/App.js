@@ -64,7 +64,7 @@ const App = ({ setSession, appNotification, appLoading }) => {
       <Navigation />
       <div className="content">
         {loading ? (
-          <Spin />
+          <Spin className="loader" />
         ) : (
           <Switch>
             <Route exact path="/login" component={Login} />

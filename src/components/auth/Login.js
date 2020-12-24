@@ -33,7 +33,7 @@ const Login = ({ history, setSession, session }) => {
         ...data,
       });
       axios.defaults.headers.common["authorization"] = data.token;
-      setTimeout(() => history.push("/"), 400);
+      setTimeout(() => history.push("/expenses"), 400);
     } catch (err) {
       const { response: { data: errorMessage = "Error." } = {} } = err;
       message.error(errorMessage);
@@ -49,31 +49,28 @@ const Login = ({ history, setSession, session }) => {
       </h3>
       <form>
         <Input
-          className="input"
+          className="mb"
           value={username}
           onChange={({ target: { value } }) => setUsername(value)}
           placeholder="Username"
         />
         <Input.Password
-          className="input"
+          className="mb"
           value={password}
           onPressEnter={handleLogin}
           onChange={({ target: { value } }) => setPassword(value)}
           placeholder="Password"
         />
-        <br />
-        <Button className="input" onClick={() => history.push("/register")}>
-          Register
-        </Button>
         <Button
-          className="input"
           type="primary"
+          className="mr"
           onClick={handleLogin}
           loading={loading}
           disabled={!username.length || !password.length}
         >
           Login
         </Button>
+        <Button onClick={() => history.push("/register")}>Register</Button>
       </form>
       <Divider />
       <GoogleAuth />

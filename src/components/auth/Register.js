@@ -50,25 +50,25 @@ const Register = ({ dispatch }) => {
       </h3>
       <form>
         <Input
-          className="input"
+          className="mb"
           value={name}
           onChange={({ target: { value } }) => setName(value)}
           placeholder="Name"
         />
         <Input
-          className="input"
+          className="mb"
           value={email}
           onChange={({ target: { value } }) => setEmail(value)}
           placeholder="Email"
         />
         <Input
-          className="input"
+          className="mb"
           value={username}
           onChange={({ target: { value } }) => setUsername(value)}
           placeholder="Username"
         />
         <Input.Password
-          className="input"
+          className="mb"
           value={password}
           onChange={({ target: { value } }) => setPassword(value)}
           placeholder="Password"
@@ -76,7 +76,7 @@ const Register = ({ dispatch }) => {
         />
         <br />
         <Button
-          className="input"
+          className="mb"
           type="primary"
           onClick={handleRegister}
           loading={loading}

@@ -6,6 +6,12 @@
   flex-direction: row;
   & > div.content {
     flex-grow: 1 1 auto;
+    position: relative;
+    .loader {
+      position: absolute;
+      top: 2%;
+      right: 2%;
+    }
     & > section {
       border-radius: 2px;
       // margin: 0px auto;
@@ -20,13 +26,15 @@
       &#register {
         background: $bg;
         height: auto;
-        margin-top: 40px;
+        margin-top: 20px;
         max-width: 275px;
+        margin-left: 20px;
         @extend .text-center;
         padding: 30px 20px 60px;
       }
     }
   }
+
   .page-header {
     margin: 0 0 12px 0;
     height: 54px;
