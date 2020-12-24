@@ -80,7 +80,7 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           mode="ADD"
         />
       </div>
-      <Card>
+      <Card className="expense-list card">
         <ExpenseList
           list={expenseList}
           fetchExpenseByMonth={fetchExpenseByMonth}

@@ -23,10 +23,15 @@ section#expenses {
     // }
 
     &.summary {
+      height: 200px;
     }
     &.add-expense {
       align-items: flex-start;
       justify-content: flex-start;
+    }
+    &.expense-list {
+      justify-content: flex-start;
+      height: max-content;
     }
   }
 
