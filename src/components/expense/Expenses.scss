@@ -7,7 +7,7 @@ section#expenses {
     padding: 10px;
     margin: 10px;
     border-radius: 2px;
-    box-shadow: 2px 2px 2px $strokeOne;
+    box-shadow: 4px 4px 4px $strokeTwo;
     background: $feather;
     display: flex;
     flex-direction: column;
@@ -24,6 +24,11 @@ section#expenses {
 
     &.summary {
       height: 200px;
+      .total {
+        margin-top: 12px;
+        font-size: 2rem;
+        font-family: Cascadia-Bold;
+      }
     }
     &.add-expense {
       align-items: flex-start;
@@ -37,7 +42,6 @@ section#expenses {
 
   .message {
     color: $iron;
-    font-size: 1.4rem;
   }
 }
 

@@ -47,12 +47,12 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
 
     return (
       <List.Item
-        className="custom-font"
         actions={[
           <span>{row.expenseType ? row.expenseType.toUpperCase() : null}</span>,
           <Icon
             key="edit-expense"
             type="edit"
+            size={12}
             onClick={() => editExpenseHandler(row._id)}
           />,
           <Popconfirm
@@ -60,7 +60,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
             title="Delete?"
             onConfirm={deleteExpense(row._id)}
           >
-            <Icon key="delete-expense" type="delete" />
+            <Icon size={12} key="delete-expense" type="delete" />
           </Popconfirm>,
         ]}
       >
@@ -78,7 +78,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     <Fragment>
       <PageHeader
         title={
-          <div className="expense-list-header custom-font">
+          <div className="expense-list-header  ">
             <h3>
               Expenses <span className="month">({date.format("MMM 'YY")})</span>
             </h3>
@@ -89,7 +89,6 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
       <PageHeader
         title={
           <Radio.Group
-            className="custom-font"
             defaultValue={filterType}
             buttonStyle="solid"
             onChange={({ target: { value } }) => setFilterType(value)}
@@ -99,7 +98,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
             <Radio.Button value="HOME">Home</Radio.Button>
           </Radio.Group>
         }
-        actions={<span className="custom-font total">Total: Rs/-{total}</span>}
+        actions={<span className="  total">Total: Rs/-{total}</span>}
       />
 
       <List

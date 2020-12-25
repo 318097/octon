@@ -57,9 +57,7 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
             value={date}
             placeholder="Select month"
           />
-          <span style={{ margin: "0 8px" }} key="total" className="total">
-            Rs/- {total}
-          </span>
+          <span className="total">Rs/- {total}</span>
         </Card>
         {/* <PageHeader
             actions={

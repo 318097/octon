@@ -1,9 +1,20 @@
 @import "@codedrops/react-ui/dist/styles/defaults.scss";
 
-* {
-  font-family: monospace;
+@font-face {
+  src: url("./assets/fonts/Cascadia/CascadiaCode-Regular.otf");
+  font-family: Cascadia-Regular;
 }
 
-// .ant-modal-body {
-//   padding: 12px !important;
-// }
+@font-face {
+  src: url("./assets/fonts/Cascadia/CascadiaCode-SemiBold.otf");
+  font-family: Cascadia-SemiBold;
+}
+
+@font-face {
+  src: url("./assets/fonts/Cascadia/CascadiaMono-Bold.otf");
+  font-family: Cascadia-Bold;
+}
+
+* {
+  font-family: Cascadia-Regular;
+}

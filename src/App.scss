@@ -4,6 +4,7 @@
 .app {
   background: url("./assets/backgrounds/dot-grid.png");
   flex-direction: row;
+
   & > div.content {
     flex-grow: 1 1 auto;
     position: relative;
@@ -14,11 +15,9 @@
     }
     & > section {
       border-radius: 2px;
-      // margin: 0px auto;
       padding: 12px;
       height: 100%;
       box-sizing: border-box;
-      // width: 96%;
       position: relative;
       display: flex;
       flex-direction: column;
@@ -33,12 +32,28 @@
         padding: 30px 20px 60px;
       }
     }
+    html,
+    body,
+    html body,
+    [class*="ant"] {
+      font-size: 12px;
+    }
+    // .ant-input,
+    // .ant-btn,
+    // .ant-select-dropdown-menu-item,
+    // .ant-checkbox-wrapper,
+    // .ant-radio-wrapper,
+    // .ant-radio-button,
+    // .ant-radio-group,
+    // .ant-list-item,
+    // .ant-list-item-action > li,
+    // .ant-input-number, {
+    //   font-size: 10px;
+    // }
   }
 
   .page-header {
     margin: 0 0 12px 0;
     height: 54px;
-    // align-items: center;
-    // padding: 0;
   }
 }
