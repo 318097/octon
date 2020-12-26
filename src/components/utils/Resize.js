@@ -22,6 +22,7 @@ const Resize = ({
     </div>
   ) : (
     <Modal
+      wrapClassName="react-ui"
       visible={visible}
       title={title}
       width={380}

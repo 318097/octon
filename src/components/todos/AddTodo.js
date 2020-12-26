@@ -32,6 +32,7 @@ const AddTodo = ({ fetchTodoList }) => {
         background={true}
       />
       <Modal
+        wrapClassName="react-ui"
         visible={addTodoVisibility}
         title="Add Todo"
         onCancel={() => setAddTodoVisibility(false)}

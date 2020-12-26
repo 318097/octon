@@ -80,10 +80,11 @@ const AddExpense = ({
   };
 
   return (
-    <Card className="card add-expense">
+    <Fragment>
       {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
-      <div className="mt">
+      <div>
         <DatePicker
+          style={{ width: "130px" }}
           allowClear={false}
           onChange={(date) => setData("date", date)}
           value={expense.date}
@@ -123,17 +124,17 @@ const AddExpense = ({
         </Radio.Group>
       </div>
 
-      <div className="mt">
+      <div className="mt flex center">
         <InputNumber
           min={1}
+          className="mr"
           placeholder="Amount"
           value={expense.amount}
           onChange={(value) => setData("amount", value)}
         />
-      </div>
-      <div className="mt">
+
         <Input
-          className=" input-width"
+          style={{ width: "130px" }}
           placeholder="Message"
           value={expense.message}
           onChange={(e) => setData("message", e.target.value)}
@@ -149,7 +150,7 @@ const AddExpense = ({
           {mode === "ADD" ? "Add" : "Update"}
         </Button>
       </div>
-    </Card>
+    </Fragment>
   );
 };
 

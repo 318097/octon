@@ -35,6 +35,7 @@ const AddGoal = ({ fetchGoalList }) => {
         type="plus"
       />
       <Modal
+        wrapClassName="react-ui"
         visible={addGoalVisibility}
         title="Add Goal"
         onCancel={() => setAddGoalVisibility(false)}

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker } from "antd";
+import { DatePicker, Statistic } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -46,20 +46,21 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
 
   return (
     <section id="expenses">
-      <div className="flex column">
-        <Card className="card summary">
-          <MonthPicker
-            key="month-picker"
-            style={{ width: "100px" }}
-            allowClear={false}
-            format="MMM, YY"
-            onChange={(date) => setDate(date)}
-            value={date}
-            placeholder="Select month"
-          />
-          <span className="total">Rs/- {total}</span>
-        </Card>
-        {/* <PageHeader
+      <PageHeader title="Expenses" />
+      <Card className="card summary">
+        <MonthPicker
+          className="month-picker"
+          style={{ width: "100px" }}
+          size="small"
+          allowClear={false}
+          format="MMM, YY"
+          onChange={(date) => setDate(date)}
+          value={date}
+          placeholder="Select month"
+        />
+        <Statistic title="Total" value={total} />
+      </Card>
+      {/* <PageHeader
             actions={
               <div className="flex center">
                 <Icon
@@ -72,12 +73,6 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
             }
           /> */}
 
-        <AddExpense
-          setAppLoading={setAppLoading}
-          fetchExpenseByMonth={fetchExpenseByMonth}
-          mode="ADD"
-        />
-      </div>
       <Card className="expense-list card">
         <ExpenseList
           list={expenseList}
@@ -86,6 +81,15 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           setAppLoading={setAppLoading}
         />
       </Card>
+
+      <Card className="card add-expense">
+        <AddExpense
+          setAppLoading={setAppLoading}
+          fetchExpenseByMonth={fetchExpenseByMonth}
+          mode="ADD"
+        />
+      </Card>
+
       {/* <Resize
         modalProps={{
           visible: expenseListVisibilityStatus,

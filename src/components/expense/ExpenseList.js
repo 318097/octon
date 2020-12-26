@@ -65,9 +65,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         ]}
       >
         <div className="expense-list-container">
-          <div>
-            {date}: Rs/-{row.amount}
-          </div>
+          <div>{`${date}: Rs/-${row.amount}`}</div>
           <div className="message">{message}</div>
         </div>
       </List.Item>
@@ -76,33 +74,23 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={
-          <div className="expense-list-header  ">
-            <h3>
-              Expenses <span className="month">({date.format("MMM 'YY")})</span>
-            </h3>
-          </div>
-        }
-      />
+      <span className="badge">({date.format("MMM 'YY")})</span>
 
-      <PageHeader
-        title={
-          <Radio.Group
-            defaultValue={filterType}
-            buttonStyle="solid"
-            onChange={({ target: { value } }) => setFilterType(value)}
-          >
-            <Radio.Button value="ALL">All</Radio.Button>
-            <Radio.Button value="PERSONAL">Personal</Radio.Button>
-            <Radio.Button value="HOME">Home</Radio.Button>
-          </Radio.Group>
-        }
-        actions={<span className="  total">Total: Rs/-{total}</span>}
-      />
+      <div className="flex center space-between w-100 mt mb">
+        <Radio.Group
+          defaultValue={filterType}
+          buttonStyle="solid"
+          onChange={({ target: { value } }) => setFilterType(value)}
+        >
+          <Radio.Button value="ALL">All</Radio.Button>
+          <Radio.Button value="PERSONAL">Personal</Radio.Button>
+          <Radio.Button value="HOME">Home</Radio.Button>
+        </Radio.Group>
+        <span className="  total">Total: Rs/-{total}</span>
+      </div>
 
       <List
-        style={{ maxHeight: "50vh", overflowY: "auto" }}
+        style={{ maxHeight: "40vh", overflowY: "auto" }}
         itemLayout="horizontal"
         size="small"
         bordered
@@ -111,9 +99,10 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
       />
 
       <Modal
+        wrapClassName="react-ui"
         visible={editExpenseVisibility}
         title="Edit Expense"
-        width={380}
+        width={400}
         onCancel={() => setEditExpenseVisibility(false)}
         footer={[]}
       >
