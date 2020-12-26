@@ -23,7 +23,7 @@
       flex-direction: column;
       max-width: 400px;
       @media screen and (min-width: 700px) {
-        margin-left: 50px;
+        margin-left: 30px;
       }
       &#login,
       &#register {
@@ -39,7 +39,9 @@
     html,
     body,
     html body,
-    [class*="ant"] {
+    [class*="ant"],
+    .ant-popover-message,
+    .ant-btn-sm {
       font-size: 12px;
     }
   }
@@ -69,6 +71,10 @@
 }
 .ant-modal-body {
   padding: 8px;
+}
+
+.ant-modal-footer,
+.ant-modal-body {
   [class*="ant"] {
     font-size: 1.2rem;
   }

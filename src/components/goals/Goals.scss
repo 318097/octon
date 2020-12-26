@@ -5,36 +5,29 @@ section#goals {
   .goal-list {
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 150px);
+    grid-template-columns: repeat(auto-fill, 182px);
     grid-gap: 12px;
-    height: 100%;
     .goal-item {
       display: flex;
       flex-direction: column;
-      padding: 8px;
-      height: 150px;
-      width: 150px;
+      padding: 12px;
+      height: 182px;
       background: $orchid;
       border-radius: 2px;
       color: $white;
       position: relative;
       .goal {
-        color: $feather;
-        flex: 1 1 auto;
         line-height: 1.6rem;
         font-size: 1.4rem;
+        margin-bottom: 8px;
       }
       .stats {
-        height: 24px;
         display: flex;
         flex-direction: column;
         .date {
-          line-height: 1.2rem;
           font-size: 0.9rem;
-          font-family: Cascadia-SemiLight;
           .time {
             font-size: 1.2rem;
-            font-family: Cascadia-SemiLight;
           }
         }
       }

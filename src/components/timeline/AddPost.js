@@ -50,6 +50,7 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
         type="plus"
       />
       <Modal
+        wrapClassName="react-ui"
         visible={visibility}
         title={`${mode === "ADD" ? "Add" : "Edit"} Post`}
         onOk={savePost}
@@ -59,12 +60,11 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
       >
         <form>
           <DatePicker
-            className="input"
             value={date}
             onChange={(value) => setDate(value)}
+            className="mb"
           />
           <TextArea
-            className="input"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Message"

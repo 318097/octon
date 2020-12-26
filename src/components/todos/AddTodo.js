@@ -41,9 +41,9 @@ const AddTodo = ({ fetchTodoList }) => {
         width={380}
       >
         <Radio.Group
-          className="input"
           defaultValue={todo.type}
           buttonStyle="solid"
+          className="mb"
           onChange={(e) => setData({ type: e.target.value })}
         >
           <Radio.Button value="SINGLE">Single</Radio.Button>
@@ -51,7 +51,6 @@ const AddTodo = ({ fetchTodoList }) => {
         </Radio.Group>
 
         <Input
-          className="input"
           placeholder="Task"
           autoFocus
           onChange={(e) => setData({ task: e.target.value })}
@@ -59,8 +58,8 @@ const AddTodo = ({ fetchTodoList }) => {
         <br />
         {todo.type === "WEEKLY" ? (
           <InputNumber
-            className="input"
             min={1}
+            className="mt"
             placeholder="Frequency"
             onChange={(value) => setData({ frequency: value })}
           />

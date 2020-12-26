@@ -70,6 +70,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
     const actionButton = [
       <Icon
         type="check"
+        size={12}
         className={isTodoMarked ? "success" : null}
         onClick={() => (isTodoMarked ? null : markTodo(_id, type))}
       />,
@@ -78,7 +79,7 @@ const TodoList = ({ todoList, fetchTodoList, type }) => {
         title="Delete?"
         onConfirm={() => deleteTodo(_id)}
       >
-        <Icon type="delete" />
+        <Icon size={12} type="delete" />
       </Popconfirm>,
     ];
 

@@ -45,18 +45,16 @@ const AddGoal = ({ fetchGoalList }) => {
       >
         {goalObj.type === "DATE" ? (
           <DatePicker
-            className="input"
             onChange={(date) => setData("deadline", date)}
+            className="mb"
           />
         ) : (
           <MonthPicker
-            className="input"
             onChange={(date) => setData("deadline", date)}
             placeholder="Select month"
           />
         )}
         <Input
-          className="input"
           placeholder="Goal"
           autoFocus
           value={goalObj.goal}

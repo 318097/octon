@@ -39,9 +39,6 @@ const GoalList = ({ goalList, fetchGoalList }) => {
             }}
           >
             <div className="goal">{goal}</div>
-            <div>
-              <span className="time">{remainingTime}</span> day(s)
-            </div>
             <div className="stats">
               <div className="date">Deadline - {formatDate(deadline)}</div>
               {status === "DONE" && (
@@ -50,7 +47,9 @@ const GoalList = ({ goalList, fetchGoalList }) => {
                 </div>
               )}
             </div>
-
+            <div>
+              <span className="time">{remainingTime}</span> day(s)
+            </div>
             {status === "OPEN" && (
               <Icon
                 className="check-icon"
