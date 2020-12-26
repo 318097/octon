@@ -64,6 +64,7 @@ const Timeline = () => {
                 </div>
                 <div className="flex align-center">
                   <Icon
+                    size={12}
                     key="edit-post"
                     type="edit"
                     onClick={editPost(item._id)}
@@ -73,7 +74,7 @@ const Timeline = () => {
                     title="Delete?"
                     onConfirm={deletePost(item._id)}
                   >
-                    <Icon key="delete-post" type="delete" />
+                    <Icon size={12} key="delete-post" type="delete" />
                   </Popconfirm>
                 </div>
               </Card>
