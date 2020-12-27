@@ -4,7 +4,7 @@
 .app {
   background: url("./assets/backgrounds/dot-grid.png");
   flex-direction: row;
-
+  overflow: auto;
   & > div.content {
     position: relative;
     max-width: 400px;
@@ -16,6 +16,9 @@
       right: calc(100% + 20px);
       top: 12px;
     }
+    .ant-spin-dot {
+      font-size: 24px !important;
+    }
     .loader {
       position: absolute;
       top: 2%;
@@ -24,7 +27,7 @@
     & > section {
       border-radius: 2px;
       padding: 12px;
-      height: 100%;
+      height: auto;
       box-sizing: border-box;
       position: relative;
       display: flex;

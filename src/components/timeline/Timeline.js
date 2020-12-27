@@ -50,7 +50,17 @@ const Timeline = () => {
 
   return (
     <section id="timeline">
-      <PageHeader title={"Timeline"} />
+      <PageHeader
+        title={"Timeline"}
+        actions={
+          <AddPost
+            fetchTimeline={fetchTimeline}
+            post={currentPost}
+            visibility={visibility}
+            setVisibilityStatus={setVisibilityStatus}
+          />
+        }
+      />
       <div className="timeline">
         <AntTimeline>
           {data.map((item) => (
@@ -81,12 +91,6 @@ const Timeline = () => {
             </AntTimeline.Item>
           ))}
         </AntTimeline>
-        <AddPost
-          fetchTimeline={fetchTimeline}
-          post={currentPost}
-          visibility={visibility}
-          setVisibilityStatus={setVisibilityStatus}
-        />
       </div>
       {/* <Button onClick={() => setPage(page => page + 1)}>Load</Button> */}
     </section>
