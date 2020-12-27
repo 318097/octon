@@ -60,9 +60,8 @@ const App = ({ setSession, appNotification, appLoading }) => {
 
   return (
     <div className="app" id="react-ui">
-      {/* <Header appLoading={appLoading} /> */}
-      <Navigation />
       <div className="content">
+        <Navigation />
         {loading ? (
           <Spin className="loader" />
         ) : (
@@ -77,7 +76,6 @@ const App = ({ setSession, appNotification, appLoading }) => {
           </Switch>
         )}
       </div>
-      {/* <Footer /> */}
     </div>
   );
 };

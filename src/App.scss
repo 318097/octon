@@ -6,8 +6,17 @@
   flex-direction: row;
 
   & > div.content {
-    flex-grow: 1 1 auto;
     position: relative;
+    max-width: 400px;
+    width: 100%;
+    // border: 1px solid orange;
+    margin: 0 auto;
+    overflow: visible;
+    nav {
+      position: absolute;
+      right: calc(100% + 20px);
+      top: 12px;
+    }
     .loader {
       position: absolute;
       top: 2%;
@@ -20,11 +29,11 @@
       box-sizing: border-box;
       position: relative;
       display: flex;
+      width: 100%;
       flex-direction: column;
-      max-width: 400px;
-      @media screen and (min-width: 700px) {
-        margin-left: 30px;
-      }
+      // @media screen and (min-width: 700px) {
+      //   margin-left: 30px;
+      // }
       &#login,
       &#register {
         background: $bg;

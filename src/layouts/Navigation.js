@@ -11,7 +11,8 @@ const StyledNavigation = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
+  height: max-content;
+  border-radius: 4px;
   width: max-content;
   padding: 8px;
   background: ${colors.bar};
@@ -26,8 +27,8 @@ const StyledNavigation = styled.nav`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
-    width: 32px;
+    height: 26px;
+    width: 26px;
   }
   a:hover,
   a.active-link {
