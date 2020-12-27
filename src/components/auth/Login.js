@@ -44,9 +44,7 @@ const Login = ({ history, setSession, session }) => {
 
   return (
     <section id="login">
-      <h3 className="text-center">
-        <span className="underline">Login</span>
-      </h3>
+      <h3 className="text-center">Login</h3>
       <form>
         <Input
           className="mb"

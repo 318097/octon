@@ -9,7 +9,6 @@
     position: relative;
     max-width: 400px;
     width: 100%;
-    // border: 1px solid orange;
     margin: 0 auto;
     overflow: visible;
     nav {
@@ -31,17 +30,13 @@
       display: flex;
       width: 100%;
       flex-direction: column;
-      // @media screen and (min-width: 700px) {
-      //   margin-left: 30px;
-      // }
       &#login,
       &#register {
         background: $bg;
         height: auto;
-        margin-top: 20px;
         max-width: 275px;
-        margin-left: 20px;
         @extend .text-center;
+        margin-top: 12px;
         padding: 30px 20px 60px;
       }
     }
@@ -57,7 +52,7 @@
 
   .page-header {
     margin: 0 0 12px 0;
-    height: 54px;
+    min-height: 54px;
   }
 }
 

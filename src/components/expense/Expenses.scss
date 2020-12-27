@@ -45,18 +45,6 @@ section#expenses {
   .message {
     color: $iron;
   }
-  @media screen and (min-width: 700px) {
-    .card.summary {
-      position: absolute;
-      left: calc(100%);
-      top: 12px;
-    }
-    .card.add-expense {
-      position: absolute;
-      left: calc(100%);
-      top: 146px;
-    }
-  }
 }
 
 .ant-list {

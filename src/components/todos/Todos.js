@@ -25,20 +25,20 @@ const Todos = () => {
   return (
     <section id="todos">
       <PageHeader
-        title={
-          <div className="fcc">
-            <h3 className="underline mr">Todos</h3>
-            <Radio.Group
-              defaultValue={todoType}
-              buttonStyle="solid"
-              onChange={(e) => setTodoType(e.target.value)}
-            >
-              <Radio.Button value="SINGLE">SINGLE</Radio.Button>
-              <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
-            </Radio.Group>
-          </div>
-        }
-        actions={<AddTodo fetchTodoList={fetchTodoList} />}
+        title={"Todos"}
+        actions={[
+          <Radio.Group
+            key="todo-type"
+            className="mr"
+            defaultValue={todoType}
+            buttonStyle="solid"
+            onChange={(e) => setTodoType(e.target.value)}
+          >
+            <Radio.Button value="SINGLE">SINGLE</Radio.Button>
+            <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
+          </Radio.Group>,
+          <AddTodo key="add-todo" fetchTodoList={fetchTodoList} />,
+        ]}
       />
 
       <TodoList

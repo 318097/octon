@@ -50,7 +50,7 @@ const Timeline = () => {
 
   return (
     <section id="timeline">
-      <PageHeader title={<h3 className="underline">Timeline</h3>} />
+      <PageHeader title={"Timeline"} />
       <div className="timeline">
         <AntTimeline>
           {data.map((item) => (

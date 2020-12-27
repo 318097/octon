@@ -45,9 +45,7 @@ const Register = ({ dispatch }) => {
 
   return (
     <section id="register">
-      <h3 className="text-center">
-        <span className="underline">Register</span>
-      </h3>
+      <h3 className="text-center">Register</h3>
       <form>
         <Input
           className="mb"

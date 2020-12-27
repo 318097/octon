@@ -23,11 +23,7 @@ const Goals = () => {
   return (
     <section id="goals">
       <PageHeader
-        title={
-          <div className="fcc">
-            <h3 className="underline">Goals</h3>
-          </div>
-        }
+        title={"Goals"}
         actions={<AddGoal fetchGoalList={fetchGoalList} />}
       />
       <GoalList goalList={goalList} fetchGoalList={fetchGoalList} />
