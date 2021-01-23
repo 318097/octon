@@ -5,17 +5,17 @@ section#goals {
   .goal-list {
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 182px);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 12px;
     .goal-item {
       display: flex;
-      text-transform: uppercase;
       flex-direction: column;
       padding: 12px;
       height: 120px;
       background: $orchid;
       border-radius: 2px;
       position: relative;
+      color: $white;
       .goal {
         line-height: 1.6rem;
         font-size: 1.4rem;
