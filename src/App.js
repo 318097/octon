@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin, message } from "antd";
 import axios from "axios";
+import _ from "lodash";
 import { connect } from "react-redux";
 
 import "antd/dist/antd.css";
 import "./App.scss";
 
-import Header from "./layouts/Header";
-// import Footer from "./layouts/Footer";
-
 import PrivateRoute from "./components/auth/PrivateRoute";
-
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import PageNotFound from "./components/PageNotFound";
@@ -23,14 +20,14 @@ import Timeline from "./components/timeline/Timeline";
 import Navigation from "./layouts/Navigation";
 import { getToken, hasToken } from "./authService";
 import config from "./config";
-
 import { getSession } from "./store/app/selectors";
 import { setSession, sendAppNotification } from "./store/app/actions";
+import { setData } from "./store/data/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = getToken();
 
-const App = ({ setSession, appNotification, appLoading }) => {
+const App = ({ setSession, appNotification, appLoading, setData }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,6 +37,7 @@ const App = ({ setSession, appNotification, appLoading }) => {
           const token = getToken();
           const { data } = await axios.post(`/auth/account-status`, { token });
           setSession({ loggedIn: true, info: "ON_LOAD", ...data });
+          setData("timeline", { groupId: _.get(data, "timeline.0._id") });
         } catch (err) {
           sendAppNotification();
         } finally {
@@ -86,6 +84,6 @@ const mapStateToProps = (state) => ({
   appLoading: state.app.appLoading,
 });
 
-const mapDispatchToProps = { setSession };
+const mapDispatchToProps = { setSession, setData };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

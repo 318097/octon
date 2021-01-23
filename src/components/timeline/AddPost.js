@@ -1,12 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Modal, DatePicker, Input } from "antd";
-import axios from "axios";
 import moment from "moment";
 import { Icon } from "@codedrops/react-ui";
 
 const { TextArea } = Input;
 
-const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
+const AddPost = ({ saveTimelinePost, post, visibility, setVisibility }) => {
   const [content, setContent] = useState("");
   const [date, setDate] = useState(moment());
   const [mode, setMode] = useState("ADD");
@@ -21,21 +20,13 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
   }, [post]);
 
   const savePost = async () => {
-    if (mode === "EDIT") {
-      await axios.put(`/timeline/${post._id}`, {
-        content,
-        date: date.format(),
-      });
-    } else {
-      await axios.post(`/timeline`, { content, date: date.format() });
-    }
-    setVisibilityStatus(false)();
-    fetchTimeline();
+    saveTimelinePost({ mode, date, content }, post);
+    setVisibility(false);
     setContent("");
   };
 
   const onClickHandler = () => {
-    setVisibilityStatus(true)();
+    setVisibility(true);
     setMode("ADD");
     setContent("");
     setDate(moment());
@@ -55,7 +46,7 @@ const AddPost = ({ fetchTimeline, post, visibility, setVisibilityStatus }) => {
         title={`${mode === "ADD" ? "Add" : "Edit"} Post`}
         onOk={savePost}
         okText={mode === "ADD" ? "Add" : "Update"}
-        onCancel={setVisibilityStatus(false)}
+        onCancel={() => setVisibility(false)}
         width={380}
       >
         <form>

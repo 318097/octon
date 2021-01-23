@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 
 import appReducer from "./app/reducer";
-import postReducer from "./posts/reducer";
+import postReducer from "./data/reducer";
 
 const middlewares = [thunk];
 
@@ -11,7 +11,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   app: appReducer,
-  posts: postReducer
+  data: postReducer,
 });
 
 const store = createStore(
