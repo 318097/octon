@@ -121,6 +121,8 @@ const Timeline = ({
             visibility={visibility}
             setVisibility={setVisibility}
             saveTimelinePost={saveTimelinePost}
+            timelineGroups={timelineGroups}
+            defaultTimeline={groupId}
           />,
         ]}
       />

@@ -1,36 +1,48 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Modal, DatePicker, Input } from "antd";
+import { Modal, DatePicker, Input, Select } from "antd";
 import moment from "moment";
 import { Icon } from "@codedrops/react-ui";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
-const AddPost = ({ saveTimelinePost, post, visibility, setVisibility }) => {
-  const [content, setContent] = useState("");
-  const [date, setDate] = useState(moment());
+const INITIAL_STATE = {
+  date: moment(),
+  groupId: [],
+  content: "",
+};
+
+const AddPost = ({
+  saveTimelinePost,
+  post,
+  visibility,
+  setVisibility,
+  timelineGroups,
+  defaultTimeline,
+}) => {
+  const [data, setData] = useState(INITIAL_STATE);
   const [mode, setMode] = useState("ADD");
 
   useEffect(() => {
     if (!post) return;
-
+    const { content, date, groupId } = post || {};
     setMode("EDIT");
-    const { content, date } = post;
-    setContent(content);
-    setDate(moment(date));
+    setData({ content, groupId, date: moment(date) });
   }, [post]);
 
   const savePost = async () => {
-    saveTimelinePost({ mode, date, content }, post);
+    saveTimelinePost({ mode, ...data }, post);
     setVisibility(false);
-    setContent("");
+    setData(INITIAL_STATE);
   };
 
   const onClickHandler = () => {
     setVisibility(true);
     setMode("ADD");
-    setContent("");
-    setDate(moment());
+    setData(INITIAL_STATE);
   };
+
+  const setDataObj = (update) => setData((prev) => ({ ...prev, ...update }));
 
   return (
     <Fragment>
@@ -49,19 +61,33 @@ const AddPost = ({ saveTimelinePost, post, visibility, setVisibility }) => {
         onCancel={() => setVisibility(false)}
         width={380}
       >
-        <form>
-          <DatePicker
-            value={date}
-            onChange={(value) => setDate(value)}
-            className="mb"
-          />
-          <TextArea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Message"
-            rows={4}
-          />
-        </form>
+        <Select
+          key="group-list"
+          className="mb"
+          mode="multiple"
+          allowClear
+          placeholder="Group(s)"
+          value={[].concat(
+            data.groupId.length ? data.groupId : defaultTimeline
+          )}
+          onChange={(groupId) => setDataObj({ groupId })}
+        >
+          {timelineGroups.map(({ name, _id }) => (
+            <Option key={_id}>{name}</Option>
+          ))}
+        </Select>
+        <br />
+        <DatePicker
+          value={data.date}
+          onChange={(date) => setDataObj({ date })}
+          className="mb"
+        />
+        <TextArea
+          value={data.content}
+          onChange={(e) => setDataObj({ content: e.target.value })}
+          placeholder="Message"
+          rows={4}
+        />
       </Modal>
     </Fragment>
   );

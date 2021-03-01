@@ -34,24 +34,24 @@ export const saveTimelinePost = (data, post) => async (dispatch, getState) => {
   try {
     dispatch(setAppLoading(true));
     const { mode, date, content } = data;
-    const { data: previousData, groupId } = _.get(getState(), "data.timeline");
+    const { data: previousData } = _.get(getState(), "data.timeline");
     let updatedTimeline;
+
     if (mode === "EDIT") {
       await axios.put(`/timeline/${post._id}`, {
-        content,
+        ...data,
         date: date.format(),
       });
-      updatedTimeline = previousData.map((item) => {
-        if (post._id === item._id) return { ...item, content, date };
-        return item;
-      });
+      updatedTimeline = previousData.map((item) =>
+        post._id === item._id ? { ...data, date } : item
+      );
     } else {
       const {
         data: { result },
       } = await axios.post(`/timeline`, {
         content,
         date: date.format(),
-        groupId,
+        groupId: data.groupId,
       });
       updatedTimeline = [result, ...previousData];
     }
