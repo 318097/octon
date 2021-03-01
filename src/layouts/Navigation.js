@@ -8,19 +8,17 @@ import { setSession } from "../store/app/actions";
 import { Icon } from "@ant-design/compatible";
 
 const StyledNavigation = styled.nav`
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 12px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: max-content;
-  border-radius: 4px;
-  width: max-content;
-  padding: 8px;
-  background: ${colors.bar};
   a {
     font-size: 1.6rem;
     background: ${colors.white};
     transition: 0.4s;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     cursor: pointer;
     border-radius: 2px;
     color: ${colors.primary};
@@ -34,6 +32,15 @@ const StyledNavigation = styled.nav`
   a.active-link {
     color: ${colors.white};
     background: ${colors.primary};
+  }
+  @media (max-width: 560px) {
+    position: static;
+    flex-direction: row;
+    padding: 12px 12px 0;
+    width: 100%;
+    a {
+      margin: 0 0 0 4px;
+    }
   }
 `;
 
