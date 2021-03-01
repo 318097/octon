@@ -82,7 +82,7 @@ const AddExpense = ({
   return (
     <Fragment>
       {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
-      <div>
+      <div className="flex center">
         <DatePicker
           style={{ width: "130px" }}
           allowClear={false}
@@ -102,14 +102,14 @@ const AddExpense = ({
         </Radio.Group>
       </div>
 
-      {/* <div className="mt">
+      <div className="mt">
         <h4>
-          Select Type
+          <span className="mr">Type</span>
           {mode === "ADD" && (
             <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
           )}
         </h4>
-      </div> */}
+      </div>
 
       <div className="mt">
         <Radio.Group
@@ -124,7 +124,7 @@ const AddExpense = ({
         </Radio.Group>
       </div>
 
-      <div className="mt flex center">
+      <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber
           min={1}
           className="mr"
@@ -134,6 +134,7 @@ const AddExpense = ({
         />
 
         <Input
+          size="middle"
           style={{ width: "130px" }}
           placeholder="Message"
           value={expense.message}
@@ -172,15 +173,16 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
     <Fragment>
       <Icon
         background={true}
-        size={12}
+        size={8}
         type={visibility ? "minus" : "plus"}
         onClick={() => setVisibility((prev) => !prev)}
       />
       {visibility && (
-        <div className="add-type-card">
+        <div className="add-type-card flex" style={{ alignItems: "stretch" }}>
           <Input
-            style={{ width: "70%" }}
-            placeholder="Expense Type"
+            style={{ width: "150px" }}
+            placeholder="Name"
+            className="mr"
             onChange={(e) => setExpenseType(e.target.value)}
           />
           <Button onClick={addExpenseType} loading={loading}>

@@ -42,7 +42,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   };
 
   const renderItem = (row) => {
-    const date = moment(row.date).format("DD/MM");
+    const date = moment(row.date).format("DD,MMM");
     const message = row.message ? <span>({row.message})</span> : null;
 
     return (
@@ -65,7 +65,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         ]}
       >
         <div className="expense-list-container">
-          <div>{`${date}: Rs/-${row.amount}`}</div>
+          <div>{`${date}: ₹${row.amount}`}</div>
           <div className="message">{message}</div>
         </div>
       </List.Item>
@@ -86,7 +86,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
           <Radio.Button value="PERSONAL">Personal</Radio.Button>
           <Radio.Button value="HOME">Home</Radio.Button>
         </Radio.Group>
-        <span className="  total">Total: Rs/-{total}</span>
+        <span className="  total">Total: ₹{total}</span>
       </div>
 
       <List

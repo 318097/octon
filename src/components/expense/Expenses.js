@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Statistic } from "antd";
+import { DatePicker } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import Resize from "../utils/Resize";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
-import { Icon, PageHeader, Card, Tag } from "@codedrops/react-ui";
+import { PageHeader, Card } from "@codedrops/react-ui";
 import { calculateTotal } from "./util";
 
 const { MonthPicker } = DatePicker;
@@ -18,10 +18,6 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
   const [expenseList, setExpenseList] = useState([]);
   const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
-  const [
-    expenseListVisibilityStatus,
-    setExpenseListVisibilityStatus,
-  ] = useState(false);
 
   useEffect(() => {
     fetchExpenseByMonth();
@@ -58,21 +54,8 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           value={date}
           placeholder="Select month"
         />
-        <Statistic title="Total" value={total} />
+        <div className="monthly-total-stat">{`₹${total}`}</div>
       </Card>
-      {/* <PageHeader
-            actions={
-              <div className="flex center">
-                <Icon
-                  className="wallet-icon"
-                  key="list-expenses"
-                  onClick={() => setExpenseListVisibilityStatus(true)}
-                  type="wallet"
-                />
-              </div>
-            }
-          /> */}
-
       <Card className="expense-list card">
         <ExpenseList
           list={expenseList}
