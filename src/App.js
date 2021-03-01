@@ -10,6 +10,7 @@ import "./App.scss";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Login from "./components/auth/Login";
+import Home from "./components/Home";
 import Register from "./components/auth/Register";
 import PageNotFound from "./components/PageNotFound";
 import Expenses from "./components/expense/Expenses";
@@ -70,6 +71,7 @@ const App = ({ setSession, appNotification, appLoading, setData }) => {
             <PrivateRoute exact path="/todos" component={Todos} />
             <PrivateRoute exact path="/goals" component={Goals} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
+            <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
         )}
