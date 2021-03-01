@@ -18,6 +18,12 @@
       position: absolute;
       top: 2%;
       right: 2%;
+      @media (max-width: 560px) {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        right: unset;
+      }
     }
     & > section {
       border-radius: 2px;

@@ -12,10 +12,6 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 4px 16px;
-  @media (max-width: 480px) {
-    flex-direction: column;
-    padding-bottom: 12px;
-  }
 `;
 
 const Header = ({ appLoading }) => (

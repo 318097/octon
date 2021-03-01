@@ -41,6 +41,9 @@ const StyledNavigation = styled.nav`
     a {
       margin: 0 0 0 4px;
     }
+    a.auth {
+      margin-left: 12px;
+    }
   }
 `;
 
@@ -68,11 +71,16 @@ const Navigation = ({ history, session = {}, setSession }) => {
         </NavLink>
       ))}
       {loggedIn ? (
-        <NavLink to="#" type="link" onClick={logout}>
+        <NavLink className="auth" to="#" type="link" onClick={logout}>
           <Icon type="logout" />
         </NavLink>
       ) : (
-        <NavLink exact activeClassName="active-link" to="/login">
+        <NavLink
+          className="auth"
+          exact
+          activeClassName="active-link"
+          to="/login"
+        >
           <Icon type="login" />
         </NavLink>
       )}

@@ -20,7 +20,7 @@ const AddPost = ({
   timelineGroups,
   defaultTimeline,
 }) => {
-  const [data, setData] = useState(INITIAL_STATE);
+  const [data, setData] = useState({});
   const [mode, setMode] = useState("ADD");
 
   useEffect(() => {
@@ -36,10 +36,10 @@ const AddPost = ({
     setData(INITIAL_STATE);
   };
 
-  const onClickHandler = () => {
+  const openAddNewPost = () => {
     setVisibility(true);
     setMode("ADD");
-    setData(INITIAL_STATE);
+    setData({ ...INITIAL_STATE, groupId: [defaultTimeline] });
   };
 
   const setDataObj = (update) => setData((prev) => ({ ...prev, ...update }));
@@ -49,7 +49,7 @@ const AddPost = ({
       <Icon
         background={true}
         className="add-icon"
-        onClick={onClickHandler}
+        onClick={openAddNewPost}
         type="plus"
       />
       <Modal
@@ -67,9 +67,7 @@ const AddPost = ({
           mode="multiple"
           allowClear
           placeholder="Group(s)"
-          value={[].concat(
-            data.groupId.length ? data.groupId : defaultTimeline
-          )}
+          value={data.groupId}
           onChange={(groupId) => setDataObj({ groupId })}
         >
           {timelineGroups.map(({ name, _id }) => (
