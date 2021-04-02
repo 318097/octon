@@ -38,7 +38,6 @@ const App = ({ setSession, appNotification, appLoading, setData }) => {
           const token = getToken();
           const { data } = await axios.post(`/auth/account-status`, { token });
           setSession({ loggedIn: true, info: "ON_LOAD", ...data });
-          setData("timeline", { groupId: _.get(data, "timeline.0._id") });
         } catch (err) {
           sendAppNotification();
         } finally {

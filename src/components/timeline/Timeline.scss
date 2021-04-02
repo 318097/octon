@@ -19,10 +19,20 @@ section#timeline {
       padding-bottom: 8px;
     }
     .ant-card-body {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 8px 8px;
+      position: relative;
+      &:hover .actions {
+        display: inline-block;
+      }
+      .actions {
+        display: none;
+        position: absolute;
+        top: 8px;
+        right: 4px;
+        padding: 2px 4px;
+        background: $strokeOne;
+        border-radius: 2px;
+      }
     }
   }
 }

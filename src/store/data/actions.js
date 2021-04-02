@@ -51,7 +51,8 @@ export const saveTimelinePost = (data, post) => async (dispatch, getState) => {
       } = await axios.post(`/timeline`, {
         content,
         date: date.format(),
-        groupId: data.groupId,
+        groupId:
+          data.groupId || _.get(getState(), "app.session.timeline.0._id"),
       });
       updatedTimeline = [result, ...previousData];
     }

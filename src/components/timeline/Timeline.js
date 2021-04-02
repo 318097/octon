@@ -24,6 +24,7 @@ import AddPost from "./AddPost";
 import colors, { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
+import randomColor from "randomcolor";
 
 const { Option } = Select;
 
@@ -41,7 +42,6 @@ const Timeline = ({
   const [name, setName] = useState("");
 
   useEffect(() => {
-    if (!groupId) return;
     getTimeline();
   }, [groupId]);
 
@@ -61,7 +61,7 @@ const Timeline = ({
   const addItem = async () => {
     if (!name) return;
 
-    updateAppData({ name });
+    updateAppData({ name, color: randomColor() });
     setName("");
   };
 
@@ -70,6 +70,13 @@ const Timeline = ({
   };
 
   const timelineGroups = _.get(session, "timeline", []);
+
+  const getTimelineColor = (groupId) => {
+    const timelineMap = _.keyBy(timelineGroups, "_id");
+    const color = _.get(timelineMap, [groupId, "color"], colors.strokeOne);
+    return color;
+  };
+
   return (
     <section id="timeline">
       <PageHeader
@@ -78,8 +85,9 @@ const Timeline = ({
           <Select
             key="group-list"
             className="mr"
+            allowClear
             style={{ width: 140 }}
-            placeholder="Group"
+            placeholder="All groups"
             value={groupId}
             onChange={(value) => handleDataChange(value, "groupId")}
             dropdownRender={(menu) => (
@@ -115,7 +123,6 @@ const Timeline = ({
               <Option key={_id}>{name}</Option>
             ))}
           </Select>,
-
           <AddPost
             key="add-icon"
             post={currentPost}
@@ -132,14 +139,19 @@ const Timeline = ({
           <AntTimeline>
             {data.map((item) => (
               <AntTimeline.Item color={colors.bar} key={item._id}>
-                <Card style={{ alignItems: "start" }}>
-                  <div style={{ flex: 1 }}>
-                    <Tag color={colors.bar}>
-                      {moment(item.date).format("DD,MMM")}
-                    </Tag>
-                    {item.content}
-                  </div>
-                  <div className="fcc ml">
+                <Card
+                  style={{
+                    borderLeft: `5px solid ${getTimelineColor(
+                      _.get(item, "groupId.0")
+                    )}`,
+                  }}
+                >
+                  <Tag color={colors.bar}>
+                    {moment(item.date).format("DD,MMM")}
+                  </Tag>
+                  {item.content}
+
+                  <div className="actions">
                     <Icon
                       size={12}
                       key="edit-post"

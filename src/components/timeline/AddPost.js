@@ -8,7 +8,7 @@ const { Option } = Select;
 
 const INITIAL_STATE = {
   date: moment(),
-  groupId: [],
+  groupId: undefined,
   content: "",
 };
 
@@ -39,7 +39,10 @@ const AddPost = ({
   const openAddNewPost = () => {
     setVisibility(true);
     setMode("ADD");
-    setData({ ...INITIAL_STATE, groupId: [defaultTimeline] });
+    setData({
+      ...INITIAL_STATE,
+      groupId: defaultTimeline ? [defaultTimeline] : undefined,
+    });
   };
 
   const setDataObj = (update) => setData((prev) => ({ ...prev, ...update }));
@@ -63,7 +66,7 @@ const AddPost = ({
       >
         <Select
           key="group-list"
-          className="mb"
+          className="mb mw-100"
           mode="multiple"
           allowClear
           placeholder="Group(s)"
