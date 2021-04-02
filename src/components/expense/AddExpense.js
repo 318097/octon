@@ -111,18 +111,20 @@ const AddExpense = ({
         </h4>
       </div>
 
-      <div className="mt">
-        <Radio.Group
-          value={expense.expenseTypeId}
-          onChange={(e) => setData("expenseTypeId", e.target.value)}
-        >
-          {expenseTypes.map((type) => (
-            <Radio key={type._id} value={type._id}>
-              {type.name}
-            </Radio>
-          ))}
-        </Radio.Group>
-      </div>
+      {!!expenseTypes.length && (
+        <div className="mt">
+          <Radio.Group
+            value={expense.expenseTypeId}
+            onChange={(e) => setData("expenseTypeId", e.target.value)}
+          >
+            {expenseTypes.map((type) => (
+              <Radio key={type._id} value={type._id}>
+                {type.name}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </div>
+      )}
 
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber

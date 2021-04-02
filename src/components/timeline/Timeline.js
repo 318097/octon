@@ -9,6 +9,7 @@ import {
   Select,
   Divider,
   Input,
+  Empty,
 } from "antd";
 import axios from "axios";
 import moment from "moment";
@@ -126,37 +127,41 @@ const Timeline = ({
           />,
         ]}
       />
-      <div className="timeline">
-        <AntTimeline>
-          {data.map((item) => (
-            <AntTimeline.Item color={colors.bar} key={item._id}>
-              <Card style={{ alignItems: "start" }}>
-                <div style={{ flex: 1 }}>
-                  <Tag color={colors.bar}>
-                    {moment(item.date).format("DD,MMM")}
-                  </Tag>
-                  {item.content}
-                </div>
-                <div className="fcc ml">
-                  <Icon
-                    size={12}
-                    key="edit-post"
-                    type="edit"
-                    onClick={editPost(item._id)}
-                  />
-                  <Popconfirm
-                    placement="bottomRight"
-                    title="Delete?"
-                    onConfirm={deletePost(item._id)}
-                  >
-                    <Icon size={12} key="delete-post" type="delete" />
-                  </Popconfirm>
-                </div>
-              </Card>
-            </AntTimeline.Item>
-          ))}
-        </AntTimeline>
-      </div>
+      {data.length ? (
+        <div className="timeline">
+          <AntTimeline>
+            {data.map((item) => (
+              <AntTimeline.Item color={colors.bar} key={item._id}>
+                <Card style={{ alignItems: "start" }}>
+                  <div style={{ flex: 1 }}>
+                    <Tag color={colors.bar}>
+                      {moment(item.date).format("DD,MMM")}
+                    </Tag>
+                    {item.content}
+                  </div>
+                  <div className="fcc ml">
+                    <Icon
+                      size={12}
+                      key="edit-post"
+                      type="edit"
+                      onClick={editPost(item._id)}
+                    />
+                    <Popconfirm
+                      placement="bottomRight"
+                      title="Delete?"
+                      onConfirm={deletePost(item._id)}
+                    >
+                      <Icon size={12} key="delete-post" type="delete" />
+                    </Popconfirm>
+                  </div>
+                </Card>
+              </AntTimeline.Item>
+            ))}
+          </AntTimeline>
+        </div>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      )}
       {/* <Button onClick={() => setPage(page => page + 1)}>Load</Button> */}
     </section>
   );

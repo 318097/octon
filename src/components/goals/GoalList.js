@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import axios from "axios";
+import { Empty } from "antd";
 import colors, { Icon } from "@codedrops/react-ui";
 import "./Goals.scss";
 
@@ -16,6 +17,8 @@ const GoalList = ({ goalList, fetchGoalList }) => {
   //   await axios.delete(`/goals/${id}`);
   //   fetchGoalList();
   // };
+
+  if (!goalList.length) return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
 
   return (
     <div className="goal-list">
