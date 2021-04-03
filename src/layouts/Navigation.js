@@ -52,6 +52,11 @@ const list = [
   { route: "/todos", label: "Todos", icon: <Icon type="unordered-list" /> },
   { route: "/goals", label: "Goals", icon: <Icon type="appstore" /> },
   { route: "/timeline", label: "Timeline", icon: <Icon type="hourglass" /> },
+  {
+    route: "/scratch-pad",
+    label: "Scratch Pad",
+    icon: <Icon type="file-text" />,
+  },
 ];
 
 const Navigation = ({ history, session = {}, setSession }) => {

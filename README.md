@@ -12,9 +12,9 @@
   - [ ] Pagination, Search
   - [x] Show all the timelines (Color each post by timeline group)
 - [ ] Scratch pad
+- [ ] Tab Sync
 - [ ] Vocab
 - [ ] Quotes
-- [ ] Tab Sync
 
 #### Todo
 

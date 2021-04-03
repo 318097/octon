@@ -16,6 +16,7 @@ import PageNotFound from "./components/PageNotFound";
 import Expenses from "./components/expense/Expenses";
 import Todos from "./components/todos/Todos";
 import Goals from "./components/goals/Goals";
+import ScratchPad from "./components/scratchPad/ScratchPad";
 import Timeline from "./components/timeline/Timeline";
 
 import Navigation from "./layouts/Navigation";
@@ -69,6 +70,7 @@ const App = ({ setSession, appNotification, appLoading, setData }) => {
             <PrivateRoute exact path="/expenses" component={Expenses} />
             <PrivateRoute exact path="/todos" component={Todos} />
             <PrivateRoute exact path="/goals" component={Goals} />
+            <PrivateRoute exact path="/scratch-pad" component={ScratchPad} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
