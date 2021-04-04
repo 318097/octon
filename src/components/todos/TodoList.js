@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { List, Popconfirm, Divider } from "antd";
 import moment from "moment";
 import axios from "axios";
-import colors, { Icon } from "@codedrops/react-ui";
+import { Icon } from "@codedrops/react-ui";
 import "./Todos.scss";
 
 const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];

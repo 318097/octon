@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
-import Resize from "../utils/Resize";
+// import Resize from "../utils/Resize";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import { PageHeader, Card } from "@codedrops/react-ui";
 import { calculateTotal } from "./util";

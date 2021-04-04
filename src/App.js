@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { Spin, message } from "antd";
 import axios from "axios";
-import _ from "lodash";
+// import _ from "lodash";
 import { connect } from "react-redux";
 
 import "antd/dist/antd.css";
@@ -28,6 +28,7 @@ import { setData } from "./store/data/actions";
 
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = getToken();
+axios.defaults.headers.common["external-source"] = "ATOM";
 
 const App = ({ setSession, appNotification, appLoading, setData }) => {
   const [loading, setLoading] = useState(true);

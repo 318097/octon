@@ -3,7 +3,7 @@ import { Radio, Modal, List, Popconfirm } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "./util";
-import { Icon, PageHeader } from "@codedrops/react-ui";
+import { Icon } from "@codedrops/react-ui";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 

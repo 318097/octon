@@ -1,8 +1,8 @@
 import React from "react";
 import moment from "moment";
-import axios from "axios";
-import { Empty, Card, Button } from "antd";
-import colors from "@codedrops/react-ui";
+import { Empty, Card, Image } from "antd";
+// import colors from "@codedrops/react-ui";
+// import axios from "axios";
 import "./ScratchPad.scss";
 import { Icon } from "@ant-design/compatible";
 import { copyToClipboard } from "@bit/codedrops.lib.utils";
@@ -22,19 +22,12 @@ const List = ({ list, fetchList }) => {
   return (
     <div className="list">
       {list.map((item) => {
-        const {
-          _id,
-          content,
-          expiresOn,
-          media,
-          isPublic,
-          name,
-          expires,
-        } = item;
+        const { _id, content, expiresOn, media, name, expires } = item;
+
         const extraItems = [
           <Icon
             className="ml"
-            key="copy"
+            key="action"
             type="copy"
             onClick={() => copy(content)}
           />,
@@ -42,8 +35,8 @@ const List = ({ list, fetchList }) => {
         if (expires) {
           const expiresTime = moment().to(expiresOn);
           extraItems.unshift(
-            <span className="fcc">
-              <Icon className="mr pointer" key="expires" type="clock-circle" />
+            <span className="fcc" key="expires">
+              <Icon className="mr pointer" type="clock-circle" />
               <span style={{ fontSize: "10px" }}>{expiresTime}</span>
             </span>
           );
@@ -58,6 +51,9 @@ const List = ({ list, fetchList }) => {
             extra={<div className="fcc">{extraItems}</div>}
           >
             <div className="content">{content}</div>
+            {media.map(({ url }) => (
+              <Image key={url} src={url} width={150} />
+            ))}
           </Card>
         );
       })}

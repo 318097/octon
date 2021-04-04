@@ -11,7 +11,7 @@
   - [ ] Upload images
   - [ ] Pagination, Search
   - [x] Show all the timelines (Color each post by timeline group)
-- [ ] Scratch pad
+- [x] Scratch pad
 - [ ] Tab Sync
 - [ ] Vocab
 - [ ] Quotes

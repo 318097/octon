@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from "react";
-import { DatePicker, Input, Modal, Checkbox } from "antd";
+import React, { useState, Fragment, useRef } from "react";
+import { DatePicker, Input, Modal, Checkbox, Button } from "antd";
 import axios from "axios";
 import "./ScratchPad.scss";
 import moment from "moment";
@@ -11,9 +11,11 @@ const INITIAL_STATE = {
   isPublic: true,
   content: "",
   name: "",
+  files: [],
 };
 
 const AddItem = ({ fetchList }) => {
+  const inputEl = useRef(null);
   const [addItemVisibility, setAddItemVisibility] = useState(false);
   const [data, _setData] = useState(INITIAL_STATE);
 
@@ -24,10 +26,33 @@ const AddItem = ({ fetchList }) => {
     }));
 
   const addItem = async () => {
-    await axios.post("/scratch-pad", data);
-    fetchList();
-    setAddItemVisibility(false);
-    _setData(INITIAL_STATE);
+    try {
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+      await axios.post("/scratch-pad", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      fetchList();
+      setAddItemVisibility(false);
+      _setData(INITIAL_STATE);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleUpload = (event) => {
+    const [document] = event.target.files;
+
+    if (!document) return;
+
+    console.log(document);
+
+    setData({ files: document });
+    event.target.value = null;
   };
 
   return (
@@ -61,6 +86,13 @@ const AddItem = ({ fetchList }) => {
           onChange={({ target }) => setData({ content: target.value })}
           className="mb"
         />
+
+        <div className="mb">
+          <Button type="dashed" onClick={() => inputEl.current.click()}>
+            Upload
+          </Button>
+        </div>
+
         <DatePicker
           defaultValue={data.expiresOn}
           onChange={(date) => setData({ expiresOn: date })}
@@ -81,6 +113,12 @@ const AddItem = ({ fetchList }) => {
             Public
           </Checkbox>
         </div>
+        <input
+          ref={inputEl}
+          type="file"
+          style={{ visibility: "hidden", position: "absolute" }}
+          onChange={handleUpload}
+        />
       </Modal>
     </Fragment>
   );

@@ -4,7 +4,7 @@ import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Icon, Card } from "@codedrops/react-ui";
+import { Icon } from "@codedrops/react-ui";
 import { sendAppNotification } from "../../store/app/actions";
 
 import "./Expenses.scss";
