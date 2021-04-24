@@ -8,6 +8,20 @@ section#scratch-pad {
       .content {
         font-size: 2rem;
       }
+      .media-container {
+        display: grid;
+        grid-template-columns: repeat(4, 80px);
+        // justify-content: center;
+        gap: 8px;
+        .image-container {
+          height: 80px;
+          width: 80px;
+          border: 1px solid $strokeOne;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
     }
   }
 }

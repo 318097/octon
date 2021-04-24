@@ -29,7 +29,10 @@ const AddItem = ({ fetchList }) => {
     try {
       const formData = new FormData();
       for (const key in data) {
-        formData.append(key, data[key]);
+        if (key === "files") {
+          for (let i = 0; i < data.files.length; i++)
+            formData.append(`files`, data.files[i]);
+        } else formData.append(key, data[key]);
       }
       await axios.post("/scratch-pad", formData, {
         headers: {
@@ -45,13 +48,11 @@ const AddItem = ({ fetchList }) => {
   };
 
   const handleUpload = (event) => {
-    const [document] = event.target.files;
+    const { files } = event.target;
 
-    if (!document) return;
+    if (!files) return;
 
-    console.log(document);
-
-    setData({ files: document });
+    setData({ files: Object.values(files) });
     event.target.value = null;
   };
 
@@ -114,6 +115,7 @@ const AddItem = ({ fetchList }) => {
           </Checkbox>
         </div>
         <input
+          multiple
           ref={inputEl}
           type="file"
           style={{ visibility: "hidden", position: "absolute" }}

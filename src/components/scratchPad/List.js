@@ -51,9 +51,13 @@ const List = ({ list, fetchList }) => {
             extra={<div className="fcc">{extraItems}</div>}
           >
             <div className="content">{content}</div>
-            {media.map(({ url }) => (
-              <Image key={url} src={url} width={150} />
-            ))}
+            <div className="media-container">
+              {media.map(({ url, original_filename }) => (
+                <div className="image-container">
+                  <Image key={url} src={url} alt={original_filename} />
+                </div>
+              ))}
+            </div>
           </Card>
         );
       })}
