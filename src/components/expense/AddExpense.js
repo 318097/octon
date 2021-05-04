@@ -94,17 +94,16 @@ const AddExpense = ({
       <Radio.Group
         className="mt"
         value={expense.expenseGroup}
-        buttonStyle="solid"
         onChange={(e) => setData("expenseGroup", e.target.value)}
       >
         {categoryOptions.map((option) => (
-          <Radio.Button value={option.value}>{option.label}</Radio.Button>
+          <Radio value={option.value}>{option.label}</Radio>
         ))}
       </Radio.Group>
 
       <div className="mt">
         <h4>
-          <span className="mr">Type</span>
+          <span className="mr-4">Type</span>
           {mode === "ADD" && (
             <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
           )}
@@ -174,20 +173,24 @@ const AddExpenseType = ({ fetchExpensesTypes }) => {
   return (
     <Fragment>
       <Icon
-        background={true}
+        hover
         size={8}
         type={visibility ? "minus" : "plus"}
         onClick={() => setVisibility((prev) => !prev)}
       />
       {visibility && (
-        <div className="add-type-card flex" style={{ alignItems: "stretch" }}>
+        <div
+          className="add-type-card flex mt"
+          style={{ alignItems: "stretch" }}
+        >
           <Input
+            size="small"
             style={{ width: "150px" }}
             placeholder="Name"
             className="mr"
             onChange={(e) => setExpenseType(e.target.value)}
           />
-          <Button onClick={addExpenseType} loading={loading}>
+          <Button size="small" onClick={addExpenseType} loading={loading}>
             Add
           </Button>
         </div>

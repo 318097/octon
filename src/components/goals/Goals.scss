@@ -17,15 +17,15 @@ section#goals {
       position: relative;
       color: $white;
       .goal {
-        line-height: 1.6rem;
-        font-size: 1.4rem;
+        line-height: 2rem;
+        font-size: 1.6rem;
         margin-bottom: 8px;
       }
       .stats {
         display: flex;
         flex-direction: column;
         .date {
-          font-size: 1rem;
+          font-size: 1.2rem;
         }
       }
       .check-icon {
