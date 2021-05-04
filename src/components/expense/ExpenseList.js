@@ -6,6 +6,7 @@ import { calculateTotal } from "./util";
 import { Icon } from "@codedrops/react-ui";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
+import { categoryOptions } from "./data";
 
 const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
   const [editExpense, setEditExpense] = useState(null);
@@ -80,11 +81,13 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         <Radio.Group
           defaultValue={filterType}
           buttonStyle="solid"
+          size="small"
           onChange={({ target: { value } }) => setFilterType(value)}
         >
           <Radio.Button value="ALL">All</Radio.Button>
-          <Radio.Button value="PERSONAL">Personal</Radio.Button>
-          <Radio.Button value="HOME">Home</Radio.Button>
+          {categoryOptions.map((option) => (
+            <Radio.Button value={option.value}>{option.label}</Radio.Button>
+          ))}
         </Radio.Group>
         <span className="  total">Total: ₹{total}</span>
       </div>

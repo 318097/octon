@@ -22,3 +22,4 @@
 - [ ] Login to Atom when redirected from Codedrops
 - [ ] Merge todos & Goals
 - [ ] Add timeline post to portfolio
+- [ ] Categorize expenses - investments, expenses, income

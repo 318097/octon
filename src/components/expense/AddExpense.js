@@ -6,7 +6,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { Icon } from "@codedrops/react-ui";
 import { sendAppNotification } from "../../store/app/actions";
-
+import { categoryOptions } from "./data";
 import "./Expenses.scss";
 
 const AddExpense = ({
@@ -20,7 +20,7 @@ const AddExpense = ({
   const [expenseTypes, setExpenseTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState({
-    expenseGroup: "PERSONAL",
+    expenseGroup: "EXPENSE",
     expenseTypeId: null,
     amount: null,
     message: "",
@@ -82,25 +82,25 @@ const AddExpense = ({
   return (
     <Fragment>
       {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
-      <div className="flex center">
-        <DatePicker
-          style={{ width: "130px" }}
-          allowClear={false}
-          onChange={(date) => setData("date", date)}
-          value={expense.date}
-          placeholder="Select month"
-        />
 
-        <Radio.Group
-          className="ml"
-          value={expense.expenseGroup}
-          buttonStyle="solid"
-          onChange={(e) => setData("expenseGroup", e.target.value)}
-        >
-          <Radio.Button value="PERSONAL">Personal</Radio.Button>
-          <Radio.Button value="HOME">Home</Radio.Button>
-        </Radio.Group>
-      </div>
+      <DatePicker
+        style={{ width: "130px" }}
+        allowClear={false}
+        onChange={(date) => setData("date", date)}
+        value={expense.date}
+        placeholder="Select month"
+      />
+
+      <Radio.Group
+        className="mt"
+        value={expense.expenseGroup}
+        buttonStyle="solid"
+        onChange={(e) => setData("expenseGroup", e.target.value)}
+      >
+        {categoryOptions.map((option) => (
+          <Radio.Button value={option.value}>{option.label}</Radio.Button>
+        ))}
+      </Radio.Group>
 
       <div className="mt">
         <h4>
