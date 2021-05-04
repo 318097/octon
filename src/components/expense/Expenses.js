@@ -40,6 +40,8 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
     }
   };
 
+  const formatedValue = total.toLocaleString();
+
   return (
     <section id="expenses">
       <PageHeader title="Expenses" />
@@ -54,7 +56,7 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           value={date}
           placeholder="Select month"
         />
-        <div className="monthly-total-stat">{`₹${total}`}</div>
+        <div className="monthly-total-stat">{`₹${formatedValue}`}</div>
       </Card>
       <Card className="expense-list card">
         <ExpenseList

@@ -35,6 +35,7 @@ section#expenses {
     }
     &.expense-list {
       justify-content: flex-start;
+      align-items: flex-start;
       height: max-content;
       min-height: 230px;
     }

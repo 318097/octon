@@ -46,6 +46,7 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
     const date = moment(row.date).format("DD,MMM");
     const message = row.message ? <span>({row.message})</span> : null;
 
+    const formatedValue = row.amount.toLocaleString();
     return (
       <List.Item
         actions={[
@@ -66,31 +67,31 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         ]}
       >
         <div className="expense-list-container">
-          <div>{`${date}: ₹${row.amount}`}</div>
+          <div>{`${date}: ₹${formatedValue}`}</div>
           <div className="message">{message}</div>
         </div>
       </List.Item>
     );
   };
 
+  const formatedValue = total.toLocaleString();
   return (
     <Fragment>
       <span className="badge">({date.format("MMM 'YY")})</span>
 
-      <div className="flex center space-between w-100 mt mb">
-        <Radio.Group
-          defaultValue={filterType}
-          buttonStyle="solid"
-          size="small"
-          onChange={({ target: { value } }) => setFilterType(value)}
-        >
-          <Radio.Button value="ALL">All</Radio.Button>
-          {categoryOptions.map((option) => (
-            <Radio.Button value={option.value}>{option.label}</Radio.Button>
-          ))}
-        </Radio.Group>
-        <span className="  total">Total: ₹{total}</span>
-      </div>
+      <Radio.Group
+        defaultValue={filterType}
+        className="mb"
+        buttonStyle="solid"
+        size="small"
+        onChange={({ target: { value } }) => setFilterType(value)}
+      >
+        <Radio.Button value="ALL">All</Radio.Button>
+        {categoryOptions.map((option) => (
+          <Radio.Button value={option.value}>{option.label}</Radio.Button>
+        ))}
+      </Radio.Group>
+      <div className="mb total">Total: ₹{formatedValue}</div>
 
       <List
         style={{ maxHeight: "40vh", overflowY: "auto" }}
