@@ -57,6 +57,7 @@ const list = [
     label: "Scratch Pad",
     icon: <Icon type="file-text" />,
   },
+  { route: "/settings", label: "Settings", icon: <Icon type="setting" /> },
 ];
 
 const Navigation = ({ history, session = {}, setSession }) => {

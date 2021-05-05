@@ -1,0 +1,22 @@
+@import "@codedrops/react-ui/dist/styles/colors.scss";
+
+section#settings {
+  .nested-container {
+    .node-wrapper {
+      display: flex;
+      flex-direction: column;
+      background: $feather;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      box-shadow: 2px 2px 2px $feather;
+      .title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

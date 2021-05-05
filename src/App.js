@@ -18,6 +18,7 @@ import Todos from "./components/todos/Todos";
 import Goals from "./components/goals/Goals";
 import ScratchPad from "./components/scratchPad/ScratchPad";
 import Timeline from "./components/timeline/Timeline";
+import Settings from "./components/settings";
 
 import Navigation from "./layouts/Navigation";
 import { getToken, hasToken } from "./authService";
@@ -73,6 +74,7 @@ const App = ({ setSession, appNotification, appLoading, setData }) => {
             <PrivateRoute exact path="/goals" component={Goals} />
             <PrivateRoute exact path="/scratch-pad" component={ScratchPad} />
             <PrivateRoute exact path="/timeline" component={Timeline} />
+            <PrivateRoute exact path="/settings" component={Settings} />
             <Route exact path="/" component={Home} />
             <Route component={PageNotFound} />
           </Switch>
