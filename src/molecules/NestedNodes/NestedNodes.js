@@ -18,7 +18,7 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
     setShowAddRow(true);
   };
 
-  const handleAddOrUpdate = () => {
+  const handleChange = () => {
     if (editId) {
       onChange(
         nodes.map((node) =>
@@ -33,14 +33,22 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
     setShowAddRow(false);
   };
 
+  const deleteNode = (_id) => {
+    onChange(nodes.filter((node) => node._id !== _id));
+  };
+
   return (
     <div className="nested-container">
-      <NestedNodes nodes={nodes} setNodeToEdit={setNodeToEdit} />
+      <NestedNodes
+        nodes={nodes}
+        setNodeToEdit={setNodeToEdit}
+        deleteNode={deleteNode}
+      />
       {showAddRow ? (
         <div className="add-row flex center">
           <Input
-            value={addData.name}
-            name="name"
+            value={addData.label}
+            name="label"
             placeholder="Label"
             className="input mr"
             onChange={(e, value) => updateAddData(value)}
@@ -53,14 +61,12 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
             onChange={(e, value) => updateAddData(value)}
             options={nodes
               .map((node) => ({
-                label: node.name,
+                label: node.label,
                 value: node._id,
               }))
               .filter((node) => node.value !== editId)}
           />
-          <Button onClick={handleAddOrUpdate}>
-            {editId ? "Update" : "Add"}
-          </Button>
+          <Button onClick={handleChange}>{editId ? "Update" : "Add"}</Button>
         </div>
       ) : (
         <Button onClick={() => setShowAddRow(true)}>Add</Button>
@@ -69,7 +75,7 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
   );
 };
 
-const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit }) => {
+const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit, deleteNode }) => {
   const isRootLevel = !depth || depth === 0;
 
   const filteredNodes = nodes.filter((node) =>
@@ -84,16 +90,21 @@ const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit }) => {
         <div className="divider"></div>
       )}
       {filteredNodes.map((node, index) => {
-        const { _id, name } = node;
+        const { _id, label } = node;
         return (
           <Card key={_id} className="node-wrapper">
             <div className="title-wrapper">
-              <div className="title">{`${index + 1}. ${name}`}</div>
+              <div className="title">{`${index + 1}. ${label}`}</div>
               <div>
                 <Icon
                   type="edit"
                   size={10}
                   onClick={() => setNodeToEdit(node)}
+                />
+                <Icon
+                  type="delete"
+                  size={10}
+                  onClick={() => deleteNode(node._id)}
                 />
               </div>
             </div>

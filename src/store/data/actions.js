@@ -64,7 +64,7 @@ export const saveTimelinePost = (data, post) => async (dispatch, getState) => {
   }
 };
 
-export const updateAppData = (data) => async (dispatch, getState) => {
+export const updateAppData = (data, action) => async (dispatch, getState) => {
   try {
     const {
       app: { session },
@@ -73,9 +73,9 @@ export const updateAppData = (data) => async (dispatch, getState) => {
     const {
       data: { result },
     } = await axios.put(`/users/app-data`, data, {
-      params: { action: "CREATE_TIMELINE_GROUP" },
+      params: { action },
     });
-    dispatch(setSession({ ...session, timeline: result.timeline }));
+    dispatch(setSession({ ...session, ...result }));
   } catch (err) {
     console.log(err);
   } finally {
