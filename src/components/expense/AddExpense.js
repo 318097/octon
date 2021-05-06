@@ -67,6 +67,13 @@ const AddExpense = ({
         placeholder="Select month"
       />
 
+      <h5 className="mt">
+        Category
+        {/* {mode === "ADD" && (
+            <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
+          )} */}
+      </h5>
+
       <Radio.Group
         className="mt"
         value={expense.expenseTypeId}
@@ -79,14 +86,12 @@ const AddExpense = ({
           ))}
       </Radio.Group>
 
-      <div className="mt">
-        <h4>
-          <span className="mr-4">Sub Category</span>
-          {/* {mode === "ADD" && (
+      <h5 className="mt">
+        Sub Category
+        {/* {mode === "ADD" && (
             <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
           )} */}
-        </h4>
-      </div>
+      </h5>
 
       <div className="mt">
         <Radio.Group
@@ -125,7 +130,7 @@ const AddExpense = ({
           type="primary"
           loading={loading}
           onClick={saveExpense}
-          disabled={!expense.amount}
+          disabled={!expense.amount || !expense.expenseTypeId}
         >
           {mode === "ADD" ? "Add" : "Update"}
         </Button>

@@ -4,6 +4,7 @@ import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "./util";
 import { Icon } from "@codedrops/react-ui";
+import _ from "lodash";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 
@@ -47,15 +48,21 @@ const ExpenseList = ({
     setEditExpenseVisibility(true);
   };
 
+  const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
+
   const renderItem = (row) => {
     const date = moment(row.date).format("DD,MMM");
     const message = row.message ? <span>({row.message})</span> : null;
 
     const formatedValue = row.amount.toLocaleString();
+    const expenseSubType = _.get(expenseTypesKeyed, [
+      row.expenseSubTypeId,
+      "label",
+    ]);
     return (
       <List.Item
         actions={[
-          <span>{row.expenseType ? row.expenseType.toUpperCase() : null}</span>,
+          <span>{expenseSubType ? expenseSubType.toUpperCase() : null}</span>,
           <Icon
             key="edit-expense"
             type="edit"
@@ -123,6 +130,7 @@ const ExpenseList = ({
           setVisibilityStatus={setEditExpenseVisibility}
           mode="EDIT"
           setAppLoading={setAppLoading}
+          expenseTypes={expenseTypes}
         />
       </Modal>
     </Fragment>
