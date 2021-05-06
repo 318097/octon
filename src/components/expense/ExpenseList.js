@@ -25,7 +25,7 @@ const ExpenseList = ({
       const data =
         filterType === "ALL"
           ? list
-          : list.filter((list) => list.expenseGroup === filterType);
+          : list.filter((list) => list.expenseTypeId === filterType);
       setDataSource(data);
       setTotal(calculateTotal(data));
     };

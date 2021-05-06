@@ -19,8 +19,8 @@ const AddExpense = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState({
-    expenseGroup: null,
     expenseTypeId: null,
+    expenseSubTypeId: null,
     amount: null,
     message: "",
     date: moment(),
@@ -69,8 +69,8 @@ const AddExpense = ({
 
       <Radio.Group
         className="mt"
-        value={expense.expenseGroup}
-        onChange={(e) => setData("expenseGroup", e.target.value)}
+        value={expense.expenseTypeId}
+        onChange={(e) => setData("expenseTypeId", e.target.value)}
       >
         {expenseTypes
           .filter((item) => !item.parentId)
@@ -90,11 +90,11 @@ const AddExpense = ({
 
       <div className="mt">
         <Radio.Group
-          value={expense.expenseTypeId}
-          onChange={(e) => setData("expenseTypeId", e.target.value)}
+          value={expense.expenseSubTypeId}
+          onChange={(e) => setData("expenseSubTypeId", e.target.value)}
         >
           {expenseTypes
-            .filter((item) => item.parentId === expense.expenseGroup)
+            .filter((item) => item.parentId === expense.expenseTypeId)
             .map((type) => (
               <Radio key={type._id} value={type._id}>
                 {type.label}
