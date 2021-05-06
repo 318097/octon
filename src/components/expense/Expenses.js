@@ -11,10 +11,11 @@ import ExpenseList from "./ExpenseList";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import { PageHeader, Card } from "@codedrops/react-ui";
 import { calculateTotal } from "./util";
+import _ from "lodash";
 
 const { MonthPicker } = DatePicker;
 
-const Expenses = ({ sendAppNotification, setAppLoading }) => {
+const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   const [expenseList, setExpenseList] = useState([]);
   const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
@@ -64,6 +65,7 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           fetchExpenseByMonth={fetchExpenseByMonth}
           date={date}
           setAppLoading={setAppLoading}
+          expenseTypes={expenseTypes}
         />
       </Card>
 
@@ -72,6 +74,7 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
           setAppLoading={setAppLoading}
           fetchExpenseByMonth={fetchExpenseByMonth}
           mode="ADD"
+          expenseTypes={expenseTypes}
         />
       </Card>
 
@@ -94,9 +97,13 @@ const Expenses = ({ sendAppNotification, setAppLoading }) => {
   );
 };
 
+const mapStateToProps = ({ app }) => ({
+  expenseTypes: _.get(app, "session.expenseTypes", []),
+});
+
 const mapActionsToProps = {
   sendAppNotification,
   setAppLoading,
 };
 
-export default connect(null, mapActionsToProps)(Expenses);
+export default connect(mapStateToProps, mapActionsToProps)(Expenses);

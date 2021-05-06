@@ -61,7 +61,10 @@ const Timeline = ({
   const addItem = async () => {
     if (!name) return;
 
-    updateAppData({ name, color: randomColor() });
+    updateAppData(
+      { name, color: randomColor() },
+      { action: "CREATE", key: "timeline" }
+    );
     setName("");
   };
 

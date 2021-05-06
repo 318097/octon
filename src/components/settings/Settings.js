@@ -1,22 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, Fragment } from "react";
+import React from "react";
 import { updateAppData, setData } from "../../store/data/actions";
 import { connect } from "react-redux";
-import {
-  Icon,
-  PageHeader,
-  Card,
-  Button,
-  Input,
-  Select,
-} from "@codedrops/react-ui";
+import { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Settings.scss";
 import NestedNodes from "../../molecules/NestedNodes";
-import { v4 as uuidv4 } from "uuid";
 
-const Settings = ({ session }) => {
+const Settings = ({ session, updateAppData }) => {
+  const updateSetting = async (update, action) => {
+    updateAppData(update, { action, key: "expenseTypes" });
+  };
+
   const { expenseTypes } = session;
-  const [data, setData] = useState(session.expenseTypes);
 
   return (
     <section id="settings">
@@ -24,7 +19,7 @@ const Settings = ({ session }) => {
 
       <div className="block">
         <h5 className="mb">Expense groups</h5>
-        <NestedNodes nodes={data} onChange={(data) => setData(data)} />
+        <NestedNodes nodes={expenseTypes} onChange={updateSetting} />
       </div>
     </section>
   );

@@ -64,7 +64,7 @@ export const saveTimelinePost = (data, post) => async (dispatch, getState) => {
   }
 };
 
-export const updateAppData = (data, action) => async (dispatch, getState) => {
+export const updateAppData = (data, params) => async (dispatch, getState) => {
   try {
     const {
       app: { session },
@@ -73,7 +73,7 @@ export const updateAppData = (data, action) => async (dispatch, getState) => {
     const {
       data: { result },
     } = await axios.put(`/users/app-data`, data, {
-      params: { action },
+      params,
     });
     dispatch(setSession({ ...session, ...result }));
   } catch (err) {

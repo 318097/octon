@@ -6,7 +6,6 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { Icon } from "@codedrops/react-ui";
 import { sendAppNotification } from "../../store/app/actions";
-import { categoryOptions } from "./data";
 import "./Expenses.scss";
 
 const AddExpense = ({
@@ -16,20 +15,16 @@ const AddExpense = ({
   setVisibilityStatus,
   mode,
   sendAppNotification,
+  expenseTypes,
 }) => {
-  const [expenseTypes, setExpenseTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState({
-    expenseGroup: "EXPENSE",
+    expenseGroup: null,
     expenseTypeId: null,
     amount: null,
     message: "",
     date: moment(),
   });
-
-  useEffect(() => {
-    fetchExpensesTypes();
-  }, []);
 
   useEffect(() => {
     if (!currentExpense) return;
@@ -55,24 +50,6 @@ const AddExpense = ({
     }
   };
 
-  const fetchExpensesTypes = async () => {
-    setAppLoading(true);
-    try {
-      const {
-        data: { expenseTypes },
-      } = await axios.get(`/expenses/types`);
-      setExpenseTypes(expenseTypes);
-      if (mode === "ADD" && expenseTypes.length)
-        setData("expenseTypeId", expenseTypes[0]["_id"]);
-    } catch (err) {
-      sendAppNotification({
-        message: err.response.data || err.message,
-      });
-    } finally {
-      setAppLoading(false);
-    }
-  };
-
   const setData = (key, value) => {
     const data = expense;
     data[key] = value;
@@ -82,7 +59,6 @@ const AddExpense = ({
   return (
     <Fragment>
       {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
-
       <DatePicker
         style={{ width: "130px" }}
         allowClear={false}
@@ -96,34 +72,36 @@ const AddExpense = ({
         value={expense.expenseGroup}
         onChange={(e) => setData("expenseGroup", e.target.value)}
       >
-        {categoryOptions.map((option) => (
-          <Radio value={option.value}>{option.label}</Radio>
-        ))}
+        {expenseTypes
+          .filter((item) => !item.parentId)
+          .map((option) => (
+            <Radio value={option._id}>{option.label}</Radio>
+          ))}
       </Radio.Group>
 
       <div className="mt">
         <h4>
-          <span className="mr-4">Type</span>
-          {mode === "ADD" && (
+          <span className="mr-4">Sub Category</span>
+          {/* {mode === "ADD" && (
             <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
-          )}
+          )} */}
         </h4>
       </div>
 
-      {!!expenseTypes.length && (
-        <div className="mt">
-          <Radio.Group
-            value={expense.expenseTypeId}
-            onChange={(e) => setData("expenseTypeId", e.target.value)}
-          >
-            {expenseTypes.map((type) => (
+      <div className="mt">
+        <Radio.Group
+          value={expense.expenseTypeId}
+          onChange={(e) => setData("expenseTypeId", e.target.value)}
+        >
+          {expenseTypes
+            .filter((item) => item.parentId === expense.expenseGroup)
+            .map((type) => (
               <Radio key={type._id} value={type._id}>
-                {type.name}
+                {type.label}
               </Radio>
             ))}
-          </Radio.Group>
-        </div>
-      )}
+        </Radio.Group>
+      </div>
 
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber

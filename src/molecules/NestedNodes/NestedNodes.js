@@ -21,20 +21,27 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
   const handleChange = () => {
     if (editId) {
       onChange(
+        addData,
+        "UPDATE",
         nodes.map((node) =>
           node._id === editId ? { ...node, ...addData } : node
         )
       );
       setEditId(null);
     } else {
-      onChange([...nodes, { ...addData, _id: uuidv4() }]);
+      const newItem = { ...addData, _id: uuidv4() };
+      onChange(newItem, "CREATE", [...nodes, newItem]);
     }
     setAddData({});
     setShowAddRow(false);
   };
 
   const deleteNode = (_id) => {
-    onChange(nodes.filter((node) => node._id !== _id));
+    onChange(
+      { _id },
+      "DELETE",
+      nodes.filter((node) => node._id !== _id)
+    );
   };
 
   return (
@@ -112,6 +119,7 @@ const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit, deleteNode }) => {
               nodes={nodes}
               depth={(depth || 0) + 1}
               parentId={_id}
+              deleteNode={deleteNode}
             />
           </Card>
         );

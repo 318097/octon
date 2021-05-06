@@ -6,9 +6,14 @@ import { calculateTotal } from "./util";
 import { Icon } from "@codedrops/react-ui";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
-import { categoryOptions } from "./data";
 
-const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
+const ExpenseList = ({
+  fetchExpenseByMonth,
+  date,
+  list,
+  setAppLoading,
+  expenseTypes,
+}) => {
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
@@ -87,9 +92,11 @@ const ExpenseList = ({ fetchExpenseByMonth, date, list, setAppLoading }) => {
         onChange={({ target: { value } }) => setFilterType(value)}
       >
         <Radio.Button value="ALL">All</Radio.Button>
-        {categoryOptions.map((option) => (
-          <Radio.Button value={option.value}>{option.label}</Radio.Button>
-        ))}
+        {expenseTypes
+          .filter((item) => !item.parentId)
+          .map((option) => (
+            <Radio.Button value={option._id}>{option.label}</Radio.Button>
+          ))}
       </Radio.Group>
       <div className="mb total">Total: ₹{formatedValue}</div>
 
