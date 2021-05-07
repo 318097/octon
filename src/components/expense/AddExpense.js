@@ -4,7 +4,6 @@ import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Icon } from "@codedrops/react-ui";
 import { sendAppNotification } from "../../store/app/actions";
 import "./Expenses.scss";
 
@@ -56,6 +55,10 @@ const AddExpense = ({
     setExpense({ ...data });
   };
 
+  const expenseSubTypes = expenseTypes.filter(
+    (item) => item.parentId === expense.expenseTypeId
+  );
+
   return (
     <Fragment>
       {/* {mode === "ADD" ? <h4>Add expense</h4> : null} */}
@@ -67,12 +70,7 @@ const AddExpense = ({
         placeholder="Select month"
       />
 
-      <h5 className="mt">
-        Category
-        {/* {mode === "ADD" && (
-            <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
-          )} */}
-      </h5>
+      <h5 className="mt">Category</h5>
 
       <Radio.Group
         className="mt"
@@ -86,27 +84,24 @@ const AddExpense = ({
           ))}
       </Radio.Group>
 
-      <h5 className="mt">
-        Sub Category
-        {/* {mode === "ADD" && (
-            <AddExpenseType fetchExpensesTypes={fetchExpensesTypes} />
-          )} */}
-      </h5>
+      {expense.expenseTypeId && expenseSubTypes.length && (
+        <Fragment>
+          <h5 className="mt">Sub Category</h5>
 
-      <div className="mt">
-        <Radio.Group
-          value={expense.expenseSubTypeId}
-          onChange={(e) => setData("expenseSubTypeId", e.target.value)}
-        >
-          {expenseTypes
-            .filter((item) => item.parentId === expense.expenseTypeId)
-            .map((type) => (
-              <Radio key={type._id} value={type._id}>
-                {type.label}
-              </Radio>
-            ))}
-        </Radio.Group>
-      </div>
+          <div className="mt">
+            <Radio.Group
+              value={expense.expenseSubTypeId}
+              onChange={(e) => setData("expenseSubTypeId", e.target.value)}
+            >
+              {expenseSubTypes.map((type) => (
+                <Radio key={type._id} value={type._id}>
+                  {type.label}
+                </Radio>
+              ))}
+            </Radio.Group>
+          </div>
+        </Fragment>
+      )}
 
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber
@@ -139,48 +134,48 @@ const AddExpense = ({
   );
 };
 
-const AddExpenseType = ({ fetchExpensesTypes }) => {
-  const [expenseType, setExpenseType] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [visibility, setVisibility] = useState(false);
+// const AddExpenseType = ({ fetchExpensesTypes }) => {
+//   const [expenseType, setExpenseType] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [visibility, setVisibility] = useState(false);
 
-  const addExpenseType = async () => {
-    setLoading(true);
-    await axios.post(`/expenses/types`, { name: expenseType });
-    message.success("Success");
-    await fetchExpensesTypes();
-    setVisibility(false);
-    setLoading(false);
-  };
+//   const addExpenseType = async () => {
+//     setLoading(true);
+//     await axios.post(`/expenses/types`, { name: expenseType });
+//     message.success("Success");
+//     await fetchExpensesTypes();
+//     setVisibility(false);
+//     setLoading(false);
+//   };
 
-  return (
-    <Fragment>
-      <Icon
-        hover
-        size={8}
-        type={visibility ? "minus" : "plus"}
-        onClick={() => setVisibility((prev) => !prev)}
-      />
-      {visibility && (
-        <div
-          className="add-type-card flex mt"
-          style={{ alignItems: "stretch" }}
-        >
-          <Input
-            size="small"
-            style={{ width: "150px" }}
-            placeholder="Name"
-            className="mr"
-            onChange={(e) => setExpenseType(e.target.value)}
-          />
-          <Button size="small" onClick={addExpenseType} loading={loading}>
-            Add
-          </Button>
-        </div>
-      )}
-    </Fragment>
-  );
-};
+//   return (
+//     <Fragment>
+//       <Icon
+//         hover
+//         size={8}
+//         type={visibility ? "minus" : "plus"}
+//         onClick={() => setVisibility((prev) => !prev)}
+//       />
+//       {visibility && (
+//         <div
+//           className="add-type-card flex mt"
+//           style={{ alignItems: "stretch" }}
+//         >
+//           <Input
+//             size="small"
+//             style={{ width: "150px" }}
+//             placeholder="Name"
+//             className="mr"
+//             onChange={(e) => setExpenseType(e.target.value)}
+//           />
+//           <Button size="small" onClick={addExpenseType} loading={loading}>
+//             Add
+//           </Button>
+//         </div>
+//       )}
+//     </Fragment>
+//   );
+// };
 
 export default connect(null, {
   sendAppNotification,

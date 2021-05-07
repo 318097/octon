@@ -18,9 +18,10 @@
 
 #### Todo
 
-- [ ] Settings Drawer
+- [ ] Settings Page
 - [ ] Login to Atom when redirected from Codedrops
-- [ ] Merge todos & Goals
+- [ ] Merge todos & goals
 - [ ] Add timeline post to portfolio
+- [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
   - [ ] Add nested categories

@@ -71,7 +71,7 @@ const Login = ({ history, setSession, session }) => {
         <Button onClick={() => history.push("/register")}>Register</Button>
       </form>
       <Divider />
-      <GoogleAuth />
+      {/* <GoogleAuth /> */}
     </section>
   );
 };
