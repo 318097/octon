@@ -16,16 +16,29 @@ section#expenses {
     overflow: visible;
 
     &.summary {
-      height: 120px;
+      height: 140px;
       position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      row-gap: 12px;
       .month-picker {
         position: absolute;
-        top: 8px;
-        right: 8px;
+        top: -6px;
+        right: -6px;
       }
-      .monthly-total-stat {
-        font-size: 4rem;
-        color: $steel;
+      .expense-type-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .expense-type-name {
+          font-size: 1.2rem;
+          color: $iron;
+        }
+        .expense-type-value {
+          font-size: 2.2rem;
+          color: $steel;
+        }
       }
     }
     &.add-expense {

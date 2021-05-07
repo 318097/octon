@@ -7,17 +7,15 @@ import { connect } from "react-redux";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
-// import Resize from "../utils/Resize";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import { PageHeader, Card } from "@codedrops/react-ui";
-import { calculateTotal } from "./util";
 import _ from "lodash";
+import { calculateTotal } from "./util";
 
 const { MonthPicker } = DatePicker;
 
 const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   const [expenseList, setExpenseList] = useState([]);
-  const [total, setTotal] = useState(0);
   const [date, setDate] = useState(moment());
 
   useEffect(() => {
@@ -31,7 +29,6 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         data: { expenses },
       } = await axios.get(`/expenses/${date.month() + 1}?year=${date.year()}`);
       setExpenseList(expenses);
-      setTotal(calculateTotal(expenses));
     } catch (err) {
       sendAppNotification({
         message: err.response.data || err.message,
@@ -41,7 +38,16 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
     }
   };
 
-  const formatedValue = total.toLocaleString();
+  const total = {};
+
+  expenseTypes
+    .filter((item) => !item.parentId)
+    .forEach((item) => {
+      const { label, _id } = item;
+      total[label] = calculateTotal(
+        expenseList.filter((item) => item.expenseTypeId === _id)
+      );
+    });
 
   return (
     <section id="expenses">
@@ -57,7 +63,12 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           value={date}
           placeholder="Select month"
         />
-        <div className="monthly-total-stat">{`₹${formatedValue}`}</div>
+        {Object.entries(total).map(([id, total]) => (
+          <div className="expense-type-block">
+            <span className="expense-type-name">{id}</span>
+            <span className="expense-type-value">{`₹${total.toLocaleString()}`}</span>
+          </div>
+        ))}
       </Card>
       <Card className="expense-list card">
         <ExpenseList
