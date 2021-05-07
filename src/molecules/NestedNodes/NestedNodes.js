@@ -82,7 +82,9 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
   );
 };
 
-const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit, deleteNode }) => {
+const NestedNodes = (props) => {
+  const { nodes, depth, parentId, setNodeToEdit, deleteNode } = props;
+
   const isRootLevel = !depth || depth === 0;
 
   const filteredNodes = nodes.filter((node) =>
@@ -115,12 +117,7 @@ const NestedNodes = ({ nodes, depth, parentId, setNodeToEdit, deleteNode }) => {
                 />
               </div>
             </div>
-            <NestedNodes
-              nodes={nodes}
-              depth={(depth || 0) + 1}
-              parentId={_id}
-              deleteNode={deleteNode}
-            />
+            <NestedNodes {...props} depth={(depth || 0) + 1} parentId={_id} />
           </Card>
         );
       })}
