@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import {
   Timeline as AntTimeline,
   Card,
-  Tag,
   Popconfirm,
   Select,
   Divider,
@@ -21,10 +20,11 @@ import {
 } from "../../store/data/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
-import colors, { Icon, PageHeader } from "@codedrops/react-ui";
+import colors, { Icon, PageHeader, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
 import randomColor from "randomcolor";
+import { getObjFromId } from "../../utils";
 
 const { Option } = Select;
 
@@ -73,12 +73,14 @@ const Timeline = ({
   };
 
   const timelineGroups = _.get(session, "timeline", []);
+  const timelineMap = _.keyBy(timelineGroups, "_id");
 
-  const getTimelineColor = (groupId) => {
-    const timelineMap = _.keyBy(timelineGroups, "_id");
-    const color = _.get(timelineMap, [groupId, "color"], colors.strokeOne);
-    return color;
-  };
+  // const getTimelineColor = (groupId) => {
+  //   const color = _.get(timelineMap, [groupId, "color"], colors.strokeOne);
+  //   return color;
+  // };
+
+  console.log("timelineMap::-", timelineMap);
 
   return (
     <section id="timeline">
@@ -140,38 +142,49 @@ const Timeline = ({
       {data.length ? (
         <div className="timeline">
           <AntTimeline>
-            {data.map((item) => (
-              <AntTimeline.Item color={colors.bar} key={item._id}>
-                <Card
-                  style={{
-                    borderLeft: `5px solid ${getTimelineColor(
-                      _.get(item, "groupId.0")
-                    )}`,
-                  }}
-                >
-                  <Tag color={colors.bar}>
-                    {moment(item.date).format("DD,MMM")}
-                  </Tag>
-                  {item.content}
+            {data.map((item) => {
+              const { groupId } = item;
 
-                  <div className="actions">
-                    <Icon
-                      size={12}
-                      key="edit-post"
-                      type="edit"
-                      onClick={editPost(item._id)}
-                    />
-                    <Popconfirm
-                      placement="bottomRight"
-                      title="Delete?"
-                      onConfirm={deletePost(item._id)}
-                    >
-                      <Icon size={12} key="delete-post" type="delete" />
-                    </Popconfirm>
-                  </div>
-                </Card>
-              </AntTimeline.Item>
-            ))}
+              const timelineTags = groupId.map((id) => (
+                <Tag
+                  style={{
+                    fontSize: "10px",
+                    marginLeft: "0",
+                    padding: "0 2px",
+                  }}
+                  color={_.get(timelineMap, [id, "color"], "steel")}
+                >
+                  {_.get(timelineMap, [id, "name"])}
+                </Tag>
+              ));
+              return (
+                <AntTimeline.Item color={colors.bar} key={item._id}>
+                  <Card>
+                    <span style={{ fontSize: "1.4rem", fontWeight: "bold" }}>
+                      {moment(item.date).format("DD,MMM")}:&nbsp;
+                    </span>
+                    {item.content}
+
+                    <div>{timelineTags}</div>
+                    <div className="actions">
+                      <Icon
+                        size={12}
+                        key="edit-post"
+                        type="edit"
+                        onClick={editPost(item._id)}
+                      />
+                      <Popconfirm
+                        placement="bottomRight"
+                        title="Delete?"
+                        onConfirm={deletePost(item._id)}
+                      >
+                        <Icon size={12} key="delete-post" type="delete" />
+                      </Popconfirm>
+                    </div>
+                  </Card>
+                </AntTimeline.Item>
+              );
+            })}
           </AntTimeline>
         </div>
       ) : (
