@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Radio, Modal, List, Popconfirm } from "antd";
 import moment from "moment";
 import axios from "axios";
-import { calculateTotal } from "./util";
+import { calculateTotal } from "../../utils";
 import { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
 import "./Expenses.scss";

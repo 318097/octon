@@ -10,7 +10,7 @@ import ExpenseList from "./ExpenseList";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import { PageHeader, Card } from "@codedrops/react-ui";
 import _ from "lodash";
-import { calculateTotal } from "./util";
+import { calculateTotal } from "../../utils";
 
 const { MonthPicker } = DatePicker;
 
