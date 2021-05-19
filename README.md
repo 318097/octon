@@ -19,7 +19,7 @@
 #### Todo
 
 - [ ] Settings Page
-- [ ] Login to Atom when redirected from Codedrops
+- [x] Token login
 - [ ] Merge todos & goals
 - [ ] Add timeline post to portfolio
 - [ ] Add support for tags

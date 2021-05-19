@@ -5,26 +5,38 @@ import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import qs from "query-string";
 
 import { setSessionInStorage } from "../../authService";
 
 import { getSession } from "../../store/app/selectors";
 import { setSession } from "../../store/app/actions";
 
-const Login = ({ history, setSession, session }) => {
+const Login = ({ history, setSession, session, location }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (session && session.loggedIn) history.push("/");
+    const queryParams = qs.parse(location.search);
+    console.log(queryParams);
+
+    if (queryParams.token) {
+      handleLogin("auth-login", queryParams.token);
+    } else if (session && session.loggedIn) history.push("/");
   }, []);
 
-  const handleLogin = async () => {
+  const handleLogin = async (authMethod, authToken) => {
     setLoading(true);
     try {
-      const { data } = await axios.post("/auth/login", { username, password });
+      console.log("authMethod, authToken::-", authMethod, authToken);
+
+      const inputData =
+        authMethod === "auth-login"
+          ? { authToken, authMethod: "AUTH_TOKEN" }
+          : { username, password };
+      const { data } = await axios.post("/auth/login", inputData);
 
       setSessionInStorage(data);
       await setSession({
