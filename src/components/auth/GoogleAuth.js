@@ -34,8 +34,8 @@ class GoogleAuth extends Component {
             const authResponse = user.getAuthResponse();
 
             const { data } = await axios.post(`/auth/login`, {
-              goggleAuthToken: authResponse["id_token"],
-              isGoogleAuth: true,
+              authToken: authResponse["id_token"],
+              authMethod: "GOOGLE",
             });
 
             localStorage.clear();
