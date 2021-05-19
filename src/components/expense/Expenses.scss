@@ -16,11 +16,17 @@ section#expenses {
     overflow: visible;
 
     &.summary {
-      height: 140px;
+      min-height: 140px;
       position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      row-gap: 12px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      & > * {
+        flex: 0 0 30%;
+      }
       .month-picker {
         position: absolute;
         top: -6px;

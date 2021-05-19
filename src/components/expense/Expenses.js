@@ -49,6 +49,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
       );
     });
 
+  const summaryItems = Object.entries(total);
   return (
     <section id="expenses">
       <PageHeader title="Expenses" />
@@ -63,7 +64,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           value={date}
           placeholder="Select month"
         />
-        {Object.entries(total).map(([id, total]) => (
+        {summaryItems.map(([id, total]) => (
           <div className="expense-type-block">
             <span className="expense-type-name">{id}</span>
             <span className="expense-type-value">{`₹${total.toLocaleString()}`}</span>
