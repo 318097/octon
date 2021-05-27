@@ -83,7 +83,7 @@ const Login = ({ history, setSession, session, location }) => {
         <Button onClick={() => history.push("/register")}>Register</Button>
       </form>
       <Divider />
-      {/* <GoogleAuth /> */}
+      <GoogleAuth />
     </section>
   );
 };
