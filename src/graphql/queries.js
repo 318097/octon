@@ -8,6 +8,7 @@ const GET_ALL_TASKS = gql`
         content
         userId
         type
+        status
         deadline
         createdAt
         completedOn

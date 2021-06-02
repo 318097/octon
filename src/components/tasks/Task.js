@@ -34,7 +34,7 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
     completedOn,
     stamps = [],
   } = item;
-  const isTodoMarked = type === "TODO" && status === "COMPLETE";
+  const isCompleted = status === "COMPLETED";
 
   // const weekNo = moment().week();
   // const currentWeekStamps = stamps[`week-${weekNo}`] || [];
@@ -44,7 +44,7 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   //   const lastAttended = moment(
   //     currentWeekStamps[currentWeekStamps.length - 1]
   //   ).format("DD-MM-YYYY");
-  //   isTodoMarked = lastAttended === today;
+  //   isCompleted = lastAttended === today;
   // }
 
   // const percentRatio = Math.round(
@@ -68,8 +68,8 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
     <Icon
       type="check"
       size={12}
-      className={isTodoMarked ? "success" : null}
-      onClick={() => (isTodoMarked ? null : markTodo(item))}
+      className={isCompleted ? "success" : null}
+      onClick={() => (isCompleted ? null : markTodo(item))}
     />,
     <Popconfirm
       placement="bottomRight"
@@ -132,20 +132,17 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
         ? moment(parseInt(deadline)).from(moment())
         : "";
       const isExpired = moment().isAfter(moment(deadline));
-      const style = {
-        background:
-          status === "COMPLETED" ? colors.green : isExpired ? colors.red : null,
+      const customStyles = {
+        color: isCompleted ? colors.green : isExpired ? colors.red : null,
       };
       return (
         <Fragment>
           <div className="date">{`Deadline: ${formatDate(deadline)}`}</div>
-          {status === "COMPLETED" ? (
-            <div className="date">{`Completed: ${formatDate(
-              completedOn
-            )}`}</div>
-          ) : (
-            <div className="time">{`Expires ${remainingTime}`}</div>
-          )}
+          <div style={customStyles}>
+            {isCompleted
+              ? `Completed: ${formatDate(completedOn)}`
+              : `Expires ${remainingTime}`}
+          </div>
         </Fragment>
       );
     } else if (type === "PROGRESS") {
@@ -161,9 +158,15 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   };
 
   return (
-    <Card className="mb" title={type} size="small" extra={actionButton}>
+    <Card
+      className="mb"
+      title={type}
+      size="small"
+      extra={actionButton}
+      style={isCompleted ? { background: colors.feather } : {}}
+    >
       <div className="task-container">
-        <div className={isTodoMarked ? "task disabled" : "task"}>{content}</div>
+        <div className={isCompleted ? "task disabled" : "task"}>{content}</div>
         <div className="info">{getInfo()}</div>
       </div>
     </Card>

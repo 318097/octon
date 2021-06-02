@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import { Radio, InputNumber, Input, Modal, DatePicker } from "antd";
 import axios from "axios";
 import { CREATE_TASK } from "../../graphql/mutations";
+import { GET_ALL_TASKS } from "../../graphql/queries";
 import { useQuery, useMutation } from "@apollo/client";
 
 import "./Tasks.scss";
@@ -21,7 +22,10 @@ const AddTodo = ({ fetchTodoList }) => {
     }));
 
   const addTodo = async () => {
-    await addTask({ variables: { input: task } });
+    await addTask({
+      variables: { input: task },
+      refetchQueries: [{ query: GET_ALL_TASKS }],
+    });
     setAddTodoVisibility(false);
     setTask({});
   };
@@ -63,11 +67,13 @@ const AddTodo = ({ fetchTodoList }) => {
           <Radio.Button value="WEEKLY">Weekly</Radio.Button>
         </Radio.Group> */}
         <br />
-        <DatePicker
-          onChange={(date) => setData({ deadline: date })}
-          className="mb"
-          placeholder="Deadline"
-        />
+        {task.type === "GOAL" && (
+          <DatePicker
+            onChange={(date) => setData({ deadline: date })}
+            className="mb"
+            placeholder="Deadline"
+          />
+        )}
 
         <Input
           placeholder="Content"

@@ -2,7 +2,8 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 .app {
-  background: url("./assets/backgrounds/dot-grid.png");
+  // background: url("./assets/backgrounds/dot-grid.png");
+  background: white;
   flex-direction: row;
   overflow: auto;
   & > div.content {
@@ -28,12 +29,16 @@
     & > section {
       border-radius: 2px;
       padding: 12px;
+      background: white;
       height: auto;
       box-sizing: border-box;
       position: relative;
       display: flex;
       width: 100%;
       flex-direction: column;
+      .ant-page-header {
+        padding: 0 0 8px 0;
+      }
       &#login,
       &#register {
         background: $bg;

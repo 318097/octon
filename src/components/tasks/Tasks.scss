@@ -2,31 +2,33 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 section#tasks {
-  div.task-container {
-    flex: 1;
-    .task {
-      display: inline-block;
-      padding: 2px;
-    }
+  flex: 1;
+  .task {
+    display: inline-block;
+    padding: 2px;
+  }
 
-    .task.disabled {
-      text-decoration: line-through;
-    }
+  .task.disabled {
+    text-decoration: line-through;
+  }
 
-    .info {
-      padding: 2px 4px;
-      font-style: italic;
-      font-size: 1rem;
-    }
+  .success {
+    color: $green;
+  }
 
-    span.day {
-      margin: 2px;
-    }
+  .info {
+    padding: 2px 4px;
+    font-style: italic;
+    font-size: 1rem;
+  }
 
-    span.active {
-      font-weight: bold;
-      text-decoration: underline;
-    }
+  span.day {
+    margin: 2px;
+  }
+
+  span.active {
+    font-weight: bold;
+    text-decoration: underline;
   }
   .todo-list {
     flex: 1;

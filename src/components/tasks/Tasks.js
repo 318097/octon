@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "antd";
+import { Modal, Button, PageHeader } from "antd";
 import axios from "axios";
 import { useQuery, useMutation } from "@apollo/client";
 import AddTask from "./AddTask";
-import { PageHeader } from "@codedrops/react-ui";
+// import { PageHeader } from "@codedrops/react-ui";
 import "./Tasks.scss";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import _ from "lodash";
@@ -24,7 +24,10 @@ const Tasks = () => {
     if (type === "PROGRESS") {
       action = marked ? "UNMARK" : "MARK";
       date = activeDate;
-    } else action = status === "COMPLETED" ? "UNMARK" : "MARK";
+    } else {
+      action = status === "COMPLETED" ? "UNMARK" : "MARK";
+      date = moment().toISOString();
+    }
 
     const input = { _id, type, date, action, stampId };
 
@@ -43,8 +46,15 @@ const Tasks = () => {
   return (
     <section id="tasks">
       <PageHeader
+        ghost={false}
+        // className="site-page-header"
+        onBack={() => null}
+        title="Tasks"
+        extra={[<AddTask key="add-todo" />]}
+      />
+      {/* <PageHeader
         title={"Tasks"}
-        actions={[
+        extra={[
           // <Radio.Group
           //   key="todo-type"
           //   className="mr"
@@ -57,7 +67,7 @@ const Tasks = () => {
           // </Radio.Group>,
           <AddTask key="add-todo" />,
         ]}
-      />
+      /> */}
       {todoList.map((item) => (
         <Task
           item={item}
@@ -67,30 +77,28 @@ const Tasks = () => {
         />
       ))}
       <Modal
-        width={220}
+        width={320}
         visible={activeDateObj.activeDate}
-        title={moment(_.get(activeDateObj, "activeDate")).format(
-          "DD MMM, YYYY"
-        )}
-        // visible={this.state.visible}
-        // onOk={this.hideModal}
+        title={_.get(activeDateObj, "task.content")}
         onCancel={() => setActiveDateObj({})}
-        footer={
-          <Button
-            onClick={() =>
-              markTodo({
-                ...activeDateObj.task,
-                marked: !!activeDateObj.match,
-                activeDate: activeDateObj.activeDate,
-                stampId: _.get(activeDateObj, "match._id"),
-              })
-            }
-          >
-            {_.get(activeDateObj, "match") ? "Unmark" : "Mark"}
-          </Button>
-        }
+        footer={null}
       >
+        {moment(_.get(activeDateObj, "activeDate")).format("DD MMM, YYYY")}
+        <br />
         {_.get(activeDateObj, "match.message", "No Message")}
+        <br />
+        <Button
+          onClick={() =>
+            markTodo({
+              ...activeDateObj.task,
+              marked: !!activeDateObj.match,
+              activeDate: activeDateObj.activeDate,
+              stampId: _.get(activeDateObj, "match._id"),
+            })
+          }
+        >
+          {_.get(activeDateObj, "match") ? "Unmark" : "Mark"}
+        </Button>
       </Modal>
     </section>
   );
