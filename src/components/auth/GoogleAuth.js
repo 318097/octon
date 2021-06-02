@@ -20,7 +20,7 @@ class GoogleAuth extends Component {
     window.gapi.load("auth2", () => {
       window.gapi.auth2
         .init({
-          clientId: config.GOOGLE_LOGIN_CLIENT_ID,
+          clientId: config.GOOGLE_CLIENT_ID,
           scope: "email",
         })
         .then(() => {
