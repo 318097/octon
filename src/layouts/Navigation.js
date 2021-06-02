@@ -49,7 +49,7 @@ const StyledNavigation = styled.nav`
 
 const list = [
   { route: "/expenses", label: "Expenses", icon: <Icon type="wallet" /> },
-  { route: "/todos", label: "Todos", icon: <Icon type="unordered-list" /> },
+  { route: "/tasks", label: "Tasks", icon: <Icon type="unordered-list" /> },
   { route: "/goals", label: "Goals", icon: <Icon type="appstore" /> },
   { route: "/timeline", label: "Timeline", icon: <Icon type="hourglass" /> },
   {

@@ -6,6 +6,11 @@ const GET_ALL_TASKS = gql`
       getAllTasks {
         _id
         content
+        userId
+        type
+        deadline
+        createdAt
+        completedOn
       }
     }
   }

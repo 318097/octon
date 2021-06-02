@@ -1,27 +1,29 @@
 import React, { useState, Fragment } from "react";
-import { Radio, InputNumber, Input, Modal } from "antd";
+import { Radio, InputNumber, Input, Modal, DatePicker } from "antd";
 import axios from "axios";
+import { CREATE_TASK } from "../../graphql/mutations";
+import { useQuery, useMutation } from "@apollo/client";
 
-import "./Todos.scss";
+import "./Tasks.scss";
 import { Icon } from "@codedrops/react-ui";
 
 const AddTodo = ({ fetchTodoList }) => {
   const [addTodoVisibility, setAddTodoVisibility] = useState(false);
-  const [todo, setTodo] = useState({
-    type: "SINGLE",
+  const [addTask, newTask] = useMutation(CREATE_TASK);
+  const [task, setTask] = useState({
+    type: "TODO",
   });
 
   const setData = (updatedValue) =>
-    setTodo((todo) => ({
-      ...todo,
+    setTask((task) => ({
+      ...task,
       ...updatedValue,
     }));
 
   const addTodo = async () => {
-    await axios.post("/todos", todo);
-    fetchTodoList();
+    await addTask({ variables: { input: task } });
     setAddTodoVisibility(false);
-    setData({ task: "" });
+    setTask({});
   };
 
   return (
@@ -41,29 +43,47 @@ const AddTodo = ({ fetchTodoList }) => {
         width={380}
       >
         <Radio.Group
-          defaultValue={todo.type}
+          defaultValue={task.type}
+          buttonStyle="solid"
+          className="mb"
+          onChange={(e) => setData({ type: e.target.value })}
+        >
+          <Radio.Button value="TODO">Todo</Radio.Button>
+          <Radio.Button value="GOAL">Goal</Radio.Button>
+          <Radio.Button value="PROGRESS">Progress</Radio.Button>
+        </Radio.Group>
+
+        {/* <Radio.Group
+          defaultValue={task.type}
           buttonStyle="solid"
           className="mb"
           onChange={(e) => setData({ type: e.target.value })}
         >
           <Radio.Button value="SINGLE">Single</Radio.Button>
           <Radio.Button value="WEEKLY">Weekly</Radio.Button>
-        </Radio.Group>
+        </Radio.Group> */}
+        <br />
+        <DatePicker
+          onChange={(date) => setData({ deadline: date })}
+          className="mb"
+          placeholder="Deadline"
+        />
 
         <Input
-          placeholder="Task"
+          placeholder="Content"
           autoFocus
-          onChange={(e) => setData({ task: e.target.value })}
+          value={task.content}
+          onChange={(e) => setData({ content: e.target.value })}
         />
         <br />
-        {todo.type === "WEEKLY" ? (
+        {/* {task.type === "WEEKLY" ? (
           <InputNumber
             min={1}
             className="mt"
             placeholder="Frequency"
             onChange={(value) => setData({ frequency: value })}
           />
-        ) : null}
+        ) : null} */}
       </Modal>
     </Fragment>
   );
