@@ -1,20 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
+import { ApolloProvider } from "@apollo/client/react";
 
 import "./index.scss";
 
 import App from "./App";
-import store from './store';
+import store from "./store";
+import apolloClient from "./graphql";
 
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ApolloProvider client={apolloClient}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ApolloProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );
