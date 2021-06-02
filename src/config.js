@@ -6,6 +6,7 @@ const BASE_URL =
 
 const config = {
   BASE_URL,
+  GRAPHQL_URL: `${BASE_URL}/graphql`,
   SERVER_URL: `${BASE_URL}/api`,
   GOOGLE_CLIENT_ID: REACT_APP_GOOGLE_CLIENT_ID,
 };

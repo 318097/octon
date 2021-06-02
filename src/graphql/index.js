@@ -4,7 +4,7 @@ import config from "../config";
 import { getToken } from "../authService";
 
 const httpLink = createHttpLink({
-  uri: `${config.BASE_URL}/graphql`,
+  uri: config.GRAPHQL_URL,
 });
 
 const authLink = setContext((_, { headers }) => {

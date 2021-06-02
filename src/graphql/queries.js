@@ -11,6 +11,11 @@ const GET_ALL_TASKS = gql`
         deadline
         createdAt
         completedOn
+        stamps {
+          _id
+          message
+          date
+        }
       }
     }
   }

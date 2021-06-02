@@ -1,47 +1,39 @@
 import React, { Fragment } from "react";
-import { Card, Popconfirm, Divider } from "antd";
+import { Card, Popconfirm, Calendar, Tooltip } from "antd";
 import moment from "moment";
-import axios from "axios";
 import colors, { Icon } from "@codedrops/react-ui";
 import "./Tasks.scss";
+import _ from "lodash";
 
 const formatDate = (date) => {
   return date ? moment(parseInt(date)).format("DD MMM, YY") : "";
 };
 
-const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+// const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-const WeekStatus = ({ week }) =>
-  weekDays.map((day, index) => {
-    let status = false;
-    week.forEach((date) => {
-      if (moment(date).weekday() === index) status = true;
-    });
-    return (
-      <span key={index} className={`${status ? "active" : ""} day`}>
-        {day}
-      </span>
-    );
-  });
+// const WeekStatus = ({ week }) =>
+//   weekDays.map((day, index) => {
+//     let status = false;
+//     week.forEach((date) => {
+//       if (moment(date).weekday() === index) status = true;
+//     });
+//     return (
+//       <span key={index} className={`${status ? "active" : ""} day`}>
+//         {day}
+//       </span>
+//     );
+//   });
 
-const TodoList = ({ todoList, fetchTodoList, type }) => {
-  const markTodo = async (id, type) => {
-    await axios.put(`/tasks/${id}/stamp`, { date: moment().toDate(), type });
-    fetchTodoList();
-  };
-
-  const deleteTodo = async (id) => {
-    await axios.delete(`/tasks/${id}`);
-    fetchTodoList();
-  };
-
-  return todoList.map((item) => (
-    <CardItem item={item} markTodo={markTodo} deleteTodo={deleteTodo} />
-  ));
-};
-
-const CardItem = ({ item, markTodo, deleteTodo }) => {
-  const { type, _id, status, content, deadline, completedOn } = item;
+const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
+  const {
+    type,
+    _id,
+    status,
+    content,
+    deadline,
+    completedOn,
+    stamps = [],
+  } = item;
   const isTodoMarked = type === "TODO" && status === "COMPLETE";
 
   // const weekNo = moment().week();
@@ -77,7 +69,7 @@ const CardItem = ({ item, markTodo, deleteTodo }) => {
       type="check"
       size={12}
       className={isTodoMarked ? "success" : null}
-      onClick={() => (isTodoMarked ? null : markTodo(_id, type))}
+      onClick={() => (isTodoMarked ? null : markTodo(item))}
     />,
     <Popconfirm
       placement="bottomRight"
@@ -87,6 +79,52 @@ const CardItem = ({ item, markTodo, deleteTodo }) => {
       <Icon size={12} type="delete" />
     </Popconfirm>,
   ];
+
+  const showPopup = (date) => {
+    const match = _.find(
+      stamps,
+      (stamp) =>
+        moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
+    );
+    setActiveDateObj({ match, activeDate: date.toISOString(), task: item });
+  };
+
+  const dateCellRender = (date) => {
+    const match = _.find(
+      stamps,
+      (stamp) =>
+        moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
+    );
+
+    return (
+      <div className="fcc">
+        {/* <Popover
+          placement="topLeft"
+          content={
+            <div>
+              <Button onClick={() => markTodo({ ...item, marked: !!match })}>
+                {match ? "Unmark" : "Mark"}
+              </Button>
+            </div>
+          }
+          title={match ? match.message : ""}
+          trigger="click"
+        > */}
+
+        <Tooltip title="prompt text">
+          <div
+            className={`day${match ? " active-day" : ""}`}
+            onClick={console.log}
+          >
+            {date.date()}
+          </div>
+        </Tooltip>
+        {/* </Popover> */}
+      </div>
+    );
+
+    // return match ? <Badge color={"green"} text={match.message} /> : null;
+  };
 
   const getInfo = () => {
     if (type === "GOAL") {
@@ -110,16 +148,20 @@ const CardItem = ({ item, markTodo, deleteTodo }) => {
           )}
         </Fragment>
       );
+    } else if (type === "PROGRESS") {
+      return (
+        <Calendar
+          fullscreen={false}
+          onSelect={showPopup}
+          dateFullCellRender={dateCellRender}
+          // monthCellRender={monthCellRender}
+        />
+      );
     } else return null;
   };
 
   return (
-    <Card
-      // className="task-list"
-      title={type}
-      size="small"
-      extra={actionButton}
-    >
+    <Card className="mb" title={type} size="small" extra={actionButton}>
       <div className="task-container">
         <div className={isTodoMarked ? "task disabled" : "task"}>{content}</div>
         <div className="info">{getInfo()}</div>
@@ -128,4 +170,4 @@ const CardItem = ({ item, markTodo, deleteTodo }) => {
   );
 };
 
-export default TodoList;
+export default Task;

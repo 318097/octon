@@ -10,4 +10,14 @@ const CREATE_TASK = gql`
   }
 `;
 
-export { CREATE_TASK };
+const STAMP_TASK = gql`
+  mutation stampTask($input: StampTaskInput!) {
+    atom {
+      stampTask(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+export { CREATE_TASK, STAMP_TASK };

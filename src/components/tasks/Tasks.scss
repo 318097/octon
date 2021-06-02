@@ -35,7 +35,17 @@ section#tasks {
       padding: 4px;
     }
   }
-  .success {
-    color: $green;
+}
+.day {
+  height: 24px;
+  width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-style: normal;
+  &.active-day {
+    background: $green;
+    color: $white;
   }
 }
