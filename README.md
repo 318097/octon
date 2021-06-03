@@ -5,8 +5,7 @@
 - [x] Expense Manager
   - [ ] Stats
   - [ ] Chart of last 6 months
-- [x] Todos
-- [x] Goals
+- [x] Tasks - Todos, Goals & Progress
 - [x] Timeline
   - [ ] Upload images
   - [ ] Pagination, Search
@@ -20,7 +19,6 @@
 
 - [ ] Settings Page
 - [x] Token login
-- [ ] Merge todos & goals
 - [ ] Add timeline post to portfolio
 - [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
