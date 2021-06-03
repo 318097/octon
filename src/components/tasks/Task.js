@@ -9,6 +9,13 @@ const formatDate = (date) => {
   return date ? moment(parseInt(date)).format("DD MMM, YY") : "";
 };
 
+const getMatch = (date, stamps) =>
+  _.find(
+    stamps,
+    (stamp) =>
+      moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
+  );
+
 // const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 // const WeekStatus = ({ week }) =>
@@ -68,7 +75,7 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
     <Icon
       type="check"
       size={12}
-      className={isCompleted ? "success" : null}
+      fill={isCompleted ? "green" : "bar"}
       onClick={() => (isCompleted ? null : markTodo(item))}
     />,
     <Popconfirm
@@ -81,36 +88,15 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   ];
 
   const showPopup = (date) => {
-    const match = _.find(
-      stamps,
-      (stamp) =>
-        moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
-    );
+    const match = getMatch(date, stamps);
     setActiveDateObj({ match, activeDate: date.toISOString(), task: item });
   };
 
   const dateCellRender = (date) => {
-    const match = _.find(
-      stamps,
-      (stamp) =>
-        moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
-    );
+    const match = getMatch(date, stamps);
 
     return (
       <div className="fcc">
-        {/* <Popover
-          placement="topLeft"
-          content={
-            <div>
-              <Button onClick={() => markTodo({ ...item, marked: !!match })}>
-                {match ? "Unmark" : "Mark"}
-              </Button>
-            </div>
-          }
-          title={match ? match.message : ""}
-          trigger="click"
-        > */}
-
         <Tooltip title="prompt text">
           <div
             className={`day${match ? " active-day" : ""}`}
@@ -119,11 +105,8 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
             {date.date()}
           </div>
         </Tooltip>
-        {/* </Popover> */}
       </div>
     );
-
-    // return match ? <Badge color={"green"} text={match.message} /> : null;
   };
 
   const getInfo = () => {
@@ -151,7 +134,6 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
           fullscreen={false}
           onSelect={showPopup}
           dateFullCellRender={dateCellRender}
-          // monthCellRender={monthCellRender}
         />
       );
     } else return null;

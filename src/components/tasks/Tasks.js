@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, PageHeader } from "antd";
+import { Modal, Button, PageHeader, Input, Radio } from "antd";
 import axios from "axios";
 import { useQuery, useMutation } from "@apollo/client";
 import AddTask from "./AddTask";
@@ -15,21 +15,38 @@ const Tasks = () => {
   const { loading, error, data } = useQuery(GET_ALL_TASKS);
   const [stampTask, updatedTask] = useMutation(STAMP_TASK);
   const [activeDateObj, setActiveDateObj] = useState({});
+  const [temp, setTemp] = useState({});
+
+  useEffect(() => {
+    setTemp({
+      status: !!_.get(activeDateObj, "match") ? "MARK" : "UNMARK",
+      message: _.get(activeDateObj, "match.message", ""),
+    });
+  }, [activeDateObj]);
 
   const todoList = _.get(data, "atom.getAllTasks", []);
 
-  const markTodo = async (item) => {
-    const { _id, type, marked, status, activeDate, stampId } = item;
-    let action, date;
-    if (type === "PROGRESS") {
-      action = marked ? "UNMARK" : "MARK";
-      date = activeDate;
-    } else {
-      action = status === "COMPLETED" ? "UNMARK" : "MARK";
-      date = moment().toISOString();
-    }
+  const markTodo = async (item, progress = {}) => {
+    const { _id, type, status } = item;
+    let input = { _id, type };
 
-    const input = { _id, type, date, action, stampId };
+    if (type === "PROGRESS") {
+      const { message, progressItemAction, activeDate, stampId } = progress;
+
+      input = {
+        ...input,
+        date: activeDate,
+        action: progressItemAction,
+        stampId,
+        message,
+      };
+    } else {
+      input = {
+        ...input,
+        action: status === "COMPLETED" ? "UNMARK" : "MARK",
+        date: moment().toISOString(),
+      };
+    }
 
     stampTask({
       variables: { input },
@@ -77,28 +94,47 @@ const Tasks = () => {
         />
       ))}
       <Modal
+        wrapClassName="react-ui"
         width={320}
         visible={activeDateObj.activeDate}
         title={_.get(activeDateObj, "task.content")}
         onCancel={() => setActiveDateObj({})}
         footer={null}
       >
-        {moment(_.get(activeDateObj, "activeDate")).format("DD MMM, YYYY")}
-        <br />
-        {_.get(activeDateObj, "match.message", "No Message")}
-        <br />
-        <Button
-          onClick={() =>
-            markTodo({
-              ...activeDateObj.task,
-              marked: !!activeDateObj.match,
-              activeDate: activeDateObj.activeDate,
-              stampId: _.get(activeDateObj, "match._id"),
-            })
-          }
-        >
-          {_.get(activeDateObj, "match") ? "Unmark" : "Mark"}
-        </Button>
+        <div className="flex column" style={{ gap: "10px" }}>
+          {moment(_.get(activeDateObj, "activeDate")).format("DD MMM, YYYY")}
+
+          <Input
+            placeholder="Message"
+            value={temp.message}
+            onChange={({ target: { value } }) =>
+              setTemp((prev) => ({ ...prev, message: value }))
+            }
+          />
+
+          <Radio.Group
+            value={temp.status}
+            buttonStyle="solid"
+            onChange={(e) =>
+              setTemp((prev) => ({ ...prev, status: e.target.value }))
+            }
+          >
+            <Radio.Button value="MARK">Mark</Radio.Button>
+            <Radio.Button value="UNMARK">Unmark</Radio.Button>
+          </Radio.Group>
+          <Button
+            onClick={() =>
+              markTodo(activeDateObj.task, {
+                message: temp.message,
+                progressItemAction: temp.status,
+                activeDate: activeDateObj.activeDate,
+                stampId: _.get(activeDateObj, "match._id"),
+              })
+            }
+          >
+            Save
+          </Button>
+        </div>
       </Modal>
     </section>
   );
