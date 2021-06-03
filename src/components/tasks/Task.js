@@ -114,7 +114,7 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
       const remainingTime = deadline
         ? moment(parseInt(deadline)).from(moment())
         : "";
-      const isExpired = moment().isAfter(moment(deadline));
+      const isExpired = moment().isAfter(moment(parseInt(deadline)), "day");
       const customStyles = {
         color: isCompleted ? colors.green : isExpired ? colors.red : null,
       };
@@ -124,6 +124,8 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
           <div style={customStyles}>
             {isCompleted
               ? `Completed: ${formatDate(completedOn)}`
+              : isExpired
+              ? `Expired ${remainingTime}`
               : `Expires ${remainingTime}`}
           </div>
         </Fragment>

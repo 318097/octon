@@ -6,45 +6,24 @@ section#tasks {
   .task {
     display: inline-block;
     padding: 2px;
+    &.disabled {
+      text-decoration: line-through;
+    }
   }
-
-  .task.disabled {
-    text-decoration: line-through;
-  }
-
-  .success {
-    color: $green;
-  }
-
   .info {
     padding: 2px 4px;
     font-style: italic;
     font-size: 1rem;
   }
-
-  span.day {
-    margin: 2px;
-  }
-
-  span.active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-  .todo-list {
-    flex: 1;
-    overflow: auto;
-    .ant-list-item {
-      padding: 4px;
-    }
-  }
 }
+
 .day {
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  border-radius: 1px;
   font-style: normal;
   &.active-day {
     background: $green;

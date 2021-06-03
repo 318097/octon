@@ -1,14 +1,13 @@
 import React, { useState, Fragment } from "react";
 import { Radio, InputNumber, Input, Modal, DatePicker } from "antd";
-import axios from "axios";
 import { CREATE_TASK } from "../../graphql/mutations";
 import { GET_ALL_TASKS } from "../../graphql/queries";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import "./Tasks.scss";
 import { Icon } from "@codedrops/react-ui";
 
-const AddTodo = ({ fetchTodoList }) => {
+const AddTodo = () => {
   const [addTodoVisibility, setAddTodoVisibility] = useState(false);
   const [addTask, newTask] = useMutation(CREATE_TASK);
   const [task, setTask] = useState({
@@ -47,7 +46,7 @@ const AddTodo = ({ fetchTodoList }) => {
         width={380}
       >
         <Radio.Group
-          defaultValue={task.type}
+          value={task.type}
           buttonStyle="solid"
           className="mb"
           onChange={(e) => setData({ type: e.target.value })}
