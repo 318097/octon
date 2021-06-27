@@ -20,7 +20,7 @@ import Timeline from "./components/timeline/Timeline";
 import Settings from "./components/settings";
 
 import Navigation from "./layouts/Navigation";
-import { getToken, hasToken } from "./authService";
+import { getToken, hasToken } from "./lib/authService";
 import config from "./config";
 import { getSession } from "./store/app/selectors";
 import { setSession, sendAppNotification } from "./store/app/actions";

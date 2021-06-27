@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import qs from "query-string";
 
-import { setSessionInStorage } from "../../authService";
+import { setSessionInStorage } from "../../lib/authService";
 
 import { getSession } from "../../store/app/selectors";
 import { setSession } from "../../store/app/actions";

@@ -24,7 +24,6 @@ import colors, { Icon, PageHeader, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
 import randomColor from "randomcolor";
-import { getObjFromId } from "../../utils";
 
 const { Option } = Select;
 
