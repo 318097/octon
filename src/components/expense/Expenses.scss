@@ -4,17 +4,21 @@
 section#expenses {
   .ant-card {
     &.summary {
-      min-height: 140px;
       position: relative;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      .month-picker {
-        position: absolute;
-        top: -6px;
-        right: -6px;
+      .ant-card-body {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        & > * {
+          flex: 0 0 30%;
+        }
+        .month-picker {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+        }
       }
       .expense-type-block {
         display: flex;
@@ -41,6 +45,9 @@ section#expenses {
       align-items: flex-start;
       height: max-content;
       min-height: 230px;
+      .ant-card-body {
+        padding-right: 0;
+      }
     }
   }
 
@@ -58,7 +65,7 @@ section#expenses {
 }
 
 .ant-list-items .ant-list-item {
-  padding-right: 0px !important;
+  padding: 12px 0;
 }
 
 .ant-list-item-action > li {

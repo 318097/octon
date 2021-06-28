@@ -74,7 +74,12 @@ const ExpenseList = ({
             title="Delete?"
             onConfirm={deleteExpense(row._id)}
           >
-            <Icon size={12} key="delete-expense" type="delete" />
+            <Icon
+              className="mr-0"
+              size={12}
+              key="delete-expense"
+              type="delete"
+            />
           </Popconfirm>,
         ]}
       >
@@ -107,14 +112,16 @@ const ExpenseList = ({
       </Radio.Group>
       <div className="mb total">Total: ₹{formatedValue}</div>
 
-      <List
-        style={{ maxHeight: "40vh", overflowY: "auto" }}
-        itemLayout="horizontal"
-        size="small"
-        bordered
-        dataSource={dataSource}
-        renderItem={renderItem}
-      />
+      <div
+        style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: "12px" }}
+      >
+        <List
+          itemLayout="horizontal"
+          size="small"
+          dataSource={dataSource}
+          renderItem={renderItem}
+        />
+      </div>
 
       <Modal
         wrapClassName="react-ui"
