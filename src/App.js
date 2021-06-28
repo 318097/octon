@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import "antd/dist/antd.css";
 import "./App.scss";
 
-import Navigation from "./layouts/Navigation";
+import Header from "./layouts/Header";
 import { getToken, hasToken } from "./lib/authService";
 import config from "./config";
 import { getSession } from "./store/app/selectors";
@@ -48,10 +48,14 @@ const App = ({ setSession, appNotification, appLoading }) => {
 
   return (
     <div className="app" id="react-ui">
-      <div className="content">
-        <Navigation />
-        {loading ? <Spin className="loader" /> : <Routes />}
-      </div>
+      <Header />
+      {loading ? (
+        <Spin className="loader" />
+      ) : (
+        <div className="section-wrapper">
+          <Routes />
+        </div>
+      )}
     </div>
   );
 };

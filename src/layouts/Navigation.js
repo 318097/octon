@@ -8,20 +8,15 @@ import { setSession } from "../store/app/actions";
 import { Icon } from "@ant-design/compatible";
 
 const StyledNavigation = styled.nav`
-  position: absolute;
-  right: calc(100% + 12px);
-  top: 12px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  gap: 4px;
   a {
-    font-size: 1.6rem;
-    background: ${colors.white};
+    font-size: 1.4rem;
+    background: transparent;
     transition: 0.4s;
-    margin-bottom: 4px;
     cursor: pointer;
     border-radius: 2px;
-    color: ${colors.primary};
+    color: ${colors.bar};
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -30,24 +25,17 @@ const StyledNavigation = styled.nav`
   }
   a:hover,
   a.active-link {
+    border-radius: 50%;
     color: ${colors.white};
-    background: ${colors.primary};
+    background: ${colors.steel};
   }
-  @media (max-width: 560px) {
-    position: static;
-    flex-direction: row;
-    padding: 12px 12px 0;
-    width: 100%;
-    a {
-      margin: 0 0 0 4px;
-    }
-    a.auth {
-      margin-left: 12px;
-    }
+
+  a.auth {
+    margin-left: 12px;
   }
 `;
 
-const list = [
+const routes = [
   { route: "/expenses", label: "Expenses", icon: <Icon type="wallet" /> },
   { route: "/tasks", label: "Tasks", icon: <Icon type="unordered-list" /> },
   { route: "/timeline", label: "Timeline", icon: <Icon type="hourglass" /> },
@@ -70,7 +58,7 @@ const Navigation = ({ history, session = {}, setSession }) => {
 
   return (
     <StyledNavigation>
-      {list.map(({ route, label, icon }) => (
+      {routes.map(({ route, label, icon }) => (
         <NavLink key={label} exact activeClassName="active-link" to={route}>
           {icon}
         </NavLink>
