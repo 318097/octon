@@ -31,11 +31,7 @@ const AddTodo = () => {
 
   return (
     <Fragment>
-      <Icon
-        onClick={() => setAddTodoVisibility(true)}
-        type="plus"
-        background={true}
-      />
+      <Icon onClick={() => setAddTodoVisibility(true)} type="plus" size={12} />
       <Modal
         wrapClassName="react-ui"
         visible={addTodoVisibility}

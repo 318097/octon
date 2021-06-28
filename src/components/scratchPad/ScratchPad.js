@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AddItem from "./AddItem";
 import List from "./List";
-import { PageHeader } from "@codedrops/react-ui";
+import { PageHeader } from "antd";
 import "./ScratchPad.scss";
 
 const ScratchPad = () => {
@@ -23,8 +23,11 @@ const ScratchPad = () => {
   return (
     <section id="scratch-pad">
       <PageHeader
-        title={"Scratch Pad"}
-        actions={<AddItem fetchList={fetchList} />}
+        className="page-header"
+        ghost={false}
+        onBack={null}
+        title="Scratch Pad"
+        extra={<AddItem fetchList={fetchList} />}
       />
       <List list={list} fetchList={fetchList} />
     </section>

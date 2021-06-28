@@ -9,6 +9,7 @@ import {
   Divider,
   Input,
   Empty,
+  PageHeader,
 } from "antd";
 import axios from "axios";
 import moment from "moment";
@@ -20,7 +21,7 @@ import {
 } from "../../store/data/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
-import colors, { Icon, PageHeader, Tag } from "@codedrops/react-ui";
+import colors, { Icon, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
 import randomColor from "randomcolor";
@@ -84,12 +85,16 @@ const Timeline = ({
   return (
     <section id="timeline">
       <PageHeader
-        title={"Timeline"}
-        actions={[
+        className="page-header"
+        ghost={false}
+        onBack={null}
+        title="Timeline"
+        extra={[
           <Select
             key="group-list"
             className="mr"
             allowClear
+            size="small"
             style={{ width: 140 }}
             placeholder="All groups"
             value={groupId}
@@ -117,7 +122,7 @@ const Timeline = ({
                     }}
                     onClick={addItem}
                   >
-                    <Icon type="plus" />
+                    <Icon type="plus" size={12} />
                   </a>
                 </div>
               </div>

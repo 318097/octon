@@ -27,8 +27,34 @@
       width: 100%;
       margin: 0 auto;
       flex-direction: column;
-      .ant-page-header {
-        padding: 0 0 8px 0;
+      // .card {
+      //   padding: 20px 16px;
+      //   margin: 0 0 12px 0;
+      //   border-radius: 2px;
+      //   border: none;
+      //   box-shadow: 4px 4px 4px $strokeOne;
+      //   background: $feather;
+      //   display: flex;
+      //   flex-direction: column;
+      //   align-items: center;
+      //   justify-content: center;
+      //   width: 100%;
+      //   overflow: visible;
+      //   &.title {
+      //     justify-content: space-between;
+      //   }
+      // }
+      & > .page-header {
+        border: 1px solid rgb(235, 237, 240);
+        margin-bottom: 12px;
+        padding: 4px 12px;
+        .ant-page-header-heading-extra {
+          align-items: center;
+          display: flex;
+        }
+      }
+      & > .ant-card {
+        margin-bottom: 12px;
       }
       &#login,
       &#register {

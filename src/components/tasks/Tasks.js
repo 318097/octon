@@ -63,9 +63,9 @@ const Tasks = () => {
   return (
     <section id="tasks">
       <PageHeader
+        className="page-header"
         ghost={false}
-        // className="site-page-header"
-        onBack={() => null}
+        onBack={null}
         title="Tasks"
         extra={[<AddTask key="add-todo" />]}
       />

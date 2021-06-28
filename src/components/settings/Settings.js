@@ -2,8 +2,8 @@
 import React from "react";
 import { updateAppData, setData } from "../../store/data/actions";
 import { connect } from "react-redux";
-import { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Settings.scss";
+import { PageHeader } from "antd";
 import NestedNodes from "../../lib/NestedNodes";
 
 const Settings = ({ session, updateAppData }) => {
@@ -15,7 +15,12 @@ const Settings = ({ session, updateAppData }) => {
 
   return (
     <section id="settings">
-      <PageHeader title={"Settings"} actions={[<Icon type="plus" hover />]} />
+      <PageHeader
+        className="page-header"
+        ghost={false}
+        onBack={null}
+        title="Settings"
+      />
 
       <div className="block">
         <h5 className="mb">Expense groups</h5>

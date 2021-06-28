@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker } from "antd";
+import { DatePicker, Card, PageHeader } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -8,7 +8,6 @@ import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
-import { PageHeader, Card } from "@codedrops/react-ui";
 import _ from "lodash";
 import { calculateTotal } from "../../lib/utils";
 
@@ -52,8 +51,13 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   const summaryItems = Object.entries(total);
   return (
     <section id="expenses">
-      <PageHeader title="Expenses" />
-      <Card className="card summary">
+      <PageHeader
+        className="page-header"
+        ghost={false}
+        onBack={null}
+        title="Expenses"
+      />
+      <Card className="summary">
         <MonthPicker
           className="month-picker"
           style={{ width: "100px" }}
@@ -71,7 +75,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           </div>
         ))}
       </Card>
-      <Card className="expense-list card">
+      <Card className="expense-list">
         <ExpenseList
           list={expenseList}
           fetchExpenseByMonth={fetchExpenseByMonth}
@@ -81,7 +85,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         />
       </Card>
 
-      <Card className="card add-expense">
+      <Card className="add-expense">
         <AddExpense
           setAppLoading={setAppLoading}
           fetchExpenseByMonth={fetchExpenseByMonth}
@@ -89,22 +93,6 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           expenseTypes={expenseTypes}
         />
       </Card>
-
-      {/* <Resize
-        modalProps={{
-          visible: expenseListVisibilityStatus,
-          setVisibility: setExpenseListVisibilityStatus,
-          title: "",
-          width: 380,
-          onCancel: () => setExpenseListVisibilityStatus(false),
-          footer: null,
-        }}
-        component={ExpenseList}
-        list={expenseList}
-        fetchExpenseByMonth={fetchExpenseByMonth}
-        date={date}
-        setAppLoading={setAppLoading}
-      /> */}
     </section>
   );
 };

@@ -49,7 +49,7 @@ const AddPost = ({
 
   return (
     <Fragment>
-      <Icon background onClick={openAddNewPost} type="plus" />
+      <Icon onClick={openAddNewPost} type="plus" size={12} />
       <Modal
         wrapClassName="react-ui"
         visible={visibility}

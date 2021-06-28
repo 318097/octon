@@ -58,11 +58,7 @@ const AddItem = ({ fetchList }) => {
 
   return (
     <Fragment>
-      <Icon
-        background={true}
-        onClick={() => setAddItemVisibility(true)}
-        type="plus"
-      />
+      <Icon onClick={() => setAddItemVisibility(true)} type="plus" size={12} />
       <Modal
         wrapClassName="react-ui"
         visible={addItemVisibility}

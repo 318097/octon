@@ -2,31 +2,15 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 section#expenses {
-  .card {
-    padding: 20px 16px;
-    margin: 0 0 12px 0;
-    border-radius: 2px;
-    box-shadow: 2px 2px 2px $strokeOne;
-    background: $feather;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    overflow: visible;
-
+  .ant-card {
     &.summary {
       min-height: 140px;
       position: relative;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      gap: 12px;
       align-items: center;
       justify-content: center;
-      & > * {
-        flex: 0 0 30%;
-      }
       .month-picker {
         position: absolute;
         top: -6px;
