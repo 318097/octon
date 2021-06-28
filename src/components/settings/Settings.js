@@ -4,7 +4,7 @@ import { updateAppData, setData } from "../../store/data/actions";
 import { connect } from "react-redux";
 import { Icon, PageHeader } from "@codedrops/react-ui";
 import "./Settings.scss";
-import NestedNodes from "../../molecules/NestedNodes";
+import NestedNodes from "../../lib/NestedNodes";
 
 const Settings = ({ session, updateAppData }) => {
   const updateSetting = async (update, action) => {
