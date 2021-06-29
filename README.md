@@ -4,6 +4,7 @@
 
 - [x] Expense Manager
   - [ ] Stats
+  - [ ] Highlight expense types
   - [ ] Chart of last 6 months
 - [x] Tasks - Todos, Goals & Progress
 - [x] Timeline

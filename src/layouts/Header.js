@@ -19,11 +19,13 @@ const StyledHeader = styled.div`
     max-width: 450px;
     width: 100%;
     margin: 0 auto;
-    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: relative;
+    h2 {
+      font-size: 1.2rem;
+    }
   }
 `;
 

@@ -75,21 +75,20 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           </div>
         ))}
       </Card>
+      <Card className="add-expense">
+        <AddExpense
+          setAppLoading={setAppLoading}
+          fetchExpenseByMonth={fetchExpenseByMonth}
+          mode="ADD"
+          expenseTypes={expenseTypes}
+        />
+      </Card>
       <Card className="expense-list">
         <ExpenseList
           list={expenseList}
           fetchExpenseByMonth={fetchExpenseByMonth}
           date={date}
           setAppLoading={setAppLoading}
-          expenseTypes={expenseTypes}
-        />
-      </Card>
-
-      <Card className="add-expense">
-        <AddExpense
-          setAppLoading={setAppLoading}
-          fetchExpenseByMonth={fetchExpenseByMonth}
-          mode="ADD"
           expenseTypes={expenseTypes}
         />
       </Card>
