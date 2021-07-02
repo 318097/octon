@@ -2,11 +2,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
-import axios from "axios";
-import { EmptyState } from "@codedrops/react-ui";
 import { connect } from "react-redux";
 import { sendAppNotification } from "../../store/app/actions";
 import "./Expenses.scss";
+import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 const AddExpense = ({
   setAppLoading,
@@ -26,6 +26,9 @@ const AddExpense = ({
     date: moment(),
   });
 
+  const [addExpense] = useMutation(CREATE_EXPENSE);
+  const [updateExpense] = useMutation(UPDATE_EXPENSE);
+
   useEffect(() => {
     if (!currentExpense) return;
     setExpense({ ...currentExpense, date: moment(currentExpense.date) });
@@ -33,15 +36,25 @@ const AddExpense = ({
 
   const saveExpense = async () => {
     setLoading(true);
+    delete expense.__typename;
     try {
-      if (mode === "ADD") await axios.post(`/expenses`, { ...expense });
-      else await axios.put(`/expenses/${expense._id}`, { ...expense });
+      if (mode === "ADD") {
+        await addExpense({
+          variables: { input: expense },
+        });
+      } else {
+        await updateExpense({
+          variables: { input: { _id: expense._id, ...expense } },
+        });
+        setVisibilityStatus(false);
+      }
 
       setExpense({ ...expense, amount: null, message: null });
-      if (mode === "EDIT") setVisibilityStatus(false);
       message.success("Success");
       fetchExpenseByMonth();
     } catch (err) {
+      console.log("err::-", err);
+
       sendAppNotification({
         message: err.response.data || err.message,
       });
@@ -78,7 +91,9 @@ const AddExpense = ({
         {expenseTypes
           .filter((item) => !item.parentId)
           .map((option) => (
-            <Radio value={option._id}>{option.label}</Radio>
+            <Radio key={option._id} value={option._id}>
+              {option.label}
+            </Radio>
           ))}
       </Radio.Group>
 

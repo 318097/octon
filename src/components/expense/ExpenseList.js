@@ -7,6 +7,8 @@ import { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
+import { DELETE_EXPENSE } from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 const ExpenseList = ({
   fetchExpenseByMonth,
@@ -20,6 +22,7 @@ const ExpenseList = ({
   const [filterType, setFilterType] = useState("ALL");
   const [total, setTotal] = useState(0);
   const [editExpenseVisibility, setEditExpenseVisibility] = useState(false);
+  const [deleteExpense] = useMutation(DELETE_EXPENSE);
 
   useEffect(() => {
     const filterData = () => {
@@ -34,9 +37,11 @@ const ExpenseList = ({
     filterData();
   }, [list, filterType]);
 
-  const deleteExpense = (id) => async () => {
+  const handleDelete = (id) => async () => {
     setAppLoading(true);
-    await axios.delete(`/expenses/${id}`);
+    await deleteExpense({
+      variables: { input: { _id: id } },
+    });
     await fetchExpenseByMonth();
     setAppLoading(false);
   };
@@ -72,7 +77,7 @@ const ExpenseList = ({
           <Popconfirm
             placement="bottomRight"
             title="Delete?"
-            onConfirm={deleteExpense(row._id)}
+            onConfirm={handleDelete(row._id)}
           >
             <Icon
               className="mr-0"
@@ -107,7 +112,9 @@ const ExpenseList = ({
         {expenseTypes
           .filter((item) => !item.parentId)
           .map((option) => (
-            <Radio.Button value={option._id}>{option.label}</Radio.Button>
+            <Radio.Button value={option._id} key={option._id}>
+              {option.label}
+            </Radio.Button>
           ))}
       </Radio.Group>
       <div className="mb total">Total: ₹{formatedValue}</div>

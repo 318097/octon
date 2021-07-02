@@ -7,7 +7,7 @@
   - [ ] Highlight expense types
   - [ ] Chart of last 6 months
 - [x] Tasks - Todos, Goals & Progress
-  - [ ] Define strings in progress
+  - [ ] Define custom fields for progress
   - [ ] Show done items at the bottom
   - [ ] Disable future dates in progress
 - [x] Timeline
@@ -31,3 +31,7 @@
 - [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
   - [ ] Add nested categories
+- [ ] Graph QL
+  - [ ] Expenses
+  - [ ] timeline
+  - [ ] scratchpad

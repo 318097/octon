@@ -20,4 +20,40 @@ const STAMP_TASK = gql`
   }
 `;
 
-export { CREATE_TASK, STAMP_TASK };
+const CREATE_EXPENSE = gql`
+  mutation createExpense($input: CreateExpenseInput!) {
+    atom {
+      createExpense(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+const UPDATE_EXPENSE = gql`
+  mutation updateExpense($input: UpdateExpenseInput!) {
+    atom {
+      updateExpense(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+const DELETE_EXPENSE = gql`
+  mutation deleteExpense($input: DeleteExpenseInput!) {
+    atom {
+      deleteExpense(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+export {
+  CREATE_TASK,
+  STAMP_TASK,
+  CREATE_EXPENSE,
+  UPDATE_EXPENSE,
+  DELETE_EXPENSE,
+};

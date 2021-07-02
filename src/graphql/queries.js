@@ -22,4 +22,19 @@ const GET_ALL_TASKS = gql`
   }
 `;
 
-export { GET_ALL_TASKS };
+const GET_MONTHLY_EXPENSES = gql`
+  query getExpensesByMonth($input: MonthlyExpensesInput!) {
+    atom {
+      getExpensesByMonth(input: $input) {
+        _id
+        amount
+        message
+        date
+        expenseSubTypeId
+        expenseTypeId
+      }
+    }
+  }
+`;
+
+export { GET_ALL_TASKS, GET_MONTHLY_EXPENSES };
