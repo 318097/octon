@@ -11,6 +11,7 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import _ from "lodash";
+import colors from "@codedrops/react-ui";
 import { calculateTotal } from "../../lib/utils";
 const { MonthPicker } = DatePicker;
 
@@ -49,11 +50,16 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   expenseTypes
     .filter((item) => !item.parentId)
     .forEach((item) => {
-      const { label, _id } = item;
-      total[label] = calculateTotal(
-        input.filter((item) => item.expenseTypeId === _id)
-      );
+      const { label, _id, success } = item;
+      total[label] = {
+        success,
+        total: calculateTotal(
+          input.filter((item) => item.expenseTypeId === _id)
+        ),
+      };
     });
+
+  console.log("total::-", total);
 
   const summaryItems = Object.entries(total);
   return (
@@ -75,10 +81,27 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           value={date}
           placeholder="Select month"
         />
-        {summaryItems.map(([id, total]) => (
-          <div className="expense-type-block" key={id}>
+
+        {summaryItems.map(([id, { total, success }]) => (
+          <div
+            className="expense-type-block"
+            key={id}
+            style={{
+              flex:
+                summaryItems.length % 3 === 0
+                  ? "30%"
+                  : summaryItems.length === 4
+                  ? "45%"
+                  : "auto",
+            }}
+          >
             <span className="expense-type-name">{id}</span>
-            <span className="expense-type-value">{`₹${total.toLocaleString()}`}</span>
+            <span
+              className="expense-type-value"
+              style={{
+                color: success === "UP" ? colors.green : colors.watermelon,
+              }}
+            >{`₹${total.toLocaleString()}`}</span>
           </div>
         ))}
       </Card>

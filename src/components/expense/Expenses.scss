@@ -11,8 +11,10 @@ section#expenses {
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
+        row-gap: 10px;
         & > * {
-          flex: 0 0 30%;
+          flex-grow: 0;
+          flex-shrink: 0;
         }
         .month-picker {
           position: absolute;
