@@ -5,7 +5,7 @@
   background: url("./assets/backgrounds/so-white.png");
   & > div.section-wrapper {
     position: relative;
-    // max-width: 400px;
+    padding: 0 12px;
     width: 100%;
     overflow: overlay;
     .ant-spin-dot {
@@ -18,32 +18,11 @@
       transform: translate(-50%, -50%);
     }
     & > section {
-      border-radius: 2px;
-      height: auto;
-      box-sizing: border-box;
       position: relative;
-      display: flex;
       max-width: 450px;
       width: 100%;
       margin: 0 auto;
       flex-direction: column;
-      // .card {
-      //   padding: 20px 16px;
-      //   margin: 0 0 12px 0;
-      //   border-radius: 2px;
-      //   border: none;
-      //   box-shadow: 4px 4px 4px $strokeOne;
-      //   background: $feather;
-      //   display: flex;
-      //   flex-direction: column;
-      //   align-items: center;
-      //   justify-content: center;
-      //   width: 100%;
-      //   overflow: visible;
-      //   &.title {
-      //     justify-content: space-between;
-      //   }
-      // }
       & > .page-header {
         border: 1px solid rgb(235, 237, 240);
         margin-bottom: 12px;
@@ -80,17 +59,6 @@
     margin: 0 0 12px 0;
     min-height: 54px;
   }
-}
-
-.badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: $foBlue;
-  color: $white;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-size: 1rem;
 }
 
 .ant-modal-header {

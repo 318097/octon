@@ -104,7 +104,12 @@ const Timeline = ({
                 {menu}
                 <Divider style={{ margin: "4px 0" }} />
                 <div
-                  style={{ display: "flex", flexWrap: "nowrap", padding: 8 }}
+                  style={{
+                    display: "flex",
+                    flexWrap: "nowrap",
+                    padding: "0 8px",
+                    alignItems: "center",
+                  }}
                 >
                   <Input
                     style={{ flex: "auto" }}

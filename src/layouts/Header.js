@@ -14,8 +14,9 @@ const StyledHeader = styled.div`
   z-index: 1;
   margin-bottom: 10px;
   box-shadow: 4px 4px 4px ${colors.strokeOne};
-  padding: 10px 0;
+  padding: 0 12px;
   header {
+    padding: 10px 0;
     max-width: 450px;
     width: 100%;
     margin: 0 auto;

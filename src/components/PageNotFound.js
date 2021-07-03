@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  font-size: 3.2rem;
+  font-size: 2.2rem;
   text-transform: uppercase;
   text-align: center;
 `;

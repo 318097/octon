@@ -2,6 +2,17 @@
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
 
 section#expenses {
+  .badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: $foBlue;
+    color: $white;
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 1rem;
+  }
+
   .ant-card {
     &.summary {
       position: relative;
