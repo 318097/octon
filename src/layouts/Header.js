@@ -1,37 +1,34 @@
 import React from "react";
-import styled from "styled-components";
-import colors from "@codedrops/react-ui";
-import { Spin } from "antd";
+// import styled from "styled-components";
+// import colors from "@codedrops/react-ui";
+// import { Spin } from "antd";
 import Navigation from "./Navigation";
 
-const StyledHeader = styled.div`
-  position: sticky;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 16px;
-  background: ${colors.feather};
-  top: 0;
-  z-index: 1;
-  margin-bottom: 10px;
-  box-shadow: 4px 4px 4px ${colors.strokeOne};
-  padding: 0 12px;
-  header {
-    padding: 10px 0;
-    max-width: 450px;
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    h2 {
-      font-size: 1.2rem;
-    }
-  }
-`;
+// const StyledHeader = styled.div`
+//   position: sticky;
+//   background: ${colors.feather};
+//   top: 0;
+//   z-index: 1;
+//   margin-bottom: 10px;
+//   box-shadow: 4px 4px 4px ${colors.strokeOne};
+//   padding: 0 12px;
+//   header {
+//     padding: 10px 0;
+//     max-width: 450px;
+//     width: 100%;
+//     margin: 0 auto;
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     position: relative;
+//     h2 {
+//       font-size: 1.2rem;
+//     }
+//   }
+// `;
 
 const Header = ({ appLoading }) => (
-  <StyledHeader>
+  <div className="header-wrapper">
     <header>
       <h2>
         Atom
@@ -39,7 +36,7 @@ const Header = ({ appLoading }) => (
       </h2>
       <Navigation />
     </header>
-  </StyledHeader>
+  </div>
 );
 
 export default Header;

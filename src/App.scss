@@ -1,13 +1,18 @@
 @import "@codedrops/react-ui/dist/styles/colors.scss";
 @import "@codedrops/react-ui/dist/styles/custom-styles.scss";
+@import "@codedrops/react-ui/dist/styles/mixins.scss";
 
 .app {
   background: url("./assets/backgrounds/so-white.png");
-  & > div.section-wrapper {
-    position: relative;
-    padding: 0 12px;
-    width: 100%;
-    overflow: overlay;
+  div.header-wrapper {
+    @include center-layout-header-wrapper;
+  }
+  div.section-wrapper {
+    @include center-layout-section-wrapper;
+    // position: relative;
+    // padding: 0 12px;
+    // width: 100%;
+    // overflow: overlay;
     .ant-spin-dot {
       font-size: 24px !important;
     }
@@ -18,11 +23,11 @@
       transform: translate(-50%, -50%);
     }
     & > section {
-      position: relative;
-      max-width: 450px;
-      width: 100%;
-      margin: 0 auto;
-      flex-direction: column;
+      // position: relative;
+      // max-width: 450px;
+      // width: 100%;
+      // margin: 0 auto;
+      // flex-direction: column;
       & > .page-header {
         border: 1px solid rgb(235, 237, 240);
         margin-bottom: 12px;
