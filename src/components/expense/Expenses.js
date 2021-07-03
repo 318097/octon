@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Card, PageHeader } from "antd";
+import { DatePicker, Card, PageHeader, Button } from "antd";
 import moment from "moment";
-import axios from "axios";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
 import { GET_MONTHLY_EXPENSES } from "../../graphql/queries";
@@ -13,6 +12,8 @@ import { sendAppNotification, setAppLoading } from "../../store/app/actions";
 import _ from "lodash";
 import colors from "@codedrops/react-ui";
 import { calculateTotal } from "../../lib/utils";
+import Stats from "./Stats";
+
 const { MonthPicker } = DatePicker;
 
 const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
@@ -21,6 +22,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
     { fetchPolicy: "cache-and-network" }
   );
   const [date, setDate] = useState(moment());
+  const [showStats, setShowStats] = useState(false);
   const input = _.get(data, "atom.getExpensesByMonth", []);
 
   useEffect(() => {
@@ -47,19 +49,15 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
 
   const total = {};
 
-  expenseTypes
-    .filter((item) => !item.parentId)
-    .forEach((item) => {
-      const { label, _id, success } = item;
-      total[label] = {
-        success,
-        total: calculateTotal(
-          input.filter((item) => item.expenseTypeId === _id)
-        ),
-      };
-    });
+  const rootExpenseTypes = expenseTypes.filter((item) => !item.parentId);
 
-  console.log("total::-", total);
+  rootExpenseTypes.forEach((item) => {
+    const { label, _id, success } = item;
+    total[label] = {
+      success,
+      total: calculateTotal(input.filter((item) => item.expenseTypeId === _id)),
+    };
+  });
 
   const summaryItems = Object.entries(total);
   return (
@@ -71,16 +69,20 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         title="Expenses"
       />
       <Card className="summary">
-        <MonthPicker
-          className="month-picker"
-          style={{ width: "100px" }}
-          size="small"
-          allowClear={false}
-          format="MMM, YY"
-          onChange={(date) => setDate(date)}
-          value={date}
-          placeholder="Select month"
-        />
+        <div className="summary-actions">
+          <MonthPicker
+            style={{ width: "100px" }}
+            size="small"
+            allowClear={false}
+            format="MMM, YY"
+            onChange={(date) => setDate(date)}
+            value={date}
+            placeholder="Select month"
+          />
+          <Button size="small" onClick={() => setShowStats((prev) => !prev)}>
+            Stats
+          </Button>
+        </div>
 
         {summaryItems.map(([id, { total, success }]) => (
           <div
@@ -105,6 +107,13 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           </div>
         ))}
       </Card>
+
+      {showStats && (
+        <Card className="stats">
+          <Stats rootExpenseTypes={rootExpenseTypes} />
+        </Card>
+      )}
+
       <Card className="add-expense">
         <AddExpense
           setAppLoading={setAppLoading}

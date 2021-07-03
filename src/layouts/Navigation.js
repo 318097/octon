@@ -15,19 +15,18 @@ const StyledNavigation = styled.nav`
     background: transparent;
     transition: 0.4s;
     cursor: pointer;
-    border-radius: 2px;
     color: ${colors.bar};
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 26px;
     width: 26px;
+    border-radius: 1px;
   }
   a:hover,
   a.active-link {
-    border-radius: 50%;
     color: ${colors.white};
-    background: ${colors.steel};
+    background: ${colors.primary};
   }
 
   a.auth {

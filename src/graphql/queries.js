@@ -22,6 +22,14 @@ const GET_ALL_TASKS = gql`
   }
 `;
 
+const GET_EXPENSE_STATS = gql`
+  query expenseStats {
+    atom {
+      expenseStats
+    }
+  }
+`;
+
 const GET_MONTHLY_EXPENSES = gql`
   query getExpensesByMonth($input: MonthlyExpensesInput!) {
     atom {
@@ -37,4 +45,4 @@ const GET_MONTHLY_EXPENSES = gql`
   }
 `;
 
-export { GET_ALL_TASKS, GET_MONTHLY_EXPENSES };
+export { GET_ALL_TASKS, GET_MONTHLY_EXPENSES, GET_EXPENSE_STATS };

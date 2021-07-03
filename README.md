@@ -3,9 +3,10 @@
 #### Features
 
 - [x] Expense Manager
-  - [ ] Stats
-  - [ ] Highlight expense types
-  - [ ] Chart of last 6 months
+  - [x] Highlight expense types
+  - [x] Stats
+    - [x] Last 6 months breakdown
+    - [x] Last 6 month total
 - [x] Tasks - Todos, Goals & Progress
   - [ ] Define custom fields for progress
   - [ ] Show done items at the bottom
@@ -32,6 +33,6 @@
 - [x] Categorize expenses - investments, expenses, income
   - [ ] Add nested categories
 - [ ] Graph QL
-  - [ ] Expenses
+  - [x] Expenses
   - [ ] timeline
   - [ ] scratchpad
