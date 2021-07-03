@@ -14,27 +14,30 @@ const Tasks = () => {
   const [stampTask] = useMutation(STAMP_TASK);
   const [deleteTask] = useMutation(DELETE_TASK);
 
-  const [activeDateObj, setActiveDateObj] = useState({});
+  const [taskObj, setTaskObj] = useState({});
 
   const todoList = _.get(data, "atom.getAllTasks", []);
 
-  const markTodo = async (item, progress = {}) => {
-    const { _id, type, status } = item;
-    let input = { _id, type };
+  const markTodo = async (task, extra = {}) => {
+    const { _id } = task;
+    const { actionType } = extra;
+    let input = { _id, actionType };
 
-    if (type === "PROGRESS") {
-      const { message, progressItemAction, activeDate, stampId } = progress;
-
+    if (actionType === "SUBTASK") {
+      const { message, action, date, subTaskId } = extra;
       input = {
         ...input,
-        date: activeDate,
-        action: progressItemAction,
-        stampId,
+        date,
+        action,
+        subTaskId,
         message,
+        actionType,
       };
     } else {
+      const { status } = task;
       input = {
         ...input,
+        actionType: "TASK",
         action: status === "COMPLETED" ? "UNMARK" : "MARK",
         date: moment().toISOString(),
       };
@@ -44,7 +47,7 @@ const Tasks = () => {
       variables: { input },
       refetchQueries: [{ query: GET_ALL_TASKS }],
     });
-    setActiveDateObj({});
+    setTaskObj({});
   };
 
   const deleteTodo = async (_id) => {
@@ -63,57 +66,56 @@ const Tasks = () => {
         title="Tasks"
         extra={[<AddTask key="add-todo" />]}
       />
-      {todoList.map((item) => (
+      {todoList.map((task) => (
         <Task
-          key={item._id}
-          item={item}
+          key={task._id}
+          task={task}
           markTodo={markTodo}
           deleteTodo={deleteTodo}
-          setActiveDateObj={setActiveDateObj}
+          setTaskObj={setTaskObj}
         />
       ))}
 
       <TaskDetail
-        activeDateObj={activeDateObj}
-        setActiveDateObj={setActiveDateObj}
+        taskObj={taskObj}
+        setTaskObj={setTaskObj}
         markTodo={markTodo}
       />
     </section>
   );
 };
 
-const TaskDetail = ({ activeDateObj, setActiveDateObj, markTodo }) => {
+const TaskDetail = ({ taskObj, setTaskObj, markTodo }) => {
   const [temp, setTemp] = useState({});
 
   useEffect(() => {
-    if (activeDateObj.visible)
+    if (taskObj.visible)
       setTemp({
-        status: !!_.get(activeDateObj, "match") ? "MARK" : "UNMARK",
-        message: _.get(activeDateObj, "match.message", ""),
+        status: !!_.get(taskObj, "subTask") ? "MARK" : "UNMARK",
+        message: _.get(taskObj, "subTask.message", ""),
       });
-  }, [activeDateObj]);
+  }, [taskObj]);
 
   const handleOk = () =>
-    markTodo(activeDateObj.task, {
+    markTodo(taskObj.task, {
       message: temp.message,
-      progressItemAction: temp.status,
-      activeDate: activeDateObj.activeDate,
-      stampId: _.get(activeDateObj, "match._id"),
+      action: temp.status,
+      date: taskObj.date,
+      subTaskId: _.get(taskObj, "subTask._id"),
+      actionType: "SUBTASK",
     });
 
-  const taskName = _.get(activeDateObj, "task.content");
-  const taskType = _.get(activeDateObj, "task.type");
-  const date = moment(_.get(activeDateObj, "activeDate")).format(
-    "DD MMM, YYYY"
-  );
+  const taskName = _.get(taskObj, "task.content");
+  const taskType = _.get(taskObj, "task.type");
+  const date = moment(_.get(taskObj, "date")).format("DD MMM, YYYY");
 
   return (
     <Modal
       wrapClassName="react-ui"
       width={320}
-      visible={activeDateObj.activeDate}
+      visible={taskObj.date}
       title={taskType}
-      onCancel={() => setActiveDateObj({})}
+      onCancel={() => setTaskObj({})}
       onOk={handleOk}
       okText="Save"
     >

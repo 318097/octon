@@ -16,7 +16,7 @@ const getMatch = (date, stamps) =>
       moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
   );
 
-const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
+const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
   const {
     type,
     _id,
@@ -25,7 +25,7 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
     deadline,
     completedOn,
     stamps = [],
-  } = item;
+  } = task;
   const isCompleted = status === "COMPLETED";
 
   const actionButton = [
@@ -33,8 +33,8 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
       key="check"
       type="check"
       size={12}
-      fill={isCompleted ? "green" : "bar"}
-      onClick={() => (isCompleted ? null : markTodo(item))}
+      fill={isCompleted ? "lightgrey" : "bar"}
+      onClick={() => (isCompleted ? null : markTodo(task))}
     />,
     <Popconfirm
       key="delete"
@@ -47,20 +47,20 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   ];
 
   const showPopup = (date) => {
-    const match = getMatch(date, stamps);
-    setActiveDateObj({
+    const subTask = getMatch(date, stamps);
+    setTaskObj({
       visible: true,
-      match,
-      activeDate: date.toISOString(),
-      task: item,
+      subTask,
+      date: date.toISOString(),
+      task,
     });
   };
 
   const dateCellRender = (date) => {
-    const match = getMatch(date, stamps);
+    const subTask = getMatch(date, stamps);
 
     return (
-      <div className={`day${match ? " active-day" : ""}`}>{date.date()}</div>
+      <div className={`day${subTask ? " active-day" : ""}`}>{date.date()}</div>
     );
   };
 
