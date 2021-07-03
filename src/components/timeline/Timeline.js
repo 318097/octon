@@ -80,7 +80,7 @@ const Timeline = ({
   //   return color;
   // };
 
-  console.log("timelineMap::-", timelineMap);
+  // console.log("timelineMap::-", timelineMap);
 
   return (
     <section id="timeline">
@@ -151,6 +151,7 @@ const Timeline = ({
 
               const timelineTags = groupId.map((id) => (
                 <Tag
+                  key={id}
                   style={{
                     fontSize: "10px",
                     marginLeft: "0",

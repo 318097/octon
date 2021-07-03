@@ -3,13 +3,11 @@
 
 section#tasks {
   flex: 1;
-  .task {
-    display: inline-block;
-    padding: 2px;
-    font-size: 1.6rem;
-    font-family: Cascadia-Bold;
-    &.disabled {
-      text-decoration: line-through;
+  .task.complete {
+    background: $feather;
+    .ant-picker-calendar,
+    .ant-picker-body {
+      background: $feather;
     }
   }
   .info {
@@ -20,10 +18,9 @@ section#tasks {
 }
 
 .day {
-  height: 100%;
-  width: 100%;
-  border-left: 3px solid white;
-  border-right: 3px solid white;
+  height: 28px;
+  width: 28px;
+  border-radius: 1px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

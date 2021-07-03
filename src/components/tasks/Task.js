@@ -47,6 +47,7 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
   ];
 
   const showPopup = (date) => {
+    if (isCompleted) return;
     const subTask = getMatch(date, stamps);
     setTaskObj({
       visible: true,
@@ -65,42 +66,52 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
   };
 
   const getInfo = () => {
+    const completionStyles = isCompleted ? { color: colors.green } : null;
+    const completionStatus = isCompleted ? (
+      <div style={completionStyles}>Completed: {formatDate(completedOn)}</div>
+    ) : null;
+
     if (type === "GOAL") {
       const remainingTime = deadline ? moment(deadline).from(moment()) : "";
       const isExpired = moment().isAfter(moment(deadline), "day");
-      const customStyles = {
-        color: isCompleted ? colors.green : isExpired ? colors.red : null,
+      const expiryStyles = {
+        color: isExpired ? colors.red : null,
       };
+
+      const expiryStatus = (
+        <div style={expiryStyles}>
+          {isExpired ? `Expired ${remainingTime}` : `Expires ${remainingTime}`}
+        </div>
+      );
       return (
-        <Fragment>
+        <>
           <div className="date">{`Deadline: ${formatDate(deadline)}`}</div>
-          <div style={customStyles}>
-            {isCompleted
-              ? `Completed: ${formatDate(completedOn)}`
-              : isExpired
-              ? `Expired ${remainingTime}`
-              : `Expires ${remainingTime}`}
-          </div>
-        </Fragment>
+
+          {isCompleted ? completionStatus : expiryStatus}
+        </>
       );
     } else if (type === "PROGRESS") {
       return (
-        <Calendar
-          fullscreen={false}
-          onSelect={showPopup}
-          dateFullCellRender={dateCellRender}
-        />
+        <>
+          {completionStatus}
+          <Calendar
+            fullscreen={false}
+            onSelect={showPopup}
+            dateFullCellRender={dateCellRender}
+          />
+        </>
       );
-    } else return null;
+    } else return completionStatus;
   };
 
   return (
     <Card
-      className="mb"
+      // className="mb"
+      className={isCompleted ? "task complete" : "task"}
       title={`${type}: ${content}`}
       size="small"
       extra={actionButton}
-      style={isCompleted ? { background: colors.feather } : {}}
+      // style={isCompleted ? { background: colors.feather } : {}}
     >
       <div className="task-container">
         {/* <div className={isCompleted ? "task disabled" : "task"}>{content}</div> */}

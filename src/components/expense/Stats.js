@@ -34,7 +34,7 @@ const generateCategoryTotalData = ({ input }) => {
   return _.reduce(
     input,
     (acc, value, label) => {
-      acc.labels.push(label.toUpperCase());
+      acc.labels.push(label);
       acc.values.push(value);
       return acc;
     },
@@ -80,7 +80,7 @@ const CategoryTotal = (props) => {
         height={200}
         width={200}
         data={{
-          labels: labels,
+          labels,
           datasets: [
             {
               backgroundColor: [
