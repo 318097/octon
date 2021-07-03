@@ -6,7 +6,7 @@ import "./Tasks.scss";
 import _ from "lodash";
 
 const formatDate = (date) => {
-  return date ? moment(parseInt(date)).format("DD MMM, YY") : "";
+  return date ? moment(date).format("DD MMM, YY") : "";
 };
 
 const getMatch = (date, stamps) =>
@@ -111,10 +111,8 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
 
   const getInfo = () => {
     if (type === "GOAL") {
-      const remainingTime = deadline
-        ? moment(parseInt(deadline)).from(moment())
-        : "";
-      const isExpired = moment().isAfter(moment(parseInt(deadline)), "day");
+      const remainingTime = deadline ? moment(deadline).from(moment()) : "";
+      const isExpired = moment().isAfter(moment(deadline), "day");
       const customStyles = {
         color: isCompleted ? colors.green : isExpired ? colors.red : null,
       };

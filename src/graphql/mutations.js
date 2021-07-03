@@ -20,6 +20,16 @@ const STAMP_TASK = gql`
   }
 `;
 
+const DELETE_TASK = gql`
+  mutation deleteTask($input: TaskByIdInput!) {
+    atom {
+      deleteTask(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
 const CREATE_EXPENSE = gql`
   mutation createExpense($input: CreateExpenseInput!) {
     atom {
@@ -53,6 +63,7 @@ const DELETE_EXPENSE = gql`
 export {
   CREATE_TASK,
   STAMP_TASK,
+  DELETE_TASK,
   CREATE_EXPENSE,
   UPDATE_EXPENSE,
   DELETE_EXPENSE,

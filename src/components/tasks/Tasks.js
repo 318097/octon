@@ -7,13 +7,15 @@ import AddTask from "./AddTask";
 import "./Tasks.scss";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import _ from "lodash";
-import { STAMP_TASK } from "../../graphql/mutations";
+import { STAMP_TASK, DELETE_TASK } from "../../graphql/mutations";
 import Task from "./Task";
 import moment from "moment";
 
 const Tasks = () => {
   const { loading, error, data } = useQuery(GET_ALL_TASKS);
-  const [stampTask, updatedTask] = useMutation(STAMP_TASK);
+  const [stampTask] = useMutation(STAMP_TASK);
+  const [deleteTask] = useMutation(DELETE_TASK);
+
   const [activeDateObj, setActiveDateObj] = useState({});
   const [temp, setTemp] = useState({});
 
@@ -55,9 +57,11 @@ const Tasks = () => {
     setActiveDateObj({});
   };
 
-  const deleteTodo = async (id) => {
-    await axios.delete(`/tasks/${id}`);
-    //  fetchTodoList();
+  const deleteTodo = async (_id) => {
+    deleteTask({
+      variables: { input: { _id } },
+      refetchQueries: [{ query: GET_ALL_TASKS }],
+    });
   };
 
   return (

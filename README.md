@@ -3,10 +3,13 @@
 #### Features
 
 - [x] Expense Manager
+  - [ ] Set color for types
+  - [ ] Default types should not be deletable
   - [x] Highlight expense types
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
+    - [ ] Sub category breakdown
 - [x] Tasks - Todos, Goals & Progress
   - [ ] Define custom fields for progress
   - [ ] Show done items at the bottom
