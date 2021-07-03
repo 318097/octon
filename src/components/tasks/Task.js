@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Card, Popconfirm, Calendar, Tooltip } from "antd";
+import { Card, Popconfirm, Calendar } from "antd";
 import moment from "moment";
 import colors, { Icon } from "@codedrops/react-ui";
 import "./Tasks.scss";
@@ -16,21 +16,6 @@ const getMatch = (date, stamps) =>
       moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
   );
 
-// const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-
-// const WeekStatus = ({ week }) =>
-//   weekDays.map((day, index) => {
-//     let status = false;
-//     week.forEach((date) => {
-//       if (moment(date).weekday() === index) status = true;
-//     });
-//     return (
-//       <span key={index} className={`${status ? "active" : ""} day`}>
-//         {day}
-//       </span>
-//     );
-//   });
-
 const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   const {
     type,
@@ -43,42 +28,16 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   } = item;
   const isCompleted = status === "COMPLETED";
 
-  // const weekNo = moment().week();
-  // const currentWeekStamps = stamps[`week-${weekNo}`] || [];
-  // const today = moment().format("DD-MM-YYYY");
-
-  // if (currentWeekStamps.length) {
-  //   const lastAttended = moment(
-  //     currentWeekStamps[currentWeekStamps.length - 1]
-  //   ).format("DD-MM-YYYY");
-  //   isCompleted = lastAttended === today;
-  // }
-
-  // const percentRatio = Math.round(
-  //   (currentWeekStamps.length / frequency) * 100
-  // );
-  // const fraction = `${currentWeekStamps.length}/${frequency}`;
-
-  // const info = (
-  //   <Fragment>
-  //     <span>{percentRatio}%</span>
-  //     <Divider type="vertical" />
-  //     <span>{fraction}</span>
-  //     <Divider type="vertical" />
-  //     <span>
-  //       <WeekStatus week={currentWeekStamps} />
-  //     </span>
-  //   </Fragment>
-  // );
-
   const actionButton = [
     <Icon
+      key="check"
       type="check"
       size={12}
       fill={isCompleted ? "green" : "bar"}
       onClick={() => (isCompleted ? null : markTodo(item))}
     />,
     <Popconfirm
+      key="delete"
       placement="bottomRight"
       title="Delete?"
       onConfirm={() => deleteTodo(_id)}
@@ -89,23 +48,19 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
 
   const showPopup = (date) => {
     const match = getMatch(date, stamps);
-    setActiveDateObj({ match, activeDate: date.toISOString(), task: item });
+    setActiveDateObj({
+      visible: true,
+      match,
+      activeDate: date.toISOString(),
+      task: item,
+    });
   };
 
   const dateCellRender = (date) => {
     const match = getMatch(date, stamps);
 
     return (
-      <div className="fcc">
-        <Tooltip title="prompt text">
-          <div
-            className={`day${match ? " active-day" : ""}`}
-            onClick={console.log}
-          >
-            {date.date()}
-          </div>
-        </Tooltip>
-      </div>
+      <div className={`day${match ? " active-day" : ""}`}>{date.date()}</div>
     );
   };
 
@@ -142,13 +97,13 @@ const Task = ({ item, markTodo, deleteTodo, setActiveDateObj }) => {
   return (
     <Card
       className="mb"
-      title={type}
+      title={`${type}: ${content}`}
       size="small"
       extra={actionButton}
       style={isCompleted ? { background: colors.feather } : {}}
     >
       <div className="task-container">
-        <div className={isCompleted ? "task disabled" : "task"}>{content}</div>
+        {/* <div className={isCompleted ? "task disabled" : "task"}>{content}</div> */}
         <div className="info">{getInfo()}</div>
       </div>
     </Card>

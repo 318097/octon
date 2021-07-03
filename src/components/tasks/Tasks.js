@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, PageHeader, Input, Radio } from "antd";
-import axios from "axios";
+import { Modal, PageHeader, Input, Radio } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import AddTask from "./AddTask";
-// import { PageHeader } from "@codedrops/react-ui";
 import "./Tasks.scss";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import _ from "lodash";
@@ -17,14 +15,6 @@ const Tasks = () => {
   const [deleteTask] = useMutation(DELETE_TASK);
 
   const [activeDateObj, setActiveDateObj] = useState({});
-  const [temp, setTemp] = useState({});
-
-  useEffect(() => {
-    setTemp({
-      status: !!_.get(activeDateObj, "match") ? "MARK" : "UNMARK",
-      message: _.get(activeDateObj, "match.message", ""),
-    });
-  }, [activeDateObj]);
 
   const todoList = _.get(data, "atom.getAllTasks", []);
 
@@ -73,74 +63,84 @@ const Tasks = () => {
         title="Tasks"
         extra={[<AddTask key="add-todo" />]}
       />
-      {/* <PageHeader
-        title={"Tasks"}
-        extra={[
-          // <Radio.Group
-          //   key="todo-type"
-          //   className="mr"
-          //   defaultValue={todoType}
-          //   buttonStyle="solid"
-          //   onChange={(e) => setTodoType(e.target.value)}
-          // >
-          //   <Radio.Button value="SINGLE">SINGLE</Radio.Button>
-          //   <Radio.Button value="WEEKLY">WEEKLY</Radio.Button>
-          // </Radio.Group>,
-          <AddTask key="add-todo" />,
-        ]}
-      /> */}
       {todoList.map((item) => (
         <Task
+          key={item._id}
           item={item}
           markTodo={markTodo}
           deleteTodo={deleteTodo}
           setActiveDateObj={setActiveDateObj}
         />
       ))}
-      <Modal
-        wrapClassName="react-ui"
-        width={320}
-        visible={activeDateObj.activeDate}
-        title={_.get(activeDateObj, "task.content")}
-        onCancel={() => setActiveDateObj({})}
-        footer={null}
-      >
-        <div className="flex column" style={{ gap: "10px" }}>
-          {moment(_.get(activeDateObj, "activeDate")).format("DD MMM, YYYY")}
 
-          <Input
-            placeholder="Message"
-            value={temp.message}
-            onChange={({ target: { value } }) =>
-              setTemp((prev) => ({ ...prev, message: value }))
-            }
-          />
-
-          <Radio.Group
-            value={temp.status}
-            buttonStyle="solid"
-            onChange={(e) =>
-              setTemp((prev) => ({ ...prev, status: e.target.value }))
-            }
-          >
-            <Radio.Button value="MARK">Mark</Radio.Button>
-            <Radio.Button value="UNMARK">Unmark</Radio.Button>
-          </Radio.Group>
-          <Button
-            onClick={() =>
-              markTodo(activeDateObj.task, {
-                message: temp.message,
-                progressItemAction: temp.status,
-                activeDate: activeDateObj.activeDate,
-                stampId: _.get(activeDateObj, "match._id"),
-              })
-            }
-          >
-            Save
-          </Button>
-        </div>
-      </Modal>
+      <TaskDetail
+        activeDateObj={activeDateObj}
+        setActiveDateObj={setActiveDateObj}
+        markTodo={markTodo}
+      />
     </section>
+  );
+};
+
+const TaskDetail = ({ activeDateObj, setActiveDateObj, markTodo }) => {
+  const [temp, setTemp] = useState({});
+
+  useEffect(() => {
+    if (activeDateObj.visible)
+      setTemp({
+        status: !!_.get(activeDateObj, "match") ? "MARK" : "UNMARK",
+        message: _.get(activeDateObj, "match.message", ""),
+      });
+  }, [activeDateObj]);
+
+  const handleOk = () =>
+    markTodo(activeDateObj.task, {
+      message: temp.message,
+      progressItemAction: temp.status,
+      activeDate: activeDateObj.activeDate,
+      stampId: _.get(activeDateObj, "match._id"),
+    });
+
+  const taskName = _.get(activeDateObj, "task.content");
+  const taskType = _.get(activeDateObj, "task.type");
+  const date = moment(_.get(activeDateObj, "activeDate")).format(
+    "DD MMM, YYYY"
+  );
+
+  return (
+    <Modal
+      wrapClassName="react-ui"
+      width={320}
+      visible={activeDateObj.activeDate}
+      title={taskType}
+      onCancel={() => setActiveDateObj({})}
+      onOk={handleOk}
+      okText="Save"
+    >
+      <div className="flex column" style={{ gap: "10px" }}>
+        <div className="task">{taskName}</div>
+        <div className="task">{date}</div>
+
+        <Input
+          placeholder="Message"
+          value={temp.message}
+          onChange={({ target: { value } }) =>
+            setTemp((prev) => ({ ...prev, message: value }))
+          }
+        />
+
+        <Radio.Group
+          value={temp.status}
+          buttonStyle="solid"
+          onChange={(e) =>
+            setTemp((prev) => ({ ...prev, status: e.target.value }))
+          }
+        >
+          <Radio.Button value="MARK">Mark</Radio.Button>
+          <Radio.Button value="UNMARK">Unmark</Radio.Button>
+        </Radio.Group>
+      </div>
+    </Modal>
   );
 };
 

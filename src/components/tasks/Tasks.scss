@@ -6,6 +6,8 @@ section#tasks {
   .task {
     display: inline-block;
     padding: 2px;
+    font-size: 1.6rem;
+    font-family: Cascadia-Bold;
     &.disabled {
       text-decoration: line-through;
     }
@@ -18,12 +20,13 @@ section#tasks {
 }
 
 .day {
-  height: 20px;
-  width: 20px;
+  height: 100%;
+  width: 100%;
+  border-left: 3px solid white;
+  border-right: 3px solid white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1px;
   font-style: normal;
   &.active-day {
     background: $green;

@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { Radio, InputNumber, Input, Modal, DatePicker } from "antd";
+import { Radio, Input, Modal, DatePicker } from "antd";
 import { CREATE_TASK } from "../../graphql/mutations";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
@@ -9,7 +9,7 @@ import { Icon } from "@codedrops/react-ui";
 
 const AddTodo = () => {
   const [addTodoVisibility, setAddTodoVisibility] = useState(false);
-  const [addTask, newTask] = useMutation(CREATE_TASK);
+  const [addTask] = useMutation(CREATE_TASK);
   const [task, setTask] = useState({
     type: "TODO",
   });
@@ -35,7 +35,7 @@ const AddTodo = () => {
       <Modal
         wrapClassName="react-ui"
         visible={addTodoVisibility}
-        title="Add Todo"
+        title="Add Task"
         onCancel={() => setAddTodoVisibility(false)}
         okText="Add"
         onOk={addTodo}
@@ -51,16 +51,6 @@ const AddTodo = () => {
           <Radio.Button value="GOAL">Goal</Radio.Button>
           <Radio.Button value="PROGRESS">Progress</Radio.Button>
         </Radio.Group>
-
-        {/* <Radio.Group
-          defaultValue={task.type}
-          buttonStyle="solid"
-          className="mb"
-          onChange={(e) => setData({ type: e.target.value })}
-        >
-          <Radio.Button value="SINGLE">Single</Radio.Button>
-          <Radio.Button value="WEEKLY">Weekly</Radio.Button>
-        </Radio.Group> */}
         <br />
         {task.type === "GOAL" && (
           <DatePicker
@@ -76,15 +66,6 @@ const AddTodo = () => {
           value={task.content}
           onChange={(e) => setData({ content: e.target.value })}
         />
-        <br />
-        {/* {task.type === "WEEKLY" ? (
-          <InputNumber
-            min={1}
-            className="mt"
-            placeholder="Frequency"
-            onChange={(value) => setData({ frequency: value })}
-          />
-        ) : null} */}
       </Modal>
     </Fragment>
   );
