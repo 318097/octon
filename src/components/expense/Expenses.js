@@ -13,6 +13,7 @@ import _ from "lodash";
 import colors from "@codedrops/react-ui";
 import { calculateTotal } from "../../lib/utils";
 import Stats from "./Stats";
+import { Icon } from "@codedrops/react-ui";
 
 const { MonthPicker } = DatePicker;
 
@@ -52,9 +53,10 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   const rootExpenseTypes = expenseTypes.filter((item) => !item.parentId);
 
   rootExpenseTypes.forEach((item) => {
-    const { label, _id, success } = item;
+    const { label, _id, success, color } = item;
     total[label] = {
       success,
+      color,
       total: calculateTotal(input.filter((item) => item.expenseTypeId === _id)),
     };
   });
@@ -84,7 +86,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           </Button>
         </div>
 
-        {summaryItems.map(([id, { total, success }]) => (
+        {summaryItems.map(([id, { total, success, color }]) => (
           <div
             className="expense-type-block"
             key={id}
@@ -101,9 +103,17 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
             <span
               className="expense-type-value"
               style={{
-                color: success === "UP" ? colors.green : colors.watermelon,
+                color: colors[color],
               }}
-            >{`₹${total.toLocaleString()}`}</span>
+            >
+              {`₹${total.toLocaleString()}`}
+              <Icon
+                type="caret"
+                size={8}
+                fill={colors.strokeThree}
+                direction={success === "UP" ? "up" : "down"}
+              />{" "}
+            </span>
           </div>
         ))}
       </Card>

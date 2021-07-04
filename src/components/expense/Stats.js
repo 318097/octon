@@ -21,24 +21,27 @@ const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
   const labels = entries.map(([label]) => label);
 
   rootExpenseTypes.forEach((type, idx) => {
-    const { label } = type;
+    const { label, color } = type;
     const values = entries.map(([, values]) => values[label] || 0);
 
-    datasets.push({ label, data: values, backgroundColor: colorsList[idx] });
+    datasets.push({ label, data: values, backgroundColor: colors[color] });
   });
 
   return { labels, datasets };
 };
 
-const generateCategoryTotalData = ({ input }) => {
+const generateCategoryTotalData = ({ input, rootExpenseTypes }) => {
   return _.reduce(
     input,
     (acc, value, label) => {
+      const match = rootExpenseTypes.find((item) => item.label === label);
       acc.labels.push(label);
       acc.values.push(value);
+      acc.colors.push(colors[match.color]);
+
       return acc;
     },
-    { labels: [], values: [] }
+    { labels: [], values: [], colors: [] }
   );
 };
 
@@ -57,7 +60,10 @@ const Stats = ({ rootExpenseTypes }) => {
       />
       <br />
       <br />
-      <CategoryTotal input={stats.categoryTotal || {}} />
+      <CategoryTotal
+        input={stats.categoryTotal || {}}
+        rootExpenseTypes={rootExpenseTypes || []}
+      />
     </>
   );
 };
@@ -72,7 +78,8 @@ const MonthlyOverview = (props) => {
 };
 
 const CategoryTotal = (props) => {
-  const { labels, values } = generateCategoryTotalData(props) || {};
+  const { labels, values, colors } = generateCategoryTotalData(props) || {};
+  console.log("colors::-", colors);
 
   return (
     <div>
@@ -83,12 +90,7 @@ const CategoryTotal = (props) => {
           labels,
           datasets: [
             {
-              backgroundColor: [
-                colors.coffee,
-                colors.yellow,
-                colors.blue,
-                colors.watermelon,
-              ],
+              backgroundColor: colors,
               data: values,
             },
           ],
