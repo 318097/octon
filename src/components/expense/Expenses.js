@@ -69,7 +69,19 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         ghost={false}
         onBack={null}
         title="Expenses"
+        extra={
+          <Button size="small" onClick={() => setShowStats((prev) => !prev)}>
+            Stats
+          </Button>
+        }
       />
+
+      {showStats && (
+        <Card className="stats">
+          <Stats rootExpenseTypes={rootExpenseTypes} />
+        </Card>
+      )}
+
       <Card className="summary">
         <div className="summary-actions">
           <MonthPicker
@@ -81,9 +93,6 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
             value={date}
             placeholder="Select month"
           />
-          <Button size="small" onClick={() => setShowStats((prev) => !prev)}>
-            Stats
-          </Button>
         </div>
 
         {summaryItems.map(([id, { total, success, color }]) => (
@@ -117,12 +126,6 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
           </div>
         ))}
       </Card>
-
-      {showStats && (
-        <Card className="stats">
-          <Stats rootExpenseTypes={rootExpenseTypes} />
-        </Card>
-      )}
 
       <Card className="add-expense">
         <AddExpense

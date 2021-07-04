@@ -79,7 +79,6 @@ const MonthlyOverview = (props) => {
 
 const CategoryTotal = (props) => {
   const { labels, values, colors } = generateCategoryTotalData(props) || {};
-  console.log("colors::-", colors);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Card, Popconfirm, Calendar } from "antd";
 import moment from "moment";
 import colors, { Icon } from "@codedrops/react-ui";

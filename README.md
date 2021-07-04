@@ -3,9 +3,10 @@
 #### Features
 
 - [x] Expense Manager
-  - [ ] Set color for types
-  - [ ] Default types should not be deletable
+  - [x] Set color for types
   - [x] Highlight expense types
+  - [ ] Default types should not be deletable
+  - [ ] Highlight expense
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
