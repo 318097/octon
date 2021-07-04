@@ -2,12 +2,9 @@ import React from "react";
 import { Card, Popconfirm, Calendar } from "antd";
 import moment from "moment";
 import colors, { Icon } from "@codedrops/react-ui";
+import { formatDate } from "@codedrops/lib";
 import "./Tasks.scss";
 import _ from "lodash";
-
-const formatDate = (date) => {
-  return date ? moment(date).format("DD MMM, YY") : "";
-};
 
 const getMatch = (date, stamps) =>
   _.find(
@@ -25,6 +22,7 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
     deadline,
     completedOn,
     stamps = [],
+    createdAt,
   } = task;
   const isCompleted = status === "COMPLETED";
 
@@ -66,10 +64,17 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
   };
 
   const getInfo = () => {
-    const completionStyles = isCompleted ? { color: colors.green } : null;
-    const completionStatus = isCompleted ? (
-      <div style={completionStyles}>Completed: {formatDate(completedOn)}</div>
+    let completionStatus = isCompleted ? (
+      <div style={{ color: colors.green }}>
+        Completed: {formatDate(completedOn)}
+      </div>
     ) : null;
+
+    const creationDate = isCompleted ? (
+      <div>Created: {formatDate(createdAt)}</div>
+    ) : null;
+
+    let elem;
 
     if (type === "GOAL") {
       const remainingTime = deadline ? moment(deadline).from(moment()) : "";
@@ -83,25 +88,27 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
           {isExpired ? `Expired ${remainingTime}` : `Expires ${remainingTime}`}
         </div>
       );
-      return (
-        <>
-          <div className="date">{`Deadline: ${formatDate(deadline)}`}</div>
 
-          {isCompleted ? completionStatus : expiryStatus}
-        </>
-      );
+      elem = <div className="date">{`Deadline: ${formatDate(deadline)}`}</div>;
+      completionStatus = isCompleted ? completionStatus : expiryStatus;
     } else if (type === "PROGRESS") {
-      return (
-        <>
-          {completionStatus}
-          <Calendar
-            fullscreen={false}
-            onSelect={showPopup}
-            dateFullCellRender={dateCellRender}
-          />
-        </>
+      elem = (
+        <Calendar
+          fullscreen={false}
+          onSelect={showPopup}
+          dateFullCellRender={dateCellRender}
+        />
       );
-    } else return completionStatus;
+    }
+
+    return (
+      <>
+        {elem}
+        <span>
+          {creationDate} {completionStatus}
+        </span>
+      </>
+    );
   };
 
   return (

@@ -5,7 +5,7 @@ import { Empty, Card, Image } from "antd";
 // import axios from "axios";
 import "./ScratchPad.scss";
 import { Icon } from "@ant-design/compatible";
-import { copyToClipboard } from "@bit/codedrops.lib.utils";
+import { copyToClipboard } from "@codedrops/lib/dist/utils";
 
 const List = ({ list, fetchList }) => {
   // const deleteGoal = async id => {
