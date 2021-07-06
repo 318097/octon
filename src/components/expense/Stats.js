@@ -7,24 +7,23 @@ import _ from "lodash";
 import colors from "@codedrops/react-ui";
 import { Bar, Pie } from "react-chartjs-2";
 
-const colorsList = [
-  colors.green,
-  colors.coffee,
-  colors.yellow,
-  colors.watermelon,
-];
-
 const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
   const datasets = [];
   const entries = Object.entries(input);
 
   const labels = entries.map(([label]) => label);
+  console.log("rootExpenseTypes::-", rootExpenseTypes);
 
   rootExpenseTypes.forEach((type, idx) => {
-    const { label, color } = type;
+    const { label, color, key } = type;
     const values = entries.map(([, values]) => values[label] || 0);
 
-    datasets.push({ label, data: values, backgroundColor: colors[color] });
+    datasets.push({
+      label,
+      data: values,
+      backgroundColor: colors[color],
+      hidden: key === "INCOME",
+    });
   });
 
   return { labels, datasets };

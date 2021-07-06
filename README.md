@@ -38,5 +38,5 @@
   - [ ] Add nested categories
 - [ ] Graph QL
   - [x] Expenses
-  - [ ] timeline
-  - [ ] scratchpad
+  - [ ] Timeline
+  - [ ] Scratchpad

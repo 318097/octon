@@ -6,6 +6,9 @@
   background: url("./assets/backgrounds/so-white.png");
   div.header-wrapper {
     @include center-layout-header-wrapper;
+    header h2 {
+      font-size: 1.2rem;
+    }
   }
   div.section-wrapper {
     @include center-layout-section-wrapper;

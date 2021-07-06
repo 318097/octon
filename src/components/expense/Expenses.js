@@ -69,22 +69,16 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         ghost={false}
         onBack={null}
         title="Expenses"
-        extra={
-          <Button size="small" onClick={() => setShowStats((prev) => !prev)}>
+        extra={[
+          <Button
+            key="stats"
+            size="small"
+            onClick={() => setShowStats((prev) => !prev)}
+          >
             Stats
-          </Button>
-        }
-      />
-
-      {showStats && (
-        <Card className="stats">
-          <Stats rootExpenseTypes={rootExpenseTypes} />
-        </Card>
-      )}
-
-      <Card className="summary">
-        <div className="summary-actions">
+          </Button>,
           <MonthPicker
+            key="month-picker"
             style={{ width: "100px" }}
             size="small"
             allowClear={false}
@@ -92,9 +86,19 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
             onChange={(date) => setDate(date)}
             value={date}
             placeholder="Select month"
-          />
-        </div>
+          />,
+        ]}
+      />
 
+      {showStats && (
+        <Card className="stats">
+          <span className="badge">Stats</span>
+          <Stats rootExpenseTypes={rootExpenseTypes} />
+        </Card>
+      )}
+
+      <Card className="summary">
+        <span className="badge">Summary</span>
         {summaryItems.map(([id, { total, success, color }]) => (
           <div
             className="expense-type-block"
@@ -128,6 +132,7 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
       </Card>
 
       <Card className="add-expense">
+        <span className="badge">Add</span>
         <AddExpense
           setAppLoading={setAppLoading}
           fetchExpenseByMonth={fetchExpenseByMonth}
@@ -136,10 +141,10 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
         />
       </Card>
       <Card className="expense-list">
+        <span className="badge">{date.format("MMM 'YY")}</span>
         <ExpenseList
           list={input}
           fetchExpenseByMonth={fetchExpenseByMonth}
-          date={date}
           setAppLoading={setAppLoading}
           expenseTypes={expenseTypes}
         />

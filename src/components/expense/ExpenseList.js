@@ -12,7 +12,6 @@ import { useMutation } from "@apollo/client";
 
 const ExpenseList = ({
   fetchExpenseByMonth,
-  date,
   list,
   setAppLoading,
   expenseTypes,
@@ -99,8 +98,6 @@ const ExpenseList = ({
   const formatedValue = total.toLocaleString();
   return (
     <Fragment>
-      <span className="badge">({date.format("MMM 'YY")})</span>
-
       <Radio.Group
         defaultValue={filterType}
         className="mb"

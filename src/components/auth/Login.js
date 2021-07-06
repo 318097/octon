@@ -56,7 +56,7 @@ const Login = ({ history, setSession, session, location }) => {
 
   return (
     <section id="login">
-      <h3 className="text-center">Login</h3>
+      <h4 className="text-center mb-12">Login</h4>
       <form>
         <Input
           className="mb"

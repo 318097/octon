@@ -53,7 +53,7 @@ class GoogleAuth extends Component {
     }
     return (
       <Button type="danger" onClick={this.handleGoogleLogin}>
-        <Icon type="google" color={colors.white} size={14} />
+        <Icon type="google" fill={colors.white} size={14} className="mr" />
         Log in
       </Button>
     );
