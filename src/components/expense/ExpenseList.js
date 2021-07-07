@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, Modal, List, Popconfirm } from "antd";
+import { Radio, Modal, List, Popconfirm, Checkbox } from "antd";
 import moment from "moment";
 import axios from "axios";
 import { calculateTotal } from "../../lib/utils";
@@ -7,7 +7,10 @@ import { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
-import { DELETE_EXPENSE } from "../../graphql/mutations";
+import {
+  DELETE_EXPENSE,
+  TOGGLE_FAVORITE_EXPENSE,
+} from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 const ExpenseList = ({
@@ -19,9 +22,11 @@ const ExpenseList = ({
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [total, setTotal] = useState(0);
   const [editExpenseVisibility, setEditExpenseVisibility] = useState(false);
   const [deleteExpense] = useMutation(DELETE_EXPENSE);
+  const [toggleFavoriteExpense] = useMutation(TOGGLE_FAVORITE_EXPENSE);
 
   useEffect(() => {
     const filterData = () => {
@@ -36,47 +41,64 @@ const ExpenseList = ({
     filterData();
   }, [list, filterType]);
 
-  const handleDelete = (id) => async () => {
+  const handleDelete = async (_id) => {
     setAppLoading(true);
     await deleteExpense({
-      variables: { input: { _id: id } },
+      variables: { input: { _id } },
     });
     await fetchExpenseByMonth();
     setAppLoading(false);
   };
 
-  const editExpenseHandler = (id) => {
-    const [expenseById] = dataSource.filter((expense) => expense._id === id);
+  const editExpenseHandler = (_id) => {
+    const [expenseById] = dataSource.filter((expense) => expense._id === _id);
 
     setEditExpense({ ...expenseById });
     setEditExpenseVisibility(true);
   };
 
+  const toggleFavoriteExpenseHandler = async (_id, status) => {
+    setAppLoading(true);
+    await toggleFavoriteExpense({
+      variables: { input: { _id, status } },
+    });
+    await fetchExpenseByMonth();
+    setAppLoading(false);
+  };
+
   const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
 
   const renderItem = (row) => {
-    const date = moment(row.date).format("DD,MMM");
-    const message = row.message ? <span>({row.message})</span> : null;
+    const { date, message, amount, expenseSubTypeId, _id, favorite } = row;
+    const expenseDate = moment(date).format("DD,MMM");
+    const expenseMessage = message ? <span>({message})</span> : null;
 
-    const formatedValue = row.amount.toLocaleString();
+    const formatedValue = amount.toLocaleString();
     const expenseSubType = _.get(expenseTypesKeyed, [
-      row.expenseSubTypeId,
+      expenseSubTypeId,
       "label",
     ]);
+
     return (
       <List.Item
         actions={[
           <span>{expenseSubType ? expenseSubType.toUpperCase() : null}</span>,
           <Icon
+            key="favorite-expense"
+            type={favorite ? "circle-3" : "circle-2"}
+            size={12}
+            onClick={() => toggleFavoriteExpenseHandler(_id, !favorite)}
+          />,
+          <Icon
             key="edit-expense"
             type="edit"
             size={12}
-            onClick={() => editExpenseHandler(row._id)}
+            onClick={() => editExpenseHandler(_id)}
           />,
           <Popconfirm
             placement="bottomRight"
             title="Delete?"
-            onConfirm={handleDelete(row._id)}
+            onConfirm={() => handleDelete(_id)}
           >
             <Icon
               className="mr-0"
@@ -88,8 +110,8 @@ const ExpenseList = ({
         ]}
       >
         <div className="expense-list-container">
-          <div>{`${date}: ₹${formatedValue}`}</div>
-          <div className="message">{message}</div>
+          <div>{`${expenseDate}: ₹${formatedValue}`}</div>
+          <div className="message">{expenseMessage}</div>
         </div>
       </List.Item>
     );
@@ -114,19 +136,27 @@ const ExpenseList = ({
             </Radio.Button>
           ))}
       </Radio.Group>
-      <div className="mb total">Total: ₹{formatedValue}</div>
+      <br />
+      <Checkbox
+        checked={showFavoritesOnly}
+        onChange={(e) => setShowFavoritesOnly(e.target.checked)}
+      >
+        Favorites
+      </Checkbox>
 
+      <div className="mb mt total">Total: ₹{formatedValue}</div>
       <div
         style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: "12px" }}
       >
         <List
           itemLayout="horizontal"
           size="small"
-          dataSource={dataSource}
+          dataSource={dataSource.filter((item) =>
+            showFavoritesOnly ? item.favorite : true
+          )}
           renderItem={renderItem}
         />
       </div>
-
       <Modal
         wrapClassName="react-ui"
         visible={editExpenseVisibility}

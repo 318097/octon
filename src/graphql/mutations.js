@@ -60,6 +60,16 @@ const DELETE_EXPENSE = gql`
   }
 `;
 
+const TOGGLE_FAVORITE_EXPENSE = gql`
+  mutation toggleFavoriteExpense($input: FavoriteExpenseInput!) {
+    atom {
+      toggleFavoriteExpense(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
 export {
   CREATE_TASK,
   STAMP_TASK,
@@ -67,4 +77,5 @@ export {
   CREATE_EXPENSE,
   UPDATE_EXPENSE,
   DELETE_EXPENSE,
+  TOGGLE_FAVORITE_EXPENSE,
 };

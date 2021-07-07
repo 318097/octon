@@ -6,11 +6,12 @@
   - [x] Set color for types
   - [x] Highlight expense types
   - [ ] Default types should not be deletable
-  - [ ] Highlight expense
+  - [x] Highlight expense
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
     - [ ] Sub category breakdown
+    - [ ] Select range for stats
 - [x] Tasks - Todos, Goals & Progress
   - [ ] Define custom fields for progress
   - [x] Show done items at the bottom
