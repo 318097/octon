@@ -2,7 +2,6 @@ import { SET_KEY } from "./constants";
 
 const initialState = {
   timeline: {
-    data: [],
     groupId: undefined,
     filters: {
       search: "",

@@ -2,6 +2,12 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Modal, DatePicker, Input, Select } from "antd";
 import moment from "moment";
 import { Icon } from "@codedrops/react-ui";
+import {
+  CREATE_TIMELINE_POST,
+  UPDATE_TIMELINE_POST,
+} from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
+import _ from "lodash";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -13,15 +19,17 @@ const INITIAL_STATE = {
 };
 
 const AddPost = ({
-  saveTimelinePost,
   post,
   visibility,
   setVisibility,
   timelineGroups,
   defaultTimeline,
+  fetchTimelinePosts,
 }) => {
   const [data, setData] = useState({});
   const [mode, setMode] = useState("ADD");
+  const [createTimelinePost] = useMutation(CREATE_TIMELINE_POST);
+  const [updateTimelinePost] = useMutation(UPDATE_TIMELINE_POST);
 
   useEffect(() => {
     if (!post) return;
@@ -31,12 +39,29 @@ const AddPost = ({
   }, [post]);
 
   const savePost = async () => {
-    saveTimelinePost({ mode, ...data }, post);
+    const date = data.date.format();
+    if (mode === "ADD") {
+      await createTimelinePost({
+        variables: {
+          input: {
+            ...data,
+            date,
+            groupId: data.groupId || _.get(timelineGroups, "0._id"),
+          },
+        },
+      });
+    } else {
+      await updateTimelinePost({
+        variables: { input: { ...data, date, _id: post._id } },
+      });
+    }
+
     setVisibility(false);
     setData(INITIAL_STATE);
+    fetchTimelinePosts();
   };
 
-  const openAddNewPost = () => {
+  const openNewPostModal = () => {
     setVisibility(true);
     setMode("ADD");
     setData({
@@ -49,7 +74,7 @@ const AddPost = ({
 
   return (
     <Fragment>
-      <Icon onClick={openAddNewPost} type="plus" size={12} />
+      <Icon onClick={openNewPostModal} type="plus" size={12} />
       <Modal
         wrapClassName="react-ui"
         visible={visibility}

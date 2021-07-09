@@ -46,4 +46,18 @@ const GET_MONTHLY_EXPENSES = gql`
   }
 `;
 
-export { GET_ALL_TASKS, GET_MONTHLY_EXPENSES, GET_EXPENSE_STATS };
+const GET_TIMELINE = gql`
+  query getTimeline($input: GetTimelineInput!) {
+    atom {
+      getTimeline(input: $input) {
+        _id
+        content
+        date
+        groupId
+        createdAt
+      }
+    }
+  }
+`;
+
+export { GET_ALL_TASKS, GET_MONTHLY_EXPENSES, GET_EXPENSE_STATS, GET_TIMELINE };

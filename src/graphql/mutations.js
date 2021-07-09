@@ -70,6 +70,36 @@ const TOGGLE_FAVORITE_EXPENSE = gql`
   }
 `;
 
+const CREATE_TIMELINE_POST = gql`
+  mutation createTimelinePost($input: CreateTimelineInput!) {
+    atom {
+      createTimelinePost(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+const UPDATE_TIMELINE_POST = gql`
+  mutation updateTimelinePost($input: UpdateTimelineInput!) {
+    atom {
+      updateTimelinePost(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
+const DELETE_TIMELINE_POST = gql`
+  mutation deleteTimelinePost($input: DeleteTimelineInput!) {
+    atom {
+      deleteTimelinePost(input: $input) {
+        _id
+      }
+    }
+  }
+`;
+
 export {
   CREATE_TASK,
   STAMP_TASK,
@@ -78,4 +108,7 @@ export {
   UPDATE_EXPENSE,
   DELETE_EXPENSE,
   TOGGLE_FAVORITE_EXPENSE,
+  CREATE_TIMELINE_POST,
+  UPDATE_TIMELINE_POST,
+  DELETE_TIMELINE_POST,
 };

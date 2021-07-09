@@ -11,65 +11,55 @@ import {
   Empty,
   PageHeader,
 } from "antd";
-import axios from "axios";
 import moment from "moment";
-import {
-  getTimeline,
-  updateAppData,
-  saveTimelinePost,
-  setData,
-} from "../../store/data/actions";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_TIMELINE } from "../../graphql/queries";
+import { DELETE_TIMELINE_POST } from "../../graphql/mutations";
+import { updateAppData } from "../../store/data/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
 import colors, { Icon, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
 import randomColor from "randomcolor";
+import { useObject } from "@codedrops/lib";
 
 const { Option } = Select;
 
-const Timeline = ({
-  timeline,
-  getTimeline,
-  updateAppData,
-  session,
-  saveTimelinePost,
-  setData,
-}) => {
-  const { data, groupId } = timeline;
+const Timeline = ({ updateAppData, session, saveTimelinePost }) => {
   const [currentPost, setCurrentPost] = useState(null);
   const [visibility, setVisibility] = useState(false);
-  const [name, setName] = useState("");
+  const [groupId, setGroupId] = useState();
+  const [deleteTimelinePost] = useMutation(DELETE_TIMELINE_POST);
+
+  const [getTimeline, { data }] = useLazyQuery(GET_TIMELINE, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  const dataFeed = _.get(data, "atom.getTimeline", []);
 
   useEffect(() => {
-    getTimeline();
+    fetchTimelinePosts();
   }, [groupId]);
 
-  const editPost = (id) => async () => {
-    const [post] = data.filter((post) => post._id === id);
+  const fetchTimelinePosts = () => {
+    const input = { groupId };
+    getTimeline({ variables: { input } });
+  };
+
+  const setPostForEdit = (id) => {
+    const [post] = dataFeed.filter((post) => post._id === id);
     setCurrentPost(post);
     setVisibility(true);
   };
 
-  const deletePost = (id) => async () => {
-    // setLoading(true);
-    await axios.delete(`/timeline/${id}`);
-    getTimeline();
-    // setLoading(false);
-  };
-
-  const addItem = async () => {
-    if (!name) return;
-
-    updateAppData(
-      { name, color: randomColor() },
-      { action: "CREATE", key: "timeline" }
-    );
-    setName("");
-  };
-
-  const handleDataChange = (value, key) => {
-    setData("timeline", { [key]: value });
+  const handleDelete = async (_id) => {
+    //  setAppLoading(true);
+    await deleteTimelinePost({
+      variables: { input: { _id } },
+    });
+    await fetchTimelinePosts();
+    //  setAppLoading(false);
   };
 
   const timelineGroups = _.get(session, "timeline", []);
@@ -90,68 +80,28 @@ const Timeline = ({
         onBack={null}
         title="Timeline"
         extra={[
-          <Select
-            key="group-list"
-            className="mr"
-            allowClear
-            size="small"
-            style={{ width: 140 }}
-            placeholder="All groups"
-            value={groupId}
-            onChange={(value) => handleDataChange(value, "groupId")}
-            dropdownRender={(menu) => (
-              <div>
-                {menu}
-                <Divider style={{ margin: "4px 0" }} />
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "nowrap",
-                    padding: "0 8px",
-                    alignItems: "center",
-                  }}
-                >
-                  <Input
-                    style={{ flex: "auto" }}
-                    size="small"
-                    value={name}
-                    placeholder="New Group"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <a
-                    style={{
-                      flex: "none",
-                      padding: "8px",
-                      display: "block",
-                      cursor: "pointer",
-                    }}
-                    onClick={addItem}
-                  >
-                    <Icon type="plus" size={12} />
-                  </a>
-                </div>
-              </div>
-            )}
-          >
-            {timelineGroups.map(({ name, _id }) => (
-              <Option key={_id}>{name}</Option>
-            ))}
-          </Select>,
+          <AddNewGroup
+            groupId={groupId}
+            setGroupId={setGroupId}
+            timelineGroups={timelineGroups}
+            updateAppData={updateAppData}
+            key="add-new-group"
+          />,
           <AddPost
             key="add-icon"
             post={currentPost}
             visibility={visibility}
             setVisibility={setVisibility}
-            saveTimelinePost={saveTimelinePost}
             timelineGroups={timelineGroups}
             defaultTimeline={groupId}
+            fetchTimelinePosts={fetchTimelinePosts}
           />,
         ]}
       />
-      {data.length ? (
+      {dataFeed.length ? (
         <div className="timeline">
           <AntTimeline>
-            {data.map((item) => {
+            {dataFeed.map((item) => {
               const { groupId } = item;
 
               const timelineTags = groupId.map((id) => (
@@ -181,12 +131,12 @@ const Timeline = ({
                         size={12}
                         key="edit-post"
                         type="edit"
-                        onClick={editPost(item._id)}
+                        onClick={() => setPostForEdit(item._id)}
                       />
                       <Popconfirm
                         placement="bottomRight"
                         title="Delete?"
-                        onConfirm={deletePost(item._id)}
+                        onConfirm={() => handleDelete(item._id)}
                       >
                         <Icon size={12} key="delete-post" type="delete" />
                       </Popconfirm>
@@ -205,14 +155,79 @@ const Timeline = ({
   );
 };
 
-const mapStateToProps = ({ data: { timeline }, app: { session } }) => ({
-  timeline,
+const AddNewGroup = ({
+  groupId,
+  setGroupId,
+  timelineGroups,
+  updateAppData,
+}) => {
+  const [newGroupData, setNewGroupData] = useObject({});
+
+  const addTimelineGroup = async () => {
+    if (!newGroupData) return;
+
+    updateAppData(
+      { name: newGroupData.name, color: randomColor() },
+      { action: "CREATE", key: "timeline" }
+    );
+    setNewGroupData({ name: "" });
+  };
+
+  return (
+    <Select
+      key="group-list"
+      className="mr"
+      allowClear
+      size="small"
+      style={{ width: 140 }}
+      placeholder="All groups"
+      value={groupId}
+      onChange={(value) => setGroupId(value)}
+      dropdownRender={(menu) => (
+        <div>
+          {menu}
+          <Divider style={{ margin: "4px 0" }} />
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "nowrap",
+              padding: "0 8px",
+              alignItems: "center",
+            }}
+          >
+            <Input
+              style={{ flex: "auto" }}
+              size="small"
+              value={newGroupData.name}
+              placeholder="New Group"
+              onChange={(e) => setNewGroupData({ name: e.target.value })}
+            />
+            <a
+              style={{
+                flex: "none",
+                padding: "8px",
+                display: "block",
+                cursor: "pointer",
+              }}
+              onClick={addTimelineGroup}
+            >
+              <Icon type="plus" size={12} />
+            </a>
+          </div>
+        </div>
+      )}
+    >
+      {timelineGroups.map(({ name, _id }) => (
+        <Option key={_id}>{name}</Option>
+      ))}
+    </Select>
+  );
+};
+
+const mapStateToProps = ({ app: { session } }) => ({
   session,
 });
 
 export default connect(mapStateToProps, {
-  getTimeline,
   updateAppData,
-  saveTimelinePost,
-  setData,
 })(Timeline);
