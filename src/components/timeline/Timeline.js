@@ -15,7 +15,7 @@ import moment from "moment";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_TIMELINE } from "../../graphql/queries";
 import { DELETE_TIMELINE_POST } from "../../graphql/mutations";
-import { updateAppData } from "../../store/data/actions";
+import { updateUserSettings } from "../../store/data/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
 import colors, { Icon, Tag } from "@codedrops/react-ui";
@@ -26,7 +26,7 @@ import { useObject } from "@codedrops/lib";
 
 const { Option } = Select;
 
-const Timeline = ({ updateAppData, session, saveTimelinePost }) => {
+const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
   const [currentPost, setCurrentPost] = useState(null);
   const [visibility, setVisibility] = useState(false);
   const [groupId, setGroupId] = useState();
@@ -84,7 +84,7 @@ const Timeline = ({ updateAppData, session, saveTimelinePost }) => {
             groupId={groupId}
             setGroupId={setGroupId}
             timelineGroups={timelineGroups}
-            updateAppData={updateAppData}
+            updateUserSettings={updateUserSettings}
             key="add-new-group"
           />,
           <AddPost
@@ -159,14 +159,14 @@ const AddNewGroup = ({
   groupId,
   setGroupId,
   timelineGroups,
-  updateAppData,
+  updateUserSettings,
 }) => {
   const [newGroupData, setNewGroupData] = useObject({});
 
   const addTimelineGroup = async () => {
     if (!newGroupData) return;
 
-    updateAppData(
+    updateUserSettings(
       { name: newGroupData.name, color: randomColor() },
       { action: "CREATE", key: "timeline" }
     );
@@ -229,5 +229,5 @@ const mapStateToProps = ({ app: { session } }) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateAppData,
+  updateUserSettings,
 })(Timeline);

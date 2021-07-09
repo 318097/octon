@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { updateAppData, setData } from "../../store/data/actions";
+import { updateUserSettings, setData } from "../../store/data/actions";
 import { connect } from "react-redux";
 import "./Settings.scss";
 import { PageHeader } from "antd";
 import NestedNodes from "../../lib/NestedNodes";
 
-const Settings = ({ session, updateAppData }) => {
+const Settings = ({ session, updateUserSettings }) => {
   const updateSetting = async (update, action) => {
-    updateAppData(update, { action, key: "expenseTypes" });
+    updateUserSettings(update, { action, key: "expenseTypes" });
   };
 
   const { expenseTypes } = session;
@@ -35,6 +35,6 @@ const mapStateToProps = ({ app: { session } }) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateAppData,
+  updateUserSettings,
   setData,
 })(Settings);
