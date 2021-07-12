@@ -8,16 +8,17 @@ import { GET_MONTHLY_EXPENSES } from "../../graphql/queries";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
-import { sendAppNotification, setAppLoading } from "../../store/actions";
+import { setAppLoading } from "../../store/actions";
 import _ from "lodash";
 import colors from "@codedrops/react-ui";
 import { calculateTotal } from "../../lib/utils";
 import Stats from "./Stats";
 import { Icon } from "@codedrops/react-ui";
+import handleError from "../../lib/errorHandler";
 
 const { MonthPicker } = DatePicker;
 
-const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
+const Expenses = ({ setAppLoading, expenseTypes }) => {
   const [getExpensesByMonth, { loading, data }] = useLazyQuery(
     GET_MONTHLY_EXPENSES,
     { fetchPolicy: "cache-and-network" }
@@ -32,20 +33,16 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
 
   const fetchExpenseByMonth = async () => {
     // setAppLoading(true);
-    // try {
-    const input = { month: date.month() + 1, year: date.year() };
-    getExpensesByMonth({
-      variables: { input },
-    });
-    // } catch (err) {
-    //   console.log("err::-", err);
-
-    //   sendAppNotification({
-    //     message: err.response.data || err.message,
-    //   });
-    // } finally {
-    //   setAppLoading(false);
-    // }
+    try {
+      const input = { month: date.month() + 1, year: date.year() };
+      getExpensesByMonth({
+        variables: { input },
+      });
+    } catch (error) {
+      handleError(error);
+    } finally {
+      // setAppLoading(false);
+    }
   };
 
   const total = {};
@@ -158,7 +155,6 @@ const mapStateToProps = ({ session }) => ({
 });
 
 const mapActionsToProps = {
-  sendAppNotification,
   setAppLoading,
 };
 

@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
+import { Radio, InputNumber, Input, Button, DatePicker } from "antd";
 import moment from "moment";
-import { connect } from "react-redux";
-import { sendAppNotification } from "../../store/actions";
 import "./Expenses.scss";
 import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
+import handleError from "../../lib/errorHandler";
+import notify from "../../lib/notify";
 
 const AddExpense = ({
   setAppLoading,
@@ -14,7 +14,6 @@ const AddExpense = ({
   currentExpense,
   setVisibilityStatus,
   mode,
-  sendAppNotification,
   expenseTypes,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -50,14 +49,10 @@ const AddExpense = ({
       }
 
       setExpense({ ...expense, amount: null, message: null });
-      message.success("Success");
+      notify("Success");
       fetchExpenseByMonth();
-    } catch (err) {
-      console.log("err::-", err);
-
-      sendAppNotification({
-        message: err.response.data || err.message,
-      });
+    } catch (error) {
+      handleError(error);
     } finally {
       setLoading(false);
     }
@@ -146,6 +141,4 @@ const AddExpense = ({
   );
 };
 
-export default connect(null, {
-  sendAppNotification,
-})(AddExpense);
+export default AddExpense;

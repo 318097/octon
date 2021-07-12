@@ -1,11 +1,7 @@
-import {
-  SET_SESSION,
-  SEND_APP_NOTIFICATION,
-  SET_APP_LOADING,
-  SET_KEY,
-} from "./constants";
+import { SET_SESSION, SET_APP_LOADING, SET_KEY } from "./constants";
 import axios from "axios";
 import _ from "lodash";
+import handleError from "../lib/errorHandler";
 
 export const updateUserSettings =
   (data, params) => async (dispatch, getState) => {
@@ -20,8 +16,8 @@ export const updateUserSettings =
         params,
       });
       dispatch(setSession({ ...session, ...result }));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      handleError(error);
     } finally {
       dispatch(setAppLoading(false));
     }
@@ -40,12 +36,4 @@ export const setSession = (session) => ({
 export const setAppLoading = (status) => ({
   type: SET_APP_LOADING,
   payload: status,
-});
-
-export const sendAppNotification = ({
-  type = "error",
-  message = "Error.",
-} = {}) => ({
-  type: SEND_APP_NOTIFICATION,
-  payload: { type, message },
 });

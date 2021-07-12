@@ -1,9 +1,4 @@
-import {
-  SET_APP_LOADING,
-  SET_SESSION,
-  SEND_APP_NOTIFICATION,
-  SET_KEY,
-} from "./constants";
+import { SET_APP_LOADING, SET_SESSION, SET_KEY } from "./constants";
 
 const initialState = {
   appLoading: 0,
@@ -32,11 +27,6 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         session: action.payload,
-      };
-    case SEND_APP_NOTIFICATION:
-      return {
-        ...state,
-        appNotification: action.payload,
       };
     case SET_KEY:
       return { ...state, ...action.payload };

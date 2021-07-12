@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { Spin, message } from "antd";
+import { Spin } from "antd";
 import axios from "axios";
 import { connect } from "react-redux";
 
@@ -10,14 +10,15 @@ import "./App.scss";
 import Header from "./layouts/Header";
 import { getToken, hasToken } from "./lib/authService";
 import config from "./config";
-import { setSession, sendAppNotification } from "./store/actions";
+import { setSession } from "./store/actions";
 import Routes from "./routes";
+import handleError from "./lib/errorHandler";
 
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = getToken();
 axios.defaults.headers.common["external-source"] = "ATOM";
 
-const App = ({ setSession, appNotification, appLoading, history }) => {
+const App = ({ setSession, appLoading, history }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,8 +28,8 @@ const App = ({ setSession, appNotification, appLoading, history }) => {
           const token = getToken();
           const { data } = await axios.post(`/auth/account-status`, { token });
           setSession({ isAuthenticated: true, info: "ON_LOAD", ...data });
-        } catch (err) {
-          sendAppNotification();
+        } catch (error) {
+          handleError(error);
         } finally {
           setTimeout(() => setLoading(false), 300);
         }
@@ -36,14 +37,6 @@ const App = ({ setSession, appNotification, appLoading, history }) => {
     };
     isAccountActive();
   }, []);
-
-  useEffect(() => {
-    if (appNotification) {
-      const { type, message: msg } = appNotification;
-      if (type === "error") message.error(msg);
-      else if (type === "success") message.success(msg);
-    }
-  }, [appNotification]);
 
   return (
     <div className="app" id="react-ui">
@@ -59,10 +52,8 @@ const App = ({ setSession, appNotification, appLoading, history }) => {
   );
 };
 
-const mapStateToProps = ({ session, appNotification, appLoading }) => ({
+const mapStateToProps = ({ session }) => ({
   session,
-  appNotification,
-  appLoading,
 });
 
 const mapDispatchToProps = { setSession };

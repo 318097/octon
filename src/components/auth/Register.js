@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Input, Button, message } from "antd";
+import { Input, Button } from "antd";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import _ from "lodash";
-
-import { sendAppNotification } from "../../store/actions";
+import handleError from "../../lib/errorHandler";
+import notify from "../../lib/notify";
 
 const Register = ({ dispatch }) => {
   const [name, setName] = useState("");
@@ -27,15 +26,9 @@ const Register = ({ dispatch }) => {
       });
 
       setTimeout(() => setRedirect(true), 1000);
-      dispatch(
-        sendAppNotification({
-          message: "User registered successfully.",
-          type: "success",
-        })
-      );
-    } catch (err) {
-      const errorMsg = _.get(err, "response.data", "Server error");
-      message.error(errorMsg);
+      notify("User registered successfully.");
+    } catch (error) {
+      handleError(error);
     } finally {
       setLoading(false);
     }

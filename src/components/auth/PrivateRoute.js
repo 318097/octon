@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
-
-import { sendAppNotification } from "../../store/actions";
+import notify from "../../lib/notify";
 
 const PrivateRoute = ({
   component: Component,
@@ -12,9 +11,8 @@ const PrivateRoute = ({
   ...rest
 }) => {
   useEffect(() => {
-    if (!isAuthenticated)
-      dispatch(sendAppNotification({ message: "Please login to continue." }));
-  }, [Component, dispatch]);
+    if (!isAuthenticated) notify("Please login to continue.");
+  }, [Component]);
 
   return (
     <Route

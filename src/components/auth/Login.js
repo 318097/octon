@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Input, Button, message, Divider } from "antd";
+import { Input, Button, Divider } from "antd";
 import GoogleAuth from "./GoogleAuth";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import qs from "query-string";
+import handleError from "../../lib/errorHandler";
 
 import { setSessionInStorage } from "../../lib/authService";
 import { setSession } from "../../store/actions";
@@ -42,9 +43,8 @@ const Login = ({ history, setSession, session, location }) => {
       });
       axios.defaults.headers.common["authorization"] = data.token;
       setTimeout(() => history.push("/expenses"), 400);
-    } catch (err) {
-      const { response: { data: errorMessage = "Error." } = {} } = err;
-      message.error(errorMessage);
+    } catch (error) {
+      handleError(error);
     } finally {
       setLoading(false);
     }

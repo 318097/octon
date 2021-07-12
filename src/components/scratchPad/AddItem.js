@@ -4,6 +4,7 @@ import axios from "axios";
 import "./ScratchPad.scss";
 import moment from "moment";
 import { Icon } from "@codedrops/react-ui";
+import handleError from "../../lib/errorHandler";
 
 const INITIAL_STATE = {
   expiresOn: moment().add(1, "day"),
@@ -42,8 +43,8 @@ const AddItem = ({ fetchList }) => {
       fetchList();
       setAddItemVisibility(false);
       _setData(INITIAL_STATE);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      handleError(error);
     }
   };
 
