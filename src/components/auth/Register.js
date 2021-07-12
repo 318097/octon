@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import _ from "lodash";
 
-import { sendAppNotification } from "../../store/app/actions";
+import { sendAppNotification } from "../../store/actions";
 
 const Register = ({ dispatch }) => {
   const [name, setName] = useState("");

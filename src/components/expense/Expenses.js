@@ -8,7 +8,7 @@ import { GET_MONTHLY_EXPENSES } from "../../graphql/queries";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
-import { sendAppNotification, setAppLoading } from "../../store/app/actions";
+import { sendAppNotification, setAppLoading } from "../../store/actions";
 import _ from "lodash";
 import colors from "@codedrops/react-ui";
 import { calculateTotal } from "../../lib/utils";
@@ -153,8 +153,8 @@ const Expenses = ({ sendAppNotification, setAppLoading, expenseTypes }) => {
   );
 };
 
-const mapStateToProps = ({ app }) => ({
-  expenseTypes: _.get(app, "session.expenseTypes", []),
+const mapStateToProps = ({ session }) => ({
+  expenseTypes: _.get(session, "expenseTypes", []),
 });
 
 const mapActionsToProps = {

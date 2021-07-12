@@ -1,8 +1,11 @@
+import {
+  SET_SESSION,
+  SEND_APP_NOTIFICATION,
+  SET_APP_LOADING,
+  SET_KEY,
+} from "./constants";
 import axios from "axios";
 import _ from "lodash";
-import { setAppLoading } from "../app/actions";
-import { SET_KEY } from "./constants";
-import { setSession } from "../app/actions";
 
 export const updateUserSettings =
   (data, params) => async (dispatch, getState) => {
@@ -28,3 +31,21 @@ export const setData = (key, data) => async (dispatch, getState) => {
   const prev = _.get(getState(), ["data", key]);
   dispatch({ type: SET_KEY, payload: { [key]: { ...prev, ...data } } });
 };
+
+export const setSession = (session) => ({
+  type: SET_SESSION,
+  payload: session,
+});
+
+export const setAppLoading = (status) => ({
+  type: SET_APP_LOADING,
+  payload: status,
+});
+
+export const sendAppNotification = ({
+  type = "error",
+  message = "Error.",
+} = {}) => ({
+  type: SEND_APP_NOTIFICATION,
+  payload: { type, message },
+});

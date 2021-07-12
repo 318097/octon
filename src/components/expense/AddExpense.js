@@ -3,7 +3,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Radio, InputNumber, Input, Button, DatePicker, message } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
-import { sendAppNotification } from "../../store/app/actions";
+import { sendAppNotification } from "../../store/actions";
 import "./Expenses.scss";
 import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";

@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
 
-import { sendAppNotification } from "../../store/app/actions";
+import { sendAppNotification } from "../../store/actions";
 
 const PrivateRoute = ({
   component: Component,
@@ -26,8 +26,8 @@ const PrivateRoute = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: _.get(state, "app.session.isAuthenticated"),
+const mapStateToProps = ({ session }) => ({
+  isAuthenticated: _.get(session, "isAuthenticated"),
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

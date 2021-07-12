@@ -15,7 +15,7 @@ import moment from "moment";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_TIMELINE } from "../../graphql/queries";
 import { DELETE_TIMELINE_POST } from "../../graphql/mutations";
-import { updateUserSettings } from "../../store/data/actions";
+import { updateUserSettings } from "../../store/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
 import colors, { Icon, Tag } from "@codedrops/react-ui";
@@ -223,7 +223,7 @@ const AddNewGroup = ({
   );
 };
 
-const mapStateToProps = ({ app: { session } }) => ({
+const mapStateToProps = ({ session }) => ({
   session,
 });
 

@@ -2,11 +2,21 @@ import {
   SET_APP_LOADING,
   SET_SESSION,
   SEND_APP_NOTIFICATION,
+  SET_KEY,
 } from "./constants";
 
 const initialState = {
   appLoading: 0,
   appNotification: null,
+  timeline: {
+    groupId: undefined,
+    filters: {
+      search: "",
+      page: 1,
+      limit: 25,
+      tags: [],
+    },
+  },
 };
 
 const appReducer = (state = initialState, action) => {
@@ -28,6 +38,8 @@ const appReducer = (state = initialState, action) => {
         ...state,
         appNotification: action.payload,
       };
+    case SET_KEY:
+      return { ...state, ...action.payload };
     default:
       return state;
   }

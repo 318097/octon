@@ -3,8 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import colors from "@codedrops/react-ui";
-import { getSession } from "../store/app/selectors";
-import { setSession } from "../store/app/actions";
+import { setSession } from "../store/actions";
 import { Icon } from "@ant-design/compatible";
 import routes from "../menu";
 
@@ -69,7 +68,7 @@ const Navigation = ({ history, session = {}, setSession }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ session: getSession(state) });
+const mapStateToProps = ({ session }) => ({ session });
 
 const mapDispatchToProps = { setSession };
 

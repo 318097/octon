@@ -8,9 +8,7 @@ import { connect } from "react-redux";
 import qs from "query-string";
 
 import { setSessionInStorage } from "../../lib/authService";
-
-import { getSession } from "../../store/app/selectors";
-import { setSession } from "../../store/app/actions";
+import { setSession } from "../../store/actions";
 
 const Login = ({ history, setSession, session, location }) => {
   const [username, setUsername] = useState("");
@@ -20,18 +18,16 @@ const Login = ({ history, setSession, session, location }) => {
 
   useEffect(() => {
     const queryParams = qs.parse(location.search);
-    console.log(queryParams);
+    const { isAuthenticated } = session || {};
 
-    if (queryParams.token) {
+    if (queryParams.token && !isAuthenticated) {
       handleLogin("auth-login", queryParams.token);
-    } else if (session && session.isAuthenticated) history.push("/");
+    } else if (isAuthenticated) history.push("/");
   }, []);
 
   const handleLogin = async (authMethod, authToken) => {
     setLoading(true);
     try {
-      console.log("authMethod, authToken::-", authMethod, authToken);
-
       const inputData =
         authMethod === "auth-login"
           ? { authToken, authMethod: "AUTH_TOKEN" }
@@ -88,8 +84,7 @@ const Login = ({ history, setSession, session, location }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ session: getSession(state) });
-
+const mapStateToProps = ({ session }) => ({ session });
 const mapDispatchToProps = { setSession };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

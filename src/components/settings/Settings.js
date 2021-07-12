@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { updateUserSettings, setData } from "../../store/data/actions";
+import { updateUserSettings, setData } from "../../store/actions";
 import { connect } from "react-redux";
 import "./Settings.scss";
 import { PageHeader } from "antd";
@@ -30,7 +30,7 @@ const Settings = ({ session, updateUserSettings }) => {
   );
 };
 
-const mapStateToProps = ({ app: { session } }) => ({
+const mapStateToProps = ({ session }) => ({
   session,
 });
 

@@ -10,8 +10,7 @@ import "./App.scss";
 import Header from "./layouts/Header";
 import { getToken, hasToken } from "./lib/authService";
 import config from "./config";
-import { getSession } from "./store/app/selectors";
-import { setSession, sendAppNotification } from "./store/app/actions";
+import { setSession, sendAppNotification } from "./store/actions";
 import Routes from "./routes";
 
 axios.defaults.baseURL = config.SERVER_URL;
@@ -60,10 +59,10 @@ const App = ({ setSession, appNotification, appLoading, history }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  session: getSession(state),
-  appNotification: state.app.appNotification,
-  appLoading: state.app.appLoading,
+const mapStateToProps = ({ session, appNotification, appLoading }) => ({
+  session,
+  appNotification,
+  appLoading,
 });
 
 const mapDispatchToProps = { setSession };
