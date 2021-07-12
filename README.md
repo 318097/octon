@@ -13,8 +13,8 @@
     - [ ] Sub category breakdown
     - [ ] Select range for stats
 - [x] Tasks - Todos, Goals & Progress
-  - [ ] Define custom fields for progress
   - [x] Show done items at the bottom
+  - [ ] Define custom fields for progress
   - [ ] Disable future dates in progress
 - [x] Timeline
   - [ ] Upload images

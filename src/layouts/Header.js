@@ -27,10 +27,10 @@ import Navigation from "./Navigation";
 //   }
 // `;
 
-const Header = ({ appLoading }) => (
+const Header = ({ history }) => (
   <div className="header-wrapper">
     <header>
-      <h2>
+      <h2 className="pointer" onClick={() => history.push("/")}>
         Atom
         {/* {appLoading ? <Spin className="spinner" size="small" /> : null} */}
       </h2>

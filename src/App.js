@@ -18,7 +18,7 @@ axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = getToken();
 axios.defaults.headers.common["external-source"] = "ATOM";
 
-const App = ({ setSession, appNotification, appLoading }) => {
+const App = ({ setSession, appNotification, appLoading, history }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const App = ({ setSession, appNotification, appLoading }) => {
         try {
           const token = getToken();
           const { data } = await axios.post(`/auth/account-status`, { token });
-          setSession({ loggedIn: true, info: "ON_LOAD", ...data });
+          setSession({ isAuthenticated: true, info: "ON_LOAD", ...data });
         } catch (err) {
           sendAppNotification();
         } finally {
@@ -48,7 +48,7 @@ const App = ({ setSession, appNotification, appLoading }) => {
 
   return (
     <div className="app" id="react-ui">
-      <Header />
+      <Header history={history} />
       {loading ? (
         <Spin className="loader" />
       ) : (

@@ -8,11 +8,11 @@ import { sendAppNotification } from "../../store/app/actions";
 const PrivateRoute = ({
   component: Component,
   dispatch,
-  loggedIn,
+  isAuthenticated,
   ...rest
 }) => {
   useEffect(() => {
-    if (!loggedIn)
+    if (!isAuthenticated)
       dispatch(sendAppNotification({ message: "Please login to continue." }));
   }, [Component, dispatch]);
 
@@ -20,14 +20,14 @@ const PrivateRoute = ({
     <Route
       {...rest}
       render={(props) =>
-        loggedIn ? <Component {...props} /> : <Redirect to="/login" />
+        isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  loggedIn: _.get(state, "app.session.loggedIn"),
+  isAuthenticated: _.get(state, "app.session.isAuthenticated"),
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

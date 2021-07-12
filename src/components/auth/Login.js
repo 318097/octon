@@ -24,7 +24,7 @@ const Login = ({ history, setSession, session, location }) => {
 
     if (queryParams.token) {
       handleLogin("auth-login", queryParams.token);
-    } else if (session && session.loggedIn) history.push("/");
+    } else if (session && session.isAuthenticated) history.push("/");
   }, []);
 
   const handleLogin = async (authMethod, authToken) => {
@@ -40,7 +40,7 @@ const Login = ({ history, setSession, session, location }) => {
 
       setSessionInStorage(data);
       await setSession({
-        loggedIn: true,
+        isAuthenticated: true,
         info: "LOGIN",
         ...data,
       });

@@ -6,6 +6,7 @@ import colors from "@codedrops/react-ui";
 import { getSession } from "../store/app/selectors";
 import { setSession } from "../store/app/actions";
 import { Icon } from "@ant-design/compatible";
+import routes from "../menu";
 
 const StyledNavigation = styled.nav`
   display: flex;
@@ -34,18 +35,6 @@ const StyledNavigation = styled.nav`
   }
 `;
 
-const routes = [
-  { route: "/expenses", label: "Expenses", icon: <Icon type="wallet" /> },
-  { route: "/tasks", label: "Tasks", icon: <Icon type="unordered-list" /> },
-  { route: "/timeline", label: "Timeline", icon: <Icon type="hourglass" /> },
-  {
-    route: "/scratch-pad",
-    label: "Scratch Pad",
-    icon: <Icon type="file-text" />,
-  },
-  { route: "/settings", label: "Settings", icon: <Icon type="setting" /> },
-];
-
 const Navigation = ({ history, session = {}, setSession }) => {
   const logout = () => {
     setSession(null);
@@ -53,16 +42,16 @@ const Navigation = ({ history, session = {}, setSession }) => {
     history.push("/login");
   };
 
-  const { loggedIn } = session || {};
+  const { isAuthenticated } = session || {};
 
   return (
     <StyledNavigation>
-      {routes.map(({ route, label, icon }) => (
+      {routes({ filterKey: "visible" }).map(({ route, label, icon }) => (
         <NavLink key={label} exact activeClassName="active-link" to={route}>
           {icon}
         </NavLink>
       ))}
-      {loggedIn ? (
+      {isAuthenticated ? (
         <NavLink className="auth" to="#" type="link" onClick={logout}>
           <Icon type="logout" />
         </NavLink>

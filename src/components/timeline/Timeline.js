@@ -21,7 +21,6 @@ import AddPost from "./AddPost";
 import colors, { Icon, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
-import randomColor from "randomcolor";
 import { useObject } from "@codedrops/lib";
 
 const { Option } = Select;
@@ -167,7 +166,7 @@ const AddNewGroup = ({
     if (!newGroupData) return;
 
     updateUserSettings(
-      { name: newGroupData.name, color: randomColor() },
+      { name: newGroupData.name },
       { action: "CREATE", key: "timeline" }
     );
     setNewGroupData({ name: "" });
