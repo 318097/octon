@@ -5,7 +5,7 @@ import styled from "styled-components";
 import colors from "@codedrops/react-ui";
 import { setSession } from "../store/actions";
 import { Icon } from "@ant-design/compatible";
-import routes from "../menu";
+import routes from "../constants";
 
 const StyledNavigation = styled.nav`
   display: flex;

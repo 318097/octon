@@ -27,7 +27,7 @@
   - [ ] Show word of the day
   - [ ] Add your words
 - [ ] Quotes
-- [ ] Login with token only when not signed in
+- [x] Login with token only when not signed in
 
 #### Todo
 

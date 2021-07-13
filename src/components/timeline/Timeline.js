@@ -119,9 +119,7 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
               return (
                 <AntTimeline.Item color={colors.bar} key={item._id}>
                   <Card>
-                    <span style={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                      {moment(item.date).format("DD,MMM")}:&nbsp;
-                    </span>
+                    <span>{moment(item.date).format("DD,MMM")}:&nbsp;</span>
                     {item.content}
 
                     <div>{timelineTags}</div>

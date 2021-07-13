@@ -1,5 +1,5 @@
 import React from "react";
-import routes from "../menu";
+import routes from "../constants";
 import { Card } from "antd";
 import { withRouter } from "react-router";
 
