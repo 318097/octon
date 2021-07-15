@@ -7,6 +7,7 @@
   - [x] Highlight expense types
   - [ ] Default types should not be deletable
   - [x] Highlight expense
+  - [ ] Select currency
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
@@ -20,6 +21,7 @@
   - [ ] Upload images
   - [ ] Pagination, Search
   - [x] Show all the timelines (Color each post by timeline group)
+  - [ ] Add timeline post to portfolio
 - [x] Scratch pad
   - [ ] Not able to add
 - [ ] Tab Sync
@@ -33,11 +35,15 @@
 
 - [ ] Settings Page
 - [x] Token login
-- [ ] Add timeline post to portfolio
 - [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
   - [ ] Add nested categories
-- [ ] Graph QL
-  - [x] Expenses
-  - [x] Timeline
-  - [ ] Scratchpad
+- [ ] Graphql loading and error states
+- [ ] Add to home screen
+- [ ] Rename to octon
+- [ ] Settings page
+  - [ ] Show basic info
+  - [ ] change/reset password
+- [ ] Sentry sourcemaps
+- [ ] Event tracking
+- [ ] Google analytics

@@ -10,10 +10,9 @@ import AddExpense from "./AddExpense";
 import ExpenseList from "./ExpenseList";
 import { setAppLoading } from "../../store/actions";
 import _ from "lodash";
-import colors from "@codedrops/react-ui";
-import { calculateTotal } from "../../lib/utils";
+import { calculateTotal } from "@codedrops/lib";
+import colors, { Icon } from "@codedrops/react-ui";
 import Stats from "./Stats";
-import { Icon } from "@codedrops/react-ui";
 import handleError from "../../lib/errorHandler";
 
 const { MonthPicker } = DatePicker;
@@ -54,7 +53,10 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
     total[label] = {
       success,
       color,
-      total: calculateTotal(input.filter((item) => item.expenseTypeId === _id)),
+      total: calculateTotal(
+        input.filter((item) => item.expenseTypeId === _id),
+        "amount"
+      ),
     };
   });
 

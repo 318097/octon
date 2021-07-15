@@ -8,14 +8,14 @@ import "antd/dist/antd.css";
 import "./App.scss";
 
 import Header from "./layouts/Header";
-import { getToken, hasToken } from "./lib/authService";
+import sessionManager from "./lib/sessionManager";
 import config from "./config";
 import { setSession } from "./store/actions";
 import Routes from "./routes";
 import handleError from "./lib/errorHandler";
 
 axios.defaults.baseURL = config.SERVER_URL;
-axios.defaults.headers.common["authorization"] = getToken();
+axios.defaults.headers.common["authorization"] = sessionManager.getToken();
 axios.defaults.headers.common["external-source"] = "ATOM";
 
 const App = ({ setSession, appLoading, history }) => {
@@ -23,9 +23,9 @@ const App = ({ setSession, appLoading, history }) => {
 
   useEffect(() => {
     const isAccountActive = async () => {
-      if (hasToken()) {
+      if (sessionManager.hasToken()) {
         try {
-          const token = getToken();
+          const token = sessionManager.getToken();
           const { data } = await axios.post(`/auth/account-status`, { token });
           setSession({ isAuthenticated: true, info: "ON_LOAD", ...data });
         } catch (error) {

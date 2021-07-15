@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Radio, Modal, List, Popconfirm, Checkbox } from "antd";
 import moment from "moment";
-import axios from "axios";
-import { calculateTotal } from "../../lib/utils";
+import { calculateTotal } from "@codedrops/lib";
 import { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
 import "./Expenses.scss";
@@ -35,7 +34,7 @@ const ExpenseList = ({
           ? list
           : list.filter((list) => list.expenseTypeId === filterType);
       setDataSource(data);
-      setTotal(calculateTotal(data));
+      setTotal(calculateTotal(data, "amount"));
     };
 
     filterData();

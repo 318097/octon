@@ -1,4 +1,5 @@
 import React from "react";
+import handleError from "../lib/errorHandler";
 // import styled from "styled-components";
 // import colors from "@codedrops/react-ui";
 // import { Spin } from "antd";
@@ -30,7 +31,17 @@ import Navigation from "./Navigation";
 const Header = ({ history }) => (
   <div className="header-wrapper">
     <header>
-      <h2 className="pointer" onClick={() => history.push("/")}>
+      <h2
+        className="pointer"
+        onClick={() => {
+          try {
+            history.push("/");
+            throw new Error("Sentry test error in dev mode.");
+          } catch (e) {
+            handleError(e);
+          }
+        }}
+      >
         Atom
         {/* {appLoading ? <Spin className="spinner" size="small" /> : null} */}
       </h2>

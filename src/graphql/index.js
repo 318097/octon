@@ -1,7 +1,7 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import config from "../config";
-import { getToken } from "../lib/authService";
+import sessionManager from "../lib/sessionManager";
 
 const httpLink = createHttpLink({
   uri: config.GRAPHQL_URL,
@@ -11,7 +11,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: getToken(),
+      authorization: sessionManager.getToken(),
     },
   };
 });

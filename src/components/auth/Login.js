@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import qs from "query-string";
 import handleError from "../../lib/errorHandler";
 
-import { setSessionInStorage } from "../../lib/authService";
+import sessionManager from "../../lib/sessionManager";
 import { setSession } from "../../store/actions";
 
 const Login = ({ history, setSession, session, location }) => {
@@ -35,7 +35,7 @@ const Login = ({ history, setSession, session, location }) => {
           : { username, password };
       const { data } = await axios.post("/auth/login", inputData);
 
-      setSessionInStorage(data);
+      sessionManager.set(data);
       await setSession({
         isAuthenticated: true,
         info: "LOGIN",
