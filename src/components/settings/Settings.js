@@ -3,7 +3,7 @@ import React from "react";
 import { updateUserSettings, setData } from "../../store/actions";
 import { connect } from "react-redux";
 import "./Settings.scss";
-import { PageHeader } from "antd";
+import { PageHeader, Card } from "antd";
 import NestedNodes from "../../lib/NestedNodes";
 
 const Settings = ({ session, updateUserSettings }) => {
@@ -22,10 +22,9 @@ const Settings = ({ session, updateUserSettings }) => {
         title="Settings"
       />
 
-      <div className="block">
-        <h5 className="mb">Expense groups</h5>
+      <Card title="Expense groups" size="small">
         <NestedNodes nodes={expenseTypes} onChange={updateSetting} />
-      </div>
+      </Card>
     </section>
   );
 };

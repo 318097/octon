@@ -3,6 +3,7 @@ import React, { useState, Fragment } from "react";
 import { Icon, Card, Button, Input, Select } from "@codedrops/react-ui";
 import "./NestedNodes.scss";
 import { v4 as uuidv4 } from "uuid";
+import classnames from "classnames";
 
 const NestedNodesContainer = ({ nodes, onChange }) => {
   const [showAddRow, setShowAddRow] = useState(false);
@@ -51,76 +52,86 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
         setNodeToEdit={setNodeToEdit}
         deleteNode={deleteNode}
       />
-      {showAddRow ? (
-        <div className="add-row flex center">
-          <Input
-            value={addData.label}
-            name="label"
-            placeholder="Label"
-            className="input mr"
-            onChange={(e, value) => updateAddData(value)}
-          />
-          <Select
-            placeholder="Parent"
-            value={addData.parentId}
-            className="select mr"
-            name="parentId"
-            onChange={(e, value) => updateAddData(value)}
-            options={nodes
-              .map((node) => ({
-                label: node.label,
-                value: node._id,
-              }))
-              .filter((node) => node.value !== editId)}
-          />
-          <Button onClick={handleChange}>{editId ? "Update" : "Add"}</Button>
-        </div>
-      ) : (
-        <Button onClick={() => setShowAddRow(true)}>Add</Button>
-      )}
+      <div className="controller mt">
+        {showAddRow ? (
+          <div className="add-row flex center gap-4">
+            <Input
+              value={addData.label}
+              name="label"
+              placeholder="Label"
+              onChange={(e, value) => updateAddData(value)}
+            />
+            <Select
+              dropPosition={"top"}
+              placeholder="Parent"
+              value={addData.parentId}
+              name="parentId"
+              onChange={(e, value) => updateAddData(value)}
+              options={nodes
+                .map((node) => ({
+                  label: node.label,
+                  value: node._id,
+                }))
+                .filter((node) => node.value !== editId)}
+            />
+            <Button onClick={handleChange}>{editId ? "Update" : "Add"}</Button>
+          </div>
+        ) : (
+          <Button onClick={() => setShowAddRow(true)}>Add</Button>
+        )}
+      </div>
     </div>
   );
 };
 
 const NestedNodes = (props) => {
-  const { nodes, depth, parentId, setNodeToEdit, deleteNode } = props;
-
-  const isRootLevel = !depth || depth === 0;
+  const { nodes, depth = 0, parentId, setNodeToEdit, deleteNode } = props;
 
   const filteredNodes = nodes.filter((node) =>
-    depth ? node.parentId && node.parentId === parentId : !node.parentId
+    depth > 0 ? node.parentId && node.parentId === parentId : !node.parentId
   );
-
-  if (!filteredNodes.length && depth > 0) return null;
+  const isRootLevel = !depth || depth === 0;
+  const showDivider = Boolean(filteredNodes.length && !isRootLevel);
+  const nextDepth = Number(depth) + 1;
 
   return (
     <Fragment>
-      {!!filteredNodes.length && !isRootLevel && (
-        <div className="divider"></div>
-      )}
-      {filteredNodes.map((node, index) => {
-        const { _id, label } = node;
-        return (
-          <Card key={_id} className="node-wrapper">
-            <div className="title-wrapper">
-              <div className="title">{`${index + 1}. ${label}`}</div>
-              <div>
-                <Icon
-                  type="edit"
-                  size={10}
-                  onClick={() => setNodeToEdit(node)}
-                />
-                <Icon
-                  type="delete"
-                  size={10}
-                  onClick={() => deleteNode(node._id)}
-                />
+      {showDivider && <div className="divider"></div>}
+      <div className="wrapper">
+        {filteredNodes.map((node, index) => {
+          const { _id, label } = node;
+          const hasChildNodes = nodes.filter(
+            (node) => node.parentId === _id
+          ).length;
+          const nodeClasses = classnames(
+            "node",
+            // `level-${depth || 0}`,
+            {
+              expanded: hasChildNodes,
+            }
+          );
+          return (
+            <Card key={_id} className={nodeClasses}>
+              <div className="title-wrapper">
+                <div className="title">{`${index + 1}. ${label}`}</div>
+                <div>
+                  <Icon
+                    type="edit"
+                    size={10}
+                    onClick={() => setNodeToEdit(node)}
+                  />
+                  <Icon
+                    type="delete"
+                    size={10}
+                    onClick={() => deleteNode(node._id)}
+                  />
+                </div>
               </div>
-            </div>
-            <NestedNodes {...props} depth={(depth || 0) + 1} parentId={_id} />
-          </Card>
-        );
-      })}
+              <NestedNodes {...props} depth={nextDepth} parentId={_id} />
+            </Card>
+          );
+        })}
+      </div>
     </Fragment>
   );
 };

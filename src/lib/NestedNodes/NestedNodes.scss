@@ -2,20 +2,41 @@
 
 section#settings {
   .nested-container {
-    .node-wrapper {
+    .wrapper {
       display: flex;
       flex-direction: column;
-      background: $feather;
+      gap: 2px;
+    }
+    .node {
+      display: flex;
+      flex-direction: column;
+      background: $white;
       padding: 8px 12px;
-      margin-bottom: 8px;
-      box-shadow: 2px 2px 2px $feather;
+      box-shadow: 4px 4px 4px $bg;
+      border-color: $strokeOne;
+      .divider {
+        margin: 0;
+      }
       .title-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
-      &:last-child {
-        margin-bottom: 0;
+      &.expanded {
+        // contains child nodes
+        padding: 0;
+        & > .title-wrapper {
+          padding: 8px 12px;
+        }
+        & > .wrapper {
+          padding: 12px;
+        }
+      }
+      &:not(.expanded) {
+        transition: 0.2s;
+        &:hover {
+          background: $feather;
+        }
       }
     }
   }
