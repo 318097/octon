@@ -45,11 +45,13 @@ const Navigation = ({ history, session = {}, setSession }) => {
 
   return (
     <StyledNavigation>
-      {routes({ filterKey: "visible" }).map(({ route, label, icon }) => (
-        <NavLink key={label} exact activeClassName="active-link" to={route}>
-          {icon}
-        </NavLink>
-      ))}
+      {routes({ filterKey: "visible", isAuthenticated }).map(
+        ({ route, label, icon }) => (
+          <NavLink key={label} exact activeClassName="active-link" to={route}>
+            {icon}
+          </NavLink>
+        )
+      )}
       {isAuthenticated ? (
         <NavLink className="auth" to="#" type="link" onClick={logout}>
           <Icon type="logout" />

@@ -4,7 +4,7 @@ import { Card } from "antd";
 import { withRouter } from "react-router";
 
 const Home = ({ history }) => (
-  <section>
+  <section id="home">
     {routes({ filterKey: "showInHomePage" }).map(
       ({ label, description, route }) => (
         <Card

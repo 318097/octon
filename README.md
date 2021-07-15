@@ -33,11 +33,9 @@
 
 #### Todo
 
-- [ ] Settings Page
 - [x] Token login
 - [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
-  - [ ] Add nested categories
 - [ ] Graphql loading and error states
 - [ ] Add to home screen
 - [ ] Rename to octon

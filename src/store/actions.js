@@ -6,9 +6,7 @@ import handleError from "../lib/errorHandler";
 export const updateUserSettings =
   (data, params) => async (dispatch, getState) => {
     try {
-      const {
-        app: { session },
-      } = getState();
+      const { session } = getState();
       dispatch(setAppLoading(true));
       const {
         data: { result },
@@ -24,7 +22,7 @@ export const updateUserSettings =
   };
 
 export const setData = (key, data) => async (dispatch, getState) => {
-  const prev = _.get(getState(), ["data", key]);
+  const prev = _.get(getState(), key);
   dispatch({ type: SET_KEY, payload: { [key]: { ...prev, ...data } } });
 };
 
