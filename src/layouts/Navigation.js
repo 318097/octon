@@ -48,7 +48,7 @@ const Navigation = ({ history, session = {}, setSession }) => {
 
   return (
     <StyledNavigation>
-      {routes({ filterKey: "visible", isAuthenticated }).map(
+      {routes({ filterKey: "showInNavBar", isAuthenticated }).map(
         ({ route, label, icon }) => (
           <NavLink
             key={label}

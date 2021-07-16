@@ -8,7 +8,7 @@ const routes = ({ isAuthenticated, filterKey }) =>
       label: "Expenses",
       icon: <Icon type="wallet" />,
       description: "Track daily expenses & investments",
-      visible: true,
+      showInNavBar: isAuthenticated,
       showInHomePage: true,
     },
     {
@@ -16,7 +16,7 @@ const routes = ({ isAuthenticated, filterKey }) =>
       label: "Tasks",
       icon: <Icon type="unordered-list" />,
       description: "Track progress, goals, and todos",
-      visible: true,
+      showInNavBar: isAuthenticated,
       showInHomePage: true,
     },
     {
@@ -24,19 +24,22 @@ const routes = ({ isAuthenticated, filterKey }) =>
       label: "Timeline",
       icon: <Icon type="hourglass" />,
       description: "Personal timeline",
-      visible: true,
+      showInNavBar: isAuthenticated,
       showInHomePage: true,
     },
     {
       route: "/scratch-pad",
       label: "Scratch Pad",
       icon: <Icon type="file-text" />,
+      showInNavBar: false,
+      showInHomePage: false,
     },
     {
       route: "/settings",
       label: "Settings",
       icon: <Icon type="setting" />,
-      visible: isAuthenticated,
+      showInNavBar: isAuthenticated,
+      showInHomePage: false,
     },
   ].filter((i) => i[filterKey]);
 
