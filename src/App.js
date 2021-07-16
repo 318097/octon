@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import "antd/dist/antd.css";
 import "./App.scss";
-
+import tracking from "./lib/mixpanel";
 import Header from "./layouts/Header";
 import sessionManager from "./lib/sessionManager";
 import config from "./config";
@@ -35,6 +35,7 @@ const App = ({ setSession, appLoading, history }) => {
         }
       } else setLoading(false);
     };
+    tracking.track("INIT", { path: window.location.pathname });
     isAccountActive();
   }, []);
 

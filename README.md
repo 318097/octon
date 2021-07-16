@@ -43,5 +43,5 @@
   - [ ] Show basic info
   - [ ] change/reset password
 - [ ] Sentry sourcemaps
-- [ ] Event tracking
+- [x] Event tracking
 - [ ] Google analytics

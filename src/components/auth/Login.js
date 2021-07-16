@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import qs from "query-string";
 import handleError from "../../lib/errorHandler";
-
+import tracking from "../../lib/mixpanel";
 import sessionManager from "../../lib/sessionManager";
 import { setSession } from "../../store/actions";
 
@@ -42,6 +42,7 @@ const Login = ({ history, setSession, session, location }) => {
         ...data,
       });
       axios.defaults.headers.common["authorization"] = data.token;
+      tracking.track("LOGIN");
       setTimeout(() => history.push("/expenses"), 400);
     } catch (error) {
       handleError(error);

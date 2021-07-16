@@ -13,7 +13,7 @@ const getMatch = (date, stamps) =>
       moment(stamp.date).format("DD-MM-YYYY") === date.format("DD-MM-YYYY")
   );
 
-const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
+const Task = ({ task, markTodo, handleDeleteTask, setTaskObj }) => {
   const {
     type,
     _id,
@@ -38,7 +38,7 @@ const Task = ({ task, markTodo, deleteTodo, setTaskObj }) => {
       key="delete"
       placement="bottomRight"
       title="Delete?"
-      onConfirm={() => deleteTodo(_id)}
+      onConfirm={() => handleDeleteTask(_id)}
     >
       <Icon size={12} type="delete" />
     </Popconfirm>,

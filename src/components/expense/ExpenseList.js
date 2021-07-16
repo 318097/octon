@@ -11,6 +11,7 @@ import {
   TOGGLE_FAVORITE_EXPENSE,
 } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
+import tracking from "../../lib/mixpanel";
 
 const ExpenseList = ({
   fetchExpenseByMonth,
@@ -47,6 +48,7 @@ const ExpenseList = ({
     });
     await fetchExpenseByMonth();
     setAppLoading(false);
+    tracking.track("DELETE_EXPENSE");
   };
 
   const editExpenseHandler = (_id) => {

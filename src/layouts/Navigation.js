@@ -6,6 +6,7 @@ import colors from "@codedrops/react-ui";
 import { setSession } from "../store/actions";
 import { Icon } from "@ant-design/compatible";
 import routes from "../constants";
+import tracking from "../lib/mixpanel";
 
 const StyledNavigation = styled.nav`
   display: flex;
@@ -36,6 +37,8 @@ const StyledNavigation = styled.nav`
 
 const Navigation = ({ history, session = {}, setSession }) => {
   const logout = () => {
+    tracking.track("LOGOUT");
+    tracking.reset();
     setSession(null);
     localStorage.clear();
     history.push("/login");
@@ -47,7 +50,13 @@ const Navigation = ({ history, session = {}, setSession }) => {
     <StyledNavigation>
       {routes({ filterKey: "visible", isAuthenticated }).map(
         ({ route, label, icon }) => (
-          <NavLink key={label} exact activeClassName="active-link" to={route}>
+          <NavLink
+            key={label}
+            exact
+            activeClassName="active-link"
+            to={route}
+            onClick={() => tracking.track("NAVIGATION", { name: label })}
+          >
             {icon}
           </NavLink>
         )
@@ -62,6 +71,9 @@ const Navigation = ({ history, session = {}, setSession }) => {
           exact
           activeClassName="active-link"
           to="/login"
+          onClick={() =>
+            tracking.track("CLICK_ACTION", { target: "login icon" })
+          }
         >
           <Icon type="login" />
         </NavLink>

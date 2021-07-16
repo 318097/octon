@@ -22,6 +22,7 @@ import colors, { Icon, Tag } from "@codedrops/react-ui";
 import "./Timeline.scss";
 import _ from "lodash";
 import { useObject } from "@codedrops/lib";
+import tracking from "../../lib/mixpanel";
 
 const { Option } = Select;
 
@@ -57,6 +58,7 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
     await deleteTimelinePost({
       variables: { input: { _id } },
     });
+    tracking.track("DELET_TIMELINE_POST");
     await fetchTimelinePosts();
     //  setAppLoading(false);
   };
@@ -68,8 +70,6 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
   //   const color = _.get(timelineMap, [groupId, "color"], colors.strokeOne);
   //   return color;
   // };
-
-  // console.log("timelineMap::-", timelineMap);
 
   return (
     <section id="timeline">

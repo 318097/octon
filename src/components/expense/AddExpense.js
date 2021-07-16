@@ -7,6 +7,7 @@ import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import handleError from "../../lib/errorHandler";
 import notify from "../../lib/notify";
+import tracking from "../../lib/mixpanel";
 
 const AddExpense = ({
   setAppLoading,
@@ -41,13 +42,14 @@ const AddExpense = ({
         await addExpense({
           variables: { input: expense },
         });
+        tracking.track("ADD_EXPENSE");
       } else {
         await updateExpense({
           variables: { input: { _id: expense._id, ...expense } },
         });
         setVisibilityStatus(false);
+        tracking.track("UPDATE_EXPENSE");
       }
-
       setExpense({ ...expense, amount: null, message: null });
       notify("Success");
       fetchExpenseByMonth();

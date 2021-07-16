@@ -36,7 +36,7 @@ const generateCategoryTotalData = ({ input, rootExpenseTypes }) => {
       const match = rootExpenseTypes.find((item) => item.label === label);
       acc.labels.push(label);
       acc.values.push(value);
-      acc.colors.push(colors[match.color]);
+      acc.colors.push(match && colors[match.color]);
 
       return acc;
     },

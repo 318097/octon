@@ -50,7 +50,7 @@ const Tasks = () => {
     setTaskObj({});
   };
 
-  const deleteTodo = async (_id) => {
+  const handleDeleteTask = async (_id) => {
     deleteTask({
       variables: { input: { _id } },
       refetchQueries: [{ query: GET_ALL_TASKS }],
@@ -71,7 +71,7 @@ const Tasks = () => {
           key={task._id}
           task={task}
           markTodo={markTodo}
-          deleteTodo={deleteTodo}
+          handleDeleteTask={handleDeleteTask}
           setTaskObj={setTaskObj}
         />
       ))}

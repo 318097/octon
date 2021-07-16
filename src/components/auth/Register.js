@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import axios from "axios";
 import handleError from "../../lib/errorHandler";
 import notify from "../../lib/notify";
+import tracking from "../../lib/mixpanel";
 
-const Register = ({ dispatch }) => {
+const Register = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -24,9 +25,9 @@ const Register = ({ dispatch }) => {
         name,
         email,
       });
-
-      setTimeout(() => setRedirect(true), 1000);
+      tracking.track("REGISTER");
       notify("User registered successfully.");
+      setTimeout(() => setRedirect(true), 1000);
     } catch (error) {
       handleError(error);
     } finally {

@@ -4,7 +4,7 @@ import { CREATE_TASK } from "../../graphql/mutations";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import { useMutation } from "@apollo/client";
 import { useObject, useToggle } from "@codedrops/lib";
-
+import tracking from "../../lib/mixpanel";
 import "./Tasks.scss";
 import { Icon } from "@codedrops/react-ui";
 
@@ -21,7 +21,8 @@ const AddTodo = () => {
       refetchQueries: [{ query: GET_ALL_TASKS }],
     });
     setAddTodoVisibility(false);
-    resetData({});
+    tracking.track("ADD_TASK", { type: task.type });
+    resetData();
   };
 
   return (

@@ -14,6 +14,7 @@ import { calculateTotal } from "@codedrops/lib";
 import colors, { Icon } from "@codedrops/react-ui";
 import Stats from "./Stats";
 import handleError from "../../lib/errorHandler";
+import tracking from "../../lib/mixpanel";
 
 const { MonthPicker } = DatePicker;
 

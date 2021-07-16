@@ -8,6 +8,7 @@ import {
 } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import _ from "lodash";
+import tracking from "../../lib/mixpanel";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -50,10 +51,12 @@ const AddPost = ({
           },
         },
       });
+      tracking.track("ADD_TIMELINE_POST");
     } else {
       await updateTimelinePost({
         variables: { input: { ...data, date, _id: post._id } },
       });
+      tracking.track("UPDATE_TIMELINE_POST");
     }
 
     setVisibility(false);
