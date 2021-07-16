@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, Fragment } from "react";
-import { Icon, Card, Button, Input, Select } from "@codedrops/react-ui";
+import colors, { Icon, Card, Button, Input, Select } from "@codedrops/react-ui";
+import { useObject } from "@codedrops/lib";
 import "./NestedNodes.scss";
 import { v4 as uuidv4 } from "uuid";
 import classnames from "classnames";
@@ -8,10 +9,7 @@ import classnames from "classnames";
 const NestedNodesContainer = ({ nodes, onChange }) => {
   const [showAddRow, setShowAddRow] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [addData, setAddData] = useState({});
-
-  const updateAddData = (update) =>
-    setAddData((prev) => ({ ...prev, ...update }));
+  const [addData, setAddData, resetAddData] = useObject({});
 
   const setNodeToEdit = (node) => {
     setAddData(node);
@@ -20,6 +18,8 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
   };
 
   const handleChange = () => {
+    if (!addData.label) return;
+
     if (editId) {
       onChange(
         addData,
@@ -33,8 +33,13 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
       const newItem = { ...addData, _id: uuidv4() };
       onChange(newItem, "CREATE", [...nodes, newItem]);
     }
-    setAddData({});
+    reset();
+  };
+
+  const reset = () => {
+    resetAddData({});
     setShowAddRow(false);
+    setEditId(null);
   };
 
   const deleteNode = (_id) => {
@@ -45,6 +50,7 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
     );
   };
 
+  const hideParentSelect = editId && addData.default;
   return (
     <div className="nested-container">
       <NestedNodes
@@ -54,28 +60,38 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
       />
       <div className="controller mt">
         {showAddRow ? (
-          <div className="add-row flex center gap-4">
-            <Input
-              value={addData.label}
-              name="label"
-              placeholder="Label"
-              onChange={(e, value) => updateAddData(value)}
-            />
-            <Select
-              dropPosition={"top"}
-              placeholder="Parent"
-              value={addData.parentId}
-              name="parentId"
-              onChange={(e, value) => updateAddData(value)}
-              options={nodes
-                .map((node) => ({
-                  label: node.label,
-                  value: node._id,
-                }))
-                .filter((node) => node.value !== editId)}
-            />
-            <Button onClick={handleChange}>{editId ? "Update" : "Add"}</Button>
-          </div>
+          <>
+            <div className="flex center gap-4">
+              <Input
+                value={addData.label}
+                name="label"
+                placeholder="Label"
+                onChange={(e, value) => setAddData(value)}
+                autoFocus={true}
+              />
+              {hideParentSelect ? null : (
+                <Select
+                  dropPosition={"top"}
+                  placeholder="Parent"
+                  value={addData.parentId}
+                  name="parentId"
+                  onChange={(e, value) => setAddData(value)}
+                  options={nodes
+                    .map((node) => ({
+                      label: node.label,
+                      value: node._id,
+                    }))
+                    .filter((node) => node.value !== editId)}
+                />
+              )}
+            </div>
+            <div className="flex center gap-4 mt-4">
+              <Button onClick={handleChange}>
+                {editId ? "Update" : "Add"}
+              </Button>
+              <Button onClick={reset}>Cancel</Button>
+            </div>
+          </>
         ) : (
           <Button onClick={() => setShowAddRow(true)}>Add</Button>
         )}
@@ -99,7 +115,7 @@ const NestedNodes = (props) => {
       {showDivider && <div className="divider"></div>}
       <div className="wrapper">
         {filteredNodes.map((node, index) => {
-          const { _id, label } = node;
+          const { _id, label, canDelete } = node;
           const hasChildNodes = nodes.filter(
             (node) => node.parentId === _id
           ).length;
@@ -123,7 +139,8 @@ const NestedNodes = (props) => {
                   <Icon
                     type="delete"
                     size={10}
-                    onClick={() => deleteNode(node._id)}
+                    fill={canDelete ? colors.iron : colors.strokeOne}
+                    onClick={() => (canDelete ? deleteNode(node._id) : null)}
                   />
                 </div>
               </div>

@@ -23,7 +23,13 @@ const Settings = ({ session, updateUserSettings }) => {
       />
 
       <Card title="Expense groups" size="small">
-        <NestedNodes nodes={expenseTypes} onChange={updateSetting} />
+        <NestedNodes
+          nodes={expenseTypes.map((item) => ({
+            ...item,
+            canDelete: !item.default,
+          }))}
+          onChange={updateSetting}
+        />
       </Card>
     </section>
   );
