@@ -1,7 +1,7 @@
 import { SET_APP_LOADING, SET_SESSION, SET_KEY } from "./constants";
 
 const initialState = {
-  appLoading: 0,
+  appLoading: false,
   appNotification: null,
   timeline: {
     groupId: undefined,
@@ -19,9 +19,7 @@ const appReducer = (state = initialState, action) => {
     case SET_APP_LOADING:
       return {
         ...state,
-        appLoading: action.payload
-          ? state.appLoading + 1
-          : state.appLoading - 1,
+        appLoading: action.payload,
       };
     case SET_SESSION:
       return {

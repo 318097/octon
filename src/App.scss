@@ -4,6 +4,12 @@
 
 .app {
   background: url("./assets/backgrounds/so-white.png");
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   div.header-wrapper {
     @include center-layout-header-wrapper;
     header h2 {
@@ -16,33 +22,12 @@
     // padding: 0 12px;
     // width: 100%;
     // overflow: overlay;
-    .ant-spin-dot {
-      font-size: 24px !important;
-    }
-    .loader {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
     & > section {
       // position: relative;
       // max-width: 450px;
       // width: 100%;
       // margin: 0 auto;
       // flex-direction: column;
-      & > .page-header {
-        border: 1px solid rgb(235, 237, 240);
-        margin-bottom: 12px;
-        padding: 4px 12px;
-        .ant-page-header-heading-extra {
-          align-items: center;
-          display: flex;
-        }
-      }
-      & > .ant-card {
-        margin-bottom: 12px;
-      }
       &#login,
       &#register {
         background: $bg;
@@ -56,6 +41,18 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 12px;
+      }
+      & > .page-header {
+        border: 1px solid rgb(235, 237, 240);
+        margin-bottom: 12px;
+        padding: 4px 12px;
+        .ant-page-header-heading-extra {
+          align-items: center;
+          display: flex;
+        }
+      }
+      & > .ant-card {
+        margin-bottom: 12px;
       }
     }
     html,

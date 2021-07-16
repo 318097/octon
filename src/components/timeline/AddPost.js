@@ -29,6 +29,7 @@ const AddPost = ({
 }) => {
   const [data, setData] = useState({});
   const [mode, setMode] = useState("ADD");
+  const [loading, setLoading] = useState(false);
   const [createTimelinePost] = useMutation(CREATE_TIMELINE_POST);
   const [updateTimelinePost] = useMutation(UPDATE_TIMELINE_POST);
 
@@ -40,6 +41,7 @@ const AddPost = ({
   }, [post]);
 
   const savePost = async () => {
+    setLoading(true);
     const date = data.date.format();
     if (mode === "ADD") {
       await createTimelinePost({
@@ -62,6 +64,7 @@ const AddPost = ({
     setVisibility(false);
     setData(INITIAL_STATE);
     fetchTimelinePosts();
+    setLoading(false);
   };
 
   const openNewPostModal = () => {
@@ -86,6 +89,7 @@ const AddPost = ({
         okText={mode === "ADD" ? "Add" : "Update"}
         onCancel={() => setVisibility(false)}
         width={380}
+        confirmLoading={loading}
       >
         <Select
           key="group-list"

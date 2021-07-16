@@ -22,7 +22,7 @@ const Settings = ({ session, updateUserSettings }) => {
         title="Settings"
       />
 
-      <Card title="Expense groups" size="small">
+      <Card title="Expense type & sub-types" size="small">
         <NestedNodes
           nodes={expenseTypes.map((item) => ({
             ...item,

@@ -79,7 +79,7 @@ const AddExpense = ({
         value={expense.date}
         placeholder="Select month"
       />
-      <h5 className="mt">Category</h5>
+      <h5 className="mt">Expense type</h5>
       <Radio.Group
         className="mt"
         value={expense.expenseTypeId}
@@ -96,7 +96,7 @@ const AddExpense = ({
 
       {expense.expenseTypeId && expenseSubTypes.length ? (
         <Fragment>
-          <h5 className="mt">Sub Category</h5>
+          <h5 className="mt">Expense sub-type</h5>
 
           <div className="mt">
             <Radio.Group

@@ -15,7 +15,7 @@ import moment from "moment";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_TIMELINE } from "../../graphql/queries";
 import { DELETE_TIMELINE_POST } from "../../graphql/mutations";
-import { updateUserSettings } from "../../store/actions";
+import { updateUserSettings, setAppLoading } from "../../store/actions";
 import { connect } from "react-redux";
 import AddPost from "./AddPost";
 import colors, { Icon, Tag } from "@codedrops/react-ui";
@@ -26,7 +26,12 @@ import tracking from "../../lib/mixpanel";
 
 const { Option } = Select;
 
-const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
+const Timeline = ({
+  updateUserSettings,
+  session,
+  saveTimelinePost,
+  setAppLoading,
+}) => {
   const [currentPost, setCurrentPost] = useState(null);
   const [visibility, setVisibility] = useState(false);
   const [groupId, setGroupId] = useState();
@@ -34,6 +39,7 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
 
   const [getTimeline, { data }] = useLazyQuery(GET_TIMELINE, {
     fetchPolicy: "cache-and-network",
+    onCompleted: () => setAppLoading(false),
   });
 
   const dataFeed = _.get(data, "atom.getTimeline", []);
@@ -43,6 +49,7 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
   }, [groupId]);
 
   const fetchTimelinePosts = () => {
+    setAppLoading(true);
     const input = { groupId };
     getTimeline({ variables: { input } });
   };
@@ -54,13 +61,13 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
   };
 
   const handleDelete = async (_id) => {
-    //  setAppLoading(true);
+    setAppLoading(true);
     await deleteTimelinePost({
       variables: { input: { _id } },
     });
     tracking.track("DELET_TIMELINE_POST");
     await fetchTimelinePosts();
-    //  setAppLoading(false);
+    setAppLoading(false);
   };
 
   const timelineGroups = _.get(session, "timeline", []);
@@ -85,6 +92,7 @@ const Timeline = ({ updateUserSettings, session, saveTimelinePost }) => {
             timelineGroups={timelineGroups}
             updateUserSettings={updateUserSettings}
             key="add-new-group"
+            setAppLoading={setAppLoading}
           />,
           <AddPost
             key="add-icon"
@@ -157,17 +165,20 @@ const AddNewGroup = ({
   setGroupId,
   timelineGroups,
   updateUserSettings,
+  setAppLoading,
 }) => {
   const [newGroupData, setNewGroupData] = useObject({});
 
   const addTimelineGroup = async () => {
     if (!newGroupData) return;
 
+    setAppLoading(true);
     updateUserSettings(
       { name: newGroupData.name },
       { action: "CREATE", key: "timeline" }
     );
     setNewGroupData({ name: "" });
+    setAppLoading(false);
   };
 
   return (
@@ -227,4 +238,5 @@ const mapStateToProps = ({ session }) => ({
 
 export default connect(mapStateToProps, {
   updateUserSettings,
+  setAppLoading,
 })(Timeline);

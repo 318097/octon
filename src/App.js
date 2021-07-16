@@ -19,7 +19,7 @@ axios.defaults.headers.common["authorization"] = sessionManager.getToken();
 axios.defaults.headers.common["external-source"] = "ATOM";
 
 const App = ({ setSession, appLoading, history }) => {
-  const [loading, setLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(true);
 
   useEffect(() => {
     const isAccountActive = async () => {
@@ -31,9 +31,9 @@ const App = ({ setSession, appLoading, history }) => {
         } catch (error) {
           handleError(error);
         } finally {
-          setTimeout(() => setLoading(false), 300);
+          setTimeout(() => setInitLoading(false), 300);
         }
-      } else setLoading(false);
+      } else setInitLoading(false);
     };
     tracking.track("INIT", { path: window.location.pathname });
     isAccountActive();
@@ -41,8 +41,8 @@ const App = ({ setSession, appLoading, history }) => {
 
   return (
     <div className="app" id="react-ui">
-      <Header history={history} />
-      {loading ? (
+      <Header history={history} appLoading={appLoading} />
+      {initLoading ? (
         <Spin className="loader" />
       ) : (
         <div className="section-wrapper">
@@ -53,8 +53,9 @@ const App = ({ setSession, appLoading, history }) => {
   );
 };
 
-const mapStateToProps = ({ session }) => ({
+const mapStateToProps = ({ session, appLoading }) => ({
   session,
+  appLoading,
 });
 
 const mapDispatchToProps = { setSession };
