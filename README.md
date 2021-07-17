@@ -36,7 +36,7 @@
 - [x] Token login
 - [ ] Add support for tags
 - [x] Categorize expenses - investments, expenses, income
-- [ ] Graphql loading and error states
+- [x] Graphql loading and error states
 - [ ] Add to home screen
 - [ ] Rename to octon
 - [ ] Settings page

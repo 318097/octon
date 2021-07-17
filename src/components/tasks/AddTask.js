@@ -10,7 +10,7 @@ import { Icon } from "@codedrops/react-ui";
 
 const AddTodo = () => {
   const [addTodoVisibility, , setAddTodoVisibility] = useToggle();
-  const [addTask] = useMutation(CREATE_TASK);
+  const [addTask, { loading }] = useMutation(CREATE_TASK);
   const [task, setTask, resetData] = useObject({
     type: "TODO",
   });
@@ -36,6 +36,7 @@ const AddTodo = () => {
         okText="Add"
         onOk={addTodo}
         width={380}
+        confirmLoading={loading}
       >
         <Radio.Group
           value={task.type}

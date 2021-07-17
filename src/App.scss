@@ -41,6 +41,17 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 12px;
+        .ant-card {
+          .label {
+            color: $bar;
+            font-size: 1.2rem;
+          }
+          .description {
+            color: $steel;
+            line-height: 1.2rem;
+            font-size: 1rem;
+          }
+        }
       }
       & > .page-header {
         border: 1px solid rgb(235, 237, 240);
@@ -62,6 +73,9 @@
     .ant-popover-message,
     .ant-btn-sm {
       font-size: 12px;
+    }
+    .loading .ant-spin .ant-spin-dot {
+      font-size: 20px; // expense stats loading
     }
   }
 

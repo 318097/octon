@@ -19,10 +19,12 @@ import tracking from "../../lib/mixpanel";
 const { MonthPicker } = DatePicker;
 
 const Expenses = ({ setAppLoading, expenseTypes }) => {
-  const [getExpensesByMonth, { data }] = useLazyQuery(GET_MONTHLY_EXPENSES, {
-    fetchPolicy: "cache-and-network",
-    onCompleted: () => setAppLoading(false),
-  });
+  const [getExpensesByMonth, { data, loading }] = useLazyQuery(
+    GET_MONTHLY_EXPENSES,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
   const [date, setDate] = useState(moment());
   const [showStats, setShowStats] = useState(false);
   const input = _.get(data, "atom.getExpensesByMonth", []);
@@ -31,9 +33,12 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
     fetchExpenseByMonth();
   }, [date]);
 
+  useEffect(() => {
+    setAppLoading(loading);
+  }, [loading]);
+
   const fetchExpenseByMonth = async () => {
     try {
-      setAppLoading(true);
       const input = { month: date.month() + 1, year: date.year() };
       getExpensesByMonth({
         variables: { input },

@@ -6,7 +6,7 @@
     "@ant-design/compatible": "^1.0.8",
     "@apollo/client": "^3.3.19",
     "@codedrops/lib": "^0.0.29",
-    "@codedrops/react-ui": "^3.0.12",
+    "@codedrops/react-ui": "^3.0.13",
     "@sentry/react": "^6.9.0",
     "@sentry/tracing": "^6.9.0",
     "antd": "^4.10.3",

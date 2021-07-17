@@ -16,8 +16,8 @@ const Home = ({ history }) => (
             tracking.track("NAVIGATION", { name: label });
           }}
         >
-          <div className="">{label}</div>
-          <div className="">{description}</div>
+          <div className="label">{label}</div>
+          <div className="description">{description}</div>
         </Card>
       )
     )}

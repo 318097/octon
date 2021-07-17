@@ -26,20 +26,14 @@ import tracking from "../../lib/mixpanel";
 
 const { Option } = Select;
 
-const Timeline = ({
-  updateUserSettings,
-  session,
-  saveTimelinePost,
-  setAppLoading,
-}) => {
+const Timeline = ({ updateUserSettings, session, setAppLoading }) => {
   const [currentPost, setCurrentPost] = useState(null);
   const [visibility, setVisibility] = useState(false);
   const [groupId, setGroupId] = useState();
   const [deleteTimelinePost] = useMutation(DELETE_TIMELINE_POST);
 
-  const [getTimeline, { data }] = useLazyQuery(GET_TIMELINE, {
+  const [getTimeline, { data, loading }] = useLazyQuery(GET_TIMELINE, {
     fetchPolicy: "cache-and-network",
-    onCompleted: () => setAppLoading(false),
   });
 
   const dataFeed = _.get(data, "atom.getTimeline", []);
@@ -47,6 +41,10 @@ const Timeline = ({
   useEffect(() => {
     fetchTimelinePosts();
   }, [groupId]);
+
+  useEffect(() => {
+    setAppLoading(loading);
+  }, [loading]);
 
   const fetchTimelinePosts = () => {
     setAppLoading(true);

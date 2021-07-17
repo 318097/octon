@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Radio, Modal, List, Popconfirm, Checkbox } from "antd";
 import moment from "moment";
 import { calculateTotal } from "@codedrops/lib";
-import { Icon } from "@codedrops/react-ui";
+import colors, { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
 import "./Expenses.scss";
 import AddExpense from "./AddExpense";
@@ -86,7 +86,9 @@ const ExpenseList = ({
           <span>{expenseSubType ? expenseSubType.toUpperCase() : null}</span>,
           <Icon
             key="favorite-expense"
-            type={favorite ? "circle-3" : "circle-2"}
+            // type={favorite ? "circle-3" : "circle-2"}
+            type={"heart"}
+            fill={favorite ? colors.watermelon : colors.strokeTwo}
             size={12}
             onClick={() => toggleFavoriteExpenseHandler(_id, !favorite)}
           />,
@@ -99,14 +101,10 @@ const ExpenseList = ({
           <Popconfirm
             placement="bottomRight"
             title="Delete?"
+            key="delete-expense"
             onConfirm={() => handleDelete(_id)}
           >
-            <Icon
-              className="mr-0"
-              size={12}
-              key="delete-expense"
-              type="delete"
-            />
+            <Icon className="mr-0" size={12} type="delete" />
           </Popconfirm>,
         ]}
       >

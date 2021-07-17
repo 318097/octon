@@ -6,19 +6,26 @@ import "./Tasks.scss";
 import { GET_ALL_TASKS } from "../../graphql/queries";
 import _ from "lodash";
 import { STAMP_TASK, DELETE_TASK } from "../../graphql/mutations";
+import { connect } from "react-redux";
 import Task from "./Task";
 import moment from "moment";
+import { setAppLoading } from "../../store/actions";
 
-const Tasks = () => {
-  const { loading, error, data } = useQuery(GET_ALL_TASKS);
+const Tasks = ({ setAppLoading }) => {
+  const { loading, data } = useQuery(GET_ALL_TASKS);
   const [stampTask] = useMutation(STAMP_TASK);
   const [deleteTask] = useMutation(DELETE_TASK);
+
+  useEffect(() => {
+    setAppLoading(loading);
+  }, [loading]);
 
   const [taskObj, setTaskObj] = useState({});
 
   const todoList = _.get(data, "atom.getAllTasks", []);
 
   const markTodo = async (task, extra = {}) => {
+    setAppLoading(true);
     const { _id } = task;
     const { actionType } = extra;
     let input = { _id, actionType };
@@ -48,13 +55,16 @@ const Tasks = () => {
       refetchQueries: [{ query: GET_ALL_TASKS }],
     });
     setTaskObj({});
+    setAppLoading(false);
   };
 
   const handleDeleteTask = async (_id) => {
-    deleteTask({
+    setAppLoading(true);
+    await deleteTask({
       variables: { input: { _id } },
       refetchQueries: [{ query: GET_ALL_TASKS }],
     });
+    setAppLoading(false);
   };
 
   return (
@@ -146,4 +156,8 @@ const TaskDetail = ({ taskObj, setTaskObj, markTodo }) => {
   );
 };
 
-export default Tasks;
+const mapActionsToProps = {
+  setAppLoading,
+};
+
+export default connect(null, mapActionsToProps)(Tasks);

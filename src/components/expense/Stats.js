@@ -4,7 +4,8 @@ import { useQuery } from "@apollo/client";
 import { GET_EXPENSE_STATS } from "../../graphql/queries";
 import "./Expenses.scss";
 import _ from "lodash";
-import colors from "@codedrops/react-ui";
+import { Spin } from "antd";
+import colors, { Loading } from "@codedrops/react-ui";
 import { Bar, Pie } from "react-chartjs-2";
 
 const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
@@ -12,7 +13,6 @@ const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
   const entries = Object.entries(input);
 
   const labels = entries.map(([label]) => label);
-  console.log("rootExpenseTypes::-", rootExpenseTypes);
 
   rootExpenseTypes.forEach((type, idx) => {
     const { label, color, key } = type;
@@ -53,6 +53,9 @@ const Stats = ({ rootExpenseTypes }) => {
 
   return (
     <>
+      {loading && (
+        <Loading background="blur" renderLoadingComponent={<Spin />} />
+      )}
       <MonthlyOverview
         input={stats.monthlyOverview || []}
         rootExpenseTypes={rootExpenseTypes || []}
