@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 const GET_ALL_TASKS = gql`
   query getAllTasks {
-    atom {
+    octon {
       getAllTasks {
         _id
         content
@@ -24,7 +24,7 @@ const GET_ALL_TASKS = gql`
 
 const GET_EXPENSE_STATS = gql`
   query expenseStats {
-    atom {
+    octon {
       expenseStats
     }
   }
@@ -32,7 +32,7 @@ const GET_EXPENSE_STATS = gql`
 
 const GET_MONTHLY_EXPENSES = gql`
   query getExpensesByMonth($input: MonthlyExpensesInput!) {
-    atom {
+    octon {
       getExpensesByMonth(input: $input) {
         _id
         amount
@@ -48,7 +48,7 @@ const GET_MONTHLY_EXPENSES = gql`
 
 const GET_TIMELINE = gql`
   query getTimeline($input: GetTimelineInput!) {
-    atom {
+    octon {
       getTimeline(input: $input) {
         _id
         content

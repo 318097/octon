@@ -36,7 +36,7 @@ const Timeline = ({ updateUserSettings, session, setAppLoading }) => {
     fetchPolicy: "cache-and-network",
   });
 
-  const dataFeed = _.get(data, "atom.getTimeline", []);
+  const dataFeed = _.get(data, "octon.getTimeline", []);
 
   useEffect(() => {
     fetchTimelinePosts();

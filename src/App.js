@@ -16,7 +16,7 @@ import handleError from "./lib/errorHandler";
 
 axios.defaults.baseURL = config.SERVER_URL;
 axios.defaults.headers.common["authorization"] = sessionManager.getToken();
-axios.defaults.headers.common["external-source"] = "ATOM";
+axios.defaults.headers.common["external-source"] = "OCTON";
 
 const App = ({ setSession, appLoading, history }) => {
   const [initLoading, setInitLoading] = useState(true);

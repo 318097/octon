@@ -49,7 +49,7 @@ const Stats = ({ rootExpenseTypes }) => {
     fetchPolicy: "cache-and-network",
   });
 
-  const stats = _.get(data, "atom.expenseStats", {});
+  const stats = _.get(data, "octon.expenseStats", {});
 
   return (
     <>

@@ -22,7 +22,7 @@ const Tasks = ({ setAppLoading }) => {
 
   const [taskObj, setTaskObj] = useState({});
 
-  const todoList = _.get(data, "atom.getAllTasks", []);
+  const todoList = _.get(data, "octon.getAllTasks", []);
 
   const markTodo = async (task, extra = {}) => {
     setAppLoading(true);

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 const CREATE_TASK = gql`
   mutation createTask($input: CreateTaskInput!) {
-    atom {
+    octon {
       createTask(input: $input) {
         _id
       }
@@ -12,7 +12,7 @@ const CREATE_TASK = gql`
 
 const STAMP_TASK = gql`
   mutation stampTask($input: StampTaskInput!) {
-    atom {
+    octon {
       stampTask(input: $input) {
         _id
       }
@@ -22,7 +22,7 @@ const STAMP_TASK = gql`
 
 const DELETE_TASK = gql`
   mutation deleteTask($input: TaskByIdInput!) {
-    atom {
+    octon {
       deleteTask(input: $input) {
         _id
       }
@@ -32,7 +32,7 @@ const DELETE_TASK = gql`
 
 const CREATE_EXPENSE = gql`
   mutation createExpense($input: CreateExpenseInput!) {
-    atom {
+    octon {
       createExpense(input: $input) {
         _id
       }
@@ -42,7 +42,7 @@ const CREATE_EXPENSE = gql`
 
 const UPDATE_EXPENSE = gql`
   mutation updateExpense($input: UpdateExpenseInput!) {
-    atom {
+    octon {
       updateExpense(input: $input) {
         _id
       }
@@ -52,7 +52,7 @@ const UPDATE_EXPENSE = gql`
 
 const DELETE_EXPENSE = gql`
   mutation deleteExpense($input: DeleteExpenseInput!) {
-    atom {
+    octon {
       deleteExpense(input: $input) {
         _id
       }
@@ -62,7 +62,7 @@ const DELETE_EXPENSE = gql`
 
 const TOGGLE_FAVORITE_EXPENSE = gql`
   mutation toggleFavoriteExpense($input: FavoriteExpenseInput!) {
-    atom {
+    octon {
       toggleFavoriteExpense(input: $input) {
         _id
       }
@@ -72,7 +72,7 @@ const TOGGLE_FAVORITE_EXPENSE = gql`
 
 const CREATE_TIMELINE_POST = gql`
   mutation createTimelinePost($input: CreateTimelineInput!) {
-    atom {
+    octon {
       createTimelinePost(input: $input) {
         _id
       }
@@ -82,7 +82,7 @@ const CREATE_TIMELINE_POST = gql`
 
 const UPDATE_TIMELINE_POST = gql`
   mutation updateTimelinePost($input: UpdateTimelineInput!) {
-    atom {
+    octon {
       updateTimelinePost(input: $input) {
         _id
       }
@@ -92,7 +92,7 @@ const UPDATE_TIMELINE_POST = gql`
 
 const DELETE_TIMELINE_POST = gql`
   mutation deleteTimelinePost($input: DeleteTimelineInput!) {
-    atom {
+    octon {
       deleteTimelinePost(input: $input) {
         _id
       }

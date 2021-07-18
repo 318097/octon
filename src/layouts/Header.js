@@ -9,7 +9,7 @@ const Header = ({ history, appLoading }) => (
         className="pointer gap-8 flex center"
         onClick={() => history.push("/")}
       >
-        Atom
+        Octon
         {appLoading ? <Spin size="small" /> : null}
       </h2>
       <Navigation />

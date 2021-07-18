@@ -27,7 +27,7 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
   );
   const [date, setDate] = useState(moment());
   const [showStats, setShowStats] = useState(false);
-  const input = _.get(data, "atom.getExpensesByMonth", []);
+  const input = _.get(data, "octon.getExpensesByMonth", []);
 
   useEffect(() => {
     fetchExpenseByMonth();
