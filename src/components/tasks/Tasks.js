@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, PageHeader, Input, Radio } from "antd";
+import { Modal, PageHeader, Input, Radio, Empty } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import AddTask from "./AddTask";
 import "./Tasks.scss";
@@ -76,15 +76,19 @@ const Tasks = ({ setAppLoading }) => {
         title="Tasks"
         extra={[<AddTask key="add-todo" />]}
       />
-      {todoList.map((task) => (
-        <Task
-          key={task._id}
-          task={task}
-          markTodo={markTodo}
-          handleDeleteTask={handleDeleteTask}
-          setTaskObj={setTaskObj}
-        />
-      ))}
+      {todoList.length ? (
+        todoList.map((task) => (
+          <Task
+            key={task._id}
+            task={task}
+            markTodo={markTodo}
+            handleDeleteTask={handleDeleteTask}
+            setTaskObj={setTaskObj}
+          />
+        ))
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      )}
 
       <TaskDetail
         taskObj={taskObj}

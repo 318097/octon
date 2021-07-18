@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
 import { Radio, InputNumber, Input, Button, DatePicker } from "antd";
+import { EmptyState } from "@codedrops/react-ui";
 import moment from "moment";
 import "./Expenses.scss";
 import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
@@ -94,22 +95,26 @@ const AddExpense = ({
           ))}
       </Radio.Group>
 
-      {expense.expenseTypeId && expenseSubTypes.length ? (
+      {expense.expenseTypeId ? (
         <Fragment>
           <h5 className="mt">Expense sub-type</h5>
 
-          <div className="mt">
-            <Radio.Group
-              value={expense.expenseSubTypeId}
-              onChange={(e) => setData("expenseSubTypeId", e.target.value)}
-            >
-              {expenseSubTypes.map((type) => (
-                <Radio key={type._id} value={type._id}>
-                  {type.label}
-                </Radio>
-              ))}
-            </Radio.Group>
-          </div>
+          {expenseSubTypes.length ? (
+            <div className="mt">
+              <Radio.Group
+                value={expense.expenseSubTypeId}
+                onChange={(e) => setData("expenseSubTypeId", e.target.value)}
+              >
+                {expenseSubTypes.map((type) => (
+                  <Radio key={type._id} value={type._id}>
+                    {type.label}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </div>
+          ) : (
+            <EmptyState style={{ textAlign: "left" }} size="sm" />
+          )}
         </Fragment>
       ) : null}
       <div className="mt flex" style={{ alignItems: "stretch" }}>

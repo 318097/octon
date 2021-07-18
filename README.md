@@ -5,7 +5,7 @@
 - [x] Expense Manager
   - [x] Set color for types
   - [x] Highlight expense types
-  - [ ] Default types should not be deletable
+  - [x] Default types should not be deletable
   - [x] Highlight expense
   - [ ] Select currency
   - [x] Stats
@@ -29,19 +29,20 @@
   - [ ] Show word of the day
   - [ ] Add your words
 - [ ] Quotes
-- [x] Login with token only when not signed in
+- [ ] Watchlist
 
 #### Todo
 
+- [x] Login with token only when not signed in
 - [x] Token login
-- [ ] Add support for tags
+- [x] Event tracking
+- [x] Google analytics
 - [x] Categorize expenses - investments, expenses, income
 - [x] Graphql loading and error states
+- [x] Rename to octon
+- [ ] Sentry sourcemaps
 - [ ] Add to home screen
-- [ ] Rename to octon
+- [ ] Add support for tags
 - [ ] Settings page
   - [ ] Show basic info
   - [ ] change/reset password
-- [ ] Sentry sourcemaps
-- [x] Event tracking
-- [ ] Google analytics
