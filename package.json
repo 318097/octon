@@ -5,8 +5,8 @@
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@apollo/client": "^3.3.19",
-    "@codedrops/lib": "^0.0.31",
-    "@codedrops/react-ui": "^3.0.13",
+    "@codedrops/lib": "^0.0.32",
+    "@codedrops/react-ui": "^3.0.14",
     "@sentry/react": "^6.9.0",
     "@sentry/tracing": "^6.9.0",
     "antd": "^4.10.3",
