@@ -15,7 +15,8 @@ import Routes from "./routes";
 import handleError from "./lib/errorHandler";
 
 axios.defaults.baseURL = config.SERVER_URL;
-axios.defaults.headers.common["authorization"] = sessionManager.getToken();
+axios.defaults.headers.common["authorization"] =
+  sessionManager.getToken() || "";
 axios.defaults.headers.common["external-source"] = "OCTON";
 
 const App = ({ setSession, appLoading, history }) => {
