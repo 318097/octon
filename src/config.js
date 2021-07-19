@@ -12,6 +12,7 @@ const isProd = NODE_ENV === "production";
 
 const { baseURL, serverURL, graphqlURL } = getServerURL({
   isProd,
+  serverType: "heroku",
   returnObject: true,
 });
 
