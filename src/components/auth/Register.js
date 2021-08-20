@@ -19,12 +19,14 @@ const Register = () => {
   const handleRegister = async () => {
     setLoading(true);
     try {
-      await axios.post("/auth/register", {
+      const { data } = await axios.post("/auth/register", {
         username,
         password,
         name,
         email,
       });
+      tracking.setUser(data);
+      tracking.setIdentity(data);
       tracking.track("REGISTER");
       notify("User registered successfully.");
       setTimeout(() => setRedirect(true), 1000);
