@@ -31,8 +31,8 @@ const routes = ({ isAuthenticated, filterKey }) =>
       route: "/scratch-pad",
       label: "Scratch Pad",
       icon: <Icon type="file-text" />,
-      showInNavBar: false,
-      showInHomePage: false,
+      showInNavBar: isAuthenticated,
+      showInHomePage: true,
     },
     {
       route: "/settings",

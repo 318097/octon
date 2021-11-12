@@ -24,12 +24,14 @@
   - [ ] Add timeline post to portfolio
 - [x] Scratch pad
   - [ ] Not able to add
-- [ ] Tab Sync
+  - [ ] Set duration. Post should expire after that duration is crossed
+  - [ ]
 - [ ] Vocab
   - [ ] Show word of the day
   - [ ] Add your words
 - [ ] Quotes
 - [ ] Watchlist
+- [ ] Tab Sync
 
 #### Todo
 
@@ -46,3 +48,12 @@
 - [ ] Settings page
   - [ ] Show basic info
   - [ ] change/reset password
+
+#### Feature description - Scratch Pad
+
+Upload and share content easily. Share & Download texts, links, images without loging in
+
+- Every user can add a post. It can have
+  - a expiry date (post should expire after that date)
+  - public/private - public means every user can come to your profile and view/download that Post & to access private data, enter a pin (which can be created by the post's owner)
+  - Upload feature is done for Notebase app. Make it modular and reuse it.
