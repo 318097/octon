@@ -55,7 +55,7 @@ section#expenses {
       align-items: flex-start;
       height: max-content;
       min-height: 230px;
-      .ant-card-body {
+      & > .ant-card-body {
         padding-right: 0;
       }
     }
@@ -66,18 +66,23 @@ section#expenses {
   }
 }
 
-.ant-list {
-  width: 100%;
-  background: $white;
-  .expense-list-container {
-    font-size: 1rem;
+.expense-item {
+  margin-bottom: 8px;
+  .ant-card-body {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .expense-list-container {
+      flex-grow: 1;
+    }
+    .expense-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      .ant-tag {
+        font-size: 10px;
+      }
+    }
   }
-}
-
-.ant-list-items .ant-list-item {
-  padding: 12px 0;
-}
-
-.ant-list-item-action > li {
-  font-size: 1rem;
 }

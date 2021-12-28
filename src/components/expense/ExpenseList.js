@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, Modal, List, Popconfirm, Checkbox } from "antd";
+import { Radio, Modal, Popconfirm, Checkbox, Tag, Card } from "antd";
 import moment from "moment";
 import { calculateTotal } from "@codedrops/lib";
 import colors, { Icon } from "@codedrops/react-ui";
@@ -14,7 +14,14 @@ import { useMutation } from "@apollo/client";
 import tracking from "../../lib/mixpanel";
 
 const ExpenseList = (props) => {
-  const { fetchExpenseByMonth, list, setAppLoading, expenseTypes } = props;
+  const {
+    fetchExpenseByMonth,
+    list,
+    setAppLoading,
+    expenseTypes,
+    expenseSources,
+    expenseApps,
+  } = props;
 
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
@@ -65,55 +72,24 @@ const ExpenseList = (props) => {
   };
 
   const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
-
-  const renderItem = (row) => {
-    const { date, message, amount, expenseSubTypeId, _id, favorite } = row;
-    const expenseDate = moment(date).format("DD,MMM");
-    const expenseMessage = message ? <span>({message})</span> : null;
-
-    const formatedValue = amount.toLocaleString();
-    const expenseSubType = _.get(expenseTypesKeyed, [
-      expenseSubTypeId,
-      "label",
-    ]);
-
-    return (
-      <List.Item
-        actions={[
-          <span>{expenseSubType ? expenseSubType.toUpperCase() : null}</span>,
-          <Icon
-            key="favorite-expense"
-            // type={favorite ? "circle-3" : "circle-2"}
-            type={"heart"}
-            fill={favorite ? colors.watermelon : colors.strokeTwo}
-            size={12}
-            onClick={() => toggleFavoriteExpenseHandler(_id, !favorite)}
-          />,
-          <Icon
-            key="edit-expense"
-            type="edit"
-            size={12}
-            onClick={() => editExpenseHandler(_id)}
-          />,
-          <Popconfirm
-            placement="bottomRight"
-            title="Delete?"
-            key="delete-expense"
-            onConfirm={() => handleDelete(_id)}
-          >
-            <Icon className="mr-0" size={12} type="delete" />
-          </Popconfirm>,
-        ]}
-      >
-        <div className="expense-list-container">
-          <div>{`${expenseDate}: ₹${formatedValue}`}</div>
-          <div className="message">{expenseMessage}</div>
-        </div>
-      </List.Item>
-    );
-  };
+  const expenseSourcesKeyed = _.keyBy(expenseSources, "_id");
+  const expenseAppsKeyed = _.keyBy(expenseApps, "_id");
 
   const formatedValue = total.toLocaleString();
+  const filteredDataSource = dataSource
+    .filter((item) => (showFavoritesOnly ? item.favorite : true))
+    .map((item) => ({
+      ...item,
+      expenseSubType: _.get(expenseTypesKeyed, [
+        item.expenseSubTypeId,
+        "label",
+      ]),
+      expenseSource: _.get(expenseSourcesKeyed, [
+        item.expenseSourceId,
+        "label",
+      ]),
+      expenseApp: _.get(expenseAppsKeyed, [item.expenseAppId, "label"]),
+    }));
   return (
     <Fragment>
       <Radio.Group
@@ -144,14 +120,15 @@ const ExpenseList = (props) => {
       <div
         style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: "12px" }}
       >
-        <List
-          itemLayout="horizontal"
-          size="small"
-          dataSource={dataSource.filter((item) =>
-            showFavoritesOnly ? item.favorite : true
-          )}
-          renderItem={renderItem}
-        />
+        {filteredDataSource.map((item) => (
+          <ExpenseItem
+            key={item._id}
+            item={item}
+            toggleFavoriteExpenseHandler={toggleFavoriteExpenseHandler}
+            editExpenseHandler={editExpenseHandler}
+            handleDelete={handleDelete}
+          />
+        ))}
       </div>
       <Modal
         wrapClassName="react-ui"
@@ -169,6 +146,79 @@ const ExpenseList = (props) => {
         />
       </Modal>
     </Fragment>
+  );
+};
+
+const ExpenseItem = ({
+  item,
+  toggleFavoriteExpenseHandler,
+  editExpenseHandler,
+  handleDelete,
+}) => {
+  const {
+    date,
+    message,
+    amount,
+    expenseSubType,
+    _id,
+    favorite,
+    expenseSource,
+    expenseApp,
+  } = item;
+  const expenseDate = moment(date).format("DD,MMM");
+  const expenseMessage = message ? <span>({message})</span> : null;
+
+  const formatedValue = amount.toLocaleString();
+
+  const content = [
+    { comp: <Tag>{expenseSource}</Tag>, visible: !!expenseSource },
+    { comp: <Tag>{expenseApp}</Tag>, visible: !!expenseApp },
+    { comp: <Tag>{expenseSubType}</Tag>, visible: !!expenseSubType },
+    {
+      comp: (
+        <Icon
+          key="favorite-expense"
+          type={"heart"}
+          fill={favorite ? colors.watermelon : colors.strokeTwo}
+          size={12}
+          onClick={() => toggleFavoriteExpenseHandler(_id, !favorite)}
+        />
+      ),
+      visible: true,
+    },
+    {
+      comp: (
+        <Icon
+          key="edit-expense"
+          type="edit"
+          size={12}
+          onClick={() => editExpenseHandler(_id)}
+        />
+      ),
+      visible: true,
+    },
+    {
+      comp: (
+        <Popconfirm
+          placement="bottomRight"
+          title="Delete?"
+          key="delete-expense"
+          onConfirm={() => handleDelete(_id)}
+        >
+          <Icon className="mr-0" size={12} type="delete" />
+        </Popconfirm>
+      ),
+      visible: true,
+    },
+  ].filter((obj) => obj.visible);
+  return (
+    <Card className={"expense-item"}>
+      <div className="expense-list-container">
+        <div>{`${expenseDate}: ₹${formatedValue}`}</div>
+        <div className="message">{expenseMessage}</div>
+      </div>
+      <div className="expense-actions">{content.map((obj) => obj.comp)}</div>
+    </Card>
   );
 };
 
