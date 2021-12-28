@@ -8,11 +8,16 @@
   - [x] Default types should not be deletable
   - [x] Highlight expense
   - [ ] Select currency
+  - [x] Expense source - HDFC Credit card, HDFC debit card, SIB Debit card, Payment Bank
+  - [x] Expense app - GPay, PayTM
+  - [ ] Transactions - Do not add them in totals
+  - [ ] Bug: Reset sub type when type changes
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
     - [ ] Sub category breakdown
     - [ ] Select range for stats
+  - [ ] Last x months major breakdown and statement. set the minimum amount and only show the transactions above that amount
 - [x] Tasks - Todos, Goals & Progress
   - [x] Show done items at the bottom
   - [ ] Define custom fields for progress

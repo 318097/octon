@@ -7,11 +7,11 @@ import { PageHeader, Card } from "antd";
 import NestedNodes from "../../lib/NestedNodes";
 
 const Settings = ({ session, updateUserSettings }) => {
-  const updateSetting = async (update, action) => {
-    updateUserSettings(update, { action, key: "expenseTypes" });
+  const updateSetting = (key) => async (update, action) => {
+    updateUserSettings(update, { action, key });
   };
 
-  const { expenseTypes } = session;
+  const { expenseTypes = [], expenseSources = [], expenseApps = [] } = session;
 
   return (
     <section id="settings">
@@ -28,7 +28,27 @@ const Settings = ({ session, updateUserSettings }) => {
             ...item,
             canDelete: !item.default,
           }))}
-          onChange={updateSetting}
+          onChange={updateSetting("expenseTypes")}
+        />
+      </Card>
+
+      <Card title="Expense source" size="small">
+        <NestedNodes
+          nodes={expenseSources.map((item) => ({
+            ...item,
+            canDelete: true,
+          }))}
+          onChange={updateSetting("expenseSources")}
+        />
+      </Card>
+
+      <Card title="Expense app" size="small">
+        <NestedNodes
+          nodes={expenseApps.map((item) => ({
+            ...item,
+            canDelete: true,
+          }))}
+          onChange={updateSetting("expenseApps")}
         />
       </Card>
     </section>

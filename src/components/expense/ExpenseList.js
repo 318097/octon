@@ -13,12 +13,9 @@ import {
 import { useMutation } from "@apollo/client";
 import tracking from "../../lib/mixpanel";
 
-const ExpenseList = ({
-  fetchExpenseByMonth,
-  list,
-  setAppLoading,
-  expenseTypes,
-}) => {
+const ExpenseList = (props) => {
+  const { fetchExpenseByMonth, list, setAppLoading, expenseTypes } = props;
+
   const [editExpense, setEditExpense] = useState(null);
   const [dataSource, setDataSource] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
@@ -165,12 +162,10 @@ const ExpenseList = ({
         footer={[]}
       >
         <AddExpense
-          fetchExpenseByMonth={fetchExpenseByMonth}
+          {...props}
           currentExpense={editExpense}
           setVisibilityStatus={setEditExpenseVisibility}
           mode="EDIT"
-          setAppLoading={setAppLoading}
-          expenseTypes={expenseTypes}
         />
       </Modal>
     </Fragment>

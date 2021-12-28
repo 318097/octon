@@ -40,6 +40,8 @@ const GET_MONTHLY_EXPENSES = gql`
         date
         expenseSubTypeId
         expenseTypeId
+        expenseSourceId
+        expenseAppId
         favorite
       }
     }

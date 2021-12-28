@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, InputNumber, Input, Button, DatePicker } from "antd";
+import { Radio, InputNumber, Input, Button, DatePicker, Checkbox } from "antd";
 import { EmptyState } from "@codedrops/react-ui";
 import moment from "moment";
 import "./Expenses.scss";
@@ -17,6 +17,8 @@ const AddExpense = ({
   setVisibilityStatus,
   mode,
   expenseTypes,
+  expenseSources,
+  expenseApps,
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState({
@@ -117,6 +119,33 @@ const AddExpense = ({
           )}
         </Fragment>
       ) : null}
+
+      <h5 className="mt">Expense source</h5>
+      <Radio.Group
+        className="mt"
+        value={expense.expenseSourceId}
+        onChange={(e) => setData("expenseSourceId", e.target.value)}
+      >
+        {expenseSources.map((option) => (
+          <Radio key={option._id} value={option._id}>
+            {option.label}
+          </Radio>
+        ))}
+      </Radio.Group>
+
+      <h5 className="mt">Expense app</h5>
+      <Radio.Group
+        className="mt"
+        value={expense.expenseAppId}
+        onChange={(e) => setData("expenseAppId", e.target.value)}
+      >
+        {expenseApps.map((option) => (
+          <Radio key={option._id} value={option._id}>
+            {option.label}
+          </Radio>
+        ))}
+      </Radio.Group>
+
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber
           min={1}
@@ -133,6 +162,14 @@ const AddExpense = ({
           value={expense.message}
           onChange={(e) => setData("message", e.target.value)}
         />
+      </div>
+      <div className="mt">
+        <Checkbox
+          checked={expense.favorite}
+          onChange={(e) => setData("favorite", e.target.checked)}
+        >
+          Favorite
+        </Checkbox>
       </div>
       <div className="mt">
         <Button

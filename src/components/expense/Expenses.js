@@ -18,7 +18,12 @@ import tracking from "../../lib/mixpanel";
 
 const { MonthPicker } = DatePicker;
 
-const Expenses = ({ setAppLoading, expenseTypes }) => {
+const Expenses = ({
+  setAppLoading,
+  expenseTypes,
+  expenseApps,
+  expenseSources,
+}) => {
   const [getExpensesByMonth, { data, loading }] = useLazyQuery(
     GET_MONTHLY_EXPENSES,
     {
@@ -65,6 +70,15 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
   });
 
   const summaryItems = Object.entries(total);
+
+  const props = {
+    fetchExpenseByMonth,
+    setAppLoading,
+    expenseTypes,
+    expenseApps,
+    expenseSources,
+  };
+
   return (
     <section id="expenses">
       <PageHeader
@@ -136,21 +150,11 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
 
       <Card className="add-expense">
         <span className="badge">Add</span>
-        <AddExpense
-          setAppLoading={setAppLoading}
-          fetchExpenseByMonth={fetchExpenseByMonth}
-          mode="ADD"
-          expenseTypes={expenseTypes}
-        />
+        <AddExpense {...props} mode="ADD" />
       </Card>
       <Card className="expense-list">
         <span className="badge">{date.format("MMM 'YY")}</span>
-        <ExpenseList
-          list={input}
-          fetchExpenseByMonth={fetchExpenseByMonth}
-          setAppLoading={setAppLoading}
-          expenseTypes={expenseTypes}
-        />
+        <ExpenseList {...props} list={input} />
       </Card>
     </section>
   );
@@ -158,6 +162,8 @@ const Expenses = ({ setAppLoading, expenseTypes }) => {
 
 const mapStateToProps = ({ session }) => ({
   expenseTypes: _.get(session, "expenseTypes", []),
+  expenseApps: _.get(session, "expenseApps", []),
+  expenseSources: _.get(session, "expenseSources", []),
 });
 
 const mapActionsToProps = {
