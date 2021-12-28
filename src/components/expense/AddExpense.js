@@ -63,11 +63,7 @@ const AddExpense = ({
     }
   };
 
-  const setData = (key, value) => {
-    const data = expense;
-    data[key] = value;
-    setExpense({ ...data });
-  };
+  const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
   const expenseSubTypes = expenseTypes.filter(
     (item) => item.parentId === expense.expenseTypeId
@@ -78,7 +74,7 @@ const AddExpense = ({
       <DatePicker
         style={{ width: "130px" }}
         allowClear={false}
-        onChange={(date) => setData("date", date)}
+        onChange={(date) => setData({ date })}
         value={expense.date}
         placeholder="Select month"
       />
@@ -86,7 +82,9 @@ const AddExpense = ({
       <Radio.Group
         className="mt"
         value={expense.expenseTypeId}
-        onChange={(e) => setData("expenseTypeId", e.target.value)}
+        onChange={(e) =>
+          setData({ expenseTypeId: e.target.value, expenseSubTypeId: null })
+        }
       >
         {expenseTypes
           .filter((item) => !item.parentId)
@@ -105,7 +103,7 @@ const AddExpense = ({
             <div className="mt">
               <Radio.Group
                 value={expense.expenseSubTypeId}
-                onChange={(e) => setData("expenseSubTypeId", e.target.value)}
+                onChange={(e) => setData({ expenseSubTypeId: e.target.value })}
               >
                 {expenseSubTypes.map((type) => (
                   <Radio key={type._id} value={type._id}>
@@ -124,7 +122,7 @@ const AddExpense = ({
       <Radio.Group
         className="mt"
         value={expense.expenseSourceId}
-        onChange={(e) => setData("expenseSourceId", e.target.value)}
+        onChange={(e) => setData({ expenseSourceId: e.target.value })}
       >
         {expenseSources.map((option) => (
           <Radio key={option._id} value={option._id}>
@@ -137,7 +135,7 @@ const AddExpense = ({
       <Radio.Group
         className="mt"
         value={expense.expenseAppId}
-        onChange={(e) => setData("expenseAppId", e.target.value)}
+        onChange={(e) => setData({ expenseAppId: e.target.value })}
       >
         {expenseApps.map((option) => (
           <Radio key={option._id} value={option._id}>
@@ -152,7 +150,7 @@ const AddExpense = ({
           className="mr"
           placeholder="Amount"
           value={expense.amount}
-          onChange={(value) => setData("amount", value)}
+          onChange={(amount) => setData({ amount })}
         />
 
         <Input
@@ -160,13 +158,13 @@ const AddExpense = ({
           style={{ width: "130px" }}
           placeholder="Message"
           value={expense.message}
-          onChange={(e) => setData("message", e.target.value)}
+          onChange={(e) => setData({ message: e.target.value })}
         />
       </div>
       <div className="mt">
         <Checkbox
           checked={expense.favorite}
-          onChange={(e) => setData("favorite", e.target.checked)}
+          onChange={(e) => setData({ favorite: e.target.checked })}
         >
           Favorite
         </Checkbox>

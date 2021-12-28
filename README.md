@@ -11,7 +11,7 @@
   - [x] Expense source - HDFC Credit card, HDFC debit card, SIB Debit card, Payment Bank
   - [x] Expense app - GPay, PayTM
   - [ ] Transactions - Do not add them in totals
-  - [ ] Bug: Reset sub type when type changes
+  - [x] Bug: Reset sub type when type changes
   - [x] Stats
     - [x] Last 6 months breakdown
     - [x] Last 6 month total
