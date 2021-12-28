@@ -146,7 +146,7 @@ const AddExpense = ({
 
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber
-          min={1}
+          controls={false}
           className="mr"
           placeholder="Amount"
           value={expense.amount}

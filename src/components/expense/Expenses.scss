@@ -46,17 +46,13 @@ section#expenses {
       }
     }
     &.add-expense {
-      height: auto;
       align-items: flex-start;
       justify-content: flex-start;
     }
     &.expense-list {
-      justify-content: flex-start;
-      align-items: flex-start;
-      height: max-content;
-      min-height: 230px;
       & > .ant-card-body {
-        padding-right: 0;
+        justify-content: flex-start;
+        align-items: flex-start;
       }
     }
   }

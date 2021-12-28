@@ -10,8 +10,9 @@
   - [ ] Select currency
   - [x] Expense source - HDFC Credit card, HDFC debit card, SIB Debit card, Payment Bank
   - [x] Expense app - GPay, PayTM
-  - [ ] Transactions - Do not add them in totals
-  - [ ] Last x months major breakdown and statement. set the minimum amount and only show the transactions above that amount
+  - [ ] Exclude expese - Do not add them in totals/stats
+  - [x] Last x months major breakdown and statement. set the minimum amount and only show the transactions above that amount
+    - [ ] Use date range selector
   - [x] Bug: Reset sub type when type changes
   - [x] Stats
     - [x] Last 6 months breakdown

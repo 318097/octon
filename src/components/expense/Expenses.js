@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Card, PageHeader, Button } from "antd";
+import {
+  DatePicker,
+  Card,
+  PageHeader,
+  Button,
+  InputNumber,
+  Select,
+} from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
@@ -17,6 +24,7 @@ import handleError from "../../lib/errorHandler";
 import tracking from "../../lib/mixpanel";
 
 const { MonthPicker } = DatePicker;
+const { Option } = Select;
 
 const Expenses = ({
   setAppLoading,
@@ -30,13 +38,23 @@ const Expenses = ({
       fetchPolicy: "cache-and-network",
     }
   );
-  const [date, setDate] = useState(moment());
+  const [filters, setFilters] = useState({
+    date: moment(),
+    monthsRange: null,
+    minAmount: null,
+  });
   const [showStats, setShowStats] = useState(false);
+  const [showAddExpense, setShowAddExpense] = useState(true);
   const input = _.get(data, "octon.getExpensesByMonth", []);
+
+  const updateFilters = (update) => {
+    setFilters((prev) => ({ ...prev, ...update }));
+    setShowAddExpense(false);
+  };
 
   useEffect(() => {
     fetchExpenseByMonth();
-  }, [date]);
+  }, [filters]);
 
   useEffect(() => {
     setAppLoading(loading);
@@ -44,7 +62,13 @@ const Expenses = ({
 
   const fetchExpenseByMonth = async () => {
     try {
-      const input = { month: date.month() + 1, year: date.year() };
+      const { date, minAmount, monthsRange } = filters || {};
+      const input = {
+        month: date.month() + 1,
+        year: date.year(),
+        minAmount: Number(minAmount),
+        monthsRange: Number(monthsRange),
+      };
       getExpensesByMonth({
         variables: { input },
       });
@@ -87,6 +111,34 @@ const Expenses = ({
         onBack={null}
         title="Expenses"
         extra={[
+          <MonthPicker
+            key="month-picker"
+            style={{ width: "100px" }}
+            size="small"
+            allowClear={false}
+            format="MMM, YY"
+            onChange={(date) => updateFilters({ date })}
+            value={filters.date}
+            placeholder="Select month"
+          />,
+          <InputNumber
+            key="min-amount"
+            placeholder="Min amount"
+            size="small"
+            value={filters.minAmount}
+            onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+          />,
+          <Select
+            key="month-range"
+            size="small"
+            placeholder="Range"
+            value={filters.monthsRange}
+            onChange={(monthsRange) => updateFilters({ monthsRange })}
+          >
+            <Option value="1">1M</Option>
+            <Option value="3">3M</Option>
+            <Option value="6">6M</Option>
+          </Select>,
           <Button
             key="stats"
             size="small"
@@ -94,16 +146,13 @@ const Expenses = ({
           >
             Stats
           </Button>,
-          <MonthPicker
-            key="month-picker"
-            style={{ width: "100px" }}
+          <Button
+            key="reports"
             size="small"
-            allowClear={false}
-            format="MMM, YY"
-            onChange={(date) => setDate(date)}
-            value={date}
-            placeholder="Select month"
-          />,
+            onClick={() => setShowAddExpense((prev) => !prev)}
+          >
+            Add
+          </Button>,
         ]}
       />
 
@@ -148,12 +197,14 @@ const Expenses = ({
         ))}
       </Card>
 
-      <Card className="add-expense">
-        <span className="badge">Add</span>
-        <AddExpense {...props} mode="ADD" />
-      </Card>
+      {showAddExpense && (
+        <Card className="add-expense">
+          <span className="badge">Add</span>
+          <AddExpense {...props} mode="ADD" />
+        </Card>
+      )}
       <Card className="expense-list">
-        <span className="badge">{date.format("MMM 'YY")}</span>
+        <span className="badge">{filters.date.format("MMM 'YY")}</span>
         <ExpenseList {...props} list={input} />
       </Card>
     </section>

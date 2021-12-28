@@ -117,9 +117,7 @@ const ExpenseList = (props) => {
       </Checkbox>
 
       <div className="mb mt total">Total: ₹{formatedValue}</div>
-      <div
-        style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: "12px" }}
-      >
+      <div className="list-wrapper">
         {filteredDataSource.map((item) => (
           <ExpenseItem
             key={item._id}
