@@ -34,7 +34,7 @@
       &#login,
       &#register {
         background: $bg;
-        height: auto;
+        height: max-content;
         max-width: 275px;
         @extend .text-center;
         margin: 12px auto 0 auto;
@@ -44,6 +44,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 12px;
+        grid-auto-rows: 120px;
         .ant-card {
           .label {
             color: $bar;
