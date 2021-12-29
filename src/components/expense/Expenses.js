@@ -1,13 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import {
-  DatePicker,
-  Card,
-  PageHeader,
-  Button,
-  InputNumber,
-  Select,
-} from "antd";
+import { DatePicker, Card, PageHeader, Button, InputNumber } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
@@ -23,9 +16,16 @@ import Stats from "./Stats";
 import handleError from "../../lib/errorHandler";
 import tracking from "../../lib/mixpanel";
 
-const { MonthPicker } = DatePicker;
-const { Option } = Select;
+const { RangePicker } = DatePicker;
 
+const getCurrentMonthRange = (date) => {
+  const [start, end] = date || [];
+  const startMonth = start.format("MMM, YY");
+  const endMonth = end.format("MMM, YY");
+  return startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
+};
+
+const now = moment();
 const Expenses = ({
   setAppLoading,
   expenseTypes,
@@ -39,7 +39,7 @@ const Expenses = ({
     }
   );
   const [filters, setFilters] = useState({
-    date: moment(),
+    date: [now, now],
     monthsRange: null,
     minAmount: null,
   });
@@ -62,12 +62,13 @@ const Expenses = ({
 
   const fetchExpenseByMonth = async () => {
     try {
-      const { date, minAmount, monthsRange } = filters || {};
+      const { date = [], minAmount } = filters || {};
+
+      const [s, e] = date;
       const input = {
-        month: date.month() + 1,
-        year: date.year(),
         minAmount: Number(minAmount),
-        monthsRange: Number(monthsRange),
+        startMonth: `${s.month() + 1}-${s.year()}`,
+        endMonth: `${e.month() + 1}-${e.year()}`,
       };
       getExpensesByMonth({
         variables: { input },
@@ -95,6 +96,8 @@ const Expenses = ({
 
   const summaryItems = Object.entries(total);
 
+  const currentMonthRange = getCurrentMonthRange(filters.date);
+
   const props = {
     fetchExpenseByMonth,
     setAppLoading,
@@ -111,48 +114,44 @@ const Expenses = ({
         onBack={null}
         title="Expenses"
         extra={[
-          <MonthPicker
-            key="month-picker"
-            style={{ width: "100px" }}
-            size="small"
-            allowClear={false}
-            format="MMM, YY"
-            onChange={(date) => updateFilters({ date })}
-            value={filters.date}
-            placeholder="Select month"
-          />,
-          <InputNumber
-            key="min-amount"
-            placeholder="Min amount"
-            size="small"
-            value={filters.minAmount}
-            onBlur={(e) => updateFilters({ minAmount: e.target.value })}
-          />,
-          <Select
-            key="month-range"
-            size="small"
-            placeholder="Range"
-            value={filters.monthsRange}
-            onChange={(monthsRange) => updateFilters({ monthsRange })}
-          >
-            <Option value="1">1M</Option>
-            <Option value="3">3M</Option>
-            <Option value="6">6M</Option>
-          </Select>,
-          <Button
-            key="stats"
-            size="small"
-            onClick={() => setShowStats((prev) => !prev)}
-          >
-            Stats
-          </Button>,
-          <Button
-            key="reports"
-            size="small"
-            onClick={() => setShowAddExpense((prev) => !prev)}
-          >
-            Add
-          </Button>,
+          <div className="fcc gap-4">
+            <InputNumber
+              key="min-amount"
+              placeholder="Min amount"
+              size="small"
+              style={{ width: "80px" }}
+              value={filters.minAmount}
+              onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+            />
+
+            <RangePicker
+              picker="month"
+              key="month-range-picker"
+              style={{ width: "170px" }}
+              size="small"
+              allowClear={false}
+              format={"MMM/YY"}
+              onChange={(date) => updateFilters({ date })}
+              value={filters.date}
+              placeholder="Select month range"
+            />
+
+            <Button
+              key="stats"
+              size="small"
+              onClick={() => setShowStats((prev) => !prev)}
+            >
+              Stats
+            </Button>
+
+            <Button
+              key="reports"
+              size="small"
+              onClick={() => setShowAddExpense((prev) => !prev)}
+            >
+              +
+            </Button>
+          </div>,
         ]}
       />
 
@@ -204,7 +203,7 @@ const Expenses = ({
         </Card>
       )}
       <Card className="expense-list">
-        <span className="badge">{filters.date.format("MMM 'YY")}</span>
+        <span className="badge">{currentMonthRange}</span>
         <ExpenseList {...props} list={input} />
       </Card>
     </section>
