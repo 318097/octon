@@ -170,6 +170,14 @@ const AddExpense = ({
         </Checkbox>
       </div>
       <div className="mt">
+        <Checkbox
+          checked={expense.excluded}
+          onChange={(e) => setData({ excluded: e.target.checked })}
+        >
+          Excluded
+        </Checkbox>
+      </div>
+      <div className="mt">
         <Button
           type="primary"
           loading={loading}

@@ -88,7 +88,7 @@ const Expenses = ({
       success,
       color,
       total: calculateTotal(
-        input.filter((item) => item.expenseTypeId === _id),
+        input.filter((item) => item.expenseTypeId === _id && !item.excluded),
         "amount"
       ),
     };

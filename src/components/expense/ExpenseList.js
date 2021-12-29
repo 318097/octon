@@ -39,7 +39,12 @@ const ExpenseList = (props) => {
           ? list
           : list.filter((list) => list.expenseTypeId === filterType);
       setDataSource(data);
-      setTotal(calculateTotal(data, "amount"));
+      setTotal(
+        calculateTotal(
+          data.filter((obj) => !obj.excluded),
+          "amount"
+        )
+      );
     };
 
     filterData();
@@ -162,6 +167,7 @@ const ExpenseItem = ({
     favorite,
     expenseSource,
     expenseApp,
+    excluded,
   } = item;
   const expenseDate = moment(date).format("DD,MMM");
   const expenseMessage = message ? <span>({message})</span> : null;
@@ -210,7 +216,10 @@ const ExpenseItem = ({
     },
   ].filter((obj) => obj.visible);
   return (
-    <Card className={"expense-item"}>
+    <Card
+      className={"expense-item"}
+      style={{ background: excluded ? "#eee" : "" }}
+    >
       <div className="expense-list-container">
         <div>{`${expenseDate}: ₹${formatedValue}`}</div>
         <div className="message">{expenseMessage}</div>

@@ -43,6 +43,7 @@ const GET_MONTHLY_EXPENSES = gql`
         expenseSourceId
         expenseAppId
         favorite
+        excluded
       }
     }
   }
