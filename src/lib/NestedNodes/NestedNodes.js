@@ -50,7 +50,8 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
     );
   };
 
-  const hideParentSelect = editId && addData.default;
+  const hideParentSelect = editId && addData.default; // hide select parent dropdown when a field is `default` & in edit mode
+
   return (
     <div className="nested-container">
       <NestedNodes

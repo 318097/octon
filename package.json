@@ -1,6 +1,7 @@
 {
   "name": "octon",
   "version": "0.1.0",
+  "description": "Manage expenses, todos, goals, progress & personal timeline",
   "private": true,
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
