@@ -80,7 +80,7 @@ const Expenses = ({
 
   const total = {};
 
-  const rootExpenseTypes = expenseTypes.filter((item) => !item.parentId);
+  const rootExpenseTypes = expenseTypes.filter((item) => !item.parentTagId);
 
   rootExpenseTypes.forEach((item) => {
     const { label, _id, success, color } = item;

@@ -106,7 +106,7 @@ const ExpenseList = (props) => {
       >
         <Radio.Button value="ALL">All</Radio.Button>
         {expenseTypes
-          .filter((item) => !item.parentId)
+          .filter((item) => !item.parentTagId)
           .map((option) => (
             <Radio.Button value={option._id} key={option._id}>
               {option.label}

@@ -10,7 +10,7 @@ import tracking from "./lib/mixpanel";
 import Header from "./layouts/Header";
 import sessionManager from "./lib/sessionManager";
 import config from "./config";
-import { setSession } from "./store/actions";
+import { fetchSession } from "./store/actions";
 import Routes from "./routes";
 import handleError from "./lib/errorHandler";
 
@@ -19,16 +19,14 @@ axios.defaults.headers.common["authorization"] =
   sessionManager.getToken() || "";
 axios.defaults.headers.common["external-source"] = "OCTON";
 
-const App = ({ setSession, appLoading, history }) => {
+const App = ({ appLoading, history, fetchSession }) => {
   const [initLoading, setInitLoading] = useState(true);
 
   useEffect(() => {
     const isAccountActive = async () => {
       if (sessionManager.hasToken()) {
         try {
-          const token = sessionManager.getToken();
-          const { data } = await axios.post(`/auth/account-status`, { token });
-          setSession({ isAuthenticated: true, info: "ON_LOAD", ...data });
+          await fetchSession();
         } catch (error) {
           handleError(error);
         } finally {
@@ -59,6 +57,6 @@ const mapStateToProps = ({ session, appLoading }) => ({
   appLoading,
 });
 
-const mapDispatchToProps = { setSession };
+const mapDispatchToProps = { fetchSession };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

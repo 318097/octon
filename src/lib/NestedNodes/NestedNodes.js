@@ -74,8 +74,8 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
                 <Select
                   dropPosition={"top"}
                   placeholder="Parent"
-                  value={addData.parentId}
-                  name="parentId"
+                  value={addData.parentTagId}
+                  name="parentTagId"
                   onChange={(e, value) => setAddData(value)}
                   options={nodes
                     .map((node) => ({
@@ -102,10 +102,12 @@ const NestedNodesContainer = ({ nodes, onChange }) => {
 };
 
 const NestedNodes = (props) => {
-  const { nodes, depth = 0, parentId, setNodeToEdit, deleteNode } = props;
+  const { nodes, depth = 0, parentTagId, setNodeToEdit, deleteNode } = props;
 
   const filteredNodes = nodes.filter((node) =>
-    depth > 0 ? node.parentId && node.parentId === parentId : !node.parentId
+    depth > 0
+      ? node.parentTagId && node.parentTagId === parentTagId
+      : !node.parentTagId
   );
   const isRootLevel = !depth || depth === 0;
   const showDivider = Boolean(filteredNodes.length && !isRootLevel);
@@ -118,7 +120,7 @@ const NestedNodes = (props) => {
         {filteredNodes.map((node, index) => {
           const { _id, label, canDelete } = node;
           const hasChildNodes = nodes.filter(
-            (node) => node.parentId === _id
+            (node) => node.parentTagId === _id
           ).length;
           const nodeClasses = classnames(
             "node",
@@ -145,7 +147,7 @@ const NestedNodes = (props) => {
                   />
                 </div>
               </div>
-              <NestedNodes {...props} depth={nextDepth} parentId={_id} />
+              <NestedNodes {...props} depth={nextDepth} parentTagId={_id} />
             </Card>
           );
         })}

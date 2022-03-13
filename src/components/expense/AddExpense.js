@@ -66,7 +66,7 @@ const AddExpense = ({
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
   const expenseSubTypes = expenseTypes.filter(
-    (item) => item.parentId === expense.expenseTypeId
+    (item) => item.parentTagId === expense.expenseTypeId
   );
 
   return (
@@ -87,7 +87,7 @@ const AddExpense = ({
         }
       >
         {expenseTypes
-          .filter((item) => !item.parentId)
+          .filter((item) => !item.parentTagId)
           .map((option) => (
             <Radio key={option._id} value={option._id}>
               {option.label}

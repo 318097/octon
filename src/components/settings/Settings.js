@@ -8,7 +8,17 @@ import NestedNodes from "../../lib/NestedNodes";
 
 const Settings = ({ session, updateUserSettings }) => {
   const updateSetting = (key) => async (update, action) => {
-    updateUserSettings(update, { action, key });
+    const defaultVal = {
+      moduleName:
+        key === "expenseTypes"
+          ? "EXPENSE_TYPES"
+          : key === "expenseApps"
+          ? "EXPENSE_APPS"
+          : "EXPENSE_SOURCES",
+    };
+    if (action === "CREATE") delete update._id;
+
+    updateUserSettings({ ...defaultVal, ...update }, { action });
   };
 
   const { expenseTypes = [], expenseSources = [], expenseApps = [] } = session;

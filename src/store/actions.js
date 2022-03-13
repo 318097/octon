@@ -2,18 +2,16 @@ import { SET_SESSION, SET_APP_LOADING, SET_KEY } from "./constants";
 import axios from "axios";
 import _ from "lodash";
 import handleError from "../lib/errorHandler";
+import sessionManager from "../lib/sessionManager";
 
 export const updateUserSettings =
   (data, params) => async (dispatch, getState) => {
     try {
-      const { session } = getState();
       dispatch(setAppLoading(true));
-      const {
-        data: { result },
-      } = await axios.put(`/user/settings`, data, {
+      await axios.post(`/tags/operations`, data, {
         params,
       });
-      dispatch(setSession({ ...session, ...result }));
+      dispatch(fetchSession());
     } catch (error) {
       handleError(error);
     } finally {
@@ -30,6 +28,12 @@ export const setSession = (session) => ({
   type: SET_SESSION,
   payload: session,
 });
+
+export const fetchSession = () => async (dispatch) => {
+  const token = sessionManager.getToken();
+  const { data } = await axios.post(`/auth/account-status`, { token });
+  dispatch(setSession({ isAuthenticated: true, info: "ON_LOAD", ...data }));
+};
 
 export const setAppLoading = (status) => ({
   type: SET_APP_LOADING,
