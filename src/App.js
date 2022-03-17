@@ -39,7 +39,7 @@ const App = ({ appLoading, history, fetchSession }) => {
   }, []);
 
   return (
-    <div className="app" id="react-ui">
+    <div className="app react-ui">
       <Header history={history} appLoading={appLoading} />
       {initLoading ? (
         <Spin className="loader" />
