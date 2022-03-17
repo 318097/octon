@@ -7,19 +7,10 @@ import { PageHeader, Card } from "antd";
 import { NestedNodes } from "@codedrops/react-ui";
 
 const Settings = ({ session, updateUserSettings }) => {
-  const updateSetting = (key) => async (update, action) => {
-    const defaultVal = {
-      moduleName:
-        key === "expenseTypes"
-          ? "EXPENSE_TYPES"
-          : key === "expenseApps"
-          ? "EXPENSE_APPS"
-          : "EXPENSE_SOURCES",
-    };
-    if (action === "CREATE") delete update._id;
-
-    updateUserSettings({ ...defaultVal, ...update }, { action });
-  };
+  const updateSetting =
+    (moduleName) =>
+    async (data, { action }) =>
+      updateUserSettings({ moduleName, ...data }, { action });
 
   const { expenseTypes = [], expenseSources = [], expenseApps = [] } = session;
 
@@ -38,7 +29,7 @@ const Settings = ({ session, updateUserSettings }) => {
             ...item,
             canDelete: !item.default,
           }))}
-          onChange={updateSetting("expenseTypes")}
+          onChange={updateSetting("EXPENSE_TYPES")}
         />
       </Card>
 
@@ -48,7 +39,7 @@ const Settings = ({ session, updateUserSettings }) => {
             ...item,
             canDelete: true,
           }))}
-          onChange={updateSetting("expenseSources")}
+          onChange={updateSetting("EXPENSE_SOURCES")}
         />
       </Card>
 
@@ -58,7 +49,7 @@ const Settings = ({ session, updateUserSettings }) => {
             ...item,
             canDelete: true,
           }))}
-          onChange={updateSetting("expenseApps")}
+          onChange={updateSetting("EXPENSE_APPS")}
         />
       </Card>
     </section>
