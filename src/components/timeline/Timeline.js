@@ -172,8 +172,8 @@ const AddNewGroup = ({
 
     setAppLoading(true);
     updateUserSettings(
-      { name: newGroupData.name },
-      { action: "CREATE", key: "timeline" }
+      { name: newGroupData.name, moduleType: "TIMELINE" },
+      { action: "CREATE" }
     );
     setNewGroupData({ name: "" });
     setAppLoading(false);

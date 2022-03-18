@@ -4,20 +4,23 @@ import _ from "lodash";
 import handleError from "../lib/errorHandler";
 import sessionManager from "../lib/sessionManager";
 
-export const updateUserSettings =
-  (data, params) => async (dispatch, getState) => {
-    try {
-      dispatch(setAppLoading(true));
-      await axios.post(`/tags/operations`, data, {
+export const updateUserSettings = (data, params, type) => async (dispatch) => {
+  try {
+    dispatch(setAppLoading(true));
+    await axios.post(
+      type === "TAGS" ? `/tags/operations` : `/modules/operations`,
+      data,
+      {
         params,
-      });
-      dispatch(fetchSession());
-    } catch (error) {
-      handleError(error);
-    } finally {
-      dispatch(setAppLoading(false));
-    }
-  };
+      }
+    );
+    dispatch(fetchSession());
+  } catch (error) {
+    handleError(error);
+  } finally {
+    dispatch(setAppLoading(false));
+  }
+};
 
 export const setData = (key, data) => async (dispatch, getState) => {
   const prev = _.get(getState(), key);
