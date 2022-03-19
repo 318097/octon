@@ -10,7 +10,7 @@ const Settings = ({ session, updateUserSettings }) => {
   const updateSetting =
     (moduleName) =>
     async (data, { action }) =>
-      updateUserSettings({ moduleName, ...data }, { action });
+      updateUserSettings({ moduleName, ...data }, { action }, "TAGS");
 
   const { expenseTypes = [], expenseSources = [], expenseApps = [] } = session;
 
