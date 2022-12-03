@@ -11,6 +11,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
+      "access-control-allow-origin": "*",
       authorization: sessionManager.getToken(),
     },
   };
