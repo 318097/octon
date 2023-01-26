@@ -11,8 +11,9 @@ const {
 const isProd = NODE_ENV === "production";
 
 const { baseURL, serverURL, graphqlURL } = getServerURL({
-  isProd,
+  isProd: true,
   returnObject: true,
+  serverType: "render",
 });
 
 const config = {
