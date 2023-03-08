@@ -48,6 +48,12 @@ section#expenses {
       align-items: flex-start;
       justify-content: flex-start;
     }
+    .expense-category-selector {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 8px;
+    }
     &.expense-list {
       & > .ant-card-body {
         padding: 24px 8px;

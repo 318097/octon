@@ -1,6 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
-import { Radio, InputNumber, Input, Button, DatePicker, Checkbox } from "antd";
+import {
+  Radio,
+  InputNumber,
+  Input,
+  Button,
+  DatePicker,
+  Checkbox,
+  Space,
+} from "antd";
 import { EmptyState } from "@codedrops/react-ui";
 import moment from "moment";
 import "./Expenses.scss";
@@ -9,6 +17,7 @@ import { useMutation } from "@apollo/client";
 import handleError from "../../lib/errorHandler";
 import notify from "../../lib/notify";
 import tracking from "../../lib/mixpanel";
+import _ from "lodash";
 
 const AddExpense = ({
   setAppLoading,
@@ -65,8 +74,17 @@ const AddExpense = ({
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
-  const expenseSubTypes = expenseTypes.filter(
-    (item) => item.parentTagId === expense.expenseTypeId
+  const finalExpenseTypes = _.sortBy(
+    _.filter(expenseTypes, (type) => !type.parentTagId),
+    "label"
+  );
+
+  const finalExpenseSubTypes = _.sortBy(
+    _.filter(
+      expenseTypes,
+      (type) => type.parentTagId === expense.expenseTypeId
+    ),
+    "label"
   );
 
   return (
@@ -77,73 +95,94 @@ const AddExpense = ({
         onChange={(date) => setData({ date })}
         value={expense.date}
         placeholder="Select month"
+        format="DD MMM 'YY"
       />
-      <h5 className="mt">Expense type</h5>
-      <Radio.Group
-        className="mt"
-        value={expense.expenseTypeId}
-        onChange={(e) =>
-          setData({ expenseTypeId: e.target.value, expenseSubTypeId: null })
-        }
-      >
-        {expenseTypes
-          .filter((item) => !item.parentTagId)
-          .map((option) => (
-            <Radio key={option._id} value={option._id}>
-              {option.label}
-            </Radio>
-          ))}
-      </Radio.Group>
+      <div className="expense-category-selector">
+        <div>
+          <h5 className="mt">Type</h5>
+          <Radio.Group
+            className="mt"
+            value={expense.expenseTypeId}
+            onChange={(e) =>
+              setData({ expenseTypeId: e.target.value, expenseSubTypeId: null })
+            }
+          >
+            <Space direction="vertical">
+              {finalExpenseTypes.map((type) => (
+                <Radio key={type._id} value={type._id}>
+                  {type.label}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </div>
 
-      {expense.expenseTypeId ? (
-        <Fragment>
-          <h5 className="mt">Expense sub-type</h5>
+        <div>
+          {expense.expenseTypeId ? (
+            <Fragment>
+              <h5 className="mt">Sub Type</h5>
+              {finalExpenseSubTypes.length ? (
+                <div className="mt">
+                  <Radio.Group
+                    value={expense.expenseSubTypeId}
+                    onChange={(e) =>
+                      setData({ expenseSubTypeId: e.target.value })
+                    }
+                  >
+                    <Space direction="vertical">
+                      {finalExpenseSubTypes.map((type) => (
+                        <Radio key={type._id} value={type._id}>
+                          {type.label}
+                        </Radio>
+                      ))}
+                    </Space>
+                  </Radio.Group>
+                </div>
+              ) : (
+                <EmptyState style={{ textAlign: "left" }} size="sm" />
+              )}
+            </Fragment>
+          ) : null}
+        </div>
+      </div>
+      <br />
 
-          {expenseSubTypes.length ? (
-            <div className="mt">
-              <Radio.Group
-                value={expense.expenseSubTypeId}
-                onChange={(e) => setData({ expenseSubTypeId: e.target.value })}
-              >
-                {expenseSubTypes.map((type) => (
-                  <Radio key={type._id} value={type._id}>
-                    {type.label}
-                  </Radio>
-                ))}
-              </Radio.Group>
-            </div>
-          ) : (
-            <EmptyState style={{ textAlign: "left" }} size="sm" />
-          )}
-        </Fragment>
-      ) : null}
+      <div className="expense-category-selector">
+        <div>
+          <h5 className="mt">Source</h5>
+          <Radio.Group
+            className="mt"
+            value={expense.expenseSourceId}
+            onChange={(e) => setData({ expenseSourceId: e.target.value })}
+          >
+            <Space direction="vertical">
+              {_.sortBy(expenseSources, "label").map((option) => (
+                <Radio key={option._id} value={option._id}>
+                  {option.label}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </div>
 
-      <h5 className="mt">Expense source</h5>
-      <Radio.Group
-        className="mt"
-        value={expense.expenseSourceId}
-        onChange={(e) => setData({ expenseSourceId: e.target.value })}
-      >
-        {expenseSources.map((option) => (
-          <Radio key={option._id} value={option._id}>
-            {option.label}
-          </Radio>
-        ))}
-      </Radio.Group>
-
-      <h5 className="mt">Expense app</h5>
-      <Radio.Group
-        className="mt"
-        value={expense.expenseAppId}
-        onChange={(e) => setData({ expenseAppId: e.target.value })}
-      >
-        {expenseApps.map((option) => (
-          <Radio key={option._id} value={option._id}>
-            {option.label}
-          </Radio>
-        ))}
-      </Radio.Group>
-
+        <div>
+          <h5 className="mt">Mode</h5>
+          <Radio.Group
+            className="mt"
+            value={expense.expenseAppId}
+            onChange={(e) => setData({ expenseAppId: e.target.value })}
+          >
+            <Space direction="vertical">
+              {_.sortBy(expenseApps, "label").map((option) => (
+                <Radio key={option._id} value={option._id}>
+                  {option.label}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        </div>
+      </div>
+      <br />
       <div className="mt flex" style={{ alignItems: "stretch" }}>
         <InputNumber
           controls={false}

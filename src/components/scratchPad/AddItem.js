@@ -95,6 +95,7 @@ const AddItem = ({ fetchList }) => {
           defaultValue={data.expiresOn}
           onChange={(date) => setData({ expiresOn: date })}
           className="mb"
+          format="DD MMM 'YY"
         />
 
         <div>

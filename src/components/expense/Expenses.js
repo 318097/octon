@@ -20,8 +20,8 @@ const { RangePicker } = DatePicker;
 
 const getCurrentMonthRange = (date) => {
   const [start, end] = date || [];
-  const startMonth = start.format("MMM, YY");
-  const endMonth = end.format("MMM, YY");
+  const startMonth = start.format("MMM 'YY");
+  const endMonth = end.format("MMM 'YY");
   return startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
 };
 
@@ -127,10 +127,10 @@ const Expenses = ({
             <RangePicker
               picker="month"
               key="month-range-picker"
-              style={{ width: "170px" }}
+              style={{ width: "180px" }}
               size="small"
               allowClear={false}
-              format={"MMM/YY"}
+              format={"MMM 'YY"}
               onChange={(date) => updateFilters({ date })}
               value={filters.date}
               placeholder="Select month range"
@@ -169,12 +169,7 @@ const Expenses = ({
             className="expense-type-block"
             key={id}
             style={{
-              flex:
-                summaryItems.length % 3 === 0
-                  ? "30%"
-                  : summaryItems.length === 4
-                  ? "45%"
-                  : "auto",
+              flex: summaryItems.length % 3 === 0 ? "30%" : "auto",
             }}
           >
             <span className="expense-type-name">{id}</span>

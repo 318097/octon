@@ -54,6 +54,7 @@ const AddTodo = () => {
             onChange={(date) => setTask({ deadline: date })}
             className="mb"
             placeholder="Deadline"
+            format="DD MMM 'YY"
           />
         )}
 

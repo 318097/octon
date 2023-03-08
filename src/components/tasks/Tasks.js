@@ -121,7 +121,7 @@ const TaskDetail = ({ taskObj, setTaskObj, markTodo }) => {
 
   const taskName = _.get(taskObj, "task.content");
   const taskType = _.get(taskObj, "task.type");
-  const date = moment(_.get(taskObj, "date")).format("DD MMM, YYYY");
+  const date = moment(_.get(taskObj, "date")).format("DD MMM 'YYYY");
 
   return (
     <Modal

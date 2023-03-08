@@ -111,6 +111,7 @@ const AddPost = ({
           value={data.date}
           onChange={(date) => setDataObj({ date })}
           className="mb"
+          format="DD MMM 'YY"
         />
         <TextArea
           value={data.content}
