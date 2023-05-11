@@ -10,16 +10,16 @@ const {
 
 const isProd = NODE_ENV === "production";
 
-const { baseURL, serverURL, graphqlURL } = getServerURL({
-  isProd,
-  returnObject: true,
+const urlConfig = getServerURL({
+  env: NODE_ENV,
+  shouldReturnUrlObj: true,
   serverType: "render",
 });
 
 const config = {
-  BASE_URL: baseURL,
-  GRAPHQL_URL: graphqlURL,
-  SERVER_URL: serverURL,
+  BASE_URL: urlConfig.base,
+  GRAPHQL_URL: urlConfig.graphql,
+  SERVER_URL: urlConfig.rest,
   GOOGLE_CLIENT_ID,
   SENTRY_URL,
   NODE_ENV,
