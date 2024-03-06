@@ -9,7 +9,6 @@ import {
   Divider,
   Input,
   Empty,
-  PageHeader,
 } from "antd";
 import moment from "moment";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -23,6 +22,7 @@ import "./Timeline.scss";
 import _ from "lodash";
 import { useObject } from "@codedrops/lib";
 import tracking from "../../lib/mixpanel";
+import { PageHeader } from "../../lib/UI";
 
 const { Option } = Select;
 

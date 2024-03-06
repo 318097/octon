@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, PageHeader, Input, Radio, Empty } from "antd";
+import { Modal, Input, Radio, Empty } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import AddTask from "./AddTask";
 import "./Tasks.scss";
@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Task from "./Task";
 import moment from "moment";
 import { setAppLoading } from "../../store/actions";
+import { PageHeader } from "../../lib/UI";
 
 const Tasks = ({ setAppLoading }) => {
   const { loading, data } = useQuery(GET_ALL_TASKS);

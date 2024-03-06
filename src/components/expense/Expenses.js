@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Card, PageHeader, Button, InputNumber } from "antd";
+import { DatePicker, Card, Button, InputNumber } from "antd";
 import moment from "moment";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
@@ -15,6 +15,7 @@ import colors, { Icon } from "@codedrops/react-ui";
 import Stats from "./Stats";
 import handleError from "../../lib/errorHandler";
 import tracking from "../../lib/mixpanel";
+import { PageHeader } from "../../lib/UI";
 
 const { RangePicker } = DatePicker;
 

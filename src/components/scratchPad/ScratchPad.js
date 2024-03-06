@@ -3,8 +3,8 @@ import axios from "axios";
 
 import AddItem from "./AddItem";
 import List from "./List";
-import { PageHeader } from "antd";
 import "./ScratchPad.scss";
+import { PageHeader } from "../../lib/UI";
 
 const ScratchPad = () => {
   const [list, setList] = useState([]);

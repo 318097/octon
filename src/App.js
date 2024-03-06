@@ -4,7 +4,6 @@ import { Spin } from "antd";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import "antd/dist/antd.css";
 import "./App.scss";
 import tracking from "./lib/mixpanel";
 import Header from "./layouts/Header";
@@ -40,7 +39,7 @@ const App = ({ appLoading, history, fetchSession }) => {
 
   return (
     <div className="app react-ui">
-      <Header history={history} appLoading={appLoading} />
+      {/* <Header history={history} appLoading={appLoading} /> */}
       {initLoading ? (
         <Spin className="loader" />
       ) : (

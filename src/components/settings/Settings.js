@@ -3,8 +3,9 @@ import React from "react";
 import { updateUserSettings, setData } from "../../store/actions";
 import { connect } from "react-redux";
 import "./Settings.scss";
-import { PageHeader, Card } from "antd";
+import { Card } from "antd";
 import { NestedNodes } from "@codedrops/react-ui";
+import { PageHeader } from "../../lib/UI";
 
 const Settings = ({ session, updateUserSettings }) => {
   const updateSetting =

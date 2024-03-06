@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { ApolloProvider } from "@apollo/client/react";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import { ConfigProvider } from "antd";
 
 import config from "./config";
 
@@ -31,9 +32,22 @@ ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={apolloClient}>
       <Provider store={store}>
-        <Sentry.ErrorBoundary fallback={"An error has occurred"}>
-          <App />
-        </Sentry.ErrorBoundary>
+        <ConfigProvider
+          theme={{
+            token: {
+              // Seed Token
+              colorPrimary: "#555",
+              borderRadius: 4,
+
+              // Alias Token
+              // colorBgContainer: "#f6ffed",
+            },
+          }}
+        >
+          <Sentry.ErrorBoundary fallback={"An error has occurred"}>
+            <App />
+          </Sentry.ErrorBoundary>
+        </ConfigProvider>
       </Provider>
     </ApolloProvider>
   </BrowserRouter>,
