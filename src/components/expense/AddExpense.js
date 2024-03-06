@@ -10,7 +10,7 @@ import {
   Space,
 } from "antd";
 import { EmptyState } from "@codedrops/react-ui";
-import moment from "moment";
+import dayjs from "dayjs";
 import "./Expenses.scss";
 import { CREATE_EXPENSE, UPDATE_EXPENSE } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
@@ -18,6 +18,17 @@ import handleError from "../../lib/errorHandler";
 import notify from "../../lib/notify";
 import tracking from "../../lib/mixpanel";
 import _ from "lodash";
+import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+
+const DEFAULT_VALUES = {
+  expenseTypeId: null,
+  expenseSubTypeId: null,
+  amount: null,
+  message: "",
+  date: dayjs(),
+  favorite: false,
+  excluded: false,
+};
 
 const AddExpense = ({
   setAppLoading,
@@ -30,20 +41,14 @@ const AddExpense = ({
   expenseApps,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [expense, setExpense] = useState({
-    expenseTypeId: null,
-    expenseSubTypeId: null,
-    amount: null,
-    message: "",
-    date: moment(),
-  });
+  const [expense, setExpense] = useState(DEFAULT_VALUES);
 
   const [addExpense] = useMutation(CREATE_EXPENSE);
   const [updateExpense] = useMutation(UPDATE_EXPENSE);
 
   useEffect(() => {
     if (!currentExpense) return;
-    setExpense({ ...currentExpense, date: moment(currentExpense.date) });
+    setExpense({ ...currentExpense, date: dayjs(currentExpense.date) });
   }, [currentExpense]);
 
   const saveExpense = async () => {
@@ -62,7 +67,13 @@ const AddExpense = ({
         setVisibilityStatus(false);
         tracking.track("UPDATE_EXPENSE");
       }
-      setExpense({ ...expense, amount: null, message: null });
+      setExpense({
+        ...expense,
+        amount: null,
+        message: "",
+        favorite: false,
+        excluded: false,
+      });
       notify("Success");
       fetchExpenseByMonth();
     } catch (error) {
@@ -70,6 +81,15 @@ const AddExpense = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const reset = () => {
+    setExpense(DEFAULT_VALUES);
+  };
+
+  const handleDateChange = (value) => {
+    const updatedDate = new dayjs(expense.date).add(value, "day");
+    setData({ date: updatedDate });
   };
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
@@ -89,17 +109,25 @@ const AddExpense = ({
 
   return (
     <Fragment>
-      <DatePicker
-        style={{ width: "130px" }}
-        allowClear={false}
-        onChange={(date) => setData({ date })}
-        value={expense.date}
-        placeholder="Select month"
-        format="DD MMM 'YY"
-      />
-      <div className="expense-category-selector">
+      <div className="flex center gap-4">
+        <span onClick={() => handleDateChange(-1)} className="pointer">
+          <LeftCircleOutlined style={{ fontSize: "18px" }} />
+        </span>
+        <DatePicker
+          style={{ width: "180px" }}
+          allowClear={false}
+          onChange={(date) => setData({ date })}
+          value={expense.date}
+          placeholder="Select month"
+          format="DD MMM'YY (ddd)"
+        />
+        <span onClick={() => handleDateChange(1)} className="pointer">
+          <RightCircleOutlined style={{ fontSize: "18px" }} />
+        </span>
+      </div>
+      <div>
         <div>
-          <h5 className="mt">Type</h5>
+          <h5>Type</h5>
           <Radio.Group
             className="mt"
             value={expense.expenseTypeId}
@@ -109,63 +137,58 @@ const AddExpense = ({
           >
             <Space direction="vertical">
               {finalExpenseTypes.map((type) => (
-                <Radio key={type._id} value={type._id}>
-                  {type.label}
-                </Radio>
+                <div className="expense-type-item">
+                  <Radio key={type._id} value={type._id}>
+                    {type.label}
+                  </Radio>
+                  {expense.expenseTypeId === type._id ? (
+                    <div className="expense-subtype-container">
+                      {finalExpenseSubTypes.length ? (
+                        <div className="mt">
+                          <Radio.Group
+                            value={expense.expenseSubTypeId}
+                            onChange={(e) =>
+                              setData({ expenseSubTypeId: e.target.value })
+                            }
+                          >
+                            <div>
+                              {finalExpenseSubTypes.map((type) => (
+                                <Radio key={type._id} value={type._id}>
+                                  {type.label}
+                                </Radio>
+                              ))}
+                            </div>
+                          </Radio.Group>
+                        </div>
+                      ) : (
+                        <EmptyState style={{ textAlign: "left" }} size="sm" />
+                      )}
+                    </div>
+                  ) : null}
+                </div>
               ))}
             </Space>
           </Radio.Group>
-        </div>
-
-        <div>
-          {expense.expenseTypeId ? (
-            <Fragment>
-              <h5 className="mt">Sub Type</h5>
-              {finalExpenseSubTypes.length ? (
-                <div className="mt">
-                  <Radio.Group
-                    value={expense.expenseSubTypeId}
-                    onChange={(e) =>
-                      setData({ expenseSubTypeId: e.target.value })
-                    }
-                  >
-                    <Space direction="vertical">
-                      {finalExpenseSubTypes.map((type) => (
-                        <Radio key={type._id} value={type._id}>
-                          {type.label}
-                        </Radio>
-                      ))}
-                    </Space>
-                  </Radio.Group>
-                </div>
-              ) : (
-                <EmptyState style={{ textAlign: "left" }} size="sm" />
-              )}
-            </Fragment>
-          ) : null}
         </div>
       </div>
-      <br />
+      <div>
+        <h5>Source</h5>
+        <Radio.Group
+          className="mt"
+          value={expense.expenseSourceId}
+          onChange={(e) => setData({ expenseSourceId: e.target.value })}
+        >
+          <Space direction="vertical">
+            {_.sortBy(expenseSources, "label").map((option) => (
+              <Radio key={option._id} value={option._id}>
+                {option.label}
+              </Radio>
+            ))}
+          </Space>
+        </Radio.Group>
+      </div>
 
-      <div className="expense-category-selector">
-        <div>
-          <h5 className="mt">Source</h5>
-          <Radio.Group
-            className="mt"
-            value={expense.expenseSourceId}
-            onChange={(e) => setData({ expenseSourceId: e.target.value })}
-          >
-            <Space direction="vertical">
-              {_.sortBy(expenseSources, "label").map((option) => (
-                <Radio key={option._id} value={option._id}>
-                  {option.label}
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
-        </div>
-
-        <div>
+      {/* <div>
           <h5 className="mt">Mode</h5>
           <Radio.Group
             className="mt"
@@ -180,27 +203,23 @@ const AddExpense = ({
               ))}
             </Space>
           </Radio.Group>
-        </div>
-      </div>
-      <br />
-      <div className="mt flex" style={{ alignItems: "stretch" }}>
-        <InputNumber
-          controls={false}
-          className="mr"
-          placeholder="Amount"
-          value={expense.amount}
-          onChange={(amount) => setData({ amount })}
-        />
+        </div> */}
+      <InputNumber
+        controls={false}
+        className="mr"
+        placeholder="Amount"
+        value={expense.amount}
+        onChange={(amount) => setData({ amount })}
+      />
 
-        <Input
-          size="middle"
-          style={{ width: "130px" }}
-          placeholder="Message"
-          value={expense.message}
-          onChange={(e) => setData({ message: e.target.value })}
-        />
-      </div>
-      <div className="mt">
+      <Input
+        size="middle"
+        style={{ width: "180px" }}
+        placeholder="Message"
+        value={expense.message}
+        onChange={(e) => setData({ message: e.target.value })}
+      />
+      <div>
         <Checkbox
           checked={expense.favorite}
           onChange={(e) => setData({ favorite: e.target.checked })}
@@ -208,7 +227,7 @@ const AddExpense = ({
           Favorite
         </Checkbox>
       </div>
-      <div className="mt">
+      <div>
         <Checkbox
           checked={expense.excluded}
           onChange={(e) => setData({ excluded: e.target.checked })}
@@ -216,7 +235,10 @@ const AddExpense = ({
           Excluded
         </Checkbox>
       </div>
-      <div className="mt">
+      <div className="flex gap-4">
+        <Button type="primary" onClick={reset}>
+          Clear
+        </Button>
         <Button
           type="primary"
           loading={loading}

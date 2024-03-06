@@ -2,12 +2,12 @@ import React, { useState, Fragment, useRef } from "react";
 import { DatePicker, Input, Modal, Checkbox, Button } from "antd";
 import axios from "axios";
 import "./ScratchPad.scss";
-import moment from "moment";
+import dayjs from "dayjs";
 import { Icon } from "@codedrops/react-ui";
 import handleError from "../../lib/errorHandler";
 
 const INITIAL_STATE = {
-  expiresOn: moment().add(1, "day"),
+  expiresOn: dayjs().add(1, "day"),
   expires: true,
   isPublic: true,
   content: "",

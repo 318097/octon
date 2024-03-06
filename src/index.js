@@ -42,6 +42,11 @@ ReactDOM.render(
               // Alias Token
               // colorBgContainer: "#f6ffed",
             },
+            // components: {
+            //   Card: {
+            //     padding: "0",
+            //   },
+            // },
           }}
         >
           <Sentry.ErrorBoundary fallback={"An error has occurred"}>

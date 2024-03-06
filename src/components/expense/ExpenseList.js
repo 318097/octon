@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Radio, Modal, Popconfirm, Checkbox, Tag, Card } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import { calculateTotal } from "@codedrops/lib";
 import colors, { Icon } from "@codedrops/react-ui";
 import _ from "lodash";
@@ -169,7 +169,7 @@ const ExpenseItem = ({
     expenseApp,
     excluded,
   } = item;
-  const expenseDate = moment(date).format("DD,MMM");
+  const expenseDate = dayjs(date).format("DD,MMM");
   const expenseMessage = message ? <span>({message})</span> : null;
 
   const formatedValue = amount.toLocaleString();

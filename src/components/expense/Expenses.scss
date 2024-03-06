@@ -1,16 +1,40 @@
 @import "@codedrops/react-ui/dist/styles/colors.scss";
 
 section#expenses {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 12px;
+  .filters-container {
+    justify-content: flex-start;
+    align-items: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
   .badge {
     position: absolute;
     top: -6px;
-    right: -6px;
+    left: -6px;
     background: $foBlue;
     color: $white;
     border-radius: 2px;
     padding: 4px 8px;
     font-size: 1rem;
     z-index: 1001;
+  }
+  .add-expense .ant-card-body {
+    flex-direction: column;
+    gap: 8px;
+    display: flex;
+    .expense-type-item {
+      // background: gray;
+      .expense-subtype-container {
+        padding-left: 18px;
+      }
+    }
   }
 
   .ant-card {
@@ -47,12 +71,7 @@ section#expenses {
     &.add-expense {
       align-items: flex-start;
       justify-content: flex-start;
-    }
-    .expense-category-selector {
       display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      gap: 8px;
     }
     &.expense-list {
       & > .ant-card-body {

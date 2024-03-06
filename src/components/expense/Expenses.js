@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { DatePicker, Card, Button, InputNumber } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
 import { GET_MONTHLY_EXPENSES } from "../../graphql/queries";
@@ -26,7 +26,8 @@ const getCurrentMonthRange = (date) => {
   return startMonth === endMonth ? startMonth : `${startMonth} - ${endMonth}`;
 };
 
-const now = moment();
+const now = dayjs();
+
 const Expenses = ({
   setAppLoading,
   expenseTypes,
@@ -50,7 +51,7 @@ const Expenses = ({
 
   const updateFilters = (update) => {
     setFilters((prev) => ({ ...prev, ...update }));
-    setShowAddExpense(false);
+    // setShowAddExpense(false);
   };
 
   useEffect(() => {
@@ -109,52 +110,38 @@ const Expenses = ({
 
   return (
     <section id="expenses">
-      <PageHeader
-        className="page-header"
-        ghost={false}
-        onBack={null}
-        title="Expenses"
-        extra={[
-          <div className="fcc gap-4">
-            <InputNumber
-              key="min-amount"
-              placeholder="Min amount"
-              size="small"
-              style={{ width: "80px" }}
-              value={filters.minAmount}
-              onBlur={(e) => updateFilters({ minAmount: e.target.value })}
-            />
+      <div className="filters-container">
+        <InputNumber
+          placeholder="Min amount"
+          value={filters.minAmount}
+          onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+          controls={false}
+        />
 
-            <RangePicker
-              picker="month"
-              key="month-range-picker"
-              style={{ width: "180px" }}
-              size="small"
-              allowClear={false}
-              format={"MMM 'YY"}
-              onChange={(date) => updateFilters({ date })}
-              value={filters.date}
-              placeholder="Select month range"
-            />
+        <RangePicker
+          picker="month"
+          style={{ width: "180px" }}
+          allowClear={false}
+          format={"MMM'YY"}
+          onChange={(date) => {
+            updateFilters({ date });
+          }}
+          value={filters.date}
+          placeholder="Months range"
+          maxDate={now}
+        />
 
-            <Button
-              key="stats"
-              size="small"
-              onClick={() => setShowStats((prev) => !prev)}
-            >
-              Stats
-            </Button>
+        <Button key="stats" onClick={() => setShowStats((prev) => !prev)}>
+          Stats
+        </Button>
 
-            <Button
-              key="reports"
-              size="small"
-              onClick={() => setShowAddExpense((prev) => !prev)}
-            >
-              +
-            </Button>
-          </div>,
-        ]}
-      />
+        {/* <Button
+          key="reports"
+          onClick={() => setShowAddExpense((prev) => !prev)}
+        >
+          +
+        </Button> */}
+      </div>
 
       {showStats && (
         <Card className="stats">
