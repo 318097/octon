@@ -41,7 +41,7 @@ const GET_MONTHLY_EXPENSES = gql`
         expenseSubTypeId
         expenseTypeId
         expenseSourceId
-        expenseAppId
+        expenseGroupId
         favorite
         excluded
         createdAt

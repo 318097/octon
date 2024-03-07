@@ -31,8 +31,8 @@ const now = dayjs();
 const Expenses = ({
   setAppLoading,
   expenseTypes,
-  expenseApps,
   expenseSources,
+  expenseGroups,
 }) => {
   const [getExpensesByMonth, { data, loading }] = useLazyQuery(
     GET_MONTHLY_EXPENSES,
@@ -104,7 +104,7 @@ const Expenses = ({
     fetchExpenseByMonth,
     setAppLoading,
     expenseTypes,
-    expenseApps,
+    expenseGroups,
     expenseSources,
   };
 
@@ -195,7 +195,7 @@ const Expenses = ({
 
 const mapStateToProps = ({ session }) => ({
   expenseTypes: _.get(session, "expenseTypes", []),
-  expenseApps: _.get(session, "expenseApps", []),
+  expenseGroups: _.get(session, "expenseGroups", []),
   expenseSources: _.get(session, "expenseSources", []),
 });
 

@@ -13,7 +13,11 @@ const Settings = ({ session, updateUserSettings }) => {
     async (data, { action }) =>
       updateUserSettings({ moduleName, ...data }, { action }, "TAGS");
 
-  const { expenseTypes = [], expenseSources = [], expenseApps = [] } = session;
+  const {
+    expenseTypes = [],
+    expenseSources = [],
+    expenseGroups = [],
+  } = session;
 
   return (
     <section id="settings">
@@ -44,13 +48,13 @@ const Settings = ({ session, updateUserSettings }) => {
         />
       </Card>
 
-      <Card title="Expense app" size="small">
+      <Card title="Expense groups" size="small">
         <NestedNodes
-          nodes={expenseApps.map((item) => ({
+          nodes={expenseGroups.map((item) => ({
             ...item,
             canDelete: true,
           }))}
-          onChange={updateSetting("EXPENSE_APPS")}
+          onChange={updateSetting("EXPENSE_GROUPS")}
         />
       </Card>
     </section>
