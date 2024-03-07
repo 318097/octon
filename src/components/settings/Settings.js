@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import "./Settings.scss";
 import { Card } from "antd";
 import { NestedNodes } from "@codedrops/react-ui";
-import { PageHeader } from "../../lib/UI";
 
 const Settings = ({ session, updateUserSettings }) => {
   const updateSetting =
@@ -20,14 +19,7 @@ const Settings = ({ session, updateUserSettings }) => {
   } = session;
 
   return (
-    <section id="settings">
-      <PageHeader
-        className="page-header"
-        ghost={false}
-        onBack={null}
-        title="Settings"
-      />
-
+    <div className="settings">
       <Card title="Expense type & sub-types" size="small">
         <NestedNodes
           nodes={expenseTypes.map((item) => ({
@@ -57,7 +49,7 @@ const Settings = ({ session, updateUserSettings }) => {
           onChange={updateSetting("EXPENSE_GROUPS")}
         />
       </Card>
-    </section>
+    </div>
   );
 };
 

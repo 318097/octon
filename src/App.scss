@@ -25,6 +25,7 @@
     // width: 100%;
     // overflow: overlay;
     & > section {
+      padding-top: 12px;
       // position: relative;
       // max-width: 450px;
       // width: 100%;
@@ -43,7 +44,7 @@
       &#home {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        column-gap: 12px;
+        gap: 12px;
         grid-auto-rows: 120px;
         .ant-card {
           .label {
