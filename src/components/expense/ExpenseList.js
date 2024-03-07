@@ -13,6 +13,8 @@ import {
 import { useMutation } from "@apollo/client";
 import tracking from "../../lib/mixpanel";
 
+const today = dayjs().format("YYYY-MM-DD");
+
 const ExpenseList = (props) => {
   const {
     fetchExpenseByMonth,
@@ -94,44 +96,94 @@ const ExpenseList = (props) => {
         "label",
       ]),
       expenseApp: _.get(expenseAppsKeyed, [item.expenseAppId, "label"]),
+      expenseDate: dayjs(item.date).format("YYYY-MM-DD"),
     }));
+
+  const groupedDataSource = _.groupBy(
+    filteredDataSource,
+    (expense) => expense.expenseDate
+  );
+
+  const sortedGroupKeys = _.orderBy(
+    Object.keys(groupedDataSource),
+    null,
+    "desc"
+  );
+
   return (
     <Fragment>
       <Radio.Group
         defaultValue={filterType}
-        className="mb"
         buttonStyle="solid"
-        size="small"
         onChange={({ target: { value } }) => setFilterType(value)}
       >
         <Radio.Button value="ALL">All</Radio.Button>
         {expenseTypes
           .filter((item) => !item.parentTagId)
-          .map((option) => (
-            <Radio.Button value={option._id} key={option._id}>
-              {option.label}
-            </Radio.Button>
-          ))}
+          .map((option) => {
+            // const optionTotal = summaryTotal[option.label].total;
+            return (
+              <Radio.Button value={option._id} key={option._id}>
+                {option.label}
+              </Radio.Button>
+            );
+          })}
       </Radio.Group>
-      <br />
-      <Checkbox
-        checked={showFavoritesOnly}
-        onChange={(e) => setShowFavoritesOnly(e.target.checked)}
-      >
-        Favorites
-      </Checkbox>
+      <div className="flex center gap-8 mt mb">
+        <div className="total">Total: ₹{formatedValue}</div> |
+        <Checkbox
+          checked={showFavoritesOnly}
+          onChange={(e) => setShowFavoritesOnly(e.target.checked)}
+        >
+          Favorites
+        </Checkbox>
+      </div>
 
-      <div className="mb mt total">Total: ₹{formatedValue}</div>
-      <div className="list-wrapper">
-        {filteredDataSource.map((item) => (
-          <ExpenseItem
-            key={item._id}
-            item={item}
-            toggleFavoriteExpenseHandler={toggleFavoriteExpenseHandler}
-            editExpenseHandler={editExpenseHandler}
-            handleDelete={handleDelete}
-          />
-        ))}
+      <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
+        {sortedGroupKeys.map((groupKey) => {
+          const parsedGroupKey = dayjs(groupKey, "YYYY-MM-DD").format("DD,MMM");
+          const filteredExpenses = _.orderBy(
+            groupedDataSource[groupKey],
+            "createdAt",
+            "asc"
+          );
+          const groupTotal = groupedDataSource[groupKey].reduce(
+            (total, expense) => total + expense.amount,
+            0
+          );
+          const hasMultipleExpenses = groupedDataSource[groupKey].length > 1;
+          return (
+            <div className="expense-group-container">
+              <div
+                className="group-key"
+                // style={{
+                //   borderBottom: hasMultipleExpenses
+                //     ? "1px dashed gray"
+                //     : "none",
+                // }}
+              >
+                {parsedGroupKey}
+                {hasMultipleExpenses ? (
+                  <Tag color="gold">{`₹${groupTotal.toLocaleString()}`}</Tag>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="group-body">
+                {filteredExpenses.map((expense) => (
+                  <ExpenseItem
+                    key={expense._id}
+                    item={expense}
+                    toggleFavoriteExpenseHandler={toggleFavoriteExpenseHandler}
+                    editExpenseHandler={editExpenseHandler}
+                    handleDelete={handleDelete}
+                    showBullet={hasMultipleExpenses}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
       <Modal
         wrapClassName="react-ui"
@@ -157,9 +209,9 @@ const ExpenseItem = ({
   toggleFavoriteExpenseHandler,
   editExpenseHandler,
   handleDelete,
+  showBullet,
 }) => {
   const {
-    date,
     message,
     amount,
     expenseSubType,
@@ -168,18 +220,54 @@ const ExpenseItem = ({
     expenseSource,
     expenseApp,
     excluded,
+    createdAt,
   } = item;
-  const expenseDate = dayjs(date).format("DD,MMM");
   const expenseMessage = message ? <span>({message})</span> : null;
 
   const formatedValue = amount.toLocaleString();
 
   const content = [
-    { comp: <Tag>{expenseSource}</Tag>, visible: !!expenseSource },
-    { comp: <Tag>{expenseApp}</Tag>, visible: !!expenseApp },
-    { comp: <Tag>{expenseSubType}</Tag>, visible: !!expenseSubType },
     {
       comp: (
+        <Tag bordered={false} color="red">
+          {expenseSubType}
+        </Tag>
+      ),
+      visible: !!expenseSubType,
+    },
+    {
+      comp: (
+        <Tag bordered={false} color="red">
+          {expenseSource}
+        </Tag>
+      ),
+      visible: !!expenseSource,
+    },
+    {
+      comp: (
+        <Tag bordered={false} color="red">
+          {expenseApp}
+        </Tag>
+      ),
+      visible: !!expenseApp,
+    },
+  ].filter((obj) => obj.visible);
+
+  const isNew = dayjs(createdAt).format("YYYY-MM-DD") === today;
+  return (
+    <div
+      className="expense-item"
+      style={{ background: excluded ? "#eee" : "" }}
+    >
+      <div>
+        <div className="amount">
+          {showBullet && <div>◦</div>}₹{formatedValue}
+          {isNew && <span className="dot" />}
+        </div>
+        <div className="message">{expenseMessage}</div>
+        <div className="expense-actions">{content.map((obj) => obj.comp)}</div>
+      </div>
+      <div className="expense-actions">
         <Icon
           key="favorite-expense"
           type={"heart"}
@@ -187,22 +275,13 @@ const ExpenseItem = ({
           size={12}
           onClick={() => toggleFavoriteExpenseHandler(_id, !favorite)}
         />
-      ),
-      visible: true,
-    },
-    {
-      comp: (
+
         <Icon
           key="edit-expense"
           type="edit"
           size={12}
           onClick={() => editExpenseHandler(_id)}
         />
-      ),
-      visible: true,
-    },
-    {
-      comp: (
         <Popconfirm
           placement="bottomRight"
           title="Delete?"
@@ -211,21 +290,8 @@ const ExpenseItem = ({
         >
           <Icon className="mr-0" size={12} type="delete" />
         </Popconfirm>
-      ),
-      visible: true,
-    },
-  ].filter((obj) => obj.visible);
-  return (
-    <Card
-      className={"expense-item"}
-      style={{ background: excluded ? "#eee" : "" }}
-    >
-      <div className="expense-list-container">
-        <div>{`${expenseDate}: ₹${formatedValue}`}</div>
-        <div className="message">{expenseMessage}</div>
       </div>
-      <div className="expense-actions">{content.map((obj) => obj.comp)}</div>
-    </Card>
+    </div>
   );
 };
 

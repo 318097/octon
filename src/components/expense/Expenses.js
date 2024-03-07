@@ -96,7 +96,7 @@ const Expenses = ({
     };
   });
 
-  const summaryItems = Object.entries(total);
+  // const summaryItems = Object.entries(total);
 
   const currentMonthRange = getCurrentMonthRange(filters.date);
 
@@ -111,13 +111,6 @@ const Expenses = ({
   return (
     <section id="expenses">
       <div className="filters-container">
-        <InputNumber
-          placeholder="Min amount"
-          value={filters.minAmount}
-          onBlur={(e) => updateFilters({ minAmount: e.target.value })}
-          controls={false}
-        />
-
         <RangePicker
           picker="month"
           style={{ width: "180px" }}
@@ -135,6 +128,12 @@ const Expenses = ({
           Stats
         </Button>
 
+        <InputNumber
+          placeholder="Min amount"
+          value={filters.minAmount}
+          onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+          controls={false}
+        />
         {/* <Button
           key="reports"
           onClick={() => setShowAddExpense((prev) => !prev)}
@@ -150,7 +149,7 @@ const Expenses = ({
         </Card>
       )}
 
-      <Card className="summary">
+      {/* <Card className="summary">
         <span className="badge">Summary</span>
         {summaryItems.map(([id, { total, success, color }]) => (
           <div
@@ -177,6 +176,11 @@ const Expenses = ({
             </span>
           </div>
         ))}
+      </Card> */}
+
+      <Card className="expense-list">
+        <span className="badge">{currentMonthRange}</span>
+        <ExpenseList {...props} list={input} />
       </Card>
 
       {showAddExpense && (
@@ -185,10 +189,6 @@ const Expenses = ({
           <AddExpense {...props} mode="ADD" />
         </Card>
       )}
-      <Card className="expense-list">
-        <span className="badge">{currentMonthRange}</span>
-        <ExpenseList {...props} list={input} />
-      </Card>
     </section>
   );
 };

@@ -18,7 +18,7 @@ import handleError from "../../lib/errorHandler";
 import notify from "../../lib/notify";
 import tracking from "../../lib/mixpanel";
 import _ from "lodash";
-import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 
 const DEFAULT_VALUES = {
   expenseTypeId: null,
@@ -110,9 +110,7 @@ const AddExpense = ({
   return (
     <Fragment>
       <div className="flex center gap-4">
-        <span onClick={() => handleDateChange(-1)} className="pointer">
-          <LeftCircleOutlined style={{ fontSize: "18px" }} />
-        </span>
+        <Button icon={<LeftOutlined />} onClick={() => handleDateChange(-1)} />
         <DatePicker
           style={{ width: "180px" }}
           allowClear={false}
@@ -121,9 +119,7 @@ const AddExpense = ({
           placeholder="Select month"
           format="DD MMM'YY (ddd)"
         />
-        <span onClick={() => handleDateChange(1)} className="pointer">
-          <RightCircleOutlined style={{ fontSize: "18px" }} />
-        </span>
+        <Button icon={<RightOutlined />} onClick={() => handleDateChange(1)} />
       </div>
       <div>
         <div>
@@ -213,7 +209,6 @@ const AddExpense = ({
       />
 
       <Input
-        size="middle"
         style={{ width: "180px" }}
         placeholder="Message"
         value={expense.message}

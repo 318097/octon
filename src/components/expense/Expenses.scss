@@ -75,7 +75,7 @@ section#expenses {
     }
     &.expense-list {
       & > .ant-card-body {
-        padding: 24px 8px;
+        // padding: 24px 8px;
         justify-content: flex-start;
         align-items: flex-start;
       }
@@ -84,26 +84,54 @@ section#expenses {
 
   .message {
     color: $iron;
+    font-size: 1rem;
   }
 }
 
-.expense-item {
-  margin-bottom: 8px;
-  .ant-card-body {
-    padding: 8px;
+.expense-group-container {
+  background: #fbfbfb;
+  padding: 12px;
+  border-radius: 2px;
+  .group-key {
+    font-weight: 800;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    .expense-list-container {
-      flex-grow: 1;
+    gap: 6px;
+  }
+}
+.dot {
+  display: inline-block;
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background: $foBlue !important;
+}
+.expense-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 4px 0;
+
+  .amount {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    .dot {
+      display: inline-block;
+      height: 6px;
+      width: 6px;
+      border-radius: 50%;
+      background: green;
     }
-    .expense-actions {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      .ant-tag {
-        font-size: 10px;
-      }
-    }
+  }
+  .expense-actions {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 }
