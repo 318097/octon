@@ -33,6 +33,7 @@ const Expenses = ({
   expenseTypes,
   expenseSources,
   expenseGroups,
+  expenseCategories,
   history,
   ...rest
 }) => {
@@ -48,6 +49,7 @@ const Expenses = ({
     date: [now, now],
     monthsRange: null,
     minAmount: null,
+    maxAmount: null,
   });
   const [activePage, setActivePage] = useState("HOME");
   const input = _.get(data, "octon.getExpensesByMonth", []);
@@ -71,11 +73,12 @@ const Expenses = ({
 
   const fetchExpenseByMonth = async () => {
     try {
-      const { date = [], minAmount } = filters || {};
+      const { date = [], minAmount, maxAmount } = filters || {};
 
       const [s, e] = date;
       const input = {
         minAmount: Number(minAmount),
+        maxAmount: Number(maxAmount),
         startMonth: `${s.month() + 1}-${s.year()}`,
         endMonth: `${e.month() + 1}-${e.year()}`,
       };
@@ -113,6 +116,7 @@ const Expenses = ({
     expenseTypes,
     expenseGroups,
     expenseSources,
+    expenseCategories,
   };
 
   const getView = (ids = []) => {
@@ -134,9 +138,15 @@ const Expenses = ({
               maxDate={now}
             />
             <InputNumber
-              placeholder="Min amount"
+              placeholder="Min"
               value={filters.minAmount}
               onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+              controls={false}
+            />
+            <InputNumber
+              placeholder="Max"
+              value={filters.maxAmount}
+              onBlur={(e) => updateFilters({ maxAmount: e.target.value })}
               controls={false}
             />
           </div>
@@ -243,6 +253,7 @@ const Expenses = ({
 const mapStateToProps = ({ session }) => ({
   expenseTypes: _.get(session, "expenseTypes", []),
   expenseGroups: _.get(session, "expenseGroups", []),
+  expenseCategories: _.get(session, "expenseCategories", []),
   expenseSources: _.get(session, "expenseSources", []),
 });
 

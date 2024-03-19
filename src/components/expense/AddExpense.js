@@ -39,6 +39,7 @@ const AddExpense = ({
   expenseTypes,
   expenseSources,
   expenseGroups,
+  expenseCategories,
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
@@ -193,6 +194,23 @@ const AddExpense = ({
         >
           <Space direction="vertical">
             {_.sortBy(expenseGroups, "label").map((option) => (
+              <Radio key={option._id} value={option._id}>
+                {option.label}
+              </Radio>
+            ))}
+          </Space>
+        </Radio.Group>
+      </div>
+
+      <div>
+        <h5 className="mt">Category</h5>
+        <Radio.Group
+          className="mt"
+          value={expense.expenseCategoryId}
+          onChange={(e) => setData({ expenseCategoryId: e.target.value })}
+        >
+          <Space direction="horizontal">
+            {_.sortBy(expenseCategories, "label").map((option) => (
               <Radio key={option._id} value={option._id}>
                 {option.label}
               </Radio>

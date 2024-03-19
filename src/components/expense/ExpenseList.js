@@ -23,6 +23,7 @@ const ExpenseList = (props) => {
     expenseTypes,
     expenseSources,
     expenseGroups,
+    expenseCategories,
   } = props;
 
   const [editExpense, setEditExpense] = useState(null);
@@ -81,6 +82,7 @@ const ExpenseList = (props) => {
   const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
   const expenseSourcesKeyed = _.keyBy(expenseSources, "_id");
   const expenseGroupsKeyed = _.keyBy(expenseGroups, "_id");
+  const expenseCategoriesKeyed = _.keyBy(expenseCategories, "_id");
 
   const formatedValue = total.toLocaleString();
   const filteredDataSource = dataSource
@@ -96,6 +98,10 @@ const ExpenseList = (props) => {
         "label",
       ]),
       expenseGroup: _.get(expenseGroupsKeyed, [item.expenseGroupId, "label"]),
+      expenseCategory: _.get(expenseCategoriesKeyed, [
+        item.expenseCategoryId,
+        "label",
+      ]),
       expenseDate: dayjs(item.date).format("YYYY-MM-DD"),
     }));
 
@@ -227,6 +233,7 @@ const ExpenseItem = ({
     favorite,
     expenseSource,
     expenseGroup,
+    expenseCategory,
     excluded,
     createdAt,
   } = item;
@@ -258,6 +265,14 @@ const ExpenseItem = ({
         </Tag>
       ),
       visible: !!expenseGroup,
+    },
+    {
+      comp: (
+        <Tag bordered={false} color="red">
+          {expenseCategory}
+        </Tag>
+      ),
+      visible: !!expenseCategory,
     },
   ].filter((obj) => obj.visible);
 

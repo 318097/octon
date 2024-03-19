@@ -16,6 +16,7 @@ const Settings = ({ session, updateUserSettings }) => {
     expenseTypes = [],
     expenseSources = [],
     expenseGroups = [],
+    expenseCategories = [],
   } = session;
 
   return (
@@ -47,6 +48,16 @@ const Settings = ({ session, updateUserSettings }) => {
             canDelete: true,
           }))}
           onChange={updateSetting("EXPENSE_GROUPS")}
+        />
+      </Card>
+
+      <Card title="Expense categories" size="small">
+        <NestedNodes
+          nodes={expenseCategories.map((item) => ({
+            ...item,
+            canDelete: true,
+          }))}
+          onChange={updateSetting("EXPENSE_CATEGORIES")}
         />
       </Card>
     </div>
