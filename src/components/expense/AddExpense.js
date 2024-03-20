@@ -55,6 +55,7 @@ const AddExpense = ({
   const saveExpense = async () => {
     setLoading(true);
     delete expense.__typename;
+    delete expense.createdAt;
     try {
       if (mode === "ADD") {
         await addExpense({
