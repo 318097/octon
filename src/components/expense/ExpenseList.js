@@ -24,6 +24,7 @@ const ExpenseList = (props) => {
     expenseSources,
     expenseGroups,
     expenseCategories,
+    filters,
   } = props;
 
   const [editExpense, setEditExpense] = useState(null);
@@ -118,23 +119,25 @@ const ExpenseList = (props) => {
 
   return (
     <Fragment>
-      <Radio.Group
-        defaultValue={filterType}
-        buttonStyle="solid"
-        onChange={({ target: { value } }) => setFilterType(value)}
-      >
-        <Radio.Button value="ALL">All</Radio.Button>
-        {expenseTypes
-          .filter((item) => !item.parentTagId)
-          .map((option) => {
-            // const optionTotal = summaryTotal[option.label].total;
-            return (
-              <Radio.Button value={option._id} key={option._id}>
-                {option.label}
-              </Radio.Button>
-            );
-          })}
-      </Radio.Group>
+      {filters.expenseSubTypeId ? null : (
+        <Radio.Group
+          defaultValue={filterType}
+          buttonStyle="solid"
+          onChange={({ target: { value } }) => setFilterType(value)}
+        >
+          <Radio.Button value="ALL">All</Radio.Button>
+          {expenseTypes
+            .filter((item) => !item.parentTagId)
+            .map((option) => {
+              // const optionTotal = summaryTotal[option.label].total;
+              return (
+                <Radio.Button value={option._id} key={option._id}>
+                  {option.label}
+                </Radio.Button>
+              );
+            })}
+        </Radio.Group>
+      )}
       <div className="flex center gap-8 mt mb">
         <div className="total">Total: ₹{formatedValue}</div> |
         <Checkbox
@@ -199,20 +202,24 @@ const ExpenseList = (props) => {
       ) : (
         <Empty />
       )}
+
       <Modal
         wrapClassName="react-ui"
-        visible={editExpenseVisibility}
+        open={editExpenseVisibility}
         title="Edit Expense"
         width={400}
         onCancel={() => setEditExpenseVisibility(false)}
         footer={[]}
+        style={{ height: "500px", overflow: "auto" }}
       >
-        <AddExpense
-          {...props}
-          currentExpense={editExpense}
-          setVisibilityStatus={setEditExpenseVisibility}
-          mode="EDIT"
-        />
+        <div className="edit-expense">
+          <AddExpense
+            {...props}
+            currentExpense={editExpense}
+            setVisibilityStatus={setEditExpenseVisibility}
+            mode="EDIT"
+          />
+        </div>
       </Modal>
     </Fragment>
   );

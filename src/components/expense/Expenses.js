@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { DatePicker, Card, Button, InputNumber, Segmented } from "antd";
+import { DatePicker, Card, Button, InputNumber, Segmented, Select } from "antd";
 import dayjs from "dayjs";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
@@ -16,6 +16,7 @@ import Stats from "./Stats";
 import handleError from "../../lib/errorHandler";
 import tracking from "../../lib/mixpanel";
 import Settings from "../settings/Settings";
+import { formatNumber } from "../../lib/utils";
 
 const { RangePicker } = DatePicker;
 
@@ -37,8 +38,6 @@ const Expenses = ({
   history,
   ...rest
 }) => {
-  console.log("history, rest::-", history, rest);
-
   const [getExpensesByMonth, { data, loading }] = useLazyQuery(
     GET_MONTHLY_EXPENSES,
     {
@@ -50,6 +49,7 @@ const Expenses = ({
     monthsRange: null,
     minAmount: null,
     maxAmount: null,
+    expenseSubTypeId: null,
   });
   const [activePage, setActivePage] = useState("HOME");
   const input = _.get(data, "octon.getExpensesByMonth", []);
@@ -73,12 +73,18 @@ const Expenses = ({
 
   const fetchExpenseByMonth = async () => {
     try {
-      const { date = [], minAmount, maxAmount } = filters || {};
+      const {
+        date = [],
+        minAmount,
+        maxAmount,
+        expenseSubTypeId,
+      } = filters || {};
 
       const [s, e] = date;
       const input = {
         minAmount: Number(minAmount),
         maxAmount: Number(maxAmount),
+        expenseSubTypeId,
         startMonth: `${s.month() + 1}-${s.year()}`,
         endMonth: `${e.month() + 1}-${e.year()}`,
       };
@@ -106,7 +112,33 @@ const Expenses = ({
     };
   });
 
-  const summaryItems = Object.entries(total);
+  const summaryItems = _.orderBy(
+    expenseTypes
+      .filter((expense) => expense.parentTagId)
+      .map((expense) => {
+        const { label, _id, parentTagId } = expense;
+        const parentIdColor = rootExpenseTypes.find(
+          (expense) => expense._id === parentTagId
+        )?.["color"];
+
+        return [
+          label,
+          {
+            color: parentIdColor,
+            total: calculateTotal(
+              input.filter(
+                (expense) =>
+                  expense.expenseSubTypeId === _id && !expense.excluded
+              ),
+              "amount"
+            ),
+          },
+        ];
+      })
+      .filter(([label, { total }]) => !!total),
+    (obj) => obj[1].total,
+    "desc"
+  );
 
   const currentMonthRange = getCurrentMonthRange(filters.date);
 
@@ -117,7 +149,15 @@ const Expenses = ({
     expenseGroups,
     expenseSources,
     expenseCategories,
+    filters,
   };
+
+  const expenseOptions = expenseTypes
+    .filter((expense) => !!expense.parentTagId && expense.visible)
+    .map(({ label, _id }) => ({
+      label,
+      value: _id,
+    }));
 
   const getView = (ids = []) => {
     const view = [
@@ -137,17 +177,30 @@ const Expenses = ({
               placeholder="Months range"
               maxDate={now}
             />
+            <Select
+              style={{ width: 120 }}
+              allowClear
+              placeholder="Type"
+              value={filters.expenseSubTypeId}
+              onChange={(expenseSubTypeId) =>
+                updateFilters({ expenseSubTypeId })
+              }
+              options={expenseOptions}
+            />
+
             <InputNumber
               placeholder="Min"
               value={filters.minAmount}
               onBlur={(e) => updateFilters({ minAmount: e.target.value })}
               controls={false}
+              style={{ width: 80 }}
             />
             <InputNumber
               placeholder="Max"
               value={filters.maxAmount}
               onBlur={(e) => updateFilters({ maxAmount: e.target.value })}
               controls={false}
+              style={{ width: 80 }}
             />
           </div>
         ),
@@ -163,36 +216,31 @@ const Expenses = ({
       },
       {
         id: "summary",
-        component: (
-          <Card className="summary">
-            <span className="badge">Summary</span>
-            {summaryItems.map(([id, { total, success, color }]) => (
-              <div
-                className="expense-type-block"
-                key={id}
-                style={{
-                  flex: summaryItems.length % 3 === 0 ? "30%" : "auto",
-                }}
-              >
-                <span className="expense-type-name">{id}</span>
-                <span
-                  className="expense-type-value"
-                  style={{
-                    color: colors[color],
-                  }}
-                >
-                  {`₹${total.toLocaleString()}`}
-                  <Icon
-                    type="caret"
-                    size={8}
-                    fill={colors.strokeThree}
-                    direction={success === "UP" ? "up" : "down"}
-                  />
-                </span>
-              </div>
-            ))}
-          </Card>
-        ),
+        component:
+          summaryItems.length && !filters.expenseSubTypeId ? (
+            <Card className="summary">
+              <span className="badge">Summary</span>
+              {summaryItems.map(([id, { total, success, color }]) => (
+                <div className="expense-type-block" key={id}>
+                  <span className="expense-type-name">{id}</span>
+                  <span
+                    className="expense-type-value"
+                    style={{
+                      color: colors[color],
+                    }}
+                  >
+                    {formatNumber(total)}
+                    <Icon
+                      type="caret"
+                      size={8}
+                      fill={colors.strokeThree}
+                      direction={success === "UP" ? "up" : "down"}
+                    />
+                  </span>
+                </div>
+              ))}
+            </Card>
+          ) : null,
       },
       {
         id: "expense-list",

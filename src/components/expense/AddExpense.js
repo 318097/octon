@@ -96,17 +96,11 @@ const AddExpense = ({
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
-  const finalExpenseTypes = _.sortBy(
-    _.filter(expenseTypes, (type) => !type.parentTagId),
-    "label"
-  );
+  const finalExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
 
-  const finalExpenseSubTypes = _.sortBy(
-    _.filter(
-      expenseTypes,
-      (type) => type.parentTagId === expense.expenseTypeId
-    ),
-    "label"
+  const finalExpenseSubTypes = _.filter(
+    expenseTypes,
+    (type) => type.parentTagId === expense.expenseTypeId && type.visible
   );
 
   return (
@@ -177,7 +171,7 @@ const AddExpense = ({
           onChange={(e) => setData({ expenseSourceId: e.target.value })}
         >
           <Space direction="vertical">
-            {_.sortBy(expenseSources, "label").map((option) => (
+            {expenseSources.map((option) => (
               <Radio key={option._id} value={option._id}>
                 {option.label}
               </Radio>
@@ -194,7 +188,7 @@ const AddExpense = ({
           onChange={(e) => setData({ expenseGroupId: e.target.value })}
         >
           <Space direction="vertical">
-            {_.sortBy(expenseGroups, "label").map((option) => (
+            {expenseGroups.map((option) => (
               <Radio key={option._id} value={option._id}>
                 {option.label}
               </Radio>
@@ -211,7 +205,7 @@ const AddExpense = ({
           onChange={(e) => setData({ expenseCategoryId: e.target.value })}
         >
           <Space direction="horizontal">
-            {_.sortBy(expenseCategories, "label").map((option) => (
+            {expenseCategories.map((option) => (
               <Radio key={option._id} value={option._id}>
                 {option.label}
               </Radio>
