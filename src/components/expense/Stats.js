@@ -29,14 +29,23 @@ const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
   return { labels, datasets };
 };
 
-const generateCategoryTotalData = ({ input, rootExpenseTypes }) => {
+const generateCategoryTotalData = ({
+  input,
+  rootExpenseTypes,
+  expenseTypes,
+}) => {
   return _.reduce(
     input,
     (acc, value, label) => {
-      const match = rootExpenseTypes.find((item) => item.label === label);
+      const match = expenseTypes.find((expense) => expense.label === label);
+      const matchedSubType = expenseTypes.find(
+        (expense) => expense._id === match?.parentTagId
+      );
+      // console.log({ value, label });
+
       acc.labels.push(label);
       acc.values.push(value);
-      acc.colors.push(match && colors[match.color]);
+      acc.colors.push(colors[matchedSubType?.color] || "bar");
 
       return acc;
     },
@@ -44,9 +53,10 @@ const generateCategoryTotalData = ({ input, rootExpenseTypes }) => {
   );
 };
 
-const Stats = ({ rootExpenseTypes }) => {
+const Stats = ({ rootExpenseTypes, expenseTypes }) => {
   const { loading, data } = useQuery(GET_EXPENSE_STATS, {
     fetchPolicy: "cache-and-network",
+    variables: { input: {} },
   });
 
   const stats = _.get(data, "octon.expenseStats", {});
@@ -65,6 +75,7 @@ const Stats = ({ rootExpenseTypes }) => {
       <CategoryTotal
         input={stats.categoryTotal || {}}
         rootExpenseTypes={rootExpenseTypes || []}
+        expenseTypes={expenseTypes || []}
       />
     </>
   );

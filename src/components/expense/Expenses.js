@@ -210,7 +210,10 @@ const Expenses = ({
         component: (
           <Card className="stats">
             <span className="badge">Stats</span>
-            <Stats rootExpenseTypes={rootExpenseTypes} />
+            <Stats
+              rootExpenseTypes={rootExpenseTypes}
+              expenseTypes={expenseTypes}
+            />
           </Card>
         ),
       },

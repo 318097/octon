@@ -23,9 +23,9 @@ const GET_ALL_TASKS = gql`
 `;
 
 const GET_EXPENSE_STATS = gql`
-  query expenseStats {
+  query expenseStats($input: MonthlyExpensesInput!) {
     octon {
-      expenseStats
+      expenseStats(input: $input)
     }
   }
 `;
