@@ -8,21 +8,29 @@ import { Spin } from "antd";
 import colors, { Loading } from "@codedrops/react-ui";
 import { Bar, Pie } from "react-chartjs-2";
 
-const generateMonthlyOverviewData = ({ input, rootExpenseTypes }) => {
-  const datasets = [];
+const generateMonthlyOverviewData = ({
+  input,
+  rootExpenseTypes,
+  expenseTypes,
+}) => {
   const entries = Object.entries(input);
 
   const labels = entries.map(([label]) => label);
 
-  rootExpenseTypes.forEach((type, idx) => {
-    const { label, color, key } = type;
-    const values = entries.map(([, values]) => values[label] || 0);
+  const datasets = [];
+  const expenseSubTypes = expenseTypes.filter(
+    (expenseType) => !!expenseType.parentTagId
+  );
+
+  expenseSubTypes.forEach(({ label, color, key, parentTagId }) => {
+    const matchedSubType = expenseTypes.find(
+      (expense) => expense._id === parentTagId
+    );
 
     datasets.push({
       label,
-      data: values,
-      backgroundColor: colors[color],
-      hidden: key === "INCOME",
+      data: entries.map(([, values]) => values[label] || 0),
+      backgroundColor: colors[matchedSubType?.color || "bar"],
     });
   });
 
@@ -41,7 +49,6 @@ const generateCategoryTotalData = ({
       const matchedSubType = expenseTypes.find(
         (expense) => expense._id === match?.parentTagId
       );
-      // console.log({ value, label });
 
       acc.labels.push(label);
       acc.values.push(value);
@@ -66,13 +73,14 @@ const Stats = ({ rootExpenseTypes, expenseTypes }) => {
       {loading && (
         <Loading background="blur" renderLoadingComponent={<Spin />} />
       )}
-      <MonthlyOverview
+      <MonthlyBreakdown
         input={stats.monthlyOverview || []}
         rootExpenseTypes={rootExpenseTypes || []}
+        expenseTypes={expenseTypes || []}
       />
       <br />
       <br />
-      <CategoryTotal
+      <SubCategoryBreakdown
         input={stats.categoryTotal || {}}
         rootExpenseTypes={rootExpenseTypes || []}
         expenseTypes={expenseTypes || []}
@@ -81,16 +89,36 @@ const Stats = ({ rootExpenseTypes, expenseTypes }) => {
   );
 };
 
-const MonthlyOverview = (props) => {
+const MonthlyBreakdown = (props) => {
   const data = generateMonthlyOverviewData(props);
   return (
     <div>
-      <Bar {...props} data={data} />
+      <Bar
+        {...props}
+        data={data}
+        options={{
+          plugins: {
+            tooltip: {
+              filter: (obj) => !!obj.raw,
+            },
+          },
+          indexAxis: "y",
+          responsive: true,
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+            },
+          },
+        }}
+      />
     </div>
   );
 };
 
-const CategoryTotal = (props) => {
+const SubCategoryBreakdown = (props) => {
   const { labels, values, colors } = generateCategoryTotalData(props) || {};
 
   return (
