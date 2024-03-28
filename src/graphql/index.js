@@ -13,6 +13,7 @@ const authLink = setContext((_, { headers }) => {
       ...headers,
       "access-control-allow-origin": "*",
       authorization: sessionManager.getToken(),
+      source: "OCTON",
     },
   };
 });
@@ -20,8 +21,8 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-    fetchOptions: {
-    mode: 'no-cors',
+  fetchOptions: {
+    mode: "no-cors",
   },
 });
 

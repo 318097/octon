@@ -194,10 +194,6 @@ const Expenses = ({
     }
   };
 
-  const rootExpenseTypes = expenseTypes.filter((item) => !item.parentTagId);
-
-  const currentMonthRange = getCurrentMonthRange(filters.date);
-
   const props = {
     fetchExpenseByMonth,
     setAppLoading,
@@ -206,7 +202,6 @@ const Expenses = ({
     expenseSources,
     expenseCategories,
     filters,
-    rootExpenseTypes,
     expensesList,
     updateFilters,
   };
@@ -222,10 +217,7 @@ const Expenses = ({
         component: (
           <Card className="stats">
             <span className="badge">Stats</span>
-            <MonthlyBreakdown
-              // rootExpenseTypes={rootExpenseTypes}
-              expenseTypes={expenseTypes}
-            />
+            <MonthlyBreakdown expenseTypes={expenseTypes} />
           </Card>
         ),
       },
@@ -237,7 +229,7 @@ const Expenses = ({
         id: "expense-list",
         component: (
           <Card className="expense-list">
-            <span className="badge">{currentMonthRange}</span>
+            <span className="badge">{getCurrentMonthRange(filters.date)}</span>
             <ExpenseList {...props} />
           </Card>
         ),

@@ -7,37 +7,39 @@ import _ from "lodash";
 import { Spin } from "antd";
 import colors, { Loading } from "@codedrops/react-ui";
 import { Bar, Pie } from "react-chartjs-2";
+import { getColor } from "../../lib/utils";
 
-const generateMonthlyOverviewData = ({
-  input,
-  // rootExpenseTypes,
-  expenseTypes,
-}) => {
+const generateMonthlyOverviewData = ({ input, expenseTypes }) => {
   const entries = Object.entries(input);
 
   const labels = entries.map(([label]) => label);
 
   const datasets = [];
+
   const expenseSubTypes = expenseTypes.filter(
-    (expenseType) => !!expenseType.parentTagId
+    (expenseType) => !!expenseType.parentTagId && expenseType.visible
   );
 
-  expenseSubTypes.forEach(({ label, color, key, parentTagId }) => {
-    const matchedSubType = expenseTypes.find(
-      (expense) => expense._id === parentTagId
+  expenseSubTypes.forEach(({ label }, idx) => {
+    const data = entries.map(([, values]) => values[label]);
+    const hasValue = data.reduce(
+      (sum, val) => Number(sum) + Number(val || 0),
+      0
     );
 
-    datasets.push({
+    const obj = {
       label,
-      data: entries.map(([, values]) => values[label] || 0),
-      backgroundColor: colors[matchedSubType?.color || "bar"],
-    });
+      data,
+      backgroundColor: getColor(idx),
+    };
+
+    if (hasValue) datasets.push(obj);
   });
 
   return { labels, datasets };
 };
 
-const MonthlyBreakdown = ({ rootExpenseTypes, expenseTypes }) => {
+const MonthlyBreakdown = ({ expenseTypes }) => {
   const response = useQuery(GET_EXPENSE_STATS, {
     fetchPolicy: "cache-and-network",
     variables: { input: {} },
@@ -46,7 +48,6 @@ const MonthlyBreakdown = ({ rootExpenseTypes, expenseTypes }) => {
   const stats = _.get(response.data, "octon.expenseStats", {});
   const props = {
     input: stats.monthlyOverview || [],
-    // rootExpenseTypes: rootExpenseTypes || [],
     expenseTypes: expenseTypes || [],
   };
 

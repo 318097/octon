@@ -12,6 +12,7 @@ import {
 } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import tracking from "../../lib/mixpanel";
+import { formatNumber, processExpenses } from "../../lib/utils";
 
 const today = dayjs().format("YYYY-MM-DD");
 
@@ -21,9 +22,6 @@ const ExpenseList = (props) => {
     expensesList,
     setAppLoading,
     expenseTypes,
-    expenseSources,
-    expenseGroups,
-    expenseCategories,
     filters,
   } = props;
 
@@ -82,42 +80,11 @@ const ExpenseList = (props) => {
     setAppLoading(false);
   };
 
-  const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
-  const expenseSourcesKeyed = _.keyBy(expenseSources, "_id");
-  const expenseGroupsKeyed = _.keyBy(expenseGroups, "_id");
-  const expenseCategoriesKeyed = _.keyBy(expenseCategories, "_id");
-
-  const formatedValue = total.toLocaleString();
-  const filteredDataSource = dataSource
-    .filter((item) => (showFavoritesOnly ? item.favorite : true))
-    .map((item) => ({
-      ...item,
-      expenseSubType: _.get(expenseTypesKeyed, [
-        item.expenseSubTypeId,
-        "label",
-      ]),
-      expenseSource: _.get(expenseSourcesKeyed, [
-        item.expenseSourceId,
-        "label",
-      ]),
-      expenseGroup: _.get(expenseGroupsKeyed, [item.expenseGroupId, "label"]),
-      expenseCategory: _.get(expenseCategoriesKeyed, [
-        item.expenseCategoryId,
-        "label",
-      ]),
-      expenseDate: dayjs(item.date).format("YYYY-MM-DD"),
-    }));
-
-  const groupedDataSource = _.groupBy(
-    filteredDataSource,
-    (expense) => expense.expenseDate
-  );
-
-  const sortedGroupKeys = _.orderBy(
-    Object.keys(groupedDataSource),
-    null,
-    "desc"
-  );
+  const { sortedGroupKeys, hasData, groupedDataSource } = processExpenses({
+    ...props,
+    dataSource,
+    showFavoritesOnly,
+  });
 
   return (
     <Fragment>
@@ -141,7 +108,7 @@ const ExpenseList = (props) => {
         </Radio.Group>
       )}
       <div className="flex center gap-8 mt mb">
-        <div className="total">Total: ₹{formatedValue}</div> |
+        <div className="total">Total: {formatNumber(total)}</div> |
         <Checkbox
           checked={showFavoritesOnly}
           onChange={(e) => setShowFavoritesOnly(e.target.checked)}
@@ -150,7 +117,7 @@ const ExpenseList = (props) => {
         </Checkbox>
       </div>
 
-      {filteredDataSource.length ? (
+      {hasData ? (
         <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
           {sortedGroupKeys.map((groupKey) => {
             const parsedGroupKey = dayjs(groupKey, "YYYY-MM-DD").format(
@@ -248,8 +215,6 @@ const ExpenseItem = ({
   } = item;
   const expenseMessage = message ? <span>({message})</span> : null;
 
-  const formatedValue = amount.toLocaleString();
-
   const content = [
     {
       comp: (
@@ -293,7 +258,8 @@ const ExpenseItem = ({
     >
       <div>
         <div className="amount">
-          {showBullet && <div>◦</div>}₹{formatedValue}
+          {showBullet && <div>◦</div>}
+          {formatNumber(amount)}
           {isNew && <span className="dot" />}
         </div>
         <div className="message">{expenseMessage}</div>
