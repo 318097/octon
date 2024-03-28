@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import { DatePicker, Card, Button, InputNumber, Segmented, Select } from "antd";
+import React, { useState, useEffect, Fragment } from "react";
+import { DatePicker, Card, InputNumber, Segmented, Select } from "antd";
 import dayjs from "dayjs";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
@@ -11,12 +11,12 @@ import ExpenseList from "./ExpenseList";
 import { setAppLoading } from "../../store/actions";
 import _ from "lodash";
 import { calculateTotal } from "@codedrops/lib";
-import colors, { Icon } from "@codedrops/react-ui";
-import Stats from "./Stats";
+import { MonthlyBreakdown, SubCategoryBreakdown } from "./Stats";
 import handleError from "../../lib/errorHandler";
 import tracking from "../../lib/mixpanel";
 import Settings from "../settings/Settings";
-import { formatNumber } from "../../lib/utils";
+import Calendar from "./Calendar";
+import { formatNumber, getColor } from "../../lib/utils";
 
 const { RangePicker } = DatePicker;
 
@@ -29,6 +29,105 @@ const getCurrentMonthRange = (date) => {
 
 const now = dayjs();
 
+const Summary = ({ filters, expenseTypes, expensesList }) => {
+  const summaryItems = _.orderBy(
+    expenseTypes
+      .filter((expenseType) => expenseType.parentTagId)
+      .map((expenseType, idx) => {
+        const { label, _id } = expenseType;
+        return [
+          label,
+          {
+            color: getColor(idx),
+            total: calculateTotal(
+              expensesList.filter(
+                (expense) =>
+                  expense.expenseSubTypeId === _id && !expense.excluded
+              ),
+              "amount"
+            ),
+          },
+        ];
+      })
+      .filter(([label, { total }]) => !!total),
+    (obj) => obj[1].total,
+    "desc"
+  );
+
+  return summaryItems.length && !filters.expenseSubTypeId ? (
+    <Fragment>
+      <Card className="summary">
+        <span className="badge">Summary</span>
+        {summaryItems.map(([id, { total, color }]) => (
+          <div className="expense-type-block" key={id}>
+            <span className="expense-type-name">{id}</span>
+            <span
+              className="expense-type-value"
+              style={{
+                color,
+              }}
+            >
+              {formatNumber(total)}
+            </span>
+          </div>
+        ))}
+      </Card>
+      <Card>
+        <SubCategoryBreakdown data={summaryItems} />
+      </Card>
+    </Fragment>
+  ) : null;
+};
+
+const Filters = ({ updateFilters, filters, expenseTypes }) => {
+  const expenseOptions = expenseTypes
+    .filter((expense) => !!expense.parentTagId && expense.visible)
+    .map(({ label, _id }) => ({
+      label,
+      value: _id,
+    }));
+
+  return (
+    <div className="filters-container">
+      <RangePicker
+        picker="month"
+        style={{ width: "180px" }}
+        allowClear={false}
+        format={"MMM'YY"}
+        onChange={(date) => {
+          updateFilters({ date });
+        }}
+        value={filters.date}
+        placeholder="Months range"
+        maxDate={now}
+      />
+      <Select
+        style={{ width: 120 }}
+        allowClear
+        placeholder="Type"
+        value={filters.expenseSubTypeId}
+        onChange={(expenseSubTypeId) => updateFilters({ expenseSubTypeId })}
+        options={expenseOptions}
+      />
+
+      <InputNumber
+        placeholder="Min"
+        value={filters.minAmount}
+        onBlur={(e) => updateFilters({ minAmount: e.target.value })}
+        controls={false}
+        style={{ width: 80 }}
+      />
+      <InputNumber
+        placeholder="Max"
+        value={filters.maxAmount}
+        onBlur={(e) => updateFilters({ maxAmount: e.target.value })}
+        controls={false}
+        style={{ width: 80 }}
+      />
+    </div>
+  );
+};
+
 const Expenses = ({
   setAppLoading,
   expenseTypes,
@@ -36,7 +135,6 @@ const Expenses = ({
   expenseGroups,
   expenseCategories,
   history,
-  ...rest
 }) => {
   const [getExpensesByMonth, { data, loading }] = useLazyQuery(
     GET_MONTHLY_EXPENSES,
@@ -52,7 +150,7 @@ const Expenses = ({
     expenseSubTypeId: null,
   });
   const [activePage, setActivePage] = useState("HOME");
-  const input = _.get(data, "octon.getExpensesByMonth", []);
+  const expensesList = _.get(data, "octon.getExpensesByMonth", []);
 
   const updateFilters = (update) => {
     setFilters((prev) => ({ ...prev, ...update }));
@@ -96,49 +194,7 @@ const Expenses = ({
     }
   };
 
-  const total = {};
-
   const rootExpenseTypes = expenseTypes.filter((item) => !item.parentTagId);
-
-  rootExpenseTypes.forEach((item) => {
-    const { label, _id, success, color } = item;
-    total[label] = {
-      success,
-      color,
-      total: calculateTotal(
-        input.filter((item) => item.expenseTypeId === _id && !item.excluded),
-        "amount"
-      ),
-    };
-  });
-
-  const summaryItems = _.orderBy(
-    expenseTypes
-      .filter((expense) => expense.parentTagId)
-      .map((expense) => {
-        const { label, _id, parentTagId } = expense;
-        const parentIdColor = rootExpenseTypes.find(
-          (expense) => expense._id === parentTagId
-        )?.["color"];
-
-        return [
-          label,
-          {
-            color: parentIdColor,
-            total: calculateTotal(
-              input.filter(
-                (expense) =>
-                  expense.expenseSubTypeId === _id && !expense.excluded
-              ),
-              "amount"
-            ),
-          },
-        ];
-      })
-      .filter(([label, { total }]) => !!total),
-    (obj) => obj[1].total,
-    "desc"
-  );
 
   const currentMonthRange = getCurrentMonthRange(filters.date);
 
@@ -150,68 +206,24 @@ const Expenses = ({
     expenseSources,
     expenseCategories,
     filters,
+    rootExpenseTypes,
+    expensesList,
+    updateFilters,
   };
-
-  const expenseOptions = expenseTypes
-    .filter((expense) => !!expense.parentTagId && expense.visible)
-    .map(({ label, _id }) => ({
-      label,
-      value: _id,
-    }));
 
   const getView = (ids = []) => {
     const view = [
       {
         id: "filters",
-        component: (
-          <div className="filters-container">
-            <RangePicker
-              picker="month"
-              style={{ width: "180px" }}
-              allowClear={false}
-              format={"MMM'YY"}
-              onChange={(date) => {
-                updateFilters({ date });
-              }}
-              value={filters.date}
-              placeholder="Months range"
-              maxDate={now}
-            />
-            <Select
-              style={{ width: 120 }}
-              allowClear
-              placeholder="Type"
-              value={filters.expenseSubTypeId}
-              onChange={(expenseSubTypeId) =>
-                updateFilters({ expenseSubTypeId })
-              }
-              options={expenseOptions}
-            />
-
-            <InputNumber
-              placeholder="Min"
-              value={filters.minAmount}
-              onBlur={(e) => updateFilters({ minAmount: e.target.value })}
-              controls={false}
-              style={{ width: 80 }}
-            />
-            <InputNumber
-              placeholder="Max"
-              value={filters.maxAmount}
-              onBlur={(e) => updateFilters({ maxAmount: e.target.value })}
-              controls={false}
-              style={{ width: 80 }}
-            />
-          </div>
-        ),
+        component: <Filters {...props} />,
       },
       {
         id: "stats",
         component: (
           <Card className="stats">
             <span className="badge">Stats</span>
-            <Stats
-              rootExpenseTypes={rootExpenseTypes}
+            <MonthlyBreakdown
+              // rootExpenseTypes={rootExpenseTypes}
               expenseTypes={expenseTypes}
             />
           </Card>
@@ -219,38 +231,14 @@ const Expenses = ({
       },
       {
         id: "summary",
-        component:
-          summaryItems.length && !filters.expenseSubTypeId ? (
-            <Card className="summary">
-              <span className="badge">Summary</span>
-              {summaryItems.map(([id, { total, success, color }]) => (
-                <div className="expense-type-block" key={id}>
-                  <span className="expense-type-name">{id}</span>
-                  <span
-                    className="expense-type-value"
-                    style={{
-                      color: colors[color],
-                    }}
-                  >
-                    {formatNumber(total)}
-                    <Icon
-                      type="caret"
-                      size={8}
-                      fill={colors.strokeThree}
-                      direction={success === "UP" ? "up" : "down"}
-                    />
-                  </span>
-                </div>
-              ))}
-            </Card>
-          ) : null,
+        component: <Summary {...props} />,
       },
       {
         id: "expense-list",
         component: (
           <Card className="expense-list">
             <span className="badge">{currentMonthRange}</span>
-            <ExpenseList {...props} list={input} />
+            <ExpenseList {...props} />
           </Card>
         ),
       },
@@ -267,18 +255,20 @@ const Expenses = ({
         id: "settings",
         component: <Settings />,
       },
+      {
+        id: "calendar",
+        component: <Calendar {...props} />,
+      },
     ];
     const viewKeys = _.keyBy(view, "id");
-    // .filter((obj) => ids.includes(obj.id))
-    // .map((obj) => obj.component);
 
     return ids.map((id) => viewKeys[id].component);
   };
 
   const mapping = {
-    HOME: ["filters", "summary", "expense-list", "stats"],
+    HOME: ["filters", "stats", "summary", "expense-list"],
     ADD: ["add-expense", "filters", "expense-list"],
-    MONTH: [],
+    MONTH: ["calendar"],
     SETTINGS: ["settings"],
   };
 

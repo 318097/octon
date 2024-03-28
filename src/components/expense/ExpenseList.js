@@ -18,7 +18,7 @@ const today = dayjs().format("YYYY-MM-DD");
 const ExpenseList = (props) => {
   const {
     fetchExpenseByMonth,
-    list,
+    expensesList,
     setAppLoading,
     expenseTypes,
     expenseSources,
@@ -40,8 +40,10 @@ const ExpenseList = (props) => {
     const filterData = () => {
       const data =
         filterType === "ALL"
-          ? list
-          : list.filter((list) => list.expenseTypeId === filterType);
+          ? expensesList
+          : expensesList.filter(
+              (expense) => expense.expenseTypeId === filterType
+            );
       setDataSource(data);
       setTotal(
         calculateTotal(
@@ -52,7 +54,7 @@ const ExpenseList = (props) => {
     };
 
     filterData();
-  }, [list, filterType]);
+  }, [expensesList, filterType]);
 
   const handleDelete = async (_id) => {
     setAppLoading(true);

@@ -10,7 +10,7 @@ import { Bar, Pie } from "react-chartjs-2";
 
 const generateMonthlyOverviewData = ({
   input,
-  rootExpenseTypes,
+  // rootExpenseTypes,
   expenseTypes,
 }) => {
   const entries = Object.entries(input);
@@ -37,95 +37,72 @@ const generateMonthlyOverviewData = ({
   return { labels, datasets };
 };
 
-const generateCategoryTotalData = ({
-  input,
-  rootExpenseTypes,
-  expenseTypes,
-}) => {
-  return _.reduce(
-    input,
-    (acc, value, label) => {
-      const match = expenseTypes.find((expense) => expense.label === label);
-      const matchedSubType = expenseTypes.find(
-        (expense) => expense._id === match?.parentTagId
-      );
+const MonthlyBreakdown = ({ rootExpenseTypes, expenseTypes }) => {
+  const response = useQuery(GET_EXPENSE_STATS, {
+    fetchPolicy: "cache-and-network",
+    variables: { input: {} },
+  });
 
+  const stats = _.get(response.data, "octon.expenseStats", {});
+  const props = {
+    input: stats.monthlyOverview || [],
+    // rootExpenseTypes: rootExpenseTypes || [],
+    expenseTypes: expenseTypes || [],
+  };
+
+  const data = generateMonthlyOverviewData(props);
+
+  return (
+    <>
+      {response.loading && (
+        <Loading background="blur" renderLoadingComponent={<Spin />} />
+      )}
+      <div>
+        <Bar
+          {...props}
+          height={340}
+          data={data}
+          options={{
+            plugins: {
+              tooltip: {
+                filter: (obj) => !!obj.raw,
+              },
+            },
+            indexAxis: "y",
+            responsive: true,
+            scales: {
+              x: {
+                stacked: true,
+              },
+              y: {
+                stacked: true,
+              },
+            },
+          }}
+        />
+      </div>
+    </>
+  );
+};
+
+const SubCategoryBreakdown = ({ data }) => {
+  const { labels, values, colors } = _.reduce(
+    data,
+    (acc, [label, { color, total }]) => {
       acc.labels.push(label);
-      acc.values.push(value);
-      acc.colors.push(colors[matchedSubType?.color] || "bar");
+      acc.values.push(total);
+      acc.colors.push(color);
 
       return acc;
     },
     { labels: [], values: [], colors: [] }
   );
-};
-
-const Stats = ({ rootExpenseTypes, expenseTypes }) => {
-  const { loading, data } = useQuery(GET_EXPENSE_STATS, {
-    fetchPolicy: "cache-and-network",
-    variables: { input: {} },
-  });
-
-  const stats = _.get(data, "octon.expenseStats", {});
-
-  return (
-    <>
-      {loading && (
-        <Loading background="blur" renderLoadingComponent={<Spin />} />
-      )}
-      <MonthlyBreakdown
-        input={stats.monthlyOverview || []}
-        rootExpenseTypes={rootExpenseTypes || []}
-        expenseTypes={expenseTypes || []}
-      />
-      <br />
-      <br />
-      <SubCategoryBreakdown
-        input={stats.categoryTotal || {}}
-        rootExpenseTypes={rootExpenseTypes || []}
-        expenseTypes={expenseTypes || []}
-      />
-    </>
-  );
-};
-
-const MonthlyBreakdown = (props) => {
-  const data = generateMonthlyOverviewData(props);
-  return (
-    <div>
-      <Bar
-        {...props}
-        data={data}
-        options={{
-          plugins: {
-            tooltip: {
-              filter: (obj) => !!obj.raw,
-            },
-          },
-          indexAxis: "y",
-          responsive: true,
-          scales: {
-            x: {
-              stacked: true,
-            },
-            y: {
-              stacked: true,
-            },
-          },
-        }}
-      />
-    </div>
-  );
-};
-
-const SubCategoryBreakdown = (props) => {
-  const { labels, values, colors } = generateCategoryTotalData(props) || {};
 
   return (
     <div>
       <Pie
-        height={200}
-        width={200}
+        height={320}
+        // width={200}
         data={{
           labels,
           datasets: [
@@ -144,4 +121,4 @@ const SubCategoryBreakdown = (props) => {
   );
 };
 
-export default Stats;
+export { SubCategoryBreakdown, MonthlyBreakdown };
