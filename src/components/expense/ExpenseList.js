@@ -86,6 +86,74 @@ const ExpenseList = (props) => {
     showFavoritesOnly,
   });
 
+  const [sortKey, sortOrder] = (filters.sort || "").split("_");
+  const listView = (
+    <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
+      {_.orderBy(dataSource, sortKey, sortOrder).map((expense) => {
+        const parsedGroupKey = dayjs(expense.date, "YYYY-MM-DD").format(
+          "DD,MMM"
+        );
+
+        return (
+          <div className="expense-group-container">
+            <div className="group-key">{parsedGroupKey}</div>
+            <ExpenseItem
+              key={expense._id}
+              item={expense}
+              toggleFavoriteExpenseHandler={toggleFavoriteExpenseHandler}
+              editExpenseHandler={editExpenseHandler}
+              handleDelete={handleDelete}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  const grouppedList = (
+    <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
+      {sortedGroupKeys.map((groupKey) => {
+        const parsedGroupKey = dayjs(groupKey, "YYYY-MM-DD").format("DD,MMM");
+        const filteredExpenses = _.orderBy(
+          groupedDataSource[groupKey],
+          "createdAt",
+          "asc"
+        );
+        const groupTotal = groupedDataSource[groupKey].reduce(
+          (total, expense) => total + expense.amount,
+          0
+        );
+        const hasMultipleExpenses = groupedDataSource[groupKey].length > 1;
+        return (
+          <div className="expense-group-container">
+            <div className="group-key">
+              {parsedGroupKey}
+              {hasMultipleExpenses ? (
+                <Tag color="gold">{`₹${groupTotal.toLocaleString()}`}</Tag>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="group-body">
+              {filteredExpenses.map((expense) => (
+                <ExpenseItem
+                  key={expense._id}
+                  item={expense}
+                  toggleFavoriteExpenseHandler={toggleFavoriteExpenseHandler}
+                  editExpenseHandler={editExpenseHandler}
+                  handleDelete={handleDelete}
+                  showBullet={hasMultipleExpenses}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  const list = filters.sort ? listView : grouppedList;
+
   return (
     <Fragment>
       {filters.expenseSubTypeId ? null : (
@@ -117,60 +185,7 @@ const ExpenseList = (props) => {
         </Checkbox>
       </div>
 
-      {hasData ? (
-        <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
-          {sortedGroupKeys.map((groupKey) => {
-            const parsedGroupKey = dayjs(groupKey, "YYYY-MM-DD").format(
-              "DD,MMM"
-            );
-            const filteredExpenses = _.orderBy(
-              groupedDataSource[groupKey],
-              "createdAt",
-              "asc"
-            );
-            const groupTotal = groupedDataSource[groupKey].reduce(
-              (total, expense) => total + expense.amount,
-              0
-            );
-            const hasMultipleExpenses = groupedDataSource[groupKey].length > 1;
-            return (
-              <div className="expense-group-container">
-                <div
-                  className="group-key"
-                  // style={{
-                  //   borderBottom: hasMultipleExpenses
-                  //     ? "1px dashed gray"
-                  //     : "none",
-                  // }}
-                >
-                  {parsedGroupKey}
-                  {hasMultipleExpenses ? (
-                    <Tag color="gold">{`₹${groupTotal.toLocaleString()}`}</Tag>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="group-body">
-                  {filteredExpenses.map((expense) => (
-                    <ExpenseItem
-                      key={expense._id}
-                      item={expense}
-                      toggleFavoriteExpenseHandler={
-                        toggleFavoriteExpenseHandler
-                      }
-                      editExpenseHandler={editExpenseHandler}
-                      handleDelete={handleDelete}
-                      showBullet={hasMultipleExpenses}
-                    />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <Empty />
-      )}
+      {hasData ? list : <Empty />}
 
       <Modal
         wrapClassName="react-ui"

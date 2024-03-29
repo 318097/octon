@@ -88,7 +88,7 @@ const Filters = ({ updateFilters, filters, expenseTypes }) => {
     }));
 
   return (
-    <div className="filters-container">
+    <Card className="filters-container">
       <RangePicker
         picker="month"
         style={{ width: "180px" }}
@@ -110,6 +110,18 @@ const Filters = ({ updateFilters, filters, expenseTypes }) => {
         options={expenseOptions}
       />
 
+      <Select
+        style={{ width: 120 }}
+        allowClear
+        placeholder="Sort"
+        value={filters.sort}
+        onChange={(sort) => updateFilters({ sort })}
+        options={[
+          { label: "Amt (Desc)", value: "amount_desc" },
+          { label: "Amt (Asc)", value: "amount_asc" },
+        ]}
+      />
+
       <InputNumber
         placeholder="Min"
         value={filters.minAmount}
@@ -124,7 +136,7 @@ const Filters = ({ updateFilters, filters, expenseTypes }) => {
         controls={false}
         style={{ width: 80 }}
       />
-    </div>
+    </Card>
   );
 };
 
@@ -148,6 +160,7 @@ const Expenses = ({
     minAmount: null,
     maxAmount: null,
     expenseSubTypeId: null,
+    sort: null,
   });
   const [activePage, setActivePage] = useState("HOME");
   const expensesList = _.get(data, "octon.getExpensesByMonth", []);
@@ -258,7 +271,7 @@ const Expenses = ({
   };
 
   const mapping = {
-    HOME: ["filters", "stats", "summary", "expense-list"],
+    HOME: ["filters", "summary", "expense-list", "stats"],
     ADD: ["add-expense", "filters", "expense-list"],
     MONTH: ["calendar"],
     SETTINGS: ["settings"],

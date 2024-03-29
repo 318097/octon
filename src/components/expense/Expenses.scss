@@ -20,9 +20,7 @@ section#expenses {
   align-items: stretch;
   justify-content: flex-start;
   gap: 12px;
-  .filters-container {
-    justify-content: flex-start;
-    align-items: stretch;
+  .filters-container .ant-card-body {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
@@ -40,6 +38,12 @@ section#expenses {
   }
 
   .ant-card {
+    .ant-card-body {
+      &::before {
+        display: none !important;
+      }
+    }
+
     &.summary {
       position: relative;
       .ant-card-body {
