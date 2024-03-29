@@ -35,6 +35,7 @@ const processExpenses = ({
   expenseCategories,
   dataSource,
   showFavoritesOnly,
+  filters,
 }) => {
   const expenseTypesKeyed = _.keyBy(expenseTypes, "_id");
   const expenseSourcesKeyed = _.keyBy(expenseSources, "_id");
@@ -72,10 +73,13 @@ const processExpenses = ({
     "desc"
   );
 
+  const [sortKey, sortOrder] = (filters.sort || "").split("_");
+
   return {
     sortedGroupKeys,
     hasData: filteredDataSource.length,
     groupedDataSource,
+    sortedDataSource: _.orderBy(filteredDataSource, sortKey, sortOrder),
   };
 };
 

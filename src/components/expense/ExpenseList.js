@@ -80,16 +80,16 @@ const ExpenseList = (props) => {
     setAppLoading(false);
   };
 
-  const { sortedGroupKeys, hasData, groupedDataSource } = processExpenses({
-    ...props,
-    dataSource,
-    showFavoritesOnly,
-  });
+  const { sortedGroupKeys, hasData, groupedDataSource, sortedDataSource } =
+    processExpenses({
+      ...props,
+      dataSource,
+      showFavoritesOnly,
+    });
 
-  const [sortKey, sortOrder] = (filters.sort || "").split("_");
   const listView = (
     <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
-      {_.orderBy(dataSource, sortKey, sortOrder).map((expense) => {
+      {sortedDataSource.map((expense) => {
         const parsedGroupKey = dayjs(expense.date, "YYYY-MM-DD").format(
           "DD,MMM"
         );
