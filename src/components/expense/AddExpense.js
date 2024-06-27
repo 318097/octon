@@ -44,8 +44,6 @@ const AddExpense = ({
   expenseCategories,
   expensesList,
 }) => {
-  const expensesCountBySubType = _.groupBy(expensesList, "expenseSubTypeId");
-
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
 
@@ -143,53 +141,21 @@ const AddExpense = ({
                 <div key={type._id} className="expense-type-item">
                   <div>{type.label}</div>
                   <div className="expense-subtype-container">
-                    {expenseSubTypes.length ? (
-                      <div className="mt">
-                        <div>
-                          {expenseSubTypes.map((subType) => {
-                            const matchingExpenses = _.get(
-                              expensesCountBySubType,
-                              subType._id,
-                              []
-                            );
-                            const totalOccurences = _.size(matchingExpenses);
-                            const content = (
-                              <div>
-                                {matchingExpenses.map((expense) => (
-                                  <div>{`${dayjs(expense.date).format(
-                                    "DD,MMM"
-                                  )}, ${formatNumber(expense.amount)}`}</div>
-                                ))}
-                              </div>
-                            );
-                            return (
-                              <Checkbox
-                                key={subType._id}
-                                checked={
-                                  subType._id === expense.expenseSubTypeId
-                                }
-                                onChange={() =>
-                                  setDataDropdown({
-                                    expenseSubTypeId: subType._id,
-                                    expenseTypeId: type._id,
-                                  })
-                                }
-                              >
-                                {totalOccurences ? (
-                                  <Tooltip title={content} placement="bottom">
-                                    {subType.label} {`(${totalOccurences})`}
-                                  </Tooltip>
-                                ) : (
-                                  subType.label
-                                )}
-                              </Checkbox>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : (
-                      <EmptyState style={{ textAlign: "left" }} size="sm" />
-                    )}
+                    <CheckboxOption
+                      options={expenseSubTypes}
+                      optionsBreakdown={_.groupBy(
+                        expensesList,
+                        "expenseSubTypeId"
+                      )}
+                      name={"expenseSubTypeId"}
+                      expense={expense}
+                      onChange={(updatedValue) => {
+                        setDataDropdown({
+                          ...updatedValue,
+                          expenseTypeId: type._id,
+                        });
+                      }}
+                    />
                   </div>
                 </div>
               );
@@ -199,49 +165,37 @@ const AddExpense = ({
       </div>
       <div>
         <h5>Source</h5>
-        <Space direction="vertical">
-          {expenseSources.map((option) => (
-            <Checkbox
-              key={option._id}
-              checked={option._id === expense.expenseSourceId}
-              onChange={() => setDataDropdown({ expenseSourceId: option._id })}
-            >
-              {option.label}
-            </Checkbox>
-          ))}
-        </Space>
+        <CheckboxOption
+          options={expenseSources}
+          optionsBreakdown={_.groupBy(expensesList, "expenseSourceId")}
+          name={"expenseSourceId"}
+          expense={expense}
+          onChange={setDataDropdown}
+          direction="column"
+        />
       </div>
 
       <div>
         <h5 className="mt">Group</h5>
-        <Space direction="vertical">
-          {expenseGroups.map((option) => (
-            <Checkbox
-              key={option._id}
-              checked={option._id === expense.expenseGroupId}
-              onChange={() => setDataDropdown({ expenseGroupId: option._id })}
-            >
-              {option.label}
-            </Checkbox>
-          ))}
-        </Space>
+        <CheckboxOption
+          options={expenseGroups}
+          optionsBreakdown={_.groupBy(expensesList, "expenseGroupId")}
+          name={"expenseGroupId"}
+          expense={expense}
+          onChange={setDataDropdown}
+          direction="column"
+        />
       </div>
 
       <div>
         <h5 className="mt">Category</h5>
-        <Space direction="horizontal">
-          {expenseCategories.map((option) => (
-            <Checkbox
-              key={option._id}
-              checked={option._id === expense.expenseCategoryId}
-              onChange={() =>
-                setDataDropdown({ expenseCategoryId: option._id })
-              }
-            >
-              {option.label}
-            </Checkbox>
-          ))}
-        </Space>
+        <CheckboxOption
+          options={expenseCategories}
+          optionsBreakdown={_.groupBy(expensesList, "expenseCategoryId")}
+          name={"expenseCategoryId"}
+          expense={expense}
+          onChange={setDataDropdown}
+        />
       </div>
       <InputNumber
         controls={false}
@@ -287,6 +241,65 @@ const AddExpense = ({
         </Button>
       </div>
     </Fragment>
+  );
+};
+
+const CheckboxOption = ({
+  options,
+  optionsBreakdown,
+  expense,
+  onChange,
+  name,
+  direction = "row",
+}) => {
+  return (
+    <div>
+      {options.length ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: direction,
+            flexWrap: "wrap",
+            gap: "2px",
+          }}
+        >
+          {options.map((option) => {
+            const matchingExpenses = _.get(optionsBreakdown, option._id, []);
+            const totalOccurences = _.size(matchingExpenses);
+            const content = (
+              <div>
+                {matchingExpenses.map((expense) => (
+                  <div>{`${dayjs(expense.date).format(
+                    "DD,MMM"
+                  )}, ${formatNumber(expense.amount)}`}</div>
+                ))}
+              </div>
+            );
+            return (
+              <Checkbox
+                key={option._id}
+                checked={option._id === expense.expenseSubTypeId}
+                onChange={() =>
+                  onChange({
+                    [name]: option._id,
+                  })
+                }
+              >
+                {totalOccurences ? (
+                  <Tooltip title={content} placement="bottom">
+                    {option.label} {`(${totalOccurences})`}
+                  </Tooltip>
+                ) : (
+                  option.label
+                )}
+              </Checkbox>
+            );
+          })}
+        </div>
+      ) : (
+        <EmptyState style={{ textAlign: "left" }} size="sm" />
+      )}
+    </div>
   );
 };
 
