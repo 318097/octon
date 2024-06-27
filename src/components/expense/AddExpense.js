@@ -96,13 +96,7 @@ const AddExpense = ({
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
-  const finalExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
-
-  const finalExpenseSubTypes = _.filter(
-    expenseTypes,
-    (type) => type.parentTagId === expense.expenseTypeId && type.visible
-  );
-
+  const rootExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
   return (
     <Fragment>
       <div className="flex center gap-4">
@@ -120,47 +114,44 @@ const AddExpense = ({
       <div>
         <div>
           <h5>Type</h5>
-          <Radio.Group
-            className="mt"
-            value={expense.expenseTypeId}
-            onChange={(e) =>
-              setData({ expenseTypeId: e.target.value, expenseSubTypeId: null })
-            }
-          >
-            <Space direction="vertical">
-              {finalExpenseTypes.map((type) => (
-                <div className="expense-type-item">
-                  <Radio key={type._id} value={type._id}>
-                    {type.label}
-                  </Radio>
-                  {expense.expenseTypeId === type._id ? (
-                    <div className="expense-subtype-container">
-                      {finalExpenseSubTypes.length ? (
-                        <div className="mt">
-                          <Radio.Group
-                            value={expense.expenseSubTypeId}
-                            onChange={(e) =>
-                              setData({ expenseSubTypeId: e.target.value })
-                            }
-                          >
-                            <div>
-                              {finalExpenseSubTypes.map((type) => (
-                                <Radio key={type._id} value={type._id}>
-                                  {type.label}
-                                </Radio>
-                              ))}
-                            </div>
-                          </Radio.Group>
-                        </div>
-                      ) : (
-                        <EmptyState style={{ textAlign: "left" }} size="sm" />
-                      )}
-                    </div>
-                  ) : null}
+          <Space direction="vertical">
+            {rootExpenseTypes.map((type) => {
+              const expenseSubTypes = _.filter(
+                expenseTypes,
+                (subType) => subType.parentTagId === type._id && subType.visible
+              );
+              return (
+                <div key={type._id} className="expense-type-item">
+                  <div>{type.label}</div>
+                  <div className="expense-subtype-container">
+                    {expenseSubTypes.length ? (
+                      <div className="mt">
+                        <Radio.Group
+                          value={expense.expenseSubTypeId}
+                          onChange={(e) =>
+                            setData({
+                              expenseSubTypeId: e.target.value,
+                              expenseTypeId: type._id,
+                            })
+                          }
+                        >
+                          <div>
+                            {expenseSubTypes.map((subType) => (
+                              <Radio key={subType._id} value={subType._id}>
+                                {subType.label}
+                              </Radio>
+                            ))}
+                          </div>
+                        </Radio.Group>
+                      </div>
+                    ) : (
+                      <EmptyState style={{ textAlign: "left" }} size="sm" />
+                    )}
+                  </div>
                 </div>
-              ))}
-            </Space>
-          </Radio.Group>
+              );
+            })}
+          </Space>
         </div>
       </div>
       <div>
