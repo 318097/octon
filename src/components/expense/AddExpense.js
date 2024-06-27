@@ -80,6 +80,7 @@ const AddExpense = ({
         message: "",
         favorite: false,
         excluded: false,
+        expenseCategoryId: null,
       });
       notify("Success");
       fetchExpenseByMonth();
@@ -280,7 +281,7 @@ const AddExpense = ({
           type="primary"
           loading={loading}
           onClick={saveExpense}
-          disabled={!expense.amount || !expense.expenseTypeId}
+          disabled={!expense.amount || !expense.expenseSubTypeId}
         >
           {mode === "ADD" ? "Add" : "Update"}
         </Button>
