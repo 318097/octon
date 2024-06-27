@@ -8,6 +8,7 @@ import {
   DatePicker,
   Checkbox,
   Space,
+  Tooltip,
 } from "antd";
 import { EmptyState } from "@codedrops/react-ui";
 import dayjs from "dayjs";
@@ -19,6 +20,7 @@ import notify from "../../lib/notify";
 import tracking from "../../lib/mixpanel";
 import _ from "lodash";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
+import { formatNumber } from "../../lib/utils";
 
 const DEFAULT_VALUES = {
   expenseTypeId: null,
@@ -40,7 +42,10 @@ const AddExpense = ({
   expenseSources,
   expenseGroups,
   expenseCategories,
+  expensesList,
 }) => {
+  const expensesCountBySubType = _.groupBy(expensesList, "expenseSubTypeId");
+
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
 
@@ -136,11 +141,34 @@ const AddExpense = ({
                           }
                         >
                           <div>
-                            {expenseSubTypes.map((subType) => (
-                              <Radio key={subType._id} value={subType._id}>
-                                {subType.label}
-                              </Radio>
-                            ))}
+                            {expenseSubTypes.map((subType) => {
+                              const matchingExpenses = _.get(
+                                expensesCountBySubType,
+                                subType._id,
+                                []
+                              );
+                              const totalOccurences = _.size(matchingExpenses);
+                              const content = (
+                                <div>
+                                  {matchingExpenses.map((expense) => (
+                                    <div>{`${dayjs(expense.date).format(
+                                      "DD,MMM"
+                                    )}, ${formatNumber(expense.amount)}`}</div>
+                                  ))}
+                                </div>
+                              );
+                              return (
+                                <Radio key={subType._id} value={subType._id}>
+                                  {totalOccurences ? (
+                                    <Tooltip title={content} placement="bottom">
+                                      {subType.label} {`(${totalOccurences})`}
+                                    </Tooltip>
+                                  ) : (
+                                    subType.label
+                                  )}
+                                </Radio>
+                              );
+                            })}
                           </div>
                         </Radio.Group>
                       </div>
