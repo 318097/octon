@@ -11,6 +11,18 @@
       padding-left: 18px;
     }
   }
+  .hide-icon {
+    display: none;
+    opacity: 0;
+    transition: 0.7s;
+    font-size: 0.8rem;
+    color: $blue;
+  }
+  .checkbox-item:hover .hide-icon {
+    display: inline-block;
+    padding-left: 2px;
+    opacity: 1;
+  }
 }
 
 section#expenses {

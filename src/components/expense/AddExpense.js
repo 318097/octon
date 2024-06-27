@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, Fragment } from "react";
 import {
-  Radio,
   InputNumber,
   Input,
   Button,
@@ -21,6 +20,8 @@ import tracking from "../../lib/mixpanel";
 import _ from "lodash";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { formatNumber } from "../../lib/utils";
+import { updateUserSettings } from "../../store/actions";
+import { connect } from "react-redux";
 
 const DEFAULT_VALUES = {
   expenseTypeId: null,
@@ -43,6 +44,7 @@ const AddExpense = ({
   expenseGroups,
   expenseCategories,
   expensesList,
+  updateUserSettings,
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
@@ -142,11 +144,14 @@ const AddExpense = ({
                   <div>{type.label}</div>
                   <div className="expense-subtype-container">
                     <CheckboxOption
+                      updateUserSettings={updateUserSettings}
                       options={expenseSubTypes}
                       optionsBreakdown={_.groupBy(
                         expensesList,
                         "expenseSubTypeId"
                       )}
+                      // showHide={false}
+                      moduleId="EXPENSE_TYPES"
                       name={"expenseSubTypeId"}
                       expense={expense}
                       onChange={(updatedValue) => {
@@ -166,9 +171,11 @@ const AddExpense = ({
       <div>
         <h5>Source</h5>
         <CheckboxOption
+          updateUserSettings={updateUserSettings}
           options={expenseSources}
           optionsBreakdown={_.groupBy(expensesList, "expenseSourceId")}
           name={"expenseSourceId"}
+          moduleId="EXPENSE_SOURCES"
           expense={expense}
           onChange={setDataDropdown}
           direction="column"
@@ -178,9 +185,11 @@ const AddExpense = ({
       <div>
         <h5 className="mt">Group</h5>
         <CheckboxOption
+          updateUserSettings={updateUserSettings}
           options={expenseGroups}
           optionsBreakdown={_.groupBy(expensesList, "expenseGroupId")}
           name={"expenseGroupId"}
+          moduleId="EXPENSE_GROUPS"
           expense={expense}
           onChange={setDataDropdown}
           direction="column"
@@ -190,9 +199,11 @@ const AddExpense = ({
       <div>
         <h5 className="mt">Category</h5>
         <CheckboxOption
+          updateUserSettings={updateUserSettings}
           options={expenseCategories}
           optionsBreakdown={_.groupBy(expensesList, "expenseCategoryId")}
           name={"expenseCategoryId"}
+          moduleId="EXPENSE_CATEGORIES"
           expense={expense}
           onChange={setDataDropdown}
         />
@@ -251,7 +262,18 @@ const CheckboxOption = ({
   onChange,
   name,
   direction = "row",
+  updateUserSettings,
+  moduleId,
+  showHide = true,
 }) => {
+  const updateSetting = (data) => {
+    updateUserSettings(
+      { moduleName: moduleId, ...data },
+      { action: "UPDATE" },
+      "TAGS"
+    );
+  };
+
   return (
     <div>
       {options.length ? (
@@ -263,38 +285,54 @@ const CheckboxOption = ({
             gap: "2px",
           }}
         >
-          {options.map((option) => {
-            const matchingExpenses = _.get(optionsBreakdown, option._id, []);
-            const totalOccurences = _.size(matchingExpenses);
-            const content = (
-              <div>
-                {matchingExpenses.map((expense) => (
-                  <div>{`${dayjs(expense.date).format(
-                    "DD,MMM"
-                  )}, ${formatNumber(expense.amount)}`}</div>
-                ))}
-              </div>
-            );
-            return (
-              <Checkbox
-                key={option._id}
-                checked={option._id === expense.expenseSubTypeId}
-                onChange={() =>
-                  onChange({
-                    [name]: option._id,
-                  })
-                }
-              >
-                {totalOccurences ? (
-                  <Tooltip title={content} placement="bottom">
-                    {option.label} {`(${totalOccurences})`}
-                  </Tooltip>
-                ) : (
-                  option.label
-                )}
-              </Checkbox>
-            );
-          })}
+          {options
+            .filter((option) => option.visible)
+            .map((option) => {
+              const matchingExpenses = _.get(optionsBreakdown, option._id, []);
+              const totalOccurences = _.size(matchingExpenses);
+              const content = (
+                <div>
+                  {matchingExpenses.map((expense) => (
+                    <div>{`${dayjs(expense.date).format(
+                      "DD,MMM"
+                    )}, ${formatNumber(expense.amount)}`}</div>
+                  ))}
+                </div>
+              );
+              const hideComponent = showHide ? (
+                <span
+                  className="hide-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    updateSetting({ ...option, visible: false });
+                  }}
+                >
+                  [h]
+                </span>
+              ) : null;
+              return (
+                <Checkbox
+                  key={option._id}
+                  checked={option._id === expense[name]}
+                  className="checkbox-item"
+                  onChange={() =>
+                    onChange({
+                      [name]: option._id,
+                    })
+                  }
+                >
+                  {totalOccurences ? (
+                    <Tooltip title={content} placement="bottom">
+                      {option.label} {`(${totalOccurences})`}
+                    </Tooltip>
+                  ) : (
+                    option.label
+                  )}
+                  {hideComponent}
+                </Checkbox>
+              );
+            })}
         </div>
       ) : (
         <EmptyState style={{ textAlign: "left" }} size="sm" />
@@ -303,4 +341,10 @@ const CheckboxOption = ({
   );
 };
 
-export default AddExpense;
+const mapStateToProps = ({ session }) => ({
+  session,
+});
+
+export default connect(mapStateToProps, {
+  updateUserSettings,
+})(AddExpense);
