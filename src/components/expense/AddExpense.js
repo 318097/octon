@@ -99,6 +99,19 @@ const AddExpense = ({
     setData({ date: updatedDate });
   };
 
+  const setDataDropdown = (update) =>
+    setExpense((prev) => {
+      const keys = _.keys(update);
+      const key = _.first(keys);
+      const isSameValue = update[key] === prev[key];
+      const mods = {};
+      if (isSameValue) {
+        mods[key] = null;
+        if (keys.includes("expenseSubTypeId")) mods["expenseTypeId"] = null;
+      }
+      return { ...prev, ...update, ...mods };
+    });
+
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
   const rootExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
@@ -131,46 +144,47 @@ const AddExpense = ({
                   <div className="expense-subtype-container">
                     {expenseSubTypes.length ? (
                       <div className="mt">
-                        <Radio.Group
-                          value={expense.expenseSubTypeId}
-                          onChange={(e) =>
-                            setData({
-                              expenseSubTypeId: e.target.value,
-                              expenseTypeId: type._id,
-                            })
-                          }
-                        >
-                          <div>
-                            {expenseSubTypes.map((subType) => {
-                              const matchingExpenses = _.get(
-                                expensesCountBySubType,
-                                subType._id,
-                                []
-                              );
-                              const totalOccurences = _.size(matchingExpenses);
-                              const content = (
-                                <div>
-                                  {matchingExpenses.map((expense) => (
-                                    <div>{`${dayjs(expense.date).format(
-                                      "DD,MMM"
-                                    )}, ${formatNumber(expense.amount)}`}</div>
-                                  ))}
-                                </div>
-                              );
-                              return (
-                                <Radio key={subType._id} value={subType._id}>
-                                  {totalOccurences ? (
-                                    <Tooltip title={content} placement="bottom">
-                                      {subType.label} {`(${totalOccurences})`}
-                                    </Tooltip>
-                                  ) : (
-                                    subType.label
-                                  )}
-                                </Radio>
-                              );
-                            })}
-                          </div>
-                        </Radio.Group>
+                        <div>
+                          {expenseSubTypes.map((subType) => {
+                            const matchingExpenses = _.get(
+                              expensesCountBySubType,
+                              subType._id,
+                              []
+                            );
+                            const totalOccurences = _.size(matchingExpenses);
+                            const content = (
+                              <div>
+                                {matchingExpenses.map((expense) => (
+                                  <div>{`${dayjs(expense.date).format(
+                                    "DD,MMM"
+                                  )}, ${formatNumber(expense.amount)}`}</div>
+                                ))}
+                              </div>
+                            );
+                            return (
+                              <Checkbox
+                                key={subType._id}
+                                checked={
+                                  subType._id === expense.expenseSubTypeId
+                                }
+                                onChange={() =>
+                                  setDataDropdown({
+                                    expenseSubTypeId: subType._id,
+                                    expenseTypeId: type._id,
+                                  })
+                                }
+                              >
+                                {totalOccurences ? (
+                                  <Tooltip title={content} placement="bottom">
+                                    {subType.label} {`(${totalOccurences})`}
+                                  </Tooltip>
+                                ) : (
+                                  subType.label
+                                )}
+                              </Checkbox>
+                            );
+                          })}
+                        </div>
                       </div>
                     ) : (
                       <EmptyState style={{ textAlign: "left" }} size="sm" />
@@ -184,53 +198,49 @@ const AddExpense = ({
       </div>
       <div>
         <h5>Source</h5>
-        <Radio.Group
-          className="mt"
-          value={expense.expenseSourceId}
-          onChange={(e) => setData({ expenseSourceId: e.target.value })}
-        >
-          <Space direction="vertical">
-            {expenseSources.map((option) => (
-              <Radio key={option._id} value={option._id}>
-                {option.label}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
+        <Space direction="vertical">
+          {expenseSources.map((option) => (
+            <Checkbox
+              key={option._id}
+              checked={option._id === expense.expenseSourceId}
+              onChange={() => setDataDropdown({ expenseSourceId: option._id })}
+            >
+              {option.label}
+            </Checkbox>
+          ))}
+        </Space>
       </div>
 
       <div>
         <h5 className="mt">Group</h5>
-        <Radio.Group
-          className="mt"
-          value={expense.expenseGroupId}
-          onChange={(e) => setData({ expenseGroupId: e.target.value })}
-        >
-          <Space direction="vertical">
-            {expenseGroups.map((option) => (
-              <Radio key={option._id} value={option._id}>
-                {option.label}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
+        <Space direction="vertical">
+          {expenseGroups.map((option) => (
+            <Checkbox
+              key={option._id}
+              checked={option._id === expense.expenseGroupId}
+              onChange={() => setDataDropdown({ expenseGroupId: option._id })}
+            >
+              {option.label}
+            </Checkbox>
+          ))}
+        </Space>
       </div>
 
       <div>
         <h5 className="mt">Category</h5>
-        <Radio.Group
-          className="mt"
-          value={expense.expenseCategoryId}
-          onChange={(e) => setData({ expenseCategoryId: e.target.value })}
-        >
-          <Space direction="horizontal">
-            {expenseCategories.map((option) => (
-              <Radio key={option._id} value={option._id}>
-                {option.label}
-              </Radio>
-            ))}
-          </Space>
-        </Radio.Group>
+        <Space direction="horizontal">
+          {expenseCategories.map((option) => (
+            <Checkbox
+              key={option._id}
+              checked={option._id === expense.expenseCategoryId}
+              onChange={() =>
+                setDataDropdown({ expenseCategoryId: option._id })
+              }
+            >
+              {option.label}
+            </Checkbox>
+          ))}
+        </Space>
       </div>
       <InputNumber
         controls={false}
