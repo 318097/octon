@@ -8,6 +8,7 @@ import {
   Space,
   Tooltip,
   AutoComplete,
+  Modal,
 } from "antd";
 import { EmptyState } from "@codedrops/react-ui";
 import dayjs from "dayjs";
@@ -22,6 +23,7 @@ import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { formatNumber } from "../../lib/utils";
 import { updateUserSettings } from "../../store/actions";
 import { connect } from "react-redux";
+import Settings from "../settings/Settings";
 
 const DEFAULT_VALUES = {
   expenseTypeId: null,
@@ -49,6 +51,8 @@ const AddExpense = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
+  const [settingsModalVisible, setSettingsModalVisibility] = useState();
+  const [moduleId, setModuleId] = useState();
 
   const [addExpense] = useMutation(CREATE_EXPENSE);
   const [updateExpense] = useMutation(UPDATE_EXPENSE);
@@ -116,6 +120,11 @@ const AddExpense = ({
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
+  const openSettingsModal = (moduleId) => {
+    setModuleId(moduleId);
+    setSettingsModalVisibility(true);
+  };
+
   const rootExpenseTypes = _.filter(
     expenseTypes,
     (type) => !type.parentTagId && type.visible
@@ -124,6 +133,7 @@ const AddExpense = ({
   const autofillOptions = _.get(session, "autofill", []).map((value) => ({
     value,
   }));
+
   return (
     <Fragment>
       <div className="flex center gap-4">
@@ -140,7 +150,7 @@ const AddExpense = ({
       </div>
       <div>
         <div>
-          <h5>Type</h5>
+          <h5 onClick={() => openSettingsModal("EXPENSE_TYPES")}>Type</h5>
           <Space direction="vertical">
             {rootExpenseTypes.map((type) => {
               const expenseSubTypes = _.filter(
@@ -177,7 +187,7 @@ const AddExpense = ({
         </div>
       </div>
       <div>
-        <h5>Source</h5>
+        <h5 onClick={() => openSettingsModal("EXPENSE_SOURCES")}>Source</h5>
         <CheckboxOption
           updateUserSettings={updateUserSettings}
           options={expenseSources}
@@ -189,9 +199,10 @@ const AddExpense = ({
           direction="column"
         />
       </div>
-
       <div>
-        <h5 className="mt">Group</h5>
+        <h5 className="mt" onClick={() => openSettingsModal("EXPENSE_GROUPS")}>
+          Group
+        </h5>
         <CheckboxOption
           updateUserSettings={updateUserSettings}
           options={expenseGroups}
@@ -203,9 +214,13 @@ const AddExpense = ({
           direction="column"
         />
       </div>
-
       <div>
-        <h5 className="mt">Category</h5>
+        <h5
+          className="mt"
+          onClick={() => openSettingsModal("EXPENSE_CATEGORIES")}
+        >
+          Category
+        </h5>
         <CheckboxOption
           updateUserSettings={updateUserSettings}
           options={expenseCategories}
@@ -224,7 +239,6 @@ const AddExpense = ({
         value={expense.amount}
         onChange={(amount) => setData({ amount })}
       />
-
       <AutoComplete
         style={{ width: 180 }}
         options={autofillOptions}
@@ -264,7 +278,33 @@ const AddExpense = ({
           {mode === "ADD" ? "Add" : "Update"}
         </Button>
       </div>
+
+      <SettingsModal
+        settingsModalVisible={settingsModalVisible}
+        setSettingsModalVisibility={setSettingsModalVisibility}
+        moduleId={moduleId}
+      />
     </Fragment>
+  );
+};
+
+const SettingsModal = ({
+  moduleId,
+  settingsModalVisible,
+  setSettingsModalVisibility,
+}) => {
+  return (
+    <Modal
+      wrapClassName="react-ui"
+      open={settingsModalVisible}
+      title="Settings"
+      // width={400}
+      onCancel={() => setSettingsModalVisibility(false)}
+      footer={[]}
+      // style={{ height: "500px", overflow: "auto" }}
+    >
+      <Settings moduleId={moduleId} />
+    </Modal>
   );
 };
 
