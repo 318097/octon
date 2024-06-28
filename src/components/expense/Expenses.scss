@@ -26,12 +26,12 @@
 }
 
 section#expenses {
-  padding: 12px 0;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 8px;
   .filters-container .ant-card-body {
     display: flex;
     flex-wrap: wrap;
@@ -94,7 +94,7 @@ section#expenses {
     }
     &.expense-list {
       & > .ant-card-body {
-        // padding: 24px 8px;
+        padding: 24px 6px;
         justify-content: flex-start;
         align-items: flex-start;
       }

@@ -116,7 +116,10 @@ const AddExpense = ({
 
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
-  const rootExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
+  const rootExpenseTypes = _.filter(
+    expenseTypes,
+    (type) => !type.parentTagId && type.visible
+  );
 
   const autofillOptions = _.get(session, "autofill", []).map((value) => ({
     value,
@@ -211,6 +214,7 @@ const AddExpense = ({
           moduleId="EXPENSE_CATEGORIES"
           expense={expense}
           onChange={setDataDropdown}
+          showHide={false}
         />
       </div>
       <InputNumber

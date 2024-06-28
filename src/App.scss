@@ -20,6 +20,7 @@
     flex-grow: 1;
     display: flex;
     @include center-layout-section-wrapper;
+    padding: 0 6px;
     // position: relative;
     // padding: 0 12px;
     // width: 100%;

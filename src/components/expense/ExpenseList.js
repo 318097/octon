@@ -164,7 +164,7 @@ const ExpenseList = (props) => {
         >
           <Radio.Button value="ALL">All</Radio.Button>
           {expenseTypes
-            .filter((item) => !item.parentTagId)
+            .filter((type) => !type.parentTagId && type.visible)
             .map((option) => {
               // const optionTotal = summaryTotal[option.label].total;
               return (
