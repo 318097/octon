@@ -2,12 +2,12 @@
 import React, { useState, useEffect, Fragment } from "react";
 import {
   InputNumber,
-  Input,
   Button,
   DatePicker,
   Checkbox,
   Space,
   Tooltip,
+  AutoComplete,
 } from "antd";
 import { EmptyState } from "@codedrops/react-ui";
 import dayjs from "dayjs";
@@ -45,6 +45,7 @@ const AddExpense = ({
   expenseCategories,
   expensesList,
   updateUserSettings,
+  session,
 }) => {
   const [loading, setLoading] = useState(false);
   const [expense, setExpense] = useState(DEFAULT_VALUES);
@@ -116,6 +117,10 @@ const AddExpense = ({
   const setData = (update) => setExpense((prev) => ({ ...prev, ...update }));
 
   const rootExpenseTypes = _.filter(expenseTypes, (type) => !type.parentTagId);
+
+  const autofillOptions = _.get(session, "autofill", []).map((value) => ({
+    value,
+  }));
   return (
     <Fragment>
       <div className="flex center gap-4">
@@ -216,11 +221,15 @@ const AddExpense = ({
         onChange={(amount) => setData({ amount })}
       />
 
-      <Input
-        style={{ width: "180px" }}
-        placeholder="Message"
+      <AutoComplete
+        style={{ width: 180 }}
+        options={autofillOptions}
         value={expense.message}
-        onChange={(e) => setData({ message: e.target.value })}
+        onChange={(message) => setData({ message })}
+        placeholder="Message"
+        filterOption={(inputValue, option) =>
+          option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+        }
       />
       <div>
         <Checkbox
