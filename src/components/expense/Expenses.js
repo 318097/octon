@@ -57,7 +57,7 @@ const Summary = ({ filters, expenseTypes, expensesList }) => {
   return summaryItems.length && !filters.expenseSubTypeId ? (
     <Fragment>
       <Card className="summary">
-        <span className="badge">Summary</span>
+        <div className="badge">Summary</div>
         {summaryItems.map(([id, { total, color }]) => (
           <div className="expense-type-block" key={id}>
             <span className="expense-type-name">{id}</span>
@@ -229,7 +229,7 @@ const Expenses = ({
         id: "stats",
         component: (
           <Card className="stats">
-            <span className="badge">Stats</span>
+            <div className="badge">Stats</div>
             <MonthlyBreakdown expenseTypes={expenseTypes} />
           </Card>
         ),
@@ -242,7 +242,7 @@ const Expenses = ({
         id: "expense-list",
         component: (
           <Card className="expense-list">
-            <span className="badge">{getCurrentMonthRange(filters.date)}</span>
+            <div className="badge">{getCurrentMonthRange(filters.date)}</div>
             <ExpenseList {...props} />
           </Card>
         ),
@@ -251,7 +251,7 @@ const Expenses = ({
         id: "add-expense",
         component: (
           <Card className="add-expense">
-            <span className="badge">Add</span>
+            <div className="badge">Add</div>
             <AddExpense {...props} mode="ADD" />
           </Card>
         ),

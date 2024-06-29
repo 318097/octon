@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { Spin } from "antd";
+import { Spin, ConfigProvider } from "antd";
 import axios from "axios";
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ import "./App.scss";
 import tracking from "./lib/mixpanel";
 import Header from "./layouts/Header";
 import sessionManager from "./lib/sessionManager";
-import config from "./config";
+import config, { THEME } from "./config";
 import { fetchSession } from "./store/actions";
 import Routes from "./routes";
 import handleError from "./lib/errorHandler";
@@ -38,16 +38,18 @@ const App = ({ appLoading, history, fetchSession }) => {
   }, []);
 
   return (
-    <div className="app react-ui">
-      {/* <Header history={history} appLoading={appLoading} /> */}
-      {initLoading ? (
-        <Spin className="loader" />
-      ) : (
-        <div className="section-wrapper">
-          <Routes />
-        </div>
-      )}
-    </div>
+    <ConfigProvider theme={THEME}>
+      <div className="app react-ui">
+        {/* <Header history={history} appLoading={appLoading} /> */}
+        {initLoading ? (
+          <Spin className="loader" />
+        ) : (
+          <div className="section-wrapper">
+            <Routes />
+          </div>
+        )}
+      </div>
+    </ConfigProvider>
   );
 };
 

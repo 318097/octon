@@ -13,6 +13,7 @@ import {
 import { useMutation } from "@apollo/client";
 import tracking from "../../lib/mixpanel";
 import { formatNumber, processExpenses } from "../../lib/utils";
+import { MODAL_PROPS } from "../../config";
 
 const today = dayjs().format("YYYY-MM-DD");
 
@@ -188,13 +189,10 @@ const ExpenseList = (props) => {
       {hasData ? list : <Empty />}
 
       <Modal
-        wrapClassName="react-ui"
+        {...MODAL_PROPS}
         open={editExpenseVisibility}
         title="Edit Expense"
-        width={400}
         onCancel={() => setEditExpenseVisibility(false)}
-        footer={[]}
-        style={{ height: "500px", overflow: "auto" }}
       >
         <div className="edit-expense">
           <AddExpense

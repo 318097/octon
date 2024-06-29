@@ -24,6 +24,7 @@ import { formatNumber } from "../../lib/utils";
 import { updateUserSettings } from "../../store/actions";
 import { connect } from "react-redux";
 import Settings from "../settings/Settings";
+import { MODAL_PROPS } from "../../config";
 
 const DEFAULT_VALUES = {
   expenseTypeId: null,
@@ -295,13 +296,10 @@ const SettingsModal = ({
 }) => {
   return (
     <Modal
-      wrapClassName="react-ui"
+      {...MODAL_PROPS}
       open={settingsModalVisible}
       title="Settings"
-      // width={400}
       onCancel={() => setSettingsModalVisibility(false)}
-      footer={[]}
-      // style={{ height: "500px", overflow: "auto" }}
     >
       <Settings moduleId={moduleId} />
     </Modal>

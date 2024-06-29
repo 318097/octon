@@ -59,61 +59,10 @@
           }
         }
       }
-      // & > .page-header {
-      //   border: 1px solid rgb(235, 237, 240);
-      //   margin-bottom: 12px;
-      //   padding: 4px 12px;
-      //   .ant-page-header-heading-extra {
-      //     align-items: center;
-      //     display: flex;
-      //   }
-      // }
-      // & > .ant-card {
-      //   margin-bottom: 12px;
-      // }
-    }
-    html,
-    body,
-    html body,
-    [class*="ant"],
-    .ant-popover-message,
-    .ant-btn-sm {
-      font-size: 12px;
-    }
-    .loading .ant-spin .ant-spin-dot {
-      font-size: 20px; // expense stats loading
     }
   }
 
   .page-header {
     margin: 0 0 12px 0;
   }
-}
-
-.ant-modal-header {
-  padding: 12px;
-  .ant-modal-title {
-    font-size: 1.2rem;
-    position: relative;
-    top: 4px;
-  }
-}
-.ant-modal-body {
-  padding: 8px;
-}
-
-.ant-modal-footer,
-.ant-modal-body {
-  [class*="ant"] {
-    font-size: 1.2rem;
-  }
-}
-
-.ant-tag {
-  font-size: 8px !important;
-  font-weight: normal !important;
-}
-
-.ant-tooltip-content {
-  font-size: 0.9rem;
 }

@@ -28,4 +28,30 @@ const config = {
   IS_PROD: isProd,
 };
 
+export const THEME = {
+  token: {
+    colorPrimary: "#4a279e",
+    borderRadius: 2,
+    padding: 6,
+    paddingLG: 12,
+    paddingContentHorizontal: 12,
+    paddingContentVertical: 12,
+    paddingContentHorizontalLG: 12,
+    paddingContentVerticalLG: 12,
+    fontSize: 12,
+  },
+  components: {
+    Modal: {
+      titleLineHeight: 1,
+    },
+  },
+};
+
+export const MODAL_PROPS = {
+  wrapClassName: "react-ui",
+  footer: null,
+  centered: true,
+  closable: false,
+};
+
 export default config;
