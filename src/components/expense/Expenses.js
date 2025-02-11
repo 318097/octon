@@ -102,7 +102,8 @@ const Filters = ({ updateFilters, filters, expenseTypes }) => {
         maxDate={now}
       />
       <Select
-        style={{ width: 120 }}
+        style={{ minWidth: 120 }}
+        mode="multiple"
         allowClear
         placeholder="Type"
         value={filters.expenseSubTypeId}
