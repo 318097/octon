@@ -107,7 +107,11 @@ const Filters = ({ updateFilters, filters, expenseTypes }) => {
         allowClear
         placeholder="Type"
         value={filters.expenseSubTypeId}
-        onChange={(expenseSubTypeId) => updateFilters({ expenseSubTypeId })}
+        onChange={(expenseSubTypeId) =>
+          updateFilters({
+            expenseSubTypeId: expenseSubTypeId.length ? expenseSubTypeId : null,
+          })
+        }
         options={expenseOptions}
       />
 
